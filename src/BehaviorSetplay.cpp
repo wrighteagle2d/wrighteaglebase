@@ -59,13 +59,8 @@ bool BehaviorSetplayExecuter::Execute(const ActiveBehavior &setplay)
 			return mAgent.Move(setplay.mTarget);
 		}
 		else if (setplay.mDetailType == BDT_Setplay_Scan) {
-			if (mWorldState.GetPlayMode() == PM_Before_Kick_Off) {
-				VisualSystem::instance().ForbidDecision(mAgent);
-				return mAgent.Turn(50.0);
-			}
-			else {
-				return true; //交给视觉决策
-			}
+			VisualSystem::instance().ForbidDecision(mAgent);
+			return mAgent.Turn(50.0);
 		}
 		else {
 			PRINT_ERROR("Setplay Detail Type Error");
@@ -73,7 +68,10 @@ bool BehaviorSetplayExecuter::Execute(const ActiveBehavior &setplay)
 		}
 	}
 	else {
-		if (setplay.mDetailType == BDT_Setplay_GetBall) {
+		if (setplay.mDetailType == BDT_Setplay_Scan) {
+			return true; //交给视觉决策
+		}
+		else if (setplay.mDetailType == BDT_Setplay_GetBall) {
 			return Dasher::instance().GetBall(mAgent);
 		}
 		else {
@@ -120,7 +118,7 @@ void BehaviorSetplayPlanner::Plan(std::list<ActiveBehavior> & behavior_list)
 
 					behavior_list.push_back(setplay);
 				}
-				else {
+				else if (mWorldState.GetLastPlayMode() != PM_Before_Kick_Off) {
 					if (mWorldState.CurrentTime().T() - mWorldState.GetPlayModeTime().T() < 20) {
 						setplay.mDetailType = BDT_Setplay_Scan;
 						setplay.mEvaluation = Evaluation::instance().EvaluatePosition(setplay.mTarget, true);
