@@ -9,15 +9,6 @@
 #include <boost/tuple/tuple.hpp>
 #include <boost/tuple/tuple_comparison.hpp>
 
-enum SetPlayRole
-{
-	SPR_none = 0,
-	SPR_positioner,
-	SPR_kicker,
-	SPR_receiver,
-	SPR_drawer
-};
-
 enum FormationTacticType
 {
     FTT_KickOffPosition = 0,
