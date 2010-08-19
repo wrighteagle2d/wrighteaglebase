@@ -107,9 +107,6 @@ public:
      */
     Unum GetOpponentWithBall(const double buffer);
 
-	OrderedSoftQueue<KeyPlayerInfo, TEAMSIZE> & GetTeammateAnglesToBallQueue();
-	OrderedSoftQueue<KeyPlayerInfo, TEAMSIZE> & GetOpponentAnglesToBallQueue();
-
 private:
 	/** 更新函数 */
 	void UpdateRoutine();
@@ -154,9 +151,6 @@ private:
 	std::vector<Unum> mPlayerWithBallList; //当前可以踢球的队员集合 -- 不加buffer的判断
 	Time mPlayerWithBallList_UpdateTime;
 
-	OrderedSoftQueue<KeyPlayerInfo, TEAMSIZE> mTeammateAnglesToBallQueue;
-	OrderedSoftQueue<KeyPlayerInfo, TEAMSIZE> mOpponentAnglesToBallQueue;
-
 private:
 	class PlayerDistCompare {
 	public:
@@ -197,19 +191,6 @@ private:
 	AngleDeg mOppGoal2BallAngle;
     AngleDeg mOppLeftPost2BallAngle;
 	AngleDeg mOppRightPost2BallAngle;
-
-public:
-    bool IsConsiderAngle(const Unum &self_unum, const AngleDeg &ang, bool consider_dist = false);
-
-//public:
-//    boost::tuple<Vector, Vector, Vector> GetMarkCloud(Unum player) { Assert(player >= 1 && player <= TEAMSIZE); return boost::make_tuple(mMarkCloudEx[player], mMarkCloudEn[player], mMarkCloudHe[player]); }
-//
-//private:
-//    std::deque<std::pair<Vector, double> > mMarkerPositions[TEAMSIZE+1];
-//    Vector mMarkCloudEx[TEAMSIZE+1];
-//    Vector mMarkCloudEn[TEAMSIZE+1];
-//    Vector mMarkCloudHe[TEAMSIZE+1];
-//    void UpdateMarkCloud();
 };
 
 #endif

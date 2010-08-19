@@ -89,7 +89,7 @@ private:
 	Array<std::string, BT_Max> mNameMap;
 };
 
-class ActiveBehavior //TODO:  ›…Ì
+class ActiveBehavior
 {
 	/** behavior type and agent pointer */
 	BehaviorType mType;

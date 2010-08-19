@@ -9,8 +9,6 @@ PositionInfo::PositionInfo(WorldState *pWorldState, InfoState *pInfoState):
 	InfoStateBase(pWorldState, pInfoState),
 	mPlayerWithBallList_UpdateTime(Time(-3, 0))
 {
-	mTeammateAnglesToBallQueue.Cleanup();
-	mOpponentAnglesToBallQueue.Cleanup();
 }
 
 void PositionInfo::UpdateRoutine()
@@ -18,7 +16,6 @@ void PositionInfo::UpdateRoutine()
 	UpdateDistMatrix();
 	UpdateOffsideLine();
     UpdateOppGoalInfo();
-//    UpdateMarkCloud();
 
 	/** 每个周期clear一次 */
 	mPlayer2BallList.clear();
@@ -30,9 +27,6 @@ void PositionInfo::UpdateRoutine()
 		mTeammate2PlayerList[i].clear();
 		mOpponent2PlayerList[i].clear();
 	}
-
-	mTeammateAnglesToBallQueue.Cleanup();
-	mOpponentAnglesToBallQueue.Cleanup();
 
 	mXSortTeammateList.clear();
 	mXSortOpponentList.clear();
@@ -467,133 +461,3 @@ Unum PositionInfo::GetOpponentWithBall(const double buffer)
 	return 0;
 }
 
-OrderedSoftQueue<KeyPlayerInfo, TEAMSIZE> & PositionInfo::GetTeammateAnglesToBallQueue()
-{
-	if (mTeammateAnglesToBallQueue.IsEmpty()){
-		KeyPlayerInfo key_player;
-        for (Unum i = 1; i <= TEAMSIZE; ++i){
-        	if (mpWorldState->GetTeammate(i).IsAlive() && mpWorldState->GetTeammate(i).GetPosConf() > FLOAT_EPS){
-        		key_player.mUnum = i;
-        		key_player.mValue = (const_cast<WorldState *>(mpWorldState)->Teammate(i).GetPredictedPos(1) - mpWorldState->GetBall().GetPos()).Dir();
-        		mTeammateAnglesToBallQueue.Enqueue(key_player);
-        	}
-        }
-	}
-
-	return mTeammateAnglesToBallQueue;
-}
-
-OrderedSoftQueue<KeyPlayerInfo, TEAMSIZE> & PositionInfo::GetOpponentAnglesToBallQueue()
-{
-	if (mOpponentAnglesToBallQueue.IsEmpty()){
-		KeyPlayerInfo key_player;
-        for (Unum i = 1; i <= TEAMSIZE; ++i){
-        	if (mpWorldState->GetOpponent(i).IsAlive() && mpWorldState->GetOpponent(i).GetPosConf() > FLOAT_EPS){
-        		key_player.mUnum = i;
-        		key_player.mValue = (const_cast<WorldState *>(mpWorldState)->Opponent(i).GetPredictedPos(1) - mpWorldState->GetBall().GetPos()).Dir();
-        		mOpponentAnglesToBallQueue.Enqueue(key_player);
-        	}
-        }
-	}
-
-	return mOpponentAnglesToBallQueue;
-}
-
-
-bool PositionInfo::IsConsiderAngle(const Unum &self_unum, const AngleDeg &ang, bool consider_dist)
-{
-    for (int i = 0; i < 2; ++i)
-    {
-        if (mpWorldState->GetHistory(i)->GetTeammate(self_unum).GetPosDelay() == 0) // 有视觉
-        {
-            const PlayerState &self_state = mpWorldState->GetHistory(i)->GetTeammate(self_unum);
-            if (GetAngleDegDiffer(ang, self_state.GetNeckGlobalDir()) < self_state.GetViewAngle())
-            {
-                return true;
-            }
-        }
-    }
-
-    AngleDeg angle_diff;
-    for (int i = 1; i < 12; ++i)
-    {
-        if (mpWorldState->GetOpponent(i).IsAlive() == true)
-        {
-            angle_diff = GetAngleDegDiffer(ang, GetOpponentDir2Ball(i));
-            int buf_plus = consider_dist ? int(GetBallDistToOpponent(i) / 8) : 0;
-            if (angle_diff < 36.0)
-            {
-                if (mpWorldState->GetOpponent(i).GetPosDelay() >= 3 + buf_plus)
-                {
-                    return false;
-                }
-            }
-            else if (angle_diff < 50.0)
-            {
-                if (mpWorldState->GetOpponent(i).GetPosDelay() >= 8 + buf_plus)
-                {
-                    return false;
-                }
-            }
-        }
-    }
-
-	return true;
-}
-//
-//void PositionInfo::UpdateMarkCloud()
-//{
-//	for (int i=1; i<=TEAMSIZE; ++i)
-//	{
-//		Unum opp = GetClosestOpponentToTeammate(i);
-//		if (opp == 0) continue;
-//		mMarkerPositions[i].push_back(make_pair(mpWorldState->GetOpponent(opp).GetPos() - mpWorldState->GetTeammate(i).GetPos(), mpWorldState->GetOpponent(opp).GetPosConf() * mpWorldState->GetTeammate(i).GetPosConf()));
-//		if (mMarkerPositions[i].size() > 20)
-//		{
-//			mMarkerPositions[i].pop_front();
-//		}
-//
-//		mMarkCloudEx[i] = mMarkCloudEn[i] = mMarkCloudHe[i] = Vector(0, 0);
-//
-//		for (deque<pair<Vector, double> >::iterator j = mMarkerPositions[i].begin(); j != mMarkerPositions[i].end(); ++j)
-//		{
-//			mMarkCloudEx[i] += j->first;
-//		}
-//		mMarkCloudEx[i] /= mMarkerPositions[i].size();
-//
-//		for (deque<pair<Vector, double> >::iterator j = mMarkerPositions[i].begin(); j != mMarkerPositions[i].end(); ++j)
-//		{
-//			Vector t(j->first - mMarkCloudEx[i]); t.SetValue(abs(t.X()), abs(t.Y()));
-//			mMarkCloudEn[i] += t;
-//		}
-//		mMarkCloudEn[i] *= Sqrt(M_PI/2.0) / mMarkerPositions[i].size();
-//
-//		for (deque<pair<Vector, double> >::iterator j = mMarkerPositions[i].begin(); j != mMarkerPositions[i].end(); ++j)
-//		{
-//			mMarkCloudHe[i] += (j->first - mMarkCloudEx[i]) * (j->first - mMarkCloudEx[i]);
-//		}
-//		mMarkCloudHe[i] /= mMarkerPositions[i].size() - 1;
-//		mMarkCloudHe[i] = mMarkCloudHe[i] - mMarkCloudEn[i] * mMarkCloudEn[i];
-//		mMarkCloudHe[i].SetValue(Sqrt(abs(mMarkCloudHe[i].X())), Sqrt(abs(mMarkCloudHe[i].Y())));
-///*
-//		Vector Enn[mMarkerPositions[i].size()];
-//		for (uint j = 0; j < mMarkerPositions[i].size(); ++j)
-//		{
-//			Enn[j] = -(mMarkerPositions[i][j].first - mMarkCloudEx[i]) * (mMarkerPositions[i][j].first - mMarkCloudEx[i]) / (2 * log(mMarkerPositions[i][j].second));
-//			Enn[j].SetValue(Sqrt(Enn[j].X()), Sqrt(Enn[j].Y()));
-//		}
-//		Vector Enn_Ex(0, 0);
-//		for (uint j = 0; j < mMarkerPositions[i].size(); ++j)
-//		{
-//			Enn_Ex += Enn[j];
-//		}
-//		Enn_Ex /= mMarkerPositions[i].size();
-//		for (uint j = 0; j < mMarkerPositions[i].size(); ++j)
-//		{
-//			mMarkCloudHe[i] += (Enn[j] - Enn_Ex) * (Enn[j] - Enn_Ex);
-//		}
-//		mMarkCloudHe[i] /= mMarkerPositions[i].size() - 1;
-//		mMarkCloudHe[i].SetValue(Sqrt(mMarkCloudHe[i].X()), Sqrt(mMarkCloudHe[i].Y()));
-//*/
-//	}
-//}
