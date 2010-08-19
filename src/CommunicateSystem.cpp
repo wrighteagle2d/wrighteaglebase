@@ -576,8 +576,12 @@ void CommunicateSystem::DoCommunication()
 	const vector<Unum> & o2b = mpAgent->GetInfoState().GetPositionInfo().GetCloseOpponentToBall();
 	const vector<Unum> & t2b = mpAgent->GetInfoState().GetPositionInfo().GetCloseTeammateToBall();
 
-	for (uint i = 0; i < o2b.size(); ++i) {
-		SendOpponentStatus(& mpAgent->GetWorldState(), o2b[i]);
-		SendTeammateStatus(& mpAgent->GetWorldState(), t2b[i]);
+	for (uint i = 0; i < TEAMSIZE; ++i) {
+		if (i < o2b.size()) {
+			SendOpponentStatus(& mpAgent->GetWorldState(), o2b[i]);
+		}
+		if (i < t2b.size()) {
+			SendTeammateStatus(& mpAgent->GetWorldState(), t2b[i]);
+		}
 	}
 }
