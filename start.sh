@@ -23,7 +23,7 @@
 
 echo ""
 echo "#######################################################################"
-echo "#           WrightEagle 2D Soccer Simulation Team -- WE2010           #"
+echo "#      WrightEagle 2D Soccer Simulation Team -- based on WE2010       #"
 echo "#                                                                     #"
 echo "#                       Multi-Agent Systems Lab.                      #"
 echo "#              School of Computer Science and Technology              #"
@@ -51,7 +51,7 @@ fi
 
 BINARY="WE2010"
 CLIENT="./$VERSION/$BINARY"
-TEAM_NAME="WE2010"
+TEAM_NAME="WrightEagleBASE
 LOG_DIR="Logfiles"
 mkdir $LOG_DIR 2>/dev/null
 SLEEP_TIME=0.1
