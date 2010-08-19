@@ -1,0 +1,83 @@
+#! /bin/bash
+
+#$1: player unum, < 0 means run all player one by one
+
+DYNAMICDEBUG_TXT="dynamicdebug.txt"
+BINARY="WE2010"
+COACH_UNUM="0"
+GOALIE_UNUM="1"
+
+VALGRIND="false" #true/false
+GENLOG="off" #on/off
+PLOTTER="off" #on/off
+VERSION="Debug" #Debug/Release
+
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:./lib"
+
+run_one() {
+	if [ $# -lt 2 ]; then
+		echo "Error: wrong usage"
+		exit
+	fi
+
+	if [ $1 -ge 0 ]; then
+		echo "load Logfiles/$BINARY-$1-msg.log" > ${DYNAMICDEBUG_TXT}
+		if [ $2 = "true" ]; then
+			echo "r" >> ${DYNAMICDEBUG_TXT}
+		fi
+	fi
+
+    PLAYER=`cat ${DYNAMICDEBUG_TXT} | grep -o '\-[[:digit:]]\+\-' | grep -o '[[:digit:]]\+'`
+    echo -en "\033[1mRunning player $PLAYER $VERSION"
+
+    OPTS="-dynamic_debug_mode on -use_plotter $PLOTTER -save_server_message off"
+    OPTS="$OPTS -save_sight_log $GENLOG -save_dec_log $GENLOG -save_text_log $GENLOG"
+    OPTS="$OPTS -time_test off -network_test off"
+
+    if [ $PLAYER -eq $COACH_UNUM ]; then
+        OPTS="$OPTS -coach on"
+        echo -n " -coach"
+    elif [ $PLAYER -eq $GOALIE_UNUM ]; then
+        OPTS="$OPTS -goalie on"
+        echo -n " -goalie"
+    fi
+    echo -e "\033[0m"
+
+    if [ $VALGRIND = "true" ]; then
+        valgrind --leak-check=full ./$VERSION/$BINARY $OPTS 2>&1 | tee Logfiles/$BINARY-$PLAYER-valgrind.log
+    else
+        ./$VERSION/$BINARY $OPTS
+    fi
+
+    if [ `ls core* 2>/dev/null | wc -l` -gt 0 ]; then
+        echo "core found, exit"
+        exit 1
+    fi
+
+}
+
+run() {
+    if [ $VERSION = "Debug" ]; then
+        make
+    elif [ $VERSION = "Release" ]; then
+        make release
+    else
+        echo "Warning: unknow version "$VERSION
+    fi
+
+    rm -f core*
+    ulimit -c unlimited
+
+    if [ ! -z $1 ]; then
+        if [ $1 -lt 0 ]; then
+            for i in `seq 0 11`; do
+                run_one $i true
+            done
+        else
+            run_one $1 false
+        fi
+    else
+        run_one -1 false
+    fi
+}
+

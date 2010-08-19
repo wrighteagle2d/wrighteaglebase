@@ -1,0 +1,5 @@
+#!/bin/bash
+
+source initrc
+
+cgdb -- ./Debug/$BINARY `ps -o pid= -C $BINARY`

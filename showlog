@@ -1,0 +1,15 @@
+#!/bin/bash
+
+source initrc
+
+PLAYER=`cat $DYNAMICDEBUG_TXT | grep -o '\-[[:digit:]]\+\-'`
+
+if [ ! -z $1 ]; then
+	PLAYER="-$1-"
+fi
+
+SIGHT_LOG="./Logfiles/$BINARY"$PLAYER"sight.log"
+
+echo $SIGHT_LOG
+
+rcsslogplayer $SIGHT_LOG &

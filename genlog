@@ -1,0 +1,10 @@
+#! /bin/bash
+
+source initrc
+
+VALGRIND="false" #true/false
+GENLOG="on" #on/off
+PLOTTER="off" #on/off
+VERSION="Release" #Debug/Release
+
+run $*
