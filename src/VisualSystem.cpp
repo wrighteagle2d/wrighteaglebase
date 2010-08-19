@@ -78,7 +78,6 @@ void VisualSystem::ResetVisualRequest()
 
 void VisualSystem::Decision()
 {
-	if (!mpAgent->GetBeliefState()) return;
 	if (mpAgent->GetActionEffector().IsTurnNeck()) return; //其他地方已经产生了转脖子动作
 	if (mForbidden) return;
 
@@ -878,7 +877,7 @@ void VisualSystem::SetVisualRing()
 		if (!visual_request.mValid) continue;
 
 		for (double dir = -5.0; dir <= 5.0; dir += 1.0) {
-			mVisualRing.Score(visual_request.mPrePos.Dir() - mPreBodyDir + dir) += 1.0 / 11.0 * visual_request.mScore;
+			mVisualRing.Score(visual_request.mPrePos.Dir() - mPreBodyDir + dir) += visual_request.mScore / 11.0;
 		}
 	}
 }

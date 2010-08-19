@@ -10,7 +10,6 @@ Agent::Agent(Unum unum, WorldModel *world_model, bool reverse):
 	mReverse( reverse ),
 	mpWorldModel( world_model ),
 	mpWorldState( &(world_model->World(reverse)) ),
-	mpBeliefState(0),
 	mpInfoState( new InfoState( mpWorldState)),
 	mIsNewSight (false),
 	mpStrategy(0),

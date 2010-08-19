@@ -10,7 +10,6 @@
 #include "Formation.h"
 
 class WorldModel;
-class BeliefState;
 
 /**
  * Identifies an agent.
@@ -66,12 +65,6 @@ public:
 	 */
 	WorldState       & World() { return *mpWorldState; }
 	const WorldState & GetWorldState() const { return *mpWorldState; }
-
-	/**
-	 * Interfaces to get the agent's belief state -- may be null
-	 * @return
-	 */
-	const BeliefState * GetBeliefState() const { return mpBeliefState; }
 
 	/**
 	 * Interfaces to get the agent's info state.
@@ -213,16 +206,11 @@ public:
 	 */
 	bool IsReverse() const { return mReverse; }
 
-	void SetBeliefState(BeliefState * belief_state) {
-		mpBeliefState = belief_state;
-	}
-
 private:
 	const Unum mSelfUnum; //Agent的号码总是为正
 	const bool mReverse;  //标记这个Agent是否反算对手
 	WorldModel * const mpWorldModel;
 	WorldState * const mpWorldState;
-	const BeliefState * mpBeliefState; //维护了人、球在一个地方出现的概率 -- 只有根agent有这个量，需要手工赋值
 
 	/** 以上变量在 Agent 的生存周期内是不会变的，各种形式的反算（包括反算队友和对手）都要 new 一个 Agent */
 
