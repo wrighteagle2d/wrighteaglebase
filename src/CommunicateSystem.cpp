@@ -11,7 +11,8 @@
 #include "Formation.h"
 using namespace std;
 
-const unsigned char *CommunicateSystem::CODE = (const unsigned char *)"0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ().+-*/?<>_";
+const unsigned char *CommunicateSystem::CODE = (const unsigned char *)"uMKJNPpA1Yh0)f6_x3WU<>SgQ4wbDizV5dc9t2XZ?(/7*s.FEHvLG8yRTkej-OlB+armnoqCI";
+
 int CommunicateSystem::CODE_TO_INT[128];
 const int CommunicateSystem::CODE_SIZE = 73;
 const int CommunicateSystem::MAX_MSG_SIZE = 10;
