@@ -51,7 +51,7 @@ fi
 
 BINARY="WE2010"
 CLIENT="./$VERSION/$BINARY"
-TEAM_NAME="WrightEagleBASE
+TEAM_NAME="WrightEagleBASE"
 LOG_DIR="Logfiles"
 mkdir $LOG_DIR 2>/dev/null
 SLEEP_TIME=0.1
