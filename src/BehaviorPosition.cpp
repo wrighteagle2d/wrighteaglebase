@@ -55,8 +55,7 @@ BehaviorPositionExecuter::~BehaviorPositionExecuter(void)
 
 bool BehaviorPositionExecuter::Execute(const ActiveBehavior & beh)
 {
-	std::ostringstream dummy;
-	Logger::instance().LogPosition(mSelfState.GetPos(), beh.mTarget, BDT_Position_Normal, dummy);
+	Logger::instance().LogGoToPoint(mSelfState.GetPos(), beh.mTarget, "@Position");
 
 	return Dasher::instance().GoToPoint(mAgent, beh.mTarget, beh.mBuffer, beh.mPower, false, true);
 }
@@ -74,10 +73,12 @@ BehaviorPositionPlanner::BehaviorPositionPlanner(Agent &agent) :
 void BehaviorPositionPlanner::Plan(ActiveBehaviorList &behavior_list)
 {
 	if (!behavior_list.empty()) return;
+
 	if (mSelfState.IsGoalie()) return;
 	if (mStrategy.IsOppControl()) return;
+	if (mWorldState.GetPlayMode() > PM_Opp_Mode) return;
 
-	ActiveBehavior position(mAgent, BT_Formation);
+	ActiveBehavior position(mAgent, BT_Position);
 
 	position.mBuffer = 1.0;
 	position.mPower = mSelfState.CorrectDashPowerForStamina(ServerParam::instance().maxDashPower());

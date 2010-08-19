@@ -313,7 +313,6 @@ public:
     void LogGoToPoint(const Vector & start, const Vector & target, const char* comment = 0);
     void LogShoot(const Vector & start, const Vector & target, const char* comment = 0);
     void LogIntercept(const Vector & interpt, const char* comment =0);
-    void LogPosition(const Vector & start, const Vector & target, BehaviorDetailType bhv_type, const std::ostringstream & comment);
     void LogDribble(const Vector & start, const Vector & target, const char * comment = 0, bool is_execute = false);
     void LogPass(const bool reverse, const Vector & start, const Vector & target, const char * comment = 0, bool is_execute = false);
 };

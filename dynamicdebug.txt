@@ -1,2 +1,1 @@
 load Logfiles/WE2010-11-msg.log
-r

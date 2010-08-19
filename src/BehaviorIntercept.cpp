@@ -66,6 +66,7 @@ BehaviorInterceptPlanner::~BehaviorInterceptPlanner() {
 void BehaviorInterceptPlanner::Plan(std::list<ActiveBehavior> & behavior_list)
 {
 	if (mSelfState.IsKickable()) return;
+	if (mWorldState.GetPlayMode() != PM_Play_On) return;
 
 	if (mStrategy.GetMyInterCycle() <= mStrategy.GetMinTmInterCycle() && mStrategy.GetMyInterCycle() <= mStrategy.GetSureOppInterCycle() + 1) {
 		ActiveBehavior intercept(mAgent, BT_Intercept, BDT_Intercept_Normal);

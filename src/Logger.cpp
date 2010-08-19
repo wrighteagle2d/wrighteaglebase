@@ -563,26 +563,6 @@ void Logger::LogIntercept(const Vector & interpt, const char* comment)
 	}
 }
 
-void Logger::LogPosition(const Vector & start, const Vector & target, BehaviorDetailType bhv_type, const std::ostringstream & comment)
-{
-	if (PlayerParam::instance().SaveDecLog()){
-		std::ostringstream pointLable;
-		pointLable<<"@";
-		switch(bhv_type)
-		{
-		case BDT_Position_Normal:
-			pointLable<<"PN";
-			break;
-		case BDT_Position_Rush:
-			pointLable<<"PR";
-			break;
-		default:
-			break;
-		}
-		std::string commentToLable = comment.str()+pointLable.str();
-		LogGoToPoint(start,target,commentToLable.c_str());
-	}
-}
 void Logger::LogLine(const Vector & begin, const Vector & end, SightLogger::Color color, const char* comment)
 {
 	if (PlayerParam::instance().SaveDecLog()){
