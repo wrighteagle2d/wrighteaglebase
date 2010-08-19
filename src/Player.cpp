@@ -10,7 +10,6 @@
 #include "Agent.h"
 #include "VisualSystem.h"
 #include "Logger.h"
-#include "BeliefState.h"
 #include "CommunicateSystem.h"
 #include "TimeTest.h"
 #include "Dasher.h"
@@ -61,7 +60,7 @@ void Player::Run()
 	Formation::instance.SetTeammateFormations();
 	CommunicateSystem::instance().Update(); //在这里解析hear信息，必须首先更新
 	mpAgent->CheckCommands(mpObserver);
-	mpWorldModel->Update(mpObserver, mpBeliefState); //这里会同时更新世界状态和信念状态
+	mpWorldModel->Update(mpObserver);
 
 	mpObserver->UnLock();
 
@@ -81,8 +80,6 @@ void Player::Run()
 
 	VisualSystem::instance().ResetVisualRequest();
 	mpDecisionTree->Decision(*mpAgent);
-
-	mpBeliefState->Spread(*mpAgent); //扩散一周期，供视觉使用
 
 	VisualSystem::instance().Decision();
 	CommunicateSystem::instance().Decision();

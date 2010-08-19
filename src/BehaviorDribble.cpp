@@ -56,15 +56,19 @@ void BehaviorDribblePlanner::Plan(std::list<ActiveBehavior> & behavior_list)
 	if (!mSelfState.IsKickable()) return;
 	if (mWorldState.GetPlayMode() != PM_Play_On) return;
 
-	double speed = drand(0.75, 1.5);
+	double speed = mSelfState.GetEffectiveSpeedMax();
 
-	for (AngleDeg dir = -90.0; dir < 90.0; dir += 1.0) {
+	for (AngleDeg dir = -90.0; dir < 90.0; dir += 2.5) {
 		ActiveBehavior dribble(mAgent, BT_Dribble, BDT_Dribble_Normal);
 
 		dribble.mAngle = dir;
 		dribble.mKickSpeed = speed;
-		dribble.mTarget = mBallState.GetPos() + Polar2Vector(dribble.mKickSpeed, dribble.mAngle);
-		dribble.mEvaluation = Evaluation::instance().EvaluatePosition(dribble.mTarget, true);
+
+		dribble.mEvaluation = 0.0;
+		for (int i = 1; i <= 10; ++i) {
+			dribble.mEvaluation += Evaluation::instance().EvaluatePosition(mBallState.GetPos() + Polar2Vector(dribble.mKickSpeed * i, dribble.mAngle), true);
+		}
+		dribble.mEvaluation /= 10;
 
 		mActiveBehaviorList.push_back(dribble);
 	}

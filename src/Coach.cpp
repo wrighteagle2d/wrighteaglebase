@@ -94,7 +94,7 @@ void Coach::Run()
 	/** 下面几个更新顺序不能变 */
 	Formation::instance.SetTeammateFormations();
 	mpAgent->CheckCommands(mpObserver); // 检查上周期发送命令情况
-	mpWorldModel->Update(mpObserver, 0);
+	mpWorldModel->Update(mpObserver);
 
 	mpObserver->UnLock();
 

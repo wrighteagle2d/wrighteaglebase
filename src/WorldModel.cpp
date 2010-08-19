@@ -19,13 +19,13 @@ WorldModel::~WorldModel() {
 	delete mpHistoryState[1];
 }
 
-void WorldModel::Update(Observer *observer, BeliefState *belief_state)
+void WorldModel::Update(Observer *observer)
 {
 	//存储一下当前的世界
 	mpHistoryState[0]->UpdateHistory(*mpWorldState[0]);
 	mpHistoryState[1]->UpdateHistory(*mpWorldState[1]);
 
-	mpWorldState[0]->UpdateFromObserver(observer, belief_state); //自己方决策使用的世界状态
+	mpWorldState[0]->UpdateFromObserver(observer); //自己方决策使用的世界状态
 	mpWorldState[1]->GetReverseFrom(mpWorldState[0]); //可供反算对手时使用的世界状态
 }
 

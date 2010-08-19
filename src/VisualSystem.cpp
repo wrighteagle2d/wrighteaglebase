@@ -124,10 +124,10 @@ void VisualSystem::EvaluateVisualRequest()
 {
 	{
 		VisualRequest *vr = &mVisualRequest.GetOfBall();
-		vr->mValid = !mpAgent->GetBeliefState()->GetAppearanceSet(0).empty() || mpBallState->GetPosConf() > FLOAT_EPS;
+		vr->mValid = mpBallState->GetPosConf() > FLOAT_EPS;
 
 		if (vr->mValid) {
-			vr->mPreDistance = (mPreBallPos - mPreSelfPos).Mod();
+			vr->mPrePos = mPreBallPos - mPreSelfPos;
 			vr->mCycleDelay = mpBallState->GetPosDelay();
 
 			vr->UpdateEvaluation();
@@ -146,10 +146,9 @@ void VisualSystem::EvaluateVisualRequest()
 
 		VisualRequest *vr = &mVisualRequest.GetOfOpponent(goalie);
 
-		if (mpWorldState->GetOpponent(goalie).IsAlive()){
-			Vector pos = mpWorldState->Opponent(goalie).GetPredictedPos(1) - mPreSelfPos;
+		if (mpWorldState->GetOpponent(goalie).IsAlive()) {
+			vr->mPrePos = mpWorldState->Opponent(goalie).GetPredictedPos(1) - mPreSelfPos;
 			vr->mValid = true;
-			vr->mPreDistance = pos.Mod();
 			vr->mCycleDelay = vr->mpObject->GetPosDelay();
 
 			vr->UpdateEvaluation();
@@ -167,19 +166,10 @@ void VisualSystem::EvaluateVisualRequest()
 			if (!i || i == mpSelfState->GetUnum()) continue;
 
 			VisualRequest *vr = &mVisualRequest[i];
-			vr->mValid = !mpAgent->GetBeliefState()->GetAppearanceSet(i).empty() || mpWorldState->GetPlayer(i).IsAlive();
+			vr->mValid = mpWorldState->GetPlayer(i).IsAlive();
 
 			if (vr->mValid) {
-				Vector pre_rel_pos;
-
-				if (mpWorldState->GetPlayer(i).IsAlive()) {
-					pre_rel_pos = mpWorldState->GetPlayer(i).GetPredictedPos() - mPreSelfPos;
-				}
-				else {
-					pre_rel_pos = mpAgent->GetBeliefState()->GetExpectedPos(i) - mPreSelfPos;
-				}
-
-				vr->mPreDistance = pre_rel_pos.Mod();
+				vr->mPrePos = mpWorldState->GetPlayer(i).GetPredictedPos() - mPreSelfPos;
 				vr->mCycleDelay = vr->mpObject->GetPosDelay();
 
 				vr->UpdateEvaluation();
@@ -858,14 +848,14 @@ void VisualSystem::DealWithSpecialObjects()
 			if (!(*it)->mValid) continue;
 			(*it)->mScore = (*it)->Multi() * (mForceToSeeObject[(*it)->mUnum]? force_to_see_player_multi: high_priority_multi);
 
-			if ((*it)->mpObject->GetPosConf() > 0.9 && (*it)->mPreDistance < ServerParam::instance().visibleDistance() - buffer) {
+			if ((*it)->mpObject->GetPosConf() > 0.9 && (*it)->PreDistance() < ServerParam::instance().visibleDistance() - buffer) {
 				SetCritical(true);
 			}
 		}
 	}
 
 	if (mForceToSeeObject[0] && mVisualRequest[0].mValid) {
-		if (mpBallState->GetPosConf() > 0.9 && mVisualRequest[0].mPreDistance < ServerParam::instance().visibleDistance() - buffer) {
+		if (mpBallState->GetPosConf() > 0.9 && mVisualRequest[0].PreDistance() < ServerParam::instance().visibleDistance() - buffer) {
 			if (mpBallState->GetPosDelay() == 0) {
 				mVisualRequest[0].mScore = FLOAT_EPS; //just sense it
 			}
@@ -880,9 +870,6 @@ void VisualSystem::DealWithSpecialObjects()
 
 void VisualSystem::SetVisualRing()
 {
-	ObjectArray<double> object_poss_sum;
-	object_poss_sum.fill(0.0);
-
 	mVisualRing.Clear();
 
 	for (int i = -TEAMSIZE; i <= TEAMSIZE; ++i) {
@@ -890,33 +877,8 @@ void VisualSystem::SetVisualRing()
 
 		if (!visual_request.mValid) continue;
 
-		double & sum_poss = object_poss_sum[i];
-		const std::list<BeliefState::Grid*> & set = mpAgent->GetBeliefState()->GetAppearanceSet(i);
-
-		for (std::list<BeliefState::Grid*>::const_iterator it = set.begin(); it != set.end(); ++it) {
-			const double poss = (*it)->GetAppearProb(i);
-			Assert(poss > 0.0);
-			sum_poss += poss;
-			mVisualRing.Score(((*it)->mPos - mPreSelfPos).Dir() - mPreBodyDir) += poss * visual_request.mScore;
-		}
-	}
-
-	for (int i = -TEAMSIZE; i <= TEAMSIZE; ++i) {
-		if (i == 0) {
-			if (object_poss_sum[0] < FLOAT_EPS && mVisualRequest[0].mValid) {
-				AngleDeg dir = (mPreBallPos - mPreSelfPos).Dir() - mPreBodyDir;
-				for (int i = -10; i <= 10; ++i) {
-					mVisualRing.Score(dir + i) += mVisualRequest[0].mScore * 0.05;
-				}
-			}
-		}
-		else {
-			if (object_poss_sum[i] < FLOAT_EPS && mVisualRequest[i].mValid) {
-				AngleDeg dir = (mpWorldState->GetPlayer(i).GetPredictedPos() - mPreSelfPos).Dir() - mPreBodyDir;
-				for (int j = -5; j <= 5; ++j) {
-					mVisualRing.Score(dir + j) += mVisualRequest[i].mScore * 0.1;
-				}
-			}
+		for (double dir = -5.0; dir <= 5.0; dir += 1.0) {
+			mVisualRing.Score(visual_request.mPrePos.Dir() - mPreBodyDir + dir) += 1.0 / 11.0 * visual_request.mScore;
 		}
 	}
 }
@@ -1070,7 +1032,7 @@ int VisualSystem::GetSenseBallCycle()
 {
 	if (mSenseBallCycle == 0) { //用拦截模型来算什么时候可以感知到球
 		if (mVisualRequest[0].mValid) {
-			if (mVisualRequest[0].mPreDistance < ServerParam::instance().visibleDistance()) {
+			if (mVisualRequest[0].PreDistance() < ServerParam::instance().visibleDistance()) {
 				mSenseBallCycle = 1;
 			}
 			else {

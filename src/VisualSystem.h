@@ -10,7 +10,7 @@
 #include "Geometry.h"
 #include "PlayerState.h"
 #include "ServerParam.h"
-#include "BeliefState.h"
+#include <set>
 
 class MobileState;
 class PlayerState;
@@ -29,7 +29,7 @@ class VisualSystem {
 	class VisualRequest
 	{
 	public:
-		VisualRequest(): mPreDistance(HUGE_VALUE), mCycleDelay(0), mConf(0.0), mpObject(0)
+		VisualRequest(): mPrePos(Vector(HUGE_VALUE, HUGE_VALUE)), mCycleDelay(0), mConf(0.0), mpObject(0)
 		{
 			Clear();
 		}
@@ -40,7 +40,11 @@ class VisualSystem {
 			mScore = 0.0;
 		}
 
-		double mPreDistance;
+		Vector mPrePos;
+
+		double PreDistance() {
+			return mPrePos.Mod();
+		}
 
 		bool mValid;
 		int  mCycleDelay;

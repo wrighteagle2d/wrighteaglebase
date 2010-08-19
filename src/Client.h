@@ -6,7 +6,6 @@ class WorldModel;
 class Agent;
 class Parser;
 class CommandSender;
-class BeliefState;
 
 class Client {
 	friend class Player;
@@ -14,7 +13,6 @@ class Client {
 
 	Observer        *mpObserver;
 	WorldModel      *mpWorldModel;
-	BeliefState     *mpBeliefState; //ÐÅÄî×´Ì¬
 	Agent           *mpAgent;
 
 	Parser 		    *mpParser;

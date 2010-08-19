@@ -22,7 +22,6 @@ CPP_SRCS += \
 ../src/BehaviorPosition.cpp \
 ../src/BehaviorSetplay.cpp \
 ../src/BehaviorShoot.cpp \
-../src/BeliefState.cpp \
 ../src/Client.cpp \
 ../src/Coach.cpp \
 ../src/CommandSender.cpp \
@@ -83,7 +82,6 @@ OBJS += \
 ./src/BehaviorPosition.o \
 ./src/BehaviorSetplay.o \
 ./src/BehaviorShoot.o \
-./src/BeliefState.o \
 ./src/Client.o \
 ./src/Coach.o \
 ./src/CommandSender.o \
@@ -144,7 +142,6 @@ CPP_DEPS += \
 ./src/BehaviorPosition.d \
 ./src/BehaviorSetplay.d \
 ./src/BehaviorShoot.d \
-./src/BeliefState.d \
 ./src/Client.d \
 ./src/Coach.d \
 ./src/CommandSender.d \

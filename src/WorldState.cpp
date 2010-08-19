@@ -5,7 +5,6 @@
 #include "Observer.h"
 #include "Logger.h"
 #include "Tackler.h"
-#include "BeliefState.h"
 #include <fstream>
 
 const double WorldStateUpdater::KICKABLE_BUFFER = 0.04;
@@ -52,9 +51,9 @@ Time WorldState::GetTimeBeforeCurrent(int cycle) const
 	return mpHistory->GetHistory(cycle)->mCurrentTime;
 }
 
-void WorldState::UpdateFromObserver(Observer *observer, BeliefState *belief_state)
+void WorldState::UpdateFromObserver(Observer *observer)
 {
-	WorldStateUpdater(observer, this, belief_state).Run();
+	WorldStateUpdater(observer, this).Run();
 }
 
 void WorldState::GetReverseFrom(WorldState *world_state)
@@ -377,8 +376,6 @@ void WorldStateUpdater::UpdateWorldState()
 
 		//根据playmode更新确定的位置
 		UpdateInfoFromPlayMode();
-
-		mpBeliefState->Maintain(*mpWorldState, mSelfUnum, mpObserver->IsNewSight()); //至此视觉/听觉/感知信息更新完成，这里更新得到当前周期的信念状态，下面预测没看到的对手时要用
 
 		//重新评估各球员的置信度 及置球员的生死
 		EvaluateConf();
@@ -2679,9 +2676,7 @@ void WorldStateUpdater::EvaluateBall()
 
 	if (Ball().GetPosDelay() != 0 && SelfState().GetPosDelay() == 0)
 	{
-		const std::list<BeliefState::Grid*> & set = mpBeliefState->GetAppearanceSet(0);
-
-		if (Ball().GetGuessedTimes() >= 100 && set.empty())
+		if (Ball().GetGuessedTimes() >= 100)
 		{
 			EvaluateForgetBall(false);
 		}
@@ -2689,26 +2684,15 @@ void WorldStateUpdater::EvaluateBall()
 			if (ShouldSee(Ball().GetPos())) {
 				Ball().UpdateGuessedTimes(Ball().GetGuessedTimes() + 1);
 
-				if (!set.empty()) {
-					Ball().UpdatePos(
-							mpBeliefState->GetExpectedPos(0),
-							Ball().GetPosDelay(),
-							Ball().GetPosConf()
-					);
+				const Vector pos = GetNearSidePos(Ball().GetPos());
 
-					Logger::instance().GetTextLogger("guess") << mpWorldState->CurrentTime() << ": guess ball from belief state" << std::endl;
-				}
-				else {
-					const Vector pos = GetNearSidePos(Ball().GetPos());
+				Ball().UpdatePos(
+						pos,
+						Ball().GetPosDelay(),
+						Ball().GetPosConf()
+				);
 
-					Ball().UpdatePos(
-							pos,
-							Ball().GetPosDelay(),
-							Ball().GetPosConf()
-					);
-
-					Logger::instance().GetTextLogger("guess") << mpWorldState->CurrentTime() << ": guess ball out of view" << std::endl;
-				}
+				Logger::instance().GetTextLogger("guess") << mpWorldState->CurrentTime() << ": guess ball out of view" << std::endl;
 			}
 		}
 	}
@@ -2777,9 +2761,8 @@ void WorldStateUpdater::EvaluatePlayer(PlayerState& player)
 	if (player.GetPosDelay() != 0 && player.IsAlive() && SelfState().GetPosDelay() == 0)
 	{
 		const Unum player_unum = player.GetUnum();
-		const std::list<BeliefState::Grid*> & set = mpBeliefState->GetAppearanceSet(player_unum);
 
-		if (player.GetGuessedTimes() >= 5 && set.empty())
+		if (player.GetGuessedTimes() >= 5)
 		{
 			EvaluateForgetPlayer(player);
 		}
@@ -2787,37 +2770,26 @@ void WorldStateUpdater::EvaluatePlayer(PlayerState& player)
 			if (ShouldSee(player.GetPos())) {
 				player.UpdateGuessedTimes(player.GetGuessedTimes() + 1);
 
-				if (!set.empty()) {
-					player.UpdatePos(
-							mpBeliefState->GetExpectedPos(player_unum),
-							player.GetPosDelay(),
-							player.GetPosConf()
-					); //delay和conf在前面更新过
+				const Vector *expected_pos = 0;
 
-					Logger::instance().GetTextLogger("guess") << mpWorldState->CurrentTime() << ": guess player " << player_unum << " from belief state" << std::endl;
-				}
-				else {
-					const Vector *expected_pos = 0;
-
-					if (player.IsGoalie()) {
-						if (player_unum > 0) {
-							expected_pos = &ServerParam::instance().ourGoal();
-						}
-						else {
-							expected_pos = &ServerParam::instance().oppGoal();
-						}
+				if (player.IsGoalie()) {
+					if (player_unum > 0) {
+						expected_pos = &ServerParam::instance().ourGoal();
 					}
-
-					const Vector pos = GetNearSidePos(player.GetPos(), expected_pos);
-
-					player.UpdatePos(
-							pos,
-							player.GetPosDelay(),
-							player.GetPosConf()
-					); //delay和conf在前面更新过
-
-					Logger::instance().GetTextLogger("guess") << mpWorldState->CurrentTime() << ": guess player " << player_unum << " out of view" << std::endl;
+					else {
+						expected_pos = &ServerParam::instance().oppGoal();
+					}
 				}
+
+				const Vector pos = GetNearSidePos(player.GetPos(), expected_pos);
+
+				player.UpdatePos(
+						pos,
+						player.GetPosDelay(),
+						player.GetPosConf()
+				); //delay和conf在前面更新过
+
+				Logger::instance().GetTextLogger("guess") << mpWorldState->CurrentTime() << ": guess player " << player_unum << " out of view" << std::endl;
 			}
 		}
 	}

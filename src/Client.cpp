@@ -17,7 +17,6 @@
 #include "VisualSystem.h"
 #include "InterceptModel.h"
 #include "Plotter.h"
-#include "BeliefState.h"
 
 Client::Client() {
 	srand(time(0)); //global srand once
@@ -27,7 +26,6 @@ Client::Client() {
 	mpAgent         = 0;
     mpObserver      = new Observer;
 	mpWorldModel    = new WorldModel;
-	mpBeliefState   = new BeliefState;
 
 	/** Parser thread and CommandSend thread */
 	mpParser        = new Parser(mpObserver);
@@ -68,7 +66,6 @@ Client::~Client()
 
 	delete mpObserver;
 	delete mpWorldModel;
-	delete mpBeliefState;
 	delete mpAgent;
 }
 
@@ -157,7 +154,6 @@ void Client::ConstructAgent()
 	mpCommandSender->RegisterAgent(mpAgent);
 	CommunicateSystem::instance().Initial(mpObserver , mpAgent); //init communicate system
 	VisualSystem::instance().Initial(mpAgent);
-	mpAgent->SetBeliefState(mpBeliefState);
 }
 
 void Client::MainLoop()

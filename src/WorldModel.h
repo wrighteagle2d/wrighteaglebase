@@ -4,7 +4,6 @@
 class Observer;
 class WorldState;
 class HistoryState;
-class BeliefState;
 
 /**
  * WorldModel 里面存放两对 WorldState，一对用于队友的决策，另一对用于对手的决策
@@ -15,7 +14,7 @@ public:
 	WorldModel();
 	virtual ~WorldModel();
 
-	void Update(Observer *observer, BeliefState *belief_state);
+	void Update(Observer *observer);
 
 	const WorldState & GetWorldState(bool reverse) const;
 	WorldState       & World(bool reverse);

@@ -36,7 +36,7 @@ public:
      * 从Observer更新WorldState
     * @param observer
      */
-    void UpdateFromObserver(Observer *observer, BeliefState *belief_state);
+    void UpdateFromObserver(Observer *observer);
 
      /**
      * 从world_state更新，得到一个供反算对手时用的世界状态
@@ -117,10 +117,9 @@ class WorldStateUpdater {
     WorldStateUpdater(const WorldStateUpdater &);
 
 public:
-    WorldStateUpdater(Observer *observer, WorldState *world_state, BeliefState *belief_state):
+    WorldStateUpdater(Observer *observer, WorldState *world_state):
     	mpObserver( observer ),
     	mpWorldState( world_state ),
-    	mpBeliefState(belief_state),
     	mSelfSide( mpObserver? mpObserver->OurSide(): '?' ),
     	mSelfUnum( mpObserver? mpObserver->MyUnum(): 0 )
     {
@@ -310,7 +309,6 @@ private:
 private:
     Observer * const mpObserver;
     WorldState * const mpWorldState;
-    BeliefState * const mpBeliefState;
 
     char mSelfSide;
     Unum mSelfUnum;
@@ -420,7 +418,7 @@ public:
 		Opponent(num).UpdateBodyDir(body_dir);
 		Opponent(num).UpdateVel(vel);
 	}
-	void IncStopTime() { WorldStateUpdater(0, & mWorldState, 0).UpdateActionInfo(); mWorldState.SetCurrentTime(Time(mWorldState.CurrentTime().T(), mWorldState.CurrentTime().S() + 1)); }
+	void IncStopTime() { WorldStateUpdater(0, & mWorldState).UpdateActionInfo(); mWorldState.SetCurrentTime(Time(mWorldState.CurrentTime().T(), mWorldState.CurrentTime().S() + 1)); }
 
 private:
 	BallState   *& pBall() { return mpBackupBallState; }

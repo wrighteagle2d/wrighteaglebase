@@ -57,12 +57,12 @@ void BehaviorPassPlanner::Plan(std::list<ActiveBehavior> & behavior_list)
 {
 	if (!mSelfState.IsKickable()) return;
 
-	for (Unum i = 1; i <= TEAMSIZE; ++i) {
-		if (i == mSelfState.GetUnum()) continue;
+	const std::vector<Unum> & tm2ball = mPositionInfo.GetCloseTeammateToTeammate(mSelfState.GetUnum());
 
+	for (int i = 0; i <= Min(int(tm2ball.size()), 3); ++i) {
 		ActiveBehavior pass(mAgent, BT_Pass, BDT_Pass_Direct);
 
-		pass.mTarget = mWorldState.GetTeammate(i).GetPredictedPos();
+		pass.mTarget = mWorldState.GetTeammate(tm2ball[i]).GetPredictedPos();
 		pass.mEvaluation = Evaluation::instance().EvaluatePosition(pass.mTarget, true);
 
 		pass.mKickSpeed = ServerParam::instance().GetBallSpeed(5 + random() % 6, pass.mTarget.Dist(mBallState.GetPos()));
