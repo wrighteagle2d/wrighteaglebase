@@ -554,5 +554,30 @@ void CommunicateSystem::ParseReceivedTeammateMsg(unsigned char *msg)
 
 void CommunicateSystem::DoCommunication()
 {
+	if (!mpAgent) return;
 
+	PositionInfo & position_info = mpAgent->GetInfoState().GetPositionInfo();
+	const Unum closest_tm = position_info.GetClosestTeammateToBall();
+
+	if (closest_tm == mpAgent->GetSelfUnum()) {
+		mpAgent->AttentiontoOff();
+
+		SendBallStatus(mpAgent->GetWorldState().GetBall());
+		SendTeammateStatus(& mpAgent->GetWorldState(), mpAgent->GetSelfUnum());
+	}
+	else if (closest_tm) {
+		if (closest_tm != mpAgent->GetSelf().GetFocusOnUnum()) {
+			mpAgent->Attentionto(closest_tm);
+		}
+
+		SendTeammateStatus(& mpAgent->GetWorldState(), mpAgent->GetSelfUnum());
+	}
+
+	const vector<Unum> & o2b = mpAgent->GetInfoState().GetPositionInfo().GetCloseOpponentToBall();
+	const vector<Unum> & t2b = mpAgent->GetInfoState().GetPositionInfo().GetCloseTeammateToBall();
+
+	for (uint i = 0; i < o2b.size(); ++i) {
+		SendOpponentStatus(& mpAgent->GetWorldState(), o2b[i]);
+		SendTeammateStatus(& mpAgent->GetWorldState(), t2b[i]);
+	}
 }

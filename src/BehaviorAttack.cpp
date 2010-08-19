@@ -40,6 +40,8 @@ BehaviorAttackPlanner::~BehaviorAttackPlanner()
 
 void BehaviorAttackPlanner::Plan(std::list<ActiveBehavior> & behavior_list)
 {
+	if (mSelfState.IsBallCatchable()) return;
+
 	BehaviorInterceptPlanner(mAgent).Plan(mActiveBehaviorList);
 	BehaviorShootPlanner(mAgent).Plan(mActiveBehaviorList);
 	BehaviorPassPlanner(mAgent).Plan(mActiveBehaviorList);

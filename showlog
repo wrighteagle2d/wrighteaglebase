@@ -29,7 +29,7 @@ if [ ! -z $1 ]; then
 	PLAYER="-$1-"
 fi
 
-SIGHT_LOG="./Logfiles/$BINARY"$PLAYER"sight.log"
+SIGHT_LOG="./Logfiles/$TEAMNAME"$PLAYER"sight.log"
 
 echo $SIGHT_LOG
 

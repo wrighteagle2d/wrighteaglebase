@@ -36,7 +36,15 @@ bool ret = BehaviorExecutable::AutoRegister<BehaviorGoalieExecuter>();
 
 bool BehaviorGoalieExecuter::Execute(const ActiveBehavior & act_bhv)
 {
-	return Dasher::instance().GoToPoint(mAgent, act_bhv.mTarget);
+	if (act_bhv.mDetailType == BDT_Goalie_Position) {
+		return Dasher::instance().GoToPoint(mAgent, act_bhv.mTarget);
+	}
+	else if (act_bhv.mDetailType == BDT_Goalie_Catch) {
+		return mAgent.Catch(GetNormalizeAngleDeg((mBallState.GetPos() - mSelfState.GetPos()).Dir() - mSelfState.GetBodyDir()));
+	}
+	else {
+		return false;
+	}
 }
 
 BehaviorGoaliePlanner::BehaviorGoaliePlanner(Agent& agent): BehaviorPlannerBase<BehaviorDefenseData>(agent)
@@ -59,14 +67,23 @@ BehaviorGoalieExecuter::~BehaviorGoalieExecuter(void)
 
 void BehaviorGoaliePlanner::Plan(std::list<ActiveBehavior>& behavior_list)
 {
-	Vector target;
-	Ray ball_ray(ServerParam::instance().ourGoal(), (mAnalyser.mLightHouse - ServerParam::instance().ourGoal()).Dir());
-	ServerParam::instance().ourGoalArea().Intersection(ball_ray, target);
+	if (mSelfState.IsBallCatchable()) {
+		ActiveBehavior catchball(mAgent, BT_Goalie, BDT_Goalie_Catch);
 
-	ActiveBehavior position(mAgent, BT_Goalie);
+		catchball.mEvaluation = 1.0 + FLOAT_EPS;
 
-	position.mTarget = target;
-	position.mEvaluation = Evaluation::instance().EvaluatePosition(position.mTarget, false);
+		behavior_list.push_back(catchball);
+	}
+	else {
+		Vector target;
+		Ray ball_ray(ServerParam::instance().ourGoal(), (mAnalyser.mLightHouse - ServerParam::instance().ourGoal()).Dir());
+		ServerParam::instance().ourGoalArea().Intersection(ball_ray, target);
 
-	behavior_list.push_back(position);
+		ActiveBehavior position(mAgent, BT_Goalie, BDT_Goalie_Position);
+
+		position.mTarget = target;
+		position.mEvaluation = Evaluation::instance().EvaluatePosition(position.mTarget, false);
+
+		behavior_list.push_back(position);
+	}
 }

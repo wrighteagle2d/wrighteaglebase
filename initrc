@@ -25,6 +25,7 @@
 
 DYNAMICDEBUG_TXT="dynamicdebug.txt"
 BINARY="WE2010"
+TEAMNAME="WrightEagleBASE"
 COACH_UNUM="0"
 GOALIE_UNUM="1"
 
@@ -42,7 +43,7 @@ run_one() {
 	fi
 
 	if [ $1 -ge 0 ]; then
-		echo "load Logfiles/$BINARY-$1-msg.log" > ${DYNAMICDEBUG_TXT}
+		echo "load Logfiles/$TEAMNAME-$1-msg.log" > ${DYNAMICDEBUG_TXT}
 		if [ $2 = "true" ]; then
 			echo "r" >> ${DYNAMICDEBUG_TXT}
 		fi
@@ -65,7 +66,7 @@ run_one() {
     echo -e "\033[0m"
 
     if [ $VALGRIND = "true" ]; then
-        valgrind --leak-check=full ./$VERSION/$BINARY $OPTS 2>&1 | tee Logfiles/$BINARY-$PLAYER-valgrind.log
+        valgrind --leak-check=full ./$VERSION/$BINARY $OPTS 2>&1 | tee Logfiles/$TEAMNAME-$PLAYER-valgrind.log
     else
         ./$VERSION/$BINARY $OPTS
     fi
