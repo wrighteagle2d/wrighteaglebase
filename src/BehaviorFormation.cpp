@@ -81,7 +81,7 @@ void BehaviorFormationPlanner::Plan(std::list<ActiveBehavior> & behavior_list)
 		if (mWorldState.GetPlayMode() == PM_Opp_Offside_Kick) {
 			formation.mTarget.SetX(Min(formation.mTarget.X(), mBallState.GetPos().X()));
 		}
-		else if (mWorldState.GetPlayMode() == PM_Opp_Goal_Kick || mWorldState.GetPlayMode() == PM_Opp_Goalie_Free_Kick) {
+		else if (mWorldState.GetPlayMode() == PM_Opp_Goal_Kick) {
 			if (ServerParam::instance().oppPenaltyArea().IsWithin(formation.mTarget)) {
 				if (mSelfState.GetPos().X() < ServerParam::instance().oppPenaltyArea().Left()) {
 					if (mSelfState.GetPos().Y() < ServerParam::instance().oppPenaltyArea().Top()) {
