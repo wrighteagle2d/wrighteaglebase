@@ -1,1 +1,2 @@
-load Logfiles/WE2010-4-msg.log
+load Logfiles/WE2010-11-msg.log
+r
