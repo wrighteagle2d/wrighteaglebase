@@ -45,11 +45,12 @@ BehaviorMarkPlanner::~BehaviorMarkPlanner()
 void BehaviorMarkPlanner::Plan(std::list<ActiveBehavior> & behavior_list)
 {
 	Unum closest_opp = mPositionInfo.GetClosestOpponentToTeammate(mSelfState.GetUnum());
+	Unum closest_tm = mPositionInfo.GetClosestTeammateToOpponent(closest_opp);
 
-	if (closest_opp) {
+	if (closest_opp && closest_tm && closest_tm == mSelfState.GetUnum()) {
 		ActiveBehavior mark(mAgent, BT_Mark);
 
-		mark.mBuffer = 0.5;
+		mark.mBuffer = mSelfState.GetKickableArea();
 		mark.mPower = mSelfState.CorrectDashPowerForStamina(ServerParam::instance().maxDashPower());
 		mark.mTarget = mWorldState.GetOpponent(closest_opp).GetPos();
 		mark.mEvaluation = Evaluation::instance().EvaluatePosition(mark.mTarget, false);

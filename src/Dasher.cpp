@@ -693,16 +693,21 @@ double Dasher::GetBall(Agent & agent, AtomicAction & act, int int_cycle , bool c
 	if (int_cycle == -1) {
 		double min_diff = HUGE_VALUE;
 
-		for (int i = 0; i <= MobileState::Predictor::MAX_STEP; ++i) {
+		const int max_consider_cycle = Min(int(MobileState::Predictor::MAX_STEP), agent.GetStrategy().GetSureOppInterCycle() - 1);
+		for (int i = 0; i <= max_consider_cycle; ++i) {
 			Vector target = agent.GetWorldState().GetBall().GetPredictedPos(i);
 			double my_cycle = RealCycleNeedToPoint(agent.GetSelf(), target, can_inverse);
-			double diff = fabs(my_cycle - i);
+			double diff = fabs(my_cycle - i + 1.0);
 
 			if (diff < min_diff) {
 				min_diff = diff;
 				int_cycle = i;
 			}
 		}
+	}
+
+	if (int_cycle == -1) {
+		int_cycle = Max(0, agent.GetStrategy().GetMyInterCycle());
 	}
 
 	GoToPoint(

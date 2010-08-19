@@ -44,7 +44,7 @@ void BehaviorInterceptPlanner::Plan(std::list<ActiveBehavior> & behavior_list)
 {
 	if (mSelfState.IsKickable()) return;
 
-	if (mStrategy.GetMyInterCycle() <= mStrategy.GetMinTmInterCycle()) {
+	if (mStrategy.GetMyInterCycle() <= mStrategy.GetMinTmInterCycle() && mStrategy.GetMyInterCycle() <= mStrategy.GetSureOppInterCycle() + 1) {
 		ActiveBehavior intercept(mAgent, BT_Intercept, BDT_Intercept_Normal);
 
 		intercept.mTarget = mStrategy.GetMyInterPos();

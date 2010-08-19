@@ -66,7 +66,7 @@ void BehaviorPassPlanner::Plan(std::list<ActiveBehavior> & behavior_list)
 		pass.mEvaluation = Evaluation::instance().EvaluatePosition(pass.mTarget, true);
 
 		pass.mKickSpeed = ServerParam::instance().GetBallSpeed(5 + random() % 6, pass.mTarget.Dist(mBallState.GetPos()));
-		pass.mKickSpeed = MinMax(1.5, pass.mKickSpeed, ServerParam::instance().ballSpeedMax());
+		pass.mKickSpeed = MinMax(1.0, pass.mKickSpeed, ServerParam::instance().ballSpeedMax());
 
 		mActiveBehaviorList.push_back(pass);
 	}

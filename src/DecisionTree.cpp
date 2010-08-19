@@ -24,7 +24,7 @@ bool DecisionTree::Decision(Agent & agent)
 
 ActiveBehavior DecisionTree::Search(Agent & agent, int step)
 {
-	if (step == 1){
+	if (step == 1) {
 		if (agent.GetSelf().IsIdling()) {
 			return ActiveBehavior(agent, BT_None);
 		}

@@ -28,7 +28,7 @@ BehaviorBlockExecuter::~BehaviorBlockExecuter(void)
 
 bool BehaviorBlockExecuter::Execute(const ActiveBehavior & beh)
 {
-	Logger::instance().LogGoToPoint(mSelfState.GetPos(), beh.mTarget, "@Mark");
+	Logger::instance().LogGoToPoint(mSelfState.GetPos(), beh.mTarget, "@Block");
 
 	return Dasher::instance().GoToPoint(mAgent, beh.mTarget, beh.mBuffer, beh.mPower, true, false);
 }
@@ -44,13 +44,17 @@ BehaviorBlockPlanner::~BehaviorBlockPlanner()
 
 void BehaviorBlockPlanner::Plan(std::list<ActiveBehavior> & behavior_list)
 {
-	ActiveBehavior block(mAgent, BT_Block);
+	Unum fastest_tm = mStrategy.GetFastestTm();
 
-	block.mBuffer = 0.5;
-	block.mPower = mSelfState.CorrectDashPowerForStamina(ServerParam::instance().maxDashPower());
-	block.mTarget = mAnalyser.mLightHouse;
-	block.mEvaluation = Evaluation::instance().EvaluatePosition(block.mTarget, false);
+	if (fastest_tm == mSelfState.GetUnum()) {
+		ActiveBehavior block(mAgent, BT_Block);
 
-	behavior_list.push_back(block);
+		block.mBuffer = 0.5;
+		block.mPower = mSelfState.CorrectDashPowerForStamina(ServerParam::instance().maxDashPower());
+		block.mTarget = mAnalyser.mLightHouse;
+		block.mEvaluation = 1.0 + FLOAT_EPS;
+
+		behavior_list.push_back(block);
+	}
 }
 

@@ -52,7 +52,7 @@ void BehaviorPositionPlanner::Plan(ActiveBehaviorList &behavior_list)
 {
 	if (!behavior_list.empty()) return;
 	if (mSelfState.IsGoalie()) return;
-	if (!mStrategy.IsTmControl()) return;
+	if (mStrategy.IsOppControl()) return;
 
 	ActiveBehavior position(mAgent, BT_Formation);
 

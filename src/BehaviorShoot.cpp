@@ -71,13 +71,15 @@ void BehaviorShootPlanner::Plan(list<ActiveBehavior> & behavior_list)
 {
 	if (mSelfState.IsKickable()) {
 		if (mSelfState.GetPos().X() > ServerParam::instance().pitchRectanglar().Right() - PlayerParam::instance().shootMaxDistance()) {
-			Vector target = random() % 2? ServerParam::instance().oppLeftGoalPost() + Vector(0.0, 1.0): ServerParam::instance().oppRightGoalPost() + Vector(0.0, -1.0);
+			if (ServerParam::instance().oppPenaltyArea().IsWithin(mBallState.GetPos())) {
+				Vector target = random() % 2? ServerParam::instance().oppLeftGoalPost() + Vector(0.0, 1.0): ServerParam::instance().oppRightGoalPost() + Vector(0.0, -1.0);
 
-			ActiveBehavior shoot(mAgent, BT_Shoot);
-			shoot.mTarget = target;
-			shoot.mEvaluation = 1.0 + FLOAT_EPS;
+				ActiveBehavior shoot(mAgent, BT_Shoot);
+				shoot.mTarget = target;
+				shoot.mEvaluation = 1.0 + FLOAT_EPS;
 
-			behavior_list.push_back(shoot);
+				behavior_list.push_back(shoot);
+			}
 		}
 	}
 }
