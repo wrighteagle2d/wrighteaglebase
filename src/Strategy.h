@@ -196,6 +196,8 @@ private:
 public:
     PlayerInterceptInfo mMyTackleInfo; //假设自己的可踢范围扩大到铲球距离的截球信息
 
+    Vector AdjustTargetForSetplay(Vector target);
+
 private:
 	class VirtualSelf: public PlayerState {
 	public:

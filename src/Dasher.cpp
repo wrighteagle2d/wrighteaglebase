@@ -300,7 +300,7 @@ bool Dasher::GoToPoint(Agent & agent, Vector pos, double buffer, double power, b
 {
 	AtomicAction act;
 
-	GoToPoint(agent, act, pos, buffer, power, can_inverse, turn_first);
+	GoToPoint(agent, act, agent.GetStrategy().AdjustTargetForSetplay(pos), buffer, power, can_inverse, turn_first);
 	return act.Execute(agent);
 }
 

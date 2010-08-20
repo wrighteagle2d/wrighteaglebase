@@ -561,20 +561,18 @@ void CommunicateSystem::DoCommunication()
 
 	if (closest_tm == mpAgent->GetSelfUnum()) {
 		mpAgent->AttentiontoOff();
-
-		SendBallStatus(mpAgent->GetWorldState().GetBall());
-		SendTeammateStatus(& mpAgent->GetWorldState(), mpAgent->GetSelfUnum());
 	}
 	else if (closest_tm) {
 		if (closest_tm != mpAgent->GetSelf().GetFocusOnUnum()) {
 			mpAgent->Attentionto(closest_tm);
 		}
-
-		SendTeammateStatus(& mpAgent->GetWorldState(), mpAgent->GetSelfUnum());
 	}
 
-	const vector<Unum> & o2b = mpAgent->GetInfoState().GetPositionInfo().GetCloseOpponentToBall();
-	const vector<Unum> & t2b = mpAgent->GetInfoState().GetPositionInfo().GetCloseTeammateToBall();
+	SendBallStatus(mpAgent->GetWorldState().GetBall());
+	SendTeammateStatus(& mpAgent->GetWorldState(), mpAgent->GetSelfUnum());
+
+	const vector<Unum> & o2b = mpAgent->GetInfoState().GetPositionInfo().GetCloseOpponentToTeammate(mpAgent->GetSelfUnum());
+	const vector<Unum> & t2b = mpAgent->GetInfoState().GetPositionInfo().GetCloseTeammateToTeammate(mpAgent->GetSelfUnum());
 
 	for (uint i = 0; i < TEAMSIZE; ++i) {
 		if (i < o2b.size()) {

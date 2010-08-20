@@ -516,5 +516,46 @@ void Strategy::SaveActiveBehaviorList(const std::list<ActiveBehavior> & behavior
 	}
 }
 
+Vector Strategy::AdjustTargetForSetplay(Vector target)
+{
+	if (mWorldState.GetPlayMode() > PM_Opp_Mode) {
+		while (target.Dist(mBallState.GetPos()) < ServerParam::instance().offsideKickMargin() + 0.5) {
+			target.SetX(target.X() - 0.5);
+		}
+
+		if (mWorldState.GetPlayMode() == PM_Opp_Offside_Kick) {
+			target.SetX(Min(target.X(), mBallState.GetPos().X() - 0.5));
+		}
+		else if (mWorldState.GetPlayMode() == PM_Opp_Goal_Kick) {
+			if (ServerParam::instance().oppPenaltyArea().IsWithin(target)) {
+				if (mSelfState.GetPos().X() < ServerParam::instance().oppPenaltyArea().Left()) {
+					if (mSelfState.GetPos().Y() < ServerParam::instance().oppPenaltyArea().Top()) {
+						target = ServerParam::instance().oppPenaltyArea().TopLeftCorner();
+					}
+					else if (mSelfState.GetPos().Y() > ServerParam::instance().oppPenaltyArea().Bottom()) {
+						target = ServerParam::instance().oppPenaltyArea().BottomLeftCorner();
+					}
+					else {
+						target.SetX(Min(target.X(), ServerParam::instance().oppPenaltyArea().Left() - 0.5));
+					}
+				}
+				else {
+					if (mSelfState.GetPos().Y() < ServerParam::instance().oppPenaltyArea().Top()) {
+						target.SetY(Min(target.Y(), ServerParam::instance().oppPenaltyArea().Top() - 0.5));
+					}
+					else if (mSelfState.GetPos().Y() > ServerParam::instance().oppPenaltyArea().Bottom()) {
+						target.SetY(Max(target.Y(), ServerParam::instance().oppPenaltyArea().Bottom() + 0.5));
+					}
+					else {
+						target = mSelfState.GetPos(); //do nothing
+					}
+				}
+			}
+		}
+	}
+
+	return target;
+}
+
 // end of file Strategyinfo.cpp
 

@@ -66,6 +66,13 @@ public:
 	int CalcTangPoint(double x0, double y0, double vp, double ka, double cd, InterceptSolution * sol);
 	double CalcInterPoint(double x_init, double x0, double y0, double vb, double vp, double ka, double cd);
 
+	/**
+	 * 下面的函数跟peakpt和穿越速度相关
+	 */
+	///下面的 fix 是球员的跑动延迟，包括加速延迟和反应延迟，这里默认去1.5个周期
+	double CalcPeakPoint(const Vector & relpos, const double & vp, const double & ka, const double fix = 1.5);
+    double CalcGoingThroughSpeed(const PlayerState & player, const Ray & ballcourse, const double & distance, const double fix = 1.5);
+
 private:
 	/**
 	 * 画出理想截球曲线

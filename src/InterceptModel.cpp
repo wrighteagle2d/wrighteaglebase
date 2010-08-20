@@ -326,6 +326,110 @@ double InterceptModel::CalcInterPoint(double x_init, double x0, double y0, doubl
 	return MinMax(0.0, x, max_x);
 }
 
+/**
+ * 最佳截球点（与当前球速无关，是截球窗口变化时收缩成的那个点，也就是外切点） -- 这里不考虑cd
+ * @param relpos
+ * @param vp 球员最大速度
+ * @param ka 球员可踢范围半径
+ * @param fix 是跑动延迟的修正（即player不能全速跑，用全速跑计算，要加个修正）
+ * @return
+ */
+double InterceptModel::CalcPeakPoint(const Vector & relpos, const double & vp, const double & ka, const double fix)
+{
+	static const double MINERROR = 0.01;
+
+	const double alpha = ServerParam::instance().ballDecay();
+	const double ln_alpha = ServerParam::instance().logBallDecay();
+	const double x0 = relpos.X();
+	const double y0 = relpos.Y();
+
+	if (x0 < 0.0){
+		return 150.0;
+	}
+
+	if (fabs(y0) < ka){
+		return -1.0; //不可能穿越
+	}
+
+	double s, p, alpha_p, f, dfdx, last_f = 1000.0, x, last_x = x0;
+	int iteration_cycle = 0;
+
+	x = x0;
+	do {
+		iteration_cycle += 1;
+		if (iteration_cycle > 10){
+			break;
+		}
+		s = Sqrt((x - x0) * (x - x0) + y0 * y0);
+		p = (s - ka)/vp + fix;
+		if (p < 0.0) p = 0.0;
+		alpha_p = pow(alpha, (p));
+		f = 1.0 - alpha_p * (1 - x * (x - x0) * ln_alpha / (s * vp));
+
+		if(fabs(f) > fabs(last_f)){
+			return last_x; //没有切点
+		}
+		else{
+			last_f = f;
+		}
+		last_x = x;
+		dfdx = ln_alpha / vp * ((x - x0) * (f - 1.0) / s + alpha_p * ((x + x - x0) / s - x * (x - x0) * (x - x0) / (s * s * s)));
+        dfdx = fabs(dfdx) < FLOAT_EPS? (Sign(dfdx) * FLOAT_EPS): dfdx;
+		x = x - f/dfdx;
+	} while (fabs(f) > MINERROR);
+
+	return x;
+}
+
+
+double InterceptModel::CalcGoingThroughSpeed(const PlayerState & player, const Ray & ballcourse, const double & distance, const double fix)
+{
+    Vector rel_pos = (player.GetPredictedPos() - ballcourse.Origin()).Rotate(-ballcourse.Dir());
+    double kick_area = (player.IsGoalie())? ServerParam::instance().maxCatchableArea(): player.GetKickableArea();
+    double peak = CalcPeakPoint(rel_pos, player.GetEffectiveSpeedMax(), kick_area, fix);
+	double gtspeed = 0.0;
+
+	if (peak < 0)
+    {
+        double d = Max(0.0, kick_area * kick_area - rel_pos.Y() * rel_pos.Y());
+		gtspeed = rel_pos.X() + Sqrt(d) + 0.06;
+		gtspeed = Max(gtspeed , 1.2);
+		return gtspeed;
+	}
+    else if (peak < distance)
+    {
+        double cycletopoint = Dasher::instance().RealCycleNeedToPoint(player, ballcourse.GetPoint(peak));
+        gtspeed = ServerParam::instance().GetBallSpeed((int)(cycletopoint), peak);
+
+        if (player.IsGoalie() && player.GetUnum() > 0 && player.GetBodyDirConf() > PlayerParam::instance().minValidConf())
+        {
+            Ray ray(player.GetPredictedPos(), player.GetBodyDir());
+			Vector pt;
+			if (ballcourse.Intersection(Line(ray), pt))
+            {
+				double c2p = Dasher::instance().RealCycleNeedToPoint(player, pt);
+				double pk = pt.Dist(ballcourse.Origin());
+                double gtspd =  ServerParam::instance().GetBallSpeed((int)ceil(c2p), pk);
+                gtspeed = Max(gtspeed, gtspd);
+			}
+		}
+
+        if (gtspeed < ServerParam::instance().ballSpeedMax())
+        {
+    		double cycletopoint = Dasher::instance().RealCycleNeedToPoint(player, ballcourse.GetPoint(distance));
+            double speed = ServerParam::instance().GetBallSpeed((int)ceil(cycletopoint), distance);
+    		gtspeed = Max(gtspeed, speed);
+    	}
+	}
+    else
+    {
+		double cycletopoint = Dasher::instance().RealCycleNeedToPoint(player, ballcourse.GetPoint(distance));
+        gtspeed = ServerParam::instance().GetBallSpeed((int)ceil(cycletopoint), distance);
+	}
+
+	return gtspeed;
+}
+
 void InterceptModel::PlotInterceptCurve(double x0, double y0, double v0, double vp, double ka, double cd, double max_x)
 {
 	Plotter::instance().GnuplotExecute("alpha = 0.94");
