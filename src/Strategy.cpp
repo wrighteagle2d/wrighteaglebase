@@ -531,7 +531,10 @@ Vector Strategy::AdjustTargetForSetplay(Vector target)
 			target.SetX(target.X() - 0.5);
 		}
 
-		if (mWorldState.GetPlayMode() == PM_Opp_Offside_Kick) {
+		if (mWorldState.GetPlayMode() == PM_Opp_Kick_Off) {
+			target.SetX(Min(target.X(), -0.1));
+		}
+		else if (mWorldState.GetPlayMode() == PM_Opp_Offside_Kick) {
 			target.SetX(Min(target.X(), mBallState.GetPos().X() - 0.5));
 		}
 		else if (mWorldState.GetPlayMode() == PM_Opp_Goal_Kick) {
