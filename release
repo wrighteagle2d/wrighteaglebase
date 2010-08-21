@@ -3,12 +3,10 @@
 VERSION=2.0
 PACKAGENAME="WrightEagleBASE-"$VERSION
 
-set -e
-
 cvs co $PACKAGENAME
 cd $PACKAGENAME/
 cvs2cl
-find -d -name 'CVS' -exec rm -fr '{}' \;
+find -name 'CVS' -exec rm -fr '{}' \;
 rm -f release
 cd ..
 
