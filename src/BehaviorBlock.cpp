@@ -67,9 +67,9 @@ BehaviorBlockPlanner::~BehaviorBlockPlanner()
 
 void BehaviorBlockPlanner::Plan(std::list<ActiveBehavior> & behavior_list)
 {
-	Unum fastest_tm = mStrategy.GetFastestTm();
+	Unum closest_tm = mPositionInfo.GetClosestTeammateToBall();
 
-	if (fastest_tm == mSelfState.GetUnum()) {
+	if (closest_tm == mSelfState.GetUnum() || mStrategy.GetMyInterCycle() <= mStrategy.GetSureTmInterCycle()) {
 		ActiveBehavior block(mAgent, BT_Block);
 
 		block.mBuffer = 0.5;

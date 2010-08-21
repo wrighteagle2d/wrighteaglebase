@@ -44,6 +44,8 @@ Strategy::Strategy(Agent & agent):
     mIsBallFree = false;
     mController = 0;
     mChallenger = 0;
+
+    mForbiddenDribble = false;
 }
 
 
@@ -112,6 +114,12 @@ void Strategy::StrategyAnalyze()
 
 	mController = 0;
 	mChallenger = 0;
+
+	if (mForbiddenDribble) {
+		if (!mSelfState.IsKickable()) {
+			mForbiddenDribble = false;
+		}
+	}
 
 	BallPossessionAnalyse();
 

@@ -92,17 +92,28 @@ BehaviorShootPlanner::~BehaviorShootPlanner()
 */
 void BehaviorShootPlanner::Plan(list<ActiveBehavior> & behavior_list)
 {
-	if (mSelfState.IsKickable()) {
-		if (mSelfState.GetPos().X() > ServerParam::instance().pitchRectanglar().Right() - PlayerParam::instance().shootMaxDistance()) {
-			if (ServerParam::instance().oppPenaltyArea().IsWithin(mBallState.GetPos())) {
-				Vector target = random() % 2? ServerParam::instance().oppLeftGoalPost() + Vector(0.0, 1.0): ServerParam::instance().oppRightGoalPost() + Vector(0.0, -1.0);
+	if (!mSelfState.IsKickable()) return;
 
-				ActiveBehavior shoot(mAgent, BT_Shoot);
-				shoot.mTarget = target;
-				shoot.mEvaluation = 1.0 + FLOAT_EPS;
+    if (mWorldState.GetPlayMode() == PM_Our_Foul_Charge_Kick ||
+            mWorldState.GetPlayMode() == PM_Our_Back_Pass_Kick ||
+            mWorldState.GetPlayMode() == PM_Our_Indirect_Free_Kick)
+    {
+        return;
+    }
 
-				behavior_list.push_back(shoot);
+	if (mSelfState.GetPos().X() > ServerParam::instance().pitchRectanglar().Right() - PlayerParam::instance().shootMaxDistance()) {
+		if (ServerParam::instance().oppPenaltyArea().IsWithin(mBallState.GetPos())) {
+			Vector target = random() % 2? ServerParam::instance().oppLeftGoalPost() + Vector(0.0, 1.0): ServerParam::instance().oppRightGoalPost() + Vector(0.0, -1.0);
+
+			if (mStrategy.IsLastActiveBehaviorInActOf(BT_Shoot)) {
+				target = mStrategy.GetLastActiveBehaviorInAct()->mTarget; //行为保持
 			}
+
+			ActiveBehavior shoot(mAgent, BT_Shoot);
+			shoot.mTarget = target;
+			shoot.mEvaluation = 1.0 + FLOAT_EPS;
+
+			behavior_list.push_back(shoot);
 		}
 	}
 }

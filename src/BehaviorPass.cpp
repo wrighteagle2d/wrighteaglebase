@@ -82,14 +82,31 @@ void BehaviorPassPlanner::Plan(std::list<ActiveBehavior> & behavior_list)
 
 	const std::vector<Unum> & tm2ball = mPositionInfo.GetCloseTeammateToTeammate(mSelfState.GetUnum());
 
-	for (int i = 0; i <= Min(int(tm2ball.size()), 3); ++i) {
+	for (uint i = 0; i < tm2ball.size(); ++i) {
 		ActiveBehavior pass(mAgent, BT_Pass, BDT_Pass_Direct);
 
 		pass.mTarget = mWorldState.GetTeammate(tm2ball[i]).GetPredictedPos();
+
+		Vector rel_target = pass.mTarget - mBallState.GetPos();
+		const std::vector<Unum> & opp2tm = mPositionInfo.GetCloseOpponentToTeammate(tm2ball[i]);
+		AngleDeg min_differ = HUGE_VALUE;
+
+		for (uint j = 0; j < opp2tm.size(); ++j) {
+			Vector rel_pos = mWorldState.GetOpponent(opp2tm[j]).GetPos() - mBallState.GetPos();
+			if (rel_pos.Mod() > rel_target.Mod() + 3.0) continue;
+
+			AngleDeg differ = GetAngleDegDiffer(rel_target.Dir(), rel_pos.Dir());
+			if (differ < min_differ) {
+				min_differ = differ;
+			}
+		}
+
+		if (min_differ < 10.0) continue;
+
 		pass.mEvaluation = Evaluation::instance().EvaluatePosition(pass.mTarget, true);
 
 		pass.mKickSpeed = ServerParam::instance().GetBallSpeed(5 + random() % 6, pass.mTarget.Dist(mBallState.GetPos()));
-		pass.mKickSpeed = MinMax(1.0, pass.mKickSpeed, ServerParam::instance().ballSpeedMax());
+		pass.mKickSpeed = MinMax(2.0, pass.mKickSpeed, ServerParam::instance().ballSpeedMax());
 
 		mActiveBehaviorList.push_back(pass);
 	}

@@ -118,12 +118,16 @@ void BehaviorSetplayPlanner::Plan(std::list<ActiveBehavior> & behavior_list)
 
 					behavior_list.push_back(setplay);
 				}
-				else if (mWorldState.GetLastPlayMode() != PM_Before_Kick_Off) {
-					if (mWorldState.CurrentTime().T() - mWorldState.GetPlayModeTime().T() < 20) {
-						setplay.mDetailType = BDT_Setplay_Scan;
-						setplay.mEvaluation = Evaluation::instance().EvaluatePosition(setplay.mTarget, true);
+				else {
+					mStrategy.SetForbidenDribble(true); //½ûÖ¹´øÇò
 
-						behavior_list.push_back(setplay);
+					if (mWorldState.GetLastPlayMode() != PM_Before_Kick_Off) {
+						if (mWorldState.CurrentTime().T() - mWorldState.GetPlayModeTime().T() < 20) {
+							setplay.mDetailType = BDT_Setplay_Scan;
+							setplay.mEvaluation = Evaluation::instance().EvaluatePosition(setplay.mTarget, true);
+
+							behavior_list.push_back(setplay);
+						}
 					}
 				}
 			}

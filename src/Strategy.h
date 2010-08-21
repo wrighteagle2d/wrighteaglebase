@@ -136,6 +136,13 @@ private:
 
 	Situation mSituation;	//当前的攻防形势
 
+private:
+	bool mForbiddenDribble; //setplay发球时不能带球
+
+public:
+	bool IsForbidenDribble() const { return mForbiddenDribble; }
+	void SetForbidenDribble(const bool & forbiden) { mForbiddenDribble = forbiden; }
+
 public:
 	/** 关于last behavior的接口 */
 	/**
