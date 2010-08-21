@@ -1,0 +1,24 @@
+#!/bin/bash
+
+VERSION=2.0
+PACKAGENAME="WrightEagleBASE-"$VERSION
+
+set -e
+
+cvs co $PACKAGENAME
+cd $PACKAGENAME/
+cvs2cl
+find -d -name 'CVS' -exec rm -fr '{}' \;
+rm -f release
+cd ..
+
+[ ! -z $1 ] && VERSION=$1
+
+if [ ! -z $1 ]; then
+    VERSION=$1
+    mv $PACKAGENAME "WrightEagleBASE-"$VERSION
+    PACKAGENAME="WrightEagleBASE-"$VERSION
+fi
+
+tar czvf $PACKAGENAME.tar.gz $PACKAGENAME/
+rm -fr $PACKAGENAME/
