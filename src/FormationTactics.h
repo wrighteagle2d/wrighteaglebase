@@ -29,8 +29,7 @@
 #include <string>
 #include <map>
 #include <utility>
-#include <boost/tuple/tuple.hpp>
-#include <boost/tuple/tuple_comparison.hpp>
+
 
 enum FormationTacticType
 {

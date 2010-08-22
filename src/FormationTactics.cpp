@@ -28,10 +28,8 @@
 #include <sstream>
 #include <utility>
 #include <functional>
-#include <boost/regex.hpp>
 #include <cstdlib>
 using namespace std;
-using namespace boost;
 
 FormationTacticBase::FormationTacticBase():
 	Index2Unum(IndexIsUnum),
