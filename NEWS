@@ -1,3 +1,5 @@
+[2.0.2]
+    * Add penalty decision framework.
 [2.0.1]
     * Multiple setplay bug fixed.
     * Some behavior code refined.
