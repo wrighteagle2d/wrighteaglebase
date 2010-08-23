@@ -46,6 +46,10 @@ Strategy::Strategy(Agent & agent):
     mChallenger = 0;
 
     mForbiddenDribble = false;
+
+    mIsPenaltyFirstStep = false;
+    mPenaltyTaker = 0;
+    mPenaltySetupTime = 0;
 }
 
 
@@ -81,6 +85,7 @@ void Strategy::UpdateRoutine()
 	ResetSavedActiveBehavior();
 
 	StrategyAnalyze();
+	PenaltyAnalyze();
 }
 
 void Strategy::StrategyAnalyze()
@@ -568,5 +573,41 @@ Vector Strategy::AdjustTargetForSetplay(Vector target)
 	return target;
 }
 
-// end of file Strategyinfo.cpp
+bool Strategy::IsMyPenaltyTaken() const
+{
+	return (mWorldState.GetPlayMode() == PM_Our_Penalty_Taken) &&
+	       (mAgent.GetSelfUnum() == mPenaltyTaker);
+}
 
+bool Strategy::IsPenaltyPlayMode() const
+{
+    const PlayMode &play_mode = mWorldState.GetPlayMode();
+    return (play_mode == PM_Penalty_On_Our_Field) || (play_mode == PM_Penalty_On_Opp_Field) ||
+           (play_mode >= PM_Our_Penalty_Setup && play_mode <= PM_Our_Penalty_Miss) ||
+           (play_mode >= PM_Opp_Penalty_Setup && play_mode <= PM_Opp_Penalty_Miss);
+}
+
+void Strategy::PenaltyAnalyze()
+{
+    if (IsPenaltyPlayMode() == false)
+    {
+        return;
+    }
+
+    if (mWorldState.GetPlayModeTime() == mWorldState.CurrentTime())
+    {
+    	static Unum penalty_taker_seq[] = {1, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2};
+        const PlayMode &play_mode = mWorldState.GetPlayMode();
+        if (play_mode == PM_Our_Penalty_Setup)
+        {
+            while (penalty_taker_seq[++mPenaltySetupTime%TEAMSIZE] == mWorldState.GetTeammateGoalieUnum());
+            mPenaltyTaker = penalty_taker_seq[mPenaltySetupTime%TEAMSIZE];
+        }
+        else if (play_mode == PM_Opp_Penalty_Setup)
+        {
+            mPenaltyTaker = -1;
+        }
+    }
+}
+
+// end of file Strategyinfo.cpp

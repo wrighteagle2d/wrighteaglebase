@@ -59,10 +59,8 @@ public:
 public:
 	bool IsBallActuralKickable() const { return mIsBallActuralKickable;}
 	bool IsBallFree() const { return mIsBallFree; }
-	int  GetBallFreeCycleLeft() const { return mBallFreeCycleLeft; }
+	int GetBallFreeCycleLeft() const { return mBallFreeCycleLeft; }
 	bool IsTmKickable() const;
-
-	bool IsMyPenaltyTaken() const;
 
 	Unum GetController() const { return mController;  }
 	void SetController(Unum controller) { mController = controller; }
@@ -81,7 +79,7 @@ public:
     const Time & GetLastBallFreeTime() const { return mLastBallFreeTime; }
 
 	const Situation & GetSituation() const { return mSituation; }
-	void	SetSituation(Situation S){mSituation = S;}
+	void SetSituation(Situation S){mSituation = S;}
 
 	const Vector & GetBallInterPos() const { return mBallInterPos; }
 
@@ -104,20 +102,21 @@ public:
 	Unum GetSureOpp() const { return mSureOpp; }
 
 private:
-
 	bool mIsBallActuralKickable;//是否实际可踢
 	bool mIsBallFree;
+	int mBallFreeCycleLeft; //ball_free还能持续的周期
+
 	Unum mController; //+表示自己人控球，-表示对方控球，0表示没人控球（有人控球跟球不是free不是一回事，球free是指当前无人可踢球，但控球的人不一定要能踢球，可以是最快截到球的人）
 	Unum mChallenger; //对方可踢的人 +
 
-    bool mIsLastBallFree;
+	bool mIsLastBallFree;
     Time mLastBallFreeTime;
     Unum mLastController; //记录上次控球的人（可以是上个周期（比如在根结点），也可以是上个阶段的（比如在new的infostate里））
     Unum mLastChallenger;
 
-	///下面是考虑cycle_delay的最小截球周期（就是认为cycle_delay时间内已经跑向球）
+	//下面是考虑cycle_delay的最小截球周期（就是认为cycle_delay时间内已经跑向球）
 	int mMyInterCycle;
-	int mMinTmInterCycle; /*这里得队友不包含自己*/
+	int mMinTmInterCycle; /*这里的队友不包含自己*/
 	int mMinOppInterCycle;
 	int mMinIntercCycle;
 	Unum mFastestTm;
@@ -131,7 +130,6 @@ private:
 	Unum mSureOpp;
 
 	Vector mBallInterPos; //球被最先截住的地方，可以是自己人和对方去截到
-	int mBallFreeCycleLeft; //ball_free还能持续的周期
 	int mBallOutCycle; //距离球出界的周期
 
 	Situation mSituation;	//当前的攻防形势
@@ -143,12 +141,11 @@ public:
 	bool IsForbidenDribble() const { return mForbiddenDribble; }
 	void SetForbidenDribble(const bool & forbiden) { mForbiddenDribble = forbiden; }
 
+/**
+ * 关于last behavior的接口
+ * 注意: 设置的接口都是在外面调用的，behavior*里面不用管
+ **/
 public:
-	/** 关于last behavior的接口 */
-	/**
-	 * 注意: 设置的接口都是在外面调用的，behavior*里面不用管
-	 * */
-
 	/**
 	 * 得到上周期保存的activebehavior，没有则为空
 	 * @param type
@@ -189,9 +186,9 @@ private:
 	void SaveActiveBehaviorList(const std::list<ActiveBehavior> & behavior_list);
 
 	/**
-	* 设置本周期实际执行的activebehavior -- excute时设置
-	* @param type
-	*/
+	 * 设置本周期实际执行的activebehavior -- excute时设置
+	 * @param type
+	 */
 	void SetActiveBehaviorInAct(BehaviorType type);
 
 	void ResetSavedActiveBehavior();
@@ -211,6 +208,22 @@ private:
 		VirtualSelf(const PlayerState & player): PlayerState(player) {}
 		const double & GetKickableArea() const { return ServerParam::instance().maxTackleArea(); }
 	};
+
+/** 关于点球的接口和数据 */
+public:
+	void SetPenaltyFirstStep(bool flag)    { mIsPenaltyFirstStep = flag; }
+	bool IsPenaltyFirstStep() const        { return mIsPenaltyFirstStep; }
+	Unum GetPenaltyTaker() const           { return mPenaltyTaker; }
+	bool IsMyPenaltyTaken() const;
+
+private:
+	bool IsPenaltyPlayMode() const;
+	void PenaltyAnalyze();
+
+private:
+	bool mIsPenaltyFirstStep; // 罚球者setup时用到的量
+	int mPenaltySetupTime; // 我方第几次罚点球
+	Unum mPenaltyTaker; // 罚点球的人，对手罚时为-1
 };
 
 #endif

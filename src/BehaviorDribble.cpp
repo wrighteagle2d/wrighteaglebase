@@ -77,7 +77,6 @@ BehaviorDribblePlanner::~BehaviorDribblePlanner(void)
 void BehaviorDribblePlanner::Plan(std::list<ActiveBehavior> & behavior_list)
 {
 	if (!mSelfState.IsKickable()) return;
-	if (mWorldState.GetPlayMode() != PM_Play_On) return;
 	if (mStrategy.IsForbidenDribble()) return;
 	if (mSelfState.IsGoalie()) return;
 

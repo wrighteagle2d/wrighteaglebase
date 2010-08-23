@@ -22,6 +22,7 @@
  ************************************************************************************/
 
 #include "DecisionTree.h"
+#include "BehaviorPenalty.h"
 #include "BehaviorSetplay.h"
 #include "BehaviorAttack.h"
 #include "BehaviorGoalie.h"
@@ -55,11 +56,13 @@ ActiveBehavior DecisionTree::Search(Agent & agent, int step)
 		std::list<ActiveBehavior> active_behavior_list;
 
 		if (agent.GetSelf().IsGoalie()) {
+			MutexPlan<BehaviorPenaltyPlanner>(agent, active_behavior_list) ||
 			MutexPlan<BehaviorSetplayPlanner>(agent, active_behavior_list) ||
 			MutexPlan<BehaviorAttackPlanner>(agent, active_behavior_list) ||
 			MutexPlan<BehaviorGoaliePlanner>(agent, active_behavior_list);
 		}
 		else {
+			MutexPlan<BehaviorPenaltyPlanner>(agent, active_behavior_list) ||
 			MutexPlan<BehaviorSetplayPlanner>(agent, active_behavior_list) ||
 			MutexPlan<BehaviorAttackPlanner>(agent, active_behavior_list) ||
 			MutexPlan<BehaviorDefensePlanner>(agent, active_behavior_list);

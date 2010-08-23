@@ -43,13 +43,14 @@ class Agent;
 enum BehaviorType {
 	BT_None,
 
+	BT_Penalty,
+	BT_Goalie,
+	BT_Setplay,
 	BT_Position,
 	BT_Dribble,
 	BT_Pass,
 	BT_Shoot,
 	BT_Intercept,
-	BT_Goalie,
-	BT_Setplay,
 	BT_Formation,
 	BT_Block,
 	BT_Mark,

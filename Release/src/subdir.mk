@@ -19,6 +19,7 @@ CPP_SRCS += \
 ../src/BehaviorIntercept.cpp \
 ../src/BehaviorMark.cpp \
 ../src/BehaviorPass.cpp \
+../src/BehaviorPenalty.cpp \
 ../src/BehaviorPosition.cpp \
 ../src/BehaviorSetplay.cpp \
 ../src/BehaviorShoot.cpp \
@@ -79,6 +80,7 @@ OBJS += \
 ./src/BehaviorIntercept.o \
 ./src/BehaviorMark.o \
 ./src/BehaviorPass.o \
+./src/BehaviorPenalty.o \
 ./src/BehaviorPosition.o \
 ./src/BehaviorSetplay.o \
 ./src/BehaviorShoot.o \
@@ -139,6 +141,7 @@ CPP_DEPS += \
 ./src/BehaviorIntercept.d \
 ./src/BehaviorMark.d \
 ./src/BehaviorPass.d \
+./src/BehaviorPenalty.d \
 ./src/BehaviorPosition.d \
 ./src/BehaviorSetplay.d \
 ./src/BehaviorShoot.d \
@@ -188,7 +191,7 @@ CPP_DEPS += \
 src/%.o: ../src/%.cpp
 	@echo 'Building file: $<'
 	@echo 'Invoking: GCC C++ Compiler'
-	g++ -O3 -Wall -c -fmessage-length=0 -pipe -W -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
+	g++ -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 

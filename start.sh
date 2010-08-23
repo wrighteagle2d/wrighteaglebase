@@ -31,10 +31,10 @@ echo "#            University of Science and Technology of China            #"
 echo "#                     Hefei, Anhui Province, China                    #"
 echo "#                                                                     #"
 echo "#                   Supervisor: Prof. Xiaoping Chen                   #"
-echo "#       Team members: Aijun Bai, Jing Wang, Guanghui Lu               #"
-echo "#                     Yuanchong Zhu, Haochong Zhang, Yuhang Wang      #"
+echo "#         Team members: Aijun Bai, Guanghui Lu, Yuanchong Zhu         #"
+echo "#                       Haochong Zhang                                #"
 echo "#                                                                     #"
-echo "#                   WWW: http://wrighteagle.org/2D/                   #"
+echo "#                 Homepage: http://wrighteagle.org/2D/                #"
 echo "#######################################################################"
 echo ""
 
@@ -49,14 +49,12 @@ if [ ! -z $1 ]; then
 	fi
 fi
 
-BINARY="WE2010"
+BINARY="WrightEagleBASE-2.0"
 CLIENT="./$VERSION/$BINARY"
 TEAM_NAME="WrightEagleBASE"
 LOG_DIR="Logfiles"
 mkdir $LOG_DIR 2>/dev/null
 SLEEP_TIME=0.1
-
-make all
 
 N_PARAM="-team_name $TEAM_NAME -host $HOST -log_dir $LOG_DIR"
 G_PARAM="$N_PARAM -goalie on"

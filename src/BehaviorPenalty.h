@@ -21,66 +21,32 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.  *
  ************************************************************************************/
 
-#include <sstream>
-#include "BehaviorIntercept.h"
-#include "Agent.h"
-#include "Strategy.h"
-#include "InterceptInfo.h"
-#include "Formation.h"
-#include "Dasher.h"
-#include "Logger.h"
-#include "VisualSystem.h"
-#include "BehaviorDribble.h"
-#include "Evaluation.h"
+#ifndef __BehaviorPenalty_H__
+#define __BehaviorPenalty_H__
 
-using namespace std;
+#include "BehaviorBase.h"
 
-const BehaviorType BehaviorInterceptExecuter::BEHAVIOR_TYPE = BT_Intercept;
-
-namespace {
-bool ret = BehaviorExecutable::AutoRegister<BehaviorInterceptExecuter>();
-}
-
-BehaviorInterceptExecuter::BehaviorInterceptExecuter(Agent & agent): BehaviorExecuterBase<BehaviorAttackData>(agent)
+class BehaviorPenaltyExecuter : public BehaviorExecuterBase<BehaviorAttackData>
 {
-	Assert(ret);
-}
+public:
+	BehaviorPenaltyExecuter(Agent & agent);
+    ~BehaviorPenaltyExecuter(void) { }
 
-BehaviorInterceptExecuter::~BehaviorInterceptExecuter() {
-}
+    bool Execute(const ActiveBehavior &beh);
 
-bool BehaviorInterceptExecuter::Execute(const ActiveBehavior & intercept)
+	static const BehaviorType BEHAVIOR_TYPE;
+};
+
+
+class BehaviorPenaltyPlanner : public BehaviorPlannerBase<BehaviorAttackData>
 {
-	Logger::instance().LogIntercept(intercept.mTarget, "@Intercept");
+public:
+    BehaviorPenaltyPlanner(Agent & agent);
+    virtual ~BehaviorPenaltyPlanner(void);
 
-	return Dasher::instance().GetBall(mAgent);
-}
+	void Plan(std::list<ActiveBehavior> & behavior_list);
+};
 
-BehaviorInterceptPlanner::BehaviorInterceptPlanner(Agent & agent): BehaviorPlannerBase<BehaviorAttackData>(agent)
-{
-}
 
-BehaviorInterceptPlanner::~BehaviorInterceptPlanner() {
-}
+#endif
 
-void BehaviorInterceptPlanner::Plan(std::list<ActiveBehavior> & behavior_list)
-{
-	if (mSelfState.IsKickable()) return;
-	PlayMode play_mode = mWorldState.GetPlayMode();
-	if ( play_mode != PM_Play_On &&
-	     play_mode != PM_Our_Penalty_Ready &&
-	     play_mode != PM_Our_Penalty_Taken &&
-	     play_mode != PM_Opp_Penalty_Taken)
-	{
-		return;
-	}
-
-	if (mStrategy.GetMyInterCycle() <= mStrategy.GetMinTmInterCycle() && mStrategy.GetMyInterCycle() <= mStrategy.GetSureOppInterCycle() + 1) {
-		ActiveBehavior intercept(mAgent, BT_Intercept, BDT_Intercept_Normal);
-
-		intercept.mTarget = mStrategy.GetMyInterPos();
-		intercept.mEvaluation = Evaluation::instance().EvaluatePosition(intercept.mTarget, true);
-
-		behavior_list.push_back(intercept);
-	}
-}
