@@ -49,7 +49,7 @@ if [ ! -z $1 ]; then
 	fi
 fi
 
-BINARY="WrightEagleBASE-2.0"
+BINARY="WrightEagleBASE"
 CLIENT="./$VERSION/$BINARY"
 TEAM_NAME="WrightEagleBASE"
 LOG_DIR="Logfiles"
