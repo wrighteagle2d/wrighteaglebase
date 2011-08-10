@@ -1,0 +1,1096 @@
+2011-08-11 22:00 baj
+    * Changelog, NEWS: release version 3.0
+
+2011-08-10  Aijun Bai <baj@mail.ustc.edu.cn>
+
+	* NEWS,
+	* dynamicdebug.txt,
+	* src/Agent.cpp,
+	* src/Agent.h,
+	* src/BehaviorAttack.cpp,
+	* src/BehaviorDribble.cpp,
+	* src/BehaviorGoalie.cpp,
+	* src/BehaviorPass.cpp,
+	* src/BehaviorShoot.cpp,
+	* src/Dasher.cpp,
+	* src/DecisionTree.cpp,
+	* src/Player.cpp,
+	* src/PlayerParam.cpp,
+	* src/Strategy.cpp,
+	* src/Strategy.h: [44] Move LastActiveBehavior related codes from
+	Strategy to Agent
+
+	* Debug/makefile,
+	* Debug/src/subdir.mk,
+	* Release/makefile,
+	* Release/src/subdir.mk,
+	* src/ActionEffector.cpp,
+	* src/BehaviorBlock.h,
+	* src/BehaviorDribble.cpp,
+	* src/BehaviorFormation.h,
+	* src/BehaviorGoalie.h,
+	* src/BehaviorHold.cpp,
+	* src/BehaviorMark.h,
+	* src/BehaviorPass.cpp,
+	* src/BehaviorPenalty.h,
+	* src/BehaviorSetplay.h,
+	* src/BehaviorShoot.cpp,
+	* src/Coach.h,
+	* src/CommandSender.h,
+	* src/Kicker.cpp,
+	* src/Logger.h,
+	* src/Parser.cpp,
+	* src/Parser.h,
+	* src/Player.h,
+	* src/PlayerParam.h,
+	* src/Plotter.cpp,
+	* src/ServerParam.h,
+	* src/Thread.cpp,
+	* src/Utilities.cpp,
+	* src/WorldState.cpp: [43] fix warnings
+
+	* src/ActionEffector.cpp,
+	* src/ActionEffector.h,
+	* src/Agent.cpp,
+	* src/Agent.h,
+	* src/Analyser.h,
+	* src/BallState.h,
+	* src/BaseState.h,
+	* src/BasicCommand.h,
+	* src/BehaviorAttack.cpp,
+	* src/BehaviorBase.h,
+	* src/BehaviorDefense.cpp,
+	* src/BehaviorIntercept.cpp,
+	* src/BehaviorPass.cpp,
+	* src/BehaviorPenalty.cpp,
+	* src/BehaviorSetplay.cpp,
+	* src/BehaviorShoot.cpp,
+	* src/Client.cpp,
+	* src/Client.h,
+	* src/Coach.cpp,
+	* src/Coach.h,
+	* src/CommandSender.h,
+	* src/CommunicateSystem.cpp,
+	* src/CommunicateSystem.h,
+	* src/Dasher.cpp,
+	* src/Dasher.h,
+	* src/DecisionTree.cpp,
+	* src/DecisionTree.h,
+	* src/DynamicDebug.cpp,
+	* src/DynamicDebug.h,
+	* src/Formation.cpp,
+	* src/Formation.h,
+	* src/Geometry.cpp,
+	* src/Geometry.h,
+	* src/InfoState.h,
+	* src/InterceptInfo.cpp,
+	* src/InterceptInfo.h,
+	* src/InterceptModel.cpp,
+	* src/InterceptModel.h,
+	* src/Kicker.cpp,
+	* src/Kicker.h,
+	* src/Logger.h,
+	* src/NetworkTest.cpp,
+	* src/NetworkTest.h,
+	* src/Observer.cpp,
+	* src/Observer.h,
+	* src/ParamEngine.h,
+	* src/Parser.cpp,
+	* src/Parser.h,
+	* src/Player.cpp,
+	* src/Player.h,
+	* src/PlayerParam.cpp,
+	* src/PlayerParam.h,
+	* src/PlayerState.cpp,
+	* src/PlayerState.h,
+	* src/PositionInfo.cpp,
+	* src/PositionInfo.h,
+	* src/ServerParam.cpp,
+	* src/ServerParam.h,
+	* src/Strategy.cpp,
+	* src/Strategy.h,
+	* src/Tackler.cpp,
+	* src/Tackler.h,
+	* src/Thread.h,
+	* src/TimeTest.cpp,
+	* src/TimeTest.h,
+	* src/Types.h,
+	* src/Utilities.cpp,
+	* src/Utilities.h,
+	* src/VisualSystem.cpp,
+	* src/VisualSystem.h,
+	* src/WorldModel.cpp,
+	* src/WorldModel.h,
+	* src/WorldState.cpp,
+	* src/WorldState.h,
+	* src/main.cpp: [42] change to utf-8 encoding
+
+2011-08-10  Aijun Bai <baj@mail.ustc.edu.cn>
+
+	* src/BehaviorHold.cpp,
+	* src/BehaviorHold.h: Added.
+
+	* AUTHORS,
+	* NEWS,
+	* initrc,
+	* src/BehaviorAttack.cpp,
+	* src/BehaviorBase.h,
+	* src/BehaviorBlock.cpp,
+	* src/BehaviorDribble.cpp,
+	* src/BehaviorFormation.cpp,
+	* src/BehaviorGoalie.cpp,
+	* src/BehaviorIntercept.cpp,
+	* src/BehaviorMark.cpp,
+	* src/BehaviorPass.cpp,
+	* src/BehaviorPenalty.cpp,
+	* src/BehaviorPosition.cpp,
+	* src/BehaviorPosition.h,
+	* src/BehaviorSetplay.cpp,
+	* src/BehaviorShoot.cpp,
+	* src/Coach.cpp,
+	* src/Coach.h,
+	* src/Geometry.cpp,
+	* src/Geometry.h,
+	* src/Kicker.cpp,
+	* src/Kicker.h,
+	* src/PlayerParam.cpp,
+	* src/PlayerState.cpp,
+	* src/PlayerState.h,
+	* src/PositionInfo.cpp,
+	* src/PositionInfo.h,
+	* src/Strategy.cpp: Modified.
+
+	[41] merge from mjiang's EastEagle team
+
+2010-10-31 foreveriii
+
+	* src/BehaviorMark.cpp: 修改Mark，加强后卫的盯人！
+	* src/BeahviorPass.cpp: 修改Pass，试图加快传球动作。
+	* src/BehaviorShoot.cpp: 修改Shoot，加快射门动作，取消行为保持
+	* src/BehaviorFormation.cpp: 修改formation，加大权值，同时简单修正left，right优先级:中点和谁在一侧就先跑谁
+
+2010-10-30 foreveriii
+
+	* src/BehaviorPass.cpp: 修改pass，尝试加入interceptinfo，考虑截球周期
+
+2010-10-29 foreveriii
+	* src/Geometry.cpp, Geometry.h: 加入求两圆交点函数
+	* src/PositionInfo.cpp: 防止角度出界
+	* src/BehaviorIntercept.cpp: 加强守门员出击条件
+
+2010-10-24 foreveriii
+
+	* src/PositionInfo.cpp: fix bug
+
+2010-10-22 foreveriii
+	* src/Kicker.cpp: 更改kickClosetoBody
+	* src/PlayerState.cpp: 修改kickrand的bug
+	* src/PositionInfo.cpp: 减弱射门角度入选条件
+
+2010-10-21 foreveriii
+
+	* src/PlayerState.cpp: 加入kickRand考虑
+	* src/BehaviorShoot.cpp: 方法，抛出判定，利用kickrand
+	* src/Kicker.cpp: 优化kickclose
+	* src/BehaviorFormation.cpp: 同样后卫不过前场
+	* src/BehaviorPass.cpp: clear时，哪个大执行哪个
+	* src/BehaviorPosition.cpp: 强行指定4号7号防守站位（临时）
+
+2010-10-17 foreveriii
+
+	* src/BehaviorDribble.cpp: 使得确认周围视觉，
+	* src/BehaviorBlock.cpp: 消除角球时一直对着forbiddenarea一直dash的情况，节省体力
+
+2010-10-16 foreveriii
+
+	* src/BehaviorSetPlay.cpp: 在penalty，增加守门员截球
+	* src/BehaviorIntercept.cpp: ，加强点球时的防守估权
+	* src/BehaviorFormation.cpp: 让后卫去堵门
+	* src/BehaviorDribble.cpp: 不离身带球
+	* src/BehaviorPass.cpp: 使得对方人员距离太近时，铲球一定会发生
+	* src/BehaviorPosition.cpp: 不要跟对方重合
+	* src/BehaviorMark.cpp: 挡住对手！
+	* src/BehaviorGoalie.cpp, src/BehaviorAttack.cpp: 防止回传球，
+
+2010-10-15 foreveriii
+
+	* src/BehaviorPass.cpp: 加入对方铲球考虑
+
+2010-10-10 foreveriii
+
+	* src/Strategy.cpp: 前锋的回场稍微往后挪1m，防止总是越位
+	* src/BehaviorPosition.cpp: fix bug
+
+2010-10-08 foreveriii
+
+	* src/BehaviorPass.cpp: 加入选择条件，自己周围有人时，铲
+	* src/BehaviorIntecept.cpp: 如果是守门员，则捉不到球时，去连线
+	* src/BehaviorGoalie.cpp: fix bug
+	* src/BehaviorFormation.cpp: 前锋回跑体力除以2
+
+2010-10-07 foreveriii
+
+	* src/BehaviorPosition.cpp: 减少越位bug
+
+2010-10-05 foreveriii
+
+	* src/BehaviorSetplay.cpp: 确定没有守门员move的bug
+
+2010-09-24 foreveriii
+	* src/BehaviorPosition.cpp: 自己周围没有人时，就按照原来的位置跑
+	* src/BehaviorSetplay.cpp: 使得守门员移到禁区内，距离禁区线最近且他周围没有人的地方
+	* src/PositionInfo.cpp: 使得射球更偏向门柱（仅仅只是左门柱）
+	* src/BehaviorShoot.cpp: 利用kick-hard的buffer来得到最后球速（估计），则若铲球速度较大时，铲！
+	* src/BehaviorPass.cpp: 使传球速度最大，同时满足上面的条件时，铲（铲球时，标记为Ahead，否则为Direct…………)
+	* src/BehaviorPosition.cpp: 后卫往后跑不限速
+
+2010-09-19 foreveriii
+
+	* src/BehaviorPosition.cpp: 当自己距离队友较近，且自己周围有人时，往前跑
+
+2010-09-16 foreveriii
+
+	* src/Coach.cpp: 修改异构分配，使得守门员加速度较大
+	* src/BehaviorIntercept.cpp: 能截才去截
+	* src/BehaviorShoot.cpp: 只有角度足够大（10）才射门
+	* src/BehaviorPosition.cpp:  前锋往前跑时不限速
+
+2010-09-12 foreveriii
+
+	* src/BehaviorShoot.cpp: 使得能够Tackle时执行
+	* src/BehaviorIntercept.cpp: 守门员只管禁区，禁区外不管
+
+2010-09-11 foreveriii
+
+	* src/BehaviorDribble.cpp: 使得到达自己射门区域附近，目前速度决策改为:直接除以2……………………
+	* src/BehaviorIntercept.cpp: 当队友与对手相撞, 距离过近（<0.8)，冲，同时如果是守门员，则在对方靠近自己（估计得不到对方）的射门区域后，队友在对手身后时，出击！
+
+2010-09-10 foreveriii
+
+	* src/BehaivorPass.cpp: 当此周期没有决策，上周期决策传球时，维持上一周期动作。（意图防止守门员回传…………）
+	* src/BehaviorAttack.cpp: 使得上次如果有传球或者带球动作，需要执行攻击决策
+
+2010-09-09 foreveriii
+
+	* src/BehaviorGoalie.cpp: 禁止Goalie类型活动，当自己的上一动作为传球带球时,
+	* src/PositionInfo.cpp, src/PositionInfo.h: 加入GetShootAngle:将得到的对手位置减去自身位置。
+	* src/BehaviorShoot.cpp: 当上一mode为indirect是，传球后保证不射门
+	* src/BehaviorPosition: Power决策:跑位不需要那么大的速度，简单除以2看看效果(非常好…………）
+	* src/Strategy.cpp: 前锋不回半场，便于进攻
+	* src/BehaviorPass.cpp: 加入传球对象选择条件，当我与传球对象连线有10度的那个范围时，否决传球对象（待修改）
+	* src/BehaviorIntercept.cpp:  删掉守门员不出击考虑（此项位于Strategy的球权分析，188行），当队友与对手相撞:距离过近（<0.3)，冲(待修改）
+	* src/Coach.cpp: 球员异构
+	* src/BehaviorPositon.cpp: 防守队员不过中场
+
+2010-11-14  WindyWinter <windy@ream.at>
+
+	* AUTHORS,
+	* COPYING,
+	* NEWS,
+	* src/ActionEffector.cpp,
+	* src/ActionEffector.h,
+	* src/Agent.cpp,
+	* src/Agent.h,
+	* src/Analyser.cpp,
+	* src/Analyser.h,
+	* src/BallState.h,
+	* src/BaseState.cpp,
+	* src/BaseState.h,
+	* src/BasicCommand.cpp,
+	* src/BasicCommand.h,
+	* src/BehaviorAttack.cpp,
+	* src/BehaviorAttack.h,
+	* src/BehaviorBase.cpp,
+	* src/BehaviorBase.h,
+	* src/BehaviorBlock.cpp,
+	* src/BehaviorBlock.h,
+	* src/BehaviorDefense.cpp,
+	* src/BehaviorDefense.h,
+	* src/BehaviorDribble.cpp,
+	* src/BehaviorDribble.h,
+	* src/BehaviorFormation.cpp,
+	* src/BehaviorFormation.h,
+	* src/BehaviorGoalie.cpp,
+	* src/BehaviorGoalie.h,
+	* src/BehaviorIntercept.cpp,
+	* src/BehaviorIntercept.h,
+	* src/BehaviorMark.cpp,
+	* src/BehaviorMark.h,
+	* src/BehaviorPass.cpp,
+	* src/BehaviorPass.h,
+	* src/BehaviorPenalty.cpp,
+	* src/BehaviorPenalty.h,
+	* src/BehaviorPosition.cpp,
+	* src/BehaviorPosition.h,
+	* src/BehaviorSetplay.cpp,
+	* src/BehaviorSetplay.h,
+	* src/BehaviorShoot.cpp,
+	* src/BehaviorShoot.h,
+	* src/Client.cpp,
+	* src/Client.h,
+	* src/Coach.cpp,
+	* src/Coach.h,
+	* src/CommandSender.cpp,
+	* src/CommandSender.h,
+	* src/CommunicateSystem.cpp,
+	* src/CommunicateSystem.h,
+	* src/Dasher.cpp,
+	* src/Dasher.h,
+	* src/DecisionData.cpp,
+	* src/DecisionData.h,
+	* src/DecisionTree.cpp,
+	* src/DecisionTree.h,
+	* src/DynamicDebug.cpp,
+	* src/DynamicDebug.h,
+	* src/Evaluation.cpp,
+	* src/Evaluation.h,
+	* src/Formation.cpp,
+	* src/Formation.h,
+	* src/FormationTactics.cpp,
+	* src/FormationTactics.h,
+	* src/Geometry.cpp,
+	* src/Geometry.h,
+	* src/InfoState.cpp,
+	* src/InfoState.h,
+	* src/InterceptInfo.cpp,
+	* src/InterceptInfo.h,
+	* src/InterceptModel.cpp,
+	* src/InterceptModel.h,
+	* src/Kicker.cpp,
+	* src/Kicker.h,
+	* src/Logger.cpp,
+	* src/Logger.h,
+	* src/Net.cpp,
+	* src/Net.h,
+	* src/NetworkTest.cpp,
+	* src/NetworkTest.h,
+	* src/Observer.cpp,
+	* src/Observer.h,
+	* src/ParamEngine.cpp,
+	* src/ParamEngine.h,
+	* src/Parser.cpp,
+	* src/Parser.h,
+	* src/Player.cpp,
+	* src/Player.h,
+	* src/PlayerParam.cpp,
+	* src/PlayerParam.h,
+	* src/PlayerState.cpp,
+	* src/PlayerState.h,
+	* src/Plotter.cpp,
+	* src/Plotter.h,
+	* src/PositionInfo.cpp,
+	* src/PositionInfo.h,
+	* src/ServerParam.cpp,
+	* src/ServerParam.h,
+	* src/Simulator.cpp,
+	* src/Simulator.h,
+	* src/Strategy.cpp,
+	* src/Strategy.h,
+	* src/Tackler.cpp,
+	* src/Tackler.h,
+	* src/Thread.cpp,
+	* src/Thread.h,
+	* src/TimeTest.cpp,
+	* src/TimeTest.h,
+	* src/Types.cpp,
+	* src/Types.h,
+	* src/UDPSocket.cpp,
+	* src/UDPSocket.h,
+	* src/Utilities.cpp,
+	* src/Utilities.h,
+	* src/VisualSystem.cpp,
+	* src/VisualSystem.h,
+	* src/WorldModel.cpp,
+	* src/WorldModel.h,
+	* src/WorldState.cpp,
+	* src/WorldState.h,
+	* src/main.cpp,
+	* start.sh: [40] Copyright change.
+
+2010-08-31  Aijun Bai <baj@mail.ustc.edu.cn>
+
+	* AUTHORS,
+	* start.sh: [39] revert AUTHORS & start.sh as WrightEagleBASE-2.0.1
+
+2010-08-27  Aijun Bai <baj@baj-thinkpad>
+
+	* .bzrignore: Added.
+
+	* Debug/makefile,
+	* Debug/src/subdir.mk,
+	* Release/makefile,
+	* Release/src/subdir.mk,
+	* start.sh: Modified.
+
+	[38] change binary name to WrightEagle, add `-D_Debug' option in Debug
+	version make routine, add `-pipe -W' option to Debug and Release make
+	routine
+
+2010-08-27  baj <baj@mail.ustc.edu.cn>
+
+	* Debug/makefile,
+	* Debug/src/subdir.mk,
+	* Release/makefile,
+	* Release/src/subdir.mk,
+	* start.sh: [37.1.1] change binary name to WrightEagle, add `-D_Debug'
+	option in Debug version make routine, add `-pipe -W' option to Debug
+	and Release version make routine
+
+2010-08-25  WindyWinter <windy@ream.at>
+
+	* .cvsignore: Removed.
+
+	* AUTHORS,
+	* COPYING,
+	* Logfiles/.placeholder,
+	* Makefile,
+	* conf/player.conf,
+	* conf/server.conf,
+	* data/eps0.01,
+	* data/eps0.1,
+	* data/kicker_value,
+	* data/sensitivity.net,
+	* data/sensitivity.png,
+	* data/sensitivity.train,
+	* dynamicdebug.txt,
+	* formations/433_Attack,
+	* formations/433_Defend,
+	* formations/442_Attack,
+	* formations/442_Defend,
+	* src/ActionEffector.cpp,
+	* src/ActionEffector.h,
+	* src/Agent.cpp,
+	* src/Agent.h,
+	* src/Analyser.cpp,
+	* src/Analyser.h,
+	* src/BallState.h,
+	* src/BaseState.cpp,
+	* src/BaseState.h,
+	* src/BasicCommand.cpp,
+	* src/BasicCommand.h,
+	* src/BehaviorAttack.cpp,
+	* src/BehaviorAttack.h,
+	* src/BehaviorBase.cpp,
+	* src/BehaviorBase.h,
+	* src/BehaviorBlock.cpp,
+	* src/BehaviorBlock.h,
+	* src/BehaviorDefense.cpp,
+	* src/BehaviorDefense.h,
+	* src/BehaviorDribble.cpp,
+	* src/BehaviorDribble.h,
+	* src/BehaviorFormation.cpp,
+	* src/BehaviorFormation.h,
+	* src/BehaviorGoalie.cpp,
+	* src/BehaviorGoalie.h,
+	* src/BehaviorIntercept.cpp,
+	* src/BehaviorIntercept.h,
+	* src/BehaviorMark.cpp,
+	* src/BehaviorMark.h,
+	* src/BehaviorPass.cpp,
+	* src/BehaviorPass.h,
+	* src/BehaviorPenalty.cpp,
+	* src/BehaviorPenalty.h,
+	* src/BehaviorPosition.cpp,
+	* src/BehaviorPosition.h,
+	* src/BehaviorSetplay.cpp,
+	* src/BehaviorSetplay.h,
+	* src/BehaviorShoot.cpp,
+	* src/BehaviorShoot.h,
+	* src/Client.cpp,
+	* src/Client.h,
+	* src/Coach.cpp,
+	* src/Coach.h,
+	* src/CommandSender.cpp,
+	* src/CommandSender.h,
+	* src/CommunicateSystem.cpp,
+	* src/CommunicateSystem.h,
+	* src/Dasher.cpp,
+	* src/Dasher.h,
+	* src/DecisionData.cpp,
+	* src/DecisionData.h,
+	* src/DecisionTree.cpp,
+	* src/DecisionTree.h,
+	* src/DynamicDebug.cpp,
+	* src/DynamicDebug.h,
+	* src/Evaluation.cpp,
+	* src/Evaluation.h,
+	* src/Formation.cpp,
+	* src/Formation.h,
+	* src/FormationTactics.cpp,
+	* src/FormationTactics.h,
+	* src/Geometry.cpp,
+	* src/Geometry.h,
+	* src/InfoState.cpp,
+	* src/InfoState.h,
+	* src/InterceptInfo.cpp,
+	* src/InterceptInfo.h,
+	* src/InterceptModel.cpp,
+	* src/InterceptModel.h,
+	* src/Kicker.cpp,
+	* src/Kicker.h,
+	* src/Logger.cpp,
+	* src/Logger.h,
+	* src/Net.cpp,
+	* src/Net.h,
+	* src/NetworkTest.cpp,
+	* src/NetworkTest.h,
+	* src/Observer.cpp,
+	* src/Observer.h,
+	* src/ParamEngine.cpp,
+	* src/ParamEngine.h,
+	* src/Parser.cpp,
+	* src/Parser.h,
+	* src/Player.cpp,
+	* src/Player.h,
+	* src/PlayerParam.cpp,
+	* src/PlayerParam.h,
+	* src/PlayerState.cpp,
+	* src/PlayerState.h,
+	* src/Plotter.cpp,
+	* src/Plotter.h,
+	* src/PositionInfo.cpp,
+	* src/PositionInfo.h,
+	* src/ServerParam.cpp,
+	* src/ServerParam.h,
+	* src/Simulator.cpp,
+	* src/Simulator.h,
+	* src/Strategy.cpp,
+	* src/Strategy.h,
+	* src/Tackler.cpp,
+	* src/Tackler.h,
+	* src/Thread.cpp,
+	* src/Thread.h,
+	* src/TimeTest.cpp,
+	* src/TimeTest.h,
+	* src/Types.cpp,
+	* src/Types.h,
+	* src/UDPSocket.cpp,
+	* src/UDPSocket.h,
+	* src/Utilities.cpp,
+	* src/Utilities.h,
+	* src/VisualSystem.cpp,
+	* src/VisualSystem.h,
+	* src/WorldModel.cpp,
+	* src/WorldModel.h,
+	* src/WorldState.cpp,
+	* src/WorldState.h,
+	* src/main.cpp: Modified.
+
+	[37] file mode fix.
+
+2010-08-24  baj
+
+	* .cvsignore: [36] fix .cvsignore
+
+	* conf/player.conf,
+	* dynamicdebug.txt: [35] remove beliefstate related param in
+	player.conf
+
+2010-08-23  windywinter
+
+	* NEWS: [34] add news.
+
+	* NEWS: [33] add news.
+
+2010-08-23  windywinter
+
+	* src/BehaviorPenalty.cpp,
+	* src/BehaviorPenalty.h: Added.
+
+	* release: Removed.
+
+	* AUTHORS,
+	* Debug/makefile,
+	* Debug/objects.mk,
+	* Debug/src/subdir.mk,
+	* Release/makefile,
+	* Release/objects.mk,
+	* Release/src/subdir.mk,
+	* dynamicdebug.txt,
+	* src/BehaviorBase.h,
+	* src/BehaviorDribble.cpp,
+	* src/BehaviorIntercept.cpp,
+	* src/DecisionTree.cpp,
+	* src/Strategy.cpp,
+	* src/Strategy.h,
+	* start.sh: Modified.
+
+	[32] add penalty decision framework. fix legal issue. remove
+	unnecessary script.
+
+2010-08-22  windywinter
+
+	* src/FormationTactics.cpp,
+	* src/FormationTactics.h: [31] remove the depencency on boost library.
+
+2010-08-21  baj
+
+	* NEWS: Added.
+
+	[30] add NEWS file for release of 2.0.1
+
+2010-08-21  baj
+
+	* src/Strategy.cpp: [29] fix gotopoint when opp kickoff
+
+	* release: [28] fix bug
+
+2010-08-21  baj
+
+	* release: Added.
+
+	[27] add release
+
+2010-08-21  baj
+
+	* ChangeLog: Removed.
+
+	[26] *** empty log message ***
+
+2010-08-21  baj
+
+	* ChangeLog,
+	* dynamicdebug.txt,
+	* src/BehaviorBlock.cpp,
+	* src/BehaviorDribble.cpp,
+	* src/BehaviorPass.cpp,
+	* src/BehaviorSetplay.cpp,
+	* src/BehaviorShoot.cpp,
+	* src/Strategy.cpp,
+	* src/Strategy.h: [25] disable dribble when setplay kick ball,
+	consider opp in pass and dribble
+
+	* ChangeLog,
+	* dynamicdebug.txt,
+	* src/BehaviorFormation.cpp,
+	* src/CommunicateSystem.cpp,
+	* src/Dasher.cpp,
+	* src/InterceptModel.cpp,
+	* src/InterceptModel.h,
+	* src/Strategy.cpp,
+	* src/Strategy.h: [24] fix gotopoint bug of setplay, add
+	goingthroughspeed related function in Dasher
+
+2010-08-21  baj
+
+	* ChangeLog: Added.
+
+	[23] add Changlog(generated by cvs2cl)
+
+2010-08-20  baj
+
+	* dynamicdebug.txt,
+	* src/BehaviorSetplay.cpp: [22] fix setplay scan bug
+
+	* src/CommunicateSystem.cpp: [21] fix bug
+
+	* conf/player.conf,
+	* dynamicdebug.txt,
+	* initrc,
+	* showlog,
+	* src/BehaviorAttack.cpp,
+	* src/BehaviorGoalie.cpp,
+	* src/BehaviorSetplay.cpp,
+	* src/CommunicateSystem.cpp: [20] add
+	CommunicateSystem::DoCommunicate() and catch of goalie
+
+	* src/BehaviorFormation.cpp:  [19] fix bug
+
+	* start.sh: [18] fix bug
+
+	* start.sh: [17] change Teamname
+
+	* conf/player.conf,
+	* dynamicdebug.txt,
+	* initrc,
+	* src/BehaviorIntercept.cpp,
+	* src/BehaviorPosition.cpp,
+	* src/Logger.cpp,
+	* src/Logger.h: [16] fix kickoff margin bug of position
+
+2010-08-20  baj
+
+	* conf/hetero.conf: Removed.
+
+	* Makefile,
+	* conf/player.conf,
+	* conf/server.conf,
+	* formations/433_Attack,
+	* formations/433_Defend,
+	* formations/442_Attack,
+	* formations/442_Defend: Modified.
+
+	[15] add Copyright header
+
+2010-08-20  baj
+
+	* AUTHORS,
+	* COPYING: Added.
+
+	[14] add AUTHORS & COPYING
+
+2010-08-20  baj
+
+	* dbg,
+	* dd,
+	* dynamicdebug.txt,
+	* genlog,
+	* initrc,
+	* memcheck,
+	* showlog,
+	* src/ActionEffector.cpp,
+	* src/ActionEffector.h,
+	* src/Agent.cpp,
+	* src/Agent.h,
+	* src/Analyser.cpp,
+	* src/Analyser.h,
+	* src/BallState.h,
+	* src/BaseState.cpp,
+	* src/BaseState.h,
+	* src/BasicCommand.cpp,
+	* src/BasicCommand.h,
+	* src/BehaviorAttack.cpp,
+	* src/BehaviorAttack.h,
+	* src/BehaviorBase.cpp,
+	* src/BehaviorBase.h,
+	* src/BehaviorBlock.cpp,
+	* src/BehaviorBlock.h,
+	* src/BehaviorDefense.cpp,
+	* src/BehaviorDefense.h,
+	* src/BehaviorDribble.cpp,
+	* src/BehaviorDribble.h,
+	* src/BehaviorFormation.cpp,
+	* src/BehaviorFormation.h,
+	* src/BehaviorGoalie.cpp,
+	* src/BehaviorGoalie.h,
+	* src/BehaviorIntercept.cpp,
+	* src/BehaviorIntercept.h,
+	* src/BehaviorMark.cpp,
+	* src/BehaviorMark.h,
+	* src/BehaviorPass.cpp,
+	* src/BehaviorPass.h,
+	* src/BehaviorPosition.cpp,
+	* src/BehaviorPosition.h,
+	* src/BehaviorSetplay.cpp,
+	* src/BehaviorSetplay.h,
+	* src/BehaviorShoot.cpp,
+	* src/BehaviorShoot.h,
+	* src/Client.cpp,
+	* src/Client.h,
+	* src/Coach.cpp,
+	* src/Coach.h,
+	* src/CommandSender.cpp,
+	* src/CommandSender.h,
+	* src/CommunicateSystem.cpp,
+	* src/CommunicateSystem.h,
+	* src/Dasher.cpp,
+	* src/Dasher.h,
+	* src/DecisionData.cpp,
+	* src/DecisionData.h,
+	* src/DecisionTree.cpp,
+	* src/DecisionTree.h,
+	* src/DynamicDebug.cpp,
+	* src/DynamicDebug.h,
+	* src/Evaluation.cpp,
+	* src/Evaluation.h,
+	* src/Formation.cpp,
+	* src/Formation.h,
+	* src/FormationTactics.cpp,
+	* src/FormationTactics.h,
+	* src/Geometry.cpp,
+	* src/Geometry.h,
+	* src/InfoState.cpp,
+	* src/InfoState.h,
+	* src/InterceptInfo.cpp,
+	* src/InterceptInfo.h,
+	* src/InterceptModel.cpp,
+	* src/InterceptModel.h,
+	* src/Kicker.cpp,
+	* src/Kicker.h,
+	* src/Logger.cpp,
+	* src/Logger.h,
+	* src/Net.cpp,
+	* src/Net.h,
+	* src/NetworkTest.cpp,
+	* src/NetworkTest.h,
+	* src/Observer.cpp,
+	* src/Observer.h,
+	* src/ParamEngine.cpp,
+	* src/ParamEngine.h,
+	* src/Parser.cpp,
+	* src/Parser.h,
+	* src/Player.cpp,
+	* src/Player.h,
+	* src/PlayerParam.cpp,
+	* src/PlayerParam.h,
+	* src/PlayerState.cpp,
+	* src/PlayerState.h,
+	* src/Plotter.cpp,
+	* src/Plotter.h,
+	* src/PositionInfo.cpp,
+	* src/PositionInfo.h,
+	* src/ServerParam.cpp,
+	* src/ServerParam.h,
+	* src/Simulator.cpp,
+	* src/Simulator.h,
+	* src/Strategy.cpp,
+	* src/Strategy.h,
+	* src/Tackler.cpp,
+	* src/Tackler.h,
+	* src/Thread.cpp,
+	* src/Thread.h,
+	* src/TimeTest.cpp,
+	* src/TimeTest.h,
+	* src/Types.cpp,
+	* src/Types.h,
+	* src/UDPSocket.cpp,
+	* src/UDPSocket.h,
+	* src/Utilities.cpp,
+	* src/Utilities.h,
+	* src/VisualSystem.cpp,
+	* src/VisualSystem.h,
+	* src/WorldModel.cpp,
+	* src/WorldModel.h,
+	* src/WorldState.cpp,
+	* src/WorldState.h,
+	* src/main.cpp,
+	* start.sh: [13] add Copyright header
+
+	* dynamicdebug.txt,
+	* src/Agent.cpp,
+	* src/Agent.h,
+	* src/VisualSystem.cpp: [12] fix VisualSystem no decesion bug
+
+2010-08-20  baj
+
+	* src/BeliefState.cpp,
+	* src/BeliefState.h: Removed.
+
+	* Debug/src/subdir.mk,
+	* Release/src/subdir.mk,
+	* src/BehaviorDribble.cpp,
+	* src/BehaviorPass.cpp,
+	* src/Client.cpp,
+	* src/Client.h,
+	* src/Coach.cpp,
+	* src/Player.cpp,
+	* src/VisualSystem.cpp,
+	* src/VisualSystem.h,
+	* src/WorldModel.cpp,
+	* src/WorldModel.h,
+	* src/WorldState.cpp,
+	* src/WorldState.h: Modified.
+
+	[11] remove BeliefState.{h,cpp}
+
+2010-08-20  baj
+
+	* Debug/objects.mk,
+	* Release/objects.mk: [10] change to link boost_regex-mt
+
+	* dynamicdebug.txt,
+	* src/BehaviorBlock.cpp,
+	* src/BehaviorFormation.cpp,
+	* src/BehaviorIntercept.cpp,
+	* src/BehaviorMark.cpp,
+	* src/BehaviorPass.cpp,
+	* src/BehaviorPosition.cpp,
+	* src/BehaviorShoot.cpp,
+	* src/Dasher.cpp,
+	* src/DecisionTree.cpp: [9] behavior code refined
+
+2010-08-19  baj
+
+	* README: Added.
+
+	[8] add README
+
+2010-08-19  baj
+
+	* Debug/objects.mk,
+	* Debug/src/subdir.mk,
+	* Release/objects.mk,
+	* Release/src/subdir.mk,
+	* src/BehaviorBase.h,
+	* src/PositionInfo.cpp,
+	* src/PositionInfo.h,
+	* src/Utilities.h: [7] random cleaning
+
+	* .cvsignore: [6] fix .cvsignore
+
+	* src/FormationTactics.h: [5] clean src/FormationTactics.h
+
+	* src/CommunicateSystem.cpp: [4] shuffle code used in
+	src/CommunicateSystem.cpp
+
+	* start.sh: [3] fix member list
+
+2010-08-19  baj
+
+	* start.sh: Added.
+
+	[2] add start.sh
+
+2010-08-19  baj
+
+	* .cvsignore,
+	* Debug,
+	* Debug/makefile,
+	* Debug/objects.mk,
+	* Debug/sources.mk,
+	* Debug/src,
+	* Debug/src/subdir.mk,
+	* Logfiles,
+	* Logfiles/.placeholder,
+	* Makefile,
+	* Release,
+	* Release/makefile,
+	* Release/objects.mk,
+	* Release/sources.mk,
+	* Release/src,
+	* Release/src/subdir.mk,
+	* conf,
+	* conf/hetero.conf,
+	* conf/player.conf,
+	* conf/server.conf,
+	* data,
+	* data/eps0.01,
+	* data/eps0.1,
+	* data/kicker_value,
+	* data/sensitivity.net,
+	* data/sensitivity.png,
+	* data/sensitivity.train,
+	* dbg,
+	* dd,
+	* dynamicdebug.txt,
+	* formations,
+	* formations/433_Attack,
+	* formations/433_Defend,
+	* formations/442_Attack,
+	* formations/442_Defend,
+	* genlog,
+	* initrc,
+	* memcheck,
+	* showlog,
+	* src,
+	* src/ActionEffector.cpp,
+	* src/ActionEffector.h,
+	* src/Agent.cpp,
+	* src/Agent.h,
+	* src/Analyser.cpp,
+	* src/Analyser.h,
+	* src/BallState.h,
+	* src/BaseState.cpp,
+	* src/BaseState.h,
+	* src/BasicCommand.cpp,
+	* src/BasicCommand.h,
+	* src/BehaviorAttack.cpp,
+	* src/BehaviorAttack.h,
+	* src/BehaviorBase.cpp,
+	* src/BehaviorBase.h,
+	* src/BehaviorBlock.cpp,
+	* src/BehaviorBlock.h,
+	* src/BehaviorDefense.cpp,
+	* src/BehaviorDefense.h,
+	* src/BehaviorDribble.cpp,
+	* src/BehaviorDribble.h,
+	* src/BehaviorFormation.cpp,
+	* src/BehaviorFormation.h,
+	* src/BehaviorGoalie.cpp,
+	* src/BehaviorGoalie.h,
+	* src/BehaviorIntercept.cpp,
+	* src/BehaviorIntercept.h,
+	* src/BehaviorMark.cpp,
+	* src/BehaviorMark.h,
+	* src/BehaviorPass.cpp,
+	* src/BehaviorPass.h,
+	* src/BehaviorPosition.cpp,
+	* src/BehaviorPosition.h,
+	* src/BehaviorSetplay.cpp,
+	* src/BehaviorSetplay.h,
+	* src/BehaviorShoot.cpp,
+	* src/BehaviorShoot.h,
+	* src/BeliefState.cpp,
+	* src/BeliefState.h,
+	* src/Client.cpp,
+	* src/Client.h,
+	* src/Coach.cpp,
+	* src/Coach.h,
+	* src/CommandSender.cpp,
+	* src/CommandSender.h,
+	* src/CommunicateSystem.cpp,
+	* src/CommunicateSystem.h,
+	* src/Dasher.cpp,
+	* src/Dasher.h,
+	* src/DecisionData.cpp,
+	* src/DecisionData.h,
+	* src/DecisionTree.cpp,
+	* src/DecisionTree.h,
+	* src/DynamicDebug.cpp,
+	* src/DynamicDebug.h,
+	* src/Evaluation.cpp,
+	* src/Evaluation.h,
+	* src/Formation.cpp,
+	* src/Formation.h,
+	* src/FormationTactics.cpp,
+	* src/FormationTactics.h,
+	* src/Geometry.cpp,
+	* src/Geometry.h,
+	* src/InfoState.cpp,
+	* src/InfoState.h,
+	* src/InterceptInfo.cpp,
+	* src/InterceptInfo.h,
+	* src/InterceptModel.cpp,
+	* src/InterceptModel.h,
+	* src/Kicker.cpp,
+	* src/Kicker.h,
+	* src/Logger.cpp,
+	* src/Logger.h,
+	* src/Net.cpp,
+	* src/Net.h,
+	* src/NetworkTest.cpp,
+	* src/NetworkTest.h,
+	* src/Observer.cpp,
+	* src/Observer.h,
+	* src/ParamEngine.cpp,
+	* src/ParamEngine.h,
+	* src/Parser.cpp,
+	* src/Parser.h,
+	* src/Player.cpp,
+	* src/Player.h,
+	* src/PlayerParam.cpp,
+	* src/PlayerParam.h,
+	* src/PlayerState.cpp,
+	* src/PlayerState.h,
+	* src/Plotter.cpp,
+	* src/Plotter.h,
+	* src/PositionInfo.cpp,
+	* src/PositionInfo.h,
+	* src/ServerParam.cpp,
+	* src/ServerParam.h,
+	* src/Simulator.cpp,
+	* src/Simulator.h,
+	* src/Strategy.cpp,
+	* src/Strategy.h,
+	* src/Tackler.cpp,
+	* src/Tackler.h,
+	* src/Thread.cpp,
+	* src/Thread.h,
+	* src/TimeTest.cpp,
+	* src/TimeTest.h,
+	* src/Types.cpp,
+	* src/Types.h,
+	* src/UDPSocket.cpp,
+	* src/UDPSocket.h,
+	* src/Utilities.cpp,
+	* src/Utilities.h,
+	* src/VisualSystem.cpp,
+	* src/VisualSystem.h,
+	* src/WorldModel.cpp,
+	* src/WorldModel.h,
+	* src/WorldState.cpp,
+	* src/WorldState.h,
+	* src/main.cpp: Added.
+
+	[1] Initial revision
+
