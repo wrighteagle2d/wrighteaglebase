@@ -162,14 +162,12 @@ double HeteroParam::accelerationRateOnDir(const double & dir) const
 
 const double & HeteroParam::accelerationFront(const double & power) const
 {
-    Assert(power >= ServerParam::instance().minDashPower() && power <= ServerParam::instance().maxDashPower());
-    return acceleration_front[(int)Rint(power)];
+    return acceleration_front[(int)Rint(fabs(power))];
 }
 
 const double & HeteroParam::accelerationSide(const double & power) const
 {
-    Assert(power >= ServerParam::instance().minDashPower() && power <= ServerParam::instance().maxDashPower());
-    return acceleration_side[(int)Rint(power)];
+    return acceleration_side[(int)Rint(fabs(power))];
 }
 
 void HeteroParam::MaintainConsistency()

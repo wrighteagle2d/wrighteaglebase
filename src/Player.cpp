@@ -116,6 +116,7 @@ void Player::Run()
 	VisualSystem::instance().Decision();
 	CommunicateSystem::instance().Decision();
 
+    mpAgent->SetHistoryActiveBehaviors();
 
 	Logger::instance().LogSight();
 }

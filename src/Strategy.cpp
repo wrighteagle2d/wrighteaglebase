@@ -61,16 +61,8 @@ Strategy::Strategy(Agent & agent):
     mPenaltySetupTime = 0;
 }
 
-
-//==============================================================================
 Strategy::~Strategy()
 {
-
-	ResetSavedActiveBehavior();
-
-	for (int type = BT_None + 1; type < BT_Max; ++type) {
-		delete mLastActiveBehavior[type];
-	}
 }
 
 bool Strategy::IsMyControl() const
@@ -88,11 +80,8 @@ bool Strategy::IsTmKickable() const
 	return (mInfoState.GetPositionInfo().GetTeammateWithBall() > 0);
 }
 
-//==============================================================================
 void Strategy::UpdateRoutine()
 {
-	ResetSavedActiveBehavior();
-
 	StrategyAnalyze();
 	PenaltyAnalyze();
 }
@@ -248,7 +237,7 @@ void Strategy::BallPossessionAnalyse()
 		mFastestTm = mSureTm;
 	}
 
-	if (IsLastActiveBehaviorInActOf(BT_Dribble) && GetLastActiveBehaviorInAct()->mDetailType == BDT_Dribble_Fast &&
+	if (mAgent.IsLastActiveBehaviorInActOf(BT_Dribble) && mAgent.GetLastActiveBehaviorInAct()->mDetailType == BDT_Dribble_Fast &&
 			( !mIsLastBallFree || mMyInterCycle < mSureInterCycle + 6 || mWorldState.CurrentTime() - mLastBallFreeTime < 8)){
 		mController = mSelfState.GetUnum();
 		if (pMyInfo != itr_NULL){
@@ -491,57 +480,6 @@ Vector Strategy::GetTeammateSBSPPosition(Unum t,const Vector& ballpos)
 Vector Strategy::GetMyInterPos()
 {
 	return mBallState.GetPredictedPos(mMyInterCycle);
-}
-
-void Strategy::SaveActiveBehavior(const ActiveBehavior & beh)
-{
-	BehaviorType type = beh.GetType();
-
-	Assert(type > BT_None && type < BT_Max);
-
-	if (mActiveBehavior[type] != 0) {
-		if (*mActiveBehavior[type] < beh) {
-			delete mActiveBehavior[type];
-			mActiveBehavior[type] = new ActiveBehavior(beh);
-		}
-	}
-	else {
-		mActiveBehavior[type] = new ActiveBehavior(beh);
-	}
-}
-
-ActiveBehavior *Strategy::GetLastActiveBehavior(BehaviorType type) const
-{
-	Assert(type > BT_None && type < BT_Max);
-
-	return mLastActiveBehavior[type];
-}
-
-void Strategy::SetActiveBehaviorInAct(BehaviorType type)
-{
-	Assert(type > BT_None && type < BT_Max);
-	Assert(mActiveBehavior[0] == 0);
-
-	mActiveBehavior[0] = mActiveBehavior[type];
-}
-
-void Strategy::ResetSavedActiveBehavior()
-{
-	for (int type = BT_None + 1; type < BT_Max; ++type) {
-		delete mLastActiveBehavior[type];
-		mLastActiveBehavior[type] = mActiveBehavior[type];
-		mActiveBehavior[type] = 0;
-	}
-
-	mLastActiveBehavior[0] = mActiveBehavior[0];
-	mActiveBehavior[0] = 0;
-}
-
-void Strategy::SaveActiveBehaviorList(const std::list<ActiveBehavior> & behavior_list)
-{
-	for (std::list<ActiveBehavior>::const_iterator it = behavior_list.begin(); it != behavior_list.end(); ++it) {
-		SaveActiveBehavior(*it);
-	}
 }
 
 Vector Strategy::AdjustTargetForSetplay(Vector target)

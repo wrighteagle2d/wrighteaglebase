@@ -42,6 +42,7 @@
 #include "Formation.h"
 
 class WorldModel;
+class ActiveBehavior;
 
 /**
  * Identifies an agent.
@@ -257,6 +258,62 @@ private:
 
     ActionEffector * mpActionEffector;
     Formation * mpFormation;
+
+    /**
+     * 关于last behavior的接口
+     * 注意: 设置的接口都是在外面调用的，behavior*里面不用管
+     **/
+public:
+    /**
+     * 得到上周期保存的activebehavior，没有则为空
+     * @param type
+     * @return
+     */
+    ActiveBehavior *GetLastActiveBehavior(BehaviorType type) const;
+
+    /**
+     * 得到上周期实际执行的activebehavior
+     * @return
+     */
+    ActiveBehavior *GetLastActiveBehaviorInAct() const { return mLastActiveBehavior[0]; }
+
+    /**
+     * 返回本周期执行的行为 -- 这个要在DecisionTree::Decision返回后才有意义
+     * @return
+     */
+    ActiveBehavior *GetActiveBehaviorInAct() const { return mActiveBehavior[0]; }
+
+    /**
+     * 返回上周期是否执行了type类型的activebehavior
+     * @param type
+     * @return
+     */
+    bool IsLastActiveBehaviorInActOf(BehaviorType type) const {
+    	return GetLastActiveBehaviorInAct() && GetLastActiveBehaviorInAct()->GetType() == type;
+    }
+
+    void SetHistoryActiveBehaviors();
+
+private:
+    /**
+     * 保存behavior*决策出的最优activebehavior -- plan结束时保存
+     * @param type
+     */
+    void SaveActiveBehavior(const ActiveBehavior & beh);
+
+    friend class DecisionTree;
+
+    void SaveActiveBehaviorList(const std::list<ActiveBehavior> & behavior_list);
+
+    /**
+     * 设置本周期实际执行的activebehavior -- excute时设置
+     * @param type
+     */
+    void SetActiveBehaviorInAct(BehaviorType type);
+
+private:
+	Array<ActiveBehavior*, BT_Max, true> mActiveBehavior;
+	Array<ActiveBehavior*, BT_Max, true> mLastActiveBehavior;
 };
 
 #endif /* AGENT_H_ */

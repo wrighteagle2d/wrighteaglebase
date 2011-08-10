@@ -56,6 +56,12 @@ Agent::Agent(Unum unum, WorldModel *world_model, bool reverse):
  */
 Agent::~Agent()
 {
+	SetHistoryActiveBehaviors();
+
+	for (int type = BT_None + 1; type < BT_Max; ++type) {
+		delete mLastActiveBehavior[type];
+	}
+
 	delete mpInfoState;
     delete mpFormation;
 	delete mpActionEffector;
@@ -84,5 +90,58 @@ Agent * Agent::CreateTeammateAgent(Unum unum) ///反算队友
 Agent * Agent::CreateOpponentAgent(Unum unum) ///反算对手
 {
 	return new Agent(unum, mpWorldModel, !mReverse); //reverse属性相反
+}
+
+
+void Agent::SaveActiveBehavior(const ActiveBehavior & beh)
+{
+	BehaviorType type = beh.GetType();
+
+	Assert(type > BT_None && type < BT_Max);
+
+	if (mActiveBehavior[type] != 0) {
+		if (*mActiveBehavior[type] < beh) {
+			delete mActiveBehavior[type];
+			mActiveBehavior[type] = new ActiveBehavior(beh);
+		}
+	}
+	else {
+		mActiveBehavior[type] = new ActiveBehavior(beh);
+	}
+}
+
+ActiveBehavior *Agent::GetLastActiveBehavior(BehaviorType type) const
+{
+	Assert(type > BT_None && type < BT_Max);
+
+	return mLastActiveBehavior[type];
+}
+
+void Agent::SetActiveBehaviorInAct(BehaviorType type)
+{
+	Assert(type > BT_None && type < BT_Max);
+	Assert(mActiveBehavior[0] == 0);
+
+	mActiveBehavior[0] = mActiveBehavior[type];
+}
+
+void Agent::SaveActiveBehaviorList(const std::list<ActiveBehavior> & behavior_list)
+{
+	for (std::list<ActiveBehavior>::const_iterator it = behavior_list.begin(); it != behavior_list.end(); ++it) {
+		SaveActiveBehavior(*it);
+	}
+}
+
+void Agent::SetHistoryActiveBehaviors()
+{
+    for (int type = BT_None + 1; type < BT_Max; ++type) {
+        delete mLastActiveBehavior[type];
+
+        mLastActiveBehavior[type] = mActiveBehavior[type];
+        mActiveBehavior[type] = 0;
+    }
+
+    mLastActiveBehavior[0] = mActiveBehavior[0];
+    mActiveBehavior[0] = 0;
 }
 

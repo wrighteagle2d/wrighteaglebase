@@ -76,8 +76,9 @@ BehaviorGoalieExecuter::~BehaviorGoalieExecuter(void)
 
 void BehaviorGoaliePlanner::Plan(std::list<ActiveBehavior>& behavior_list)
 {
-	if(mStrategy.IsLastActiveBehaviorInActOf(BT_Pass)||mStrategy.IsLastActiveBehaviorInActOf(BT_Dribble))
+	if(mAgent.IsLastActiveBehaviorInActOf(BT_Pass) || mAgent.IsLastActiveBehaviorInActOf(BT_Dribble))
 		return;
+
 	if (mSelfState.IsBallCatchable() && mStrategy.IsLastOppControl())
 	 {
 		ActiveBehavior catchball(mAgent, BT_Goalie, BDT_Goalie_Catch);

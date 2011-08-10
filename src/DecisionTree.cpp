@@ -48,7 +48,7 @@ bool DecisionTree::Decision(Agent & agent)
 	ActiveBehavior beh = Search(agent, 1);
 
 	if (beh.GetType() != BT_None) {
-		agent.GetStrategy().SetActiveBehaviorInAct(beh.GetType());
+		agent.SetActiveBehaviorInAct(beh.GetType());
 		Assert(&beh.GetAgent() == &agent);
 		return beh.Execute();
 	}
@@ -91,7 +91,7 @@ ActiveBehavior DecisionTree::Search(Agent & agent, int step)
 
 ActiveBehavior DecisionTree::GetBestActiveBehavior(Agent & agent, std::list<ActiveBehavior> & behavior_list)
 {
-	agent.GetStrategy().SaveActiveBehaviorList(behavior_list); //behavior_list里面存储了本周期所有behavior决策出的最优activebehavior，这里统一保存一下，供特定behavior下周期plan时用
+	agent.SaveActiveBehaviorList(behavior_list); //behavior_list里面存储了本周期所有behavior决策出的最优activebehavior，这里统一保存一下，供特定behavior下周期plan时用
 
 	behavior_list.sort(std::greater<ActiveBehavior>());
 

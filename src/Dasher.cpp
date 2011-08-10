@@ -278,6 +278,9 @@ void Dasher::TurnDashPlaning(Agent & agent, AtomicAction & act, Vector target, d
 			return;
 		}
 		double power = ( spd_need - speed ) / accrate / effort;
+
+		power = MinMax(-ServerParam::instance().maxDashPower(), power, ServerParam::instance().maxDashPower());
+
 		//I over
 		act.mType = CT_Dash;
 		act.mDashPower = AdjustPowerForDash(self, pt, FLOAT_EPS, power);

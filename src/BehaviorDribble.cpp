@@ -70,7 +70,8 @@ BehaviorDribbleExecuter::~BehaviorDribbleExecuter(void)
 bool BehaviorDribbleExecuter::Execute(const ActiveBehavior & dribble)
 {
 	Logger::instance().LogDribble(mBallState.GetPos(), dribble.mTarget, "@Dribble", true);
-	if(dribble.mDetailType == BDT_Dribble_Normal){
+
+	if(dribble.mDetailType == BDT_Dribble_Normal) {
 		Vector ballpos = mBallState.GetPos();
 		PlayerState   oppState = mWorldState.GetOpponent(mPositionInfo.GetClosestOpponentToBall());
 		Vector  	 	posOpp   = oppState.GetPos();
@@ -78,13 +79,19 @@ bool BehaviorDribbleExecuter::Execute(const ActiveBehavior & dribble)
 		Vector agentpos = mSelfState.GetPos();
 		Vector agent_v = agentpos - mSelfState.GetPos();
 		AngleDeg agentang = mSelfState.GetBodyDir();
+
 		AtomicAction act;
+
+
 		if ( mSelfState.GetStamina() < 2700){
 			Dasher::instance().GoToPoint(mAgent,act,dribble.mTarget,0.01,30);
 		}
 		else {
 			Dasher::instance().GoToPoint(mAgent,act,dribble.mTarget, 0.01 ,100 );
 		}
+
+		act.mDashPower = MinMax(-ServerParam::instance().maxDashPower(), act.mDashPower, ServerParam::instance().maxDashPower());
+
 		agent_v = mSelfState.GetVel() * mSelfState.GetDecay();
 		if(act.mType != CT_Dash){
 			agentpos = mSelfState.GetPredictedPos(1);
@@ -95,13 +102,13 @@ bool BehaviorDribbleExecuter::Execute(const ActiveBehavior & dribble)
 		bool collide = mSelfState.GetCollideWithPlayer();
 		if ( ballpos.Dist(agentpos) > 0.95 * ( mSelfState.GetKickableArea())
 				|| collide )//will not be kickable or will make a collision ??
-						{
+		{
 			int p = ( ( mBallState.GetPos() - mSelfState.GetPos() ).Dir() - mSelfState.GetBodyDir()) > 0 ? 1:-1 ;
 			double outSpeed = mSelfState.GetVel().Mod();
 			if ( act.mType == CT_Dash && fabs( act.mDashDir ) < FLOAT_EPS )
 				outSpeed += mSelfState.GetAccelerationFront(act.mDashPower);
 			if((agentpos + Polar2Vector(mSelfState.GetKickableArea(),agentang + p * 45) - mBallState.GetPos()).Mod() <
-					(	agentpos + Polar2Vector(mSelfState.GetKickableArea(),agentang + p * 45) -mSelfState.GetPos()).Mod()){
+					(	agentpos + Polar2Vector(mSelfState.GetKickableArea(),agentang + p * 45) -mSelfState.GetPos()).Mod()) {
 				if ( mSelfState.GetStamina() < 2700)
 				{
 					return Dasher::instance().GoToPoint( mAgent , dribble.mTarget,0.01,30 ); // dash slow
@@ -110,8 +117,7 @@ bool BehaviorDribbleExecuter::Execute(const ActiveBehavior & dribble)
 
 			}
 			return Kicker::instance().KickBall(mAgent ,agentpos + Polar2Vector(mSelfState.GetKickableArea(),agentang + p * 45) , outSpeed,KM_Hard);
-						}
-
+		}
 		else {
 			if ( mSelfState.GetStamina() < 2700)
 			{
@@ -126,9 +132,9 @@ bool BehaviorDribbleExecuter::Execute(const ActiveBehavior & dribble)
 
 }
 BehaviorDribblePlanner::BehaviorDribblePlanner(Agent & agent) :
-    		BehaviorPlannerBase <BehaviorAttackData>(agent)
-    		{
-    		}
+	BehaviorPlannerBase <BehaviorAttackData>(agent)
+{
+}
 
 
 BehaviorDribblePlanner::~BehaviorDribblePlanner(void)

@@ -112,7 +112,7 @@ void BehaviorShootPlanner::Plan(list<ActiveBehavior> & behavior_list)
 	if (mWorldState.GetPlayMode() == PM_Our_Foul_Charge_Kick ||
 			mWorldState.GetPlayMode() == PM_Our_Back_Pass_Kick ||
 			mWorldState.GetPlayMode() == PM_Our_Indirect_Free_Kick||
-			(mWorldState.GetLastPlayMode()==PM_Our_Indirect_Free_Kick&&mStrategy.IsLastActiveBehaviorInActOf(BT_Pass)))   //Indircet后传球保持不射门，至少跑位后上个动作会改
+			(mWorldState.GetLastPlayMode()==PM_Our_Indirect_Free_Kick && mAgent.IsLastActiveBehaviorInActOf(BT_Pass)))   //Indircet后传球保持不射门，至少跑位后上个动作会改
 	{
 		return;
 	}

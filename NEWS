@@ -1,5 +1,9 @@
+[3.0.0]
+    * Merge from mjiang's EastEagle team
+
 [2.1.0]
 	* GPL is replaced by BSD License.
+
 [2.0.2]
     * Add penalty decision framework.
     

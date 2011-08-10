@@ -147,9 +147,9 @@ void BehaviorPassPlanner::Plan(std::list<ActiveBehavior> & behavior_list)
 		behavior_list.push_back(mActiveBehaviorList.front());
 	}
 	else {														//如果此周期没有好的动作
-		if (mStrategy.IsLastActiveBehaviorInActOf(BT_Pass)) {
+		if (mAgent.IsLastActiveBehaviorInActOf(BT_Pass)) {
 			ActiveBehavior pass(mAgent, BT_Pass, BDT_Pass_Direct);
-			pass.mTarget = mStrategy.GetLastActiveBehaviorInAct()->mTarget; //行为保持
+			pass.mTarget = mAgent.GetLastActiveBehaviorInAct()->mTarget; //行为保持
 			pass.mEvaluation = Evaluation::instance().EvaluatePosition(pass.mTarget, true);
 			pass.mKickSpeed = ServerParam::instance().GetBallSpeed(5 + random() % 6, pass.mTarget.Dist(mBallState.GetPos()));
 			pass.mKickSpeed = MinMax(2.0, pass.mKickSpeed, ServerParam::instance().ballSpeedMax());
