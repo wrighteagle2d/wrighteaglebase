@@ -720,6 +720,37 @@ AtomicAction Kicker::GetMaxKickOutAction(const Agent & agent, Vector & ball_pos,
 	return a;
 }
 
+bool Kicker::KickBallCloseToBody(Agent & agent , AngleDeg ang, double KickRatio )
+{
+	BallState 	bs = agent.GetWorldState().GetBall();
+	PlayerState ms = agent.GetSelf();
+	AngleDeg    angBody    = ms.GetBodyDir();
+	Vector	  	posAgent   = ms.GetPredictedPos(1);
+	double      dist      = ms.GetKickableMargin() * KickRatio + ServerParam::instance().ballSize() + ms.GetPlayerSize();
+	AngleDeg    angGlobal  = GetNormalizeAngleDeg( angBody + ang );
+	Vector	  	posDesBall = posAgent   + Polar2Vector(dist, angGlobal);
+  if( fabs( posDesBall.Y() ) > ServerParam::PITCH_WIDTH/2.0 ||
+      fabs( posDesBall.X() ) > ServerParam::PITCH_LENGTH/2.0 )
+  {
+    Ray lineBody (posAgent, angGlobal);
+    Ray lineSide;
+    if( fabs( posDesBall.Y() ) > ServerParam::PITCH_WIDTH/2.0 ){
+    	lineSide = Ray(Vector(0,(posDesBall.Y() >0? 1:-1)* ServerParam::PITCH_WIDTH/2.0 ), 0 );
+    }
+
+    else{
+    	lineSide = Ray(Vector(0,(posDesBall.Y() >0? 1:-1)* ServerParam::PITCH_WIDTH/2.0 ), 90 );
+    }
+    Vector posIntersect;
+    lineSide.Intersection( Line(lineBody), posIntersect );
+    posDesBall = posAgent + Polar2Vector(posIntersect.Dist( posAgent ) - 0.2,angGlobal);
+
+  }
+
+  	  Vector	  vecDesired = posDesBall - bs.GetPos();
+  return Kicker::KickBall(agent, posDesBall,vecDesired.Mod(),1,false);
+
+}
 
 /**
  * Turn to the ball.

@@ -476,7 +476,13 @@ Vector Strategy::GetTeammateSBSPPosition(Unum t,const Vector& ballpos)
 
 	double x = Min(position.X(),
 			mInfoState.GetPositionInfo().GetTeammateOffsideLine() - PlayerParam::instance().AtPointBuffer());
-	position.SetX(x);
+	if (mAgent.GetFormation().GetTeammateRoleType(t).mLineType==LT_Defender){		//后卫不过中场，便于回防
+		position.SetX(Min(0.0,x));
+	}
+	else if (mAgent.GetFormation().GetTeammateRoleType(t).mLineType== LT_Forward){		//前锋不回场，便于进攻…………
+		position.SetX(Max( - 1.0,x));
+	}
+	else position.SetX(x);
 
 	return position;
 }

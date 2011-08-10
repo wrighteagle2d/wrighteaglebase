@@ -77,6 +77,10 @@ BehaviorBlockPlanner::~BehaviorBlockPlanner()
 void BehaviorBlockPlanner::Plan(std::list<ActiveBehavior> & behavior_list)
 {
 	Unum closest_tm = mPositionInfo.GetClosestTeammateToBall();
+	if(mWorldState.GetPlayMode() >= PM_Opp_Corner_Kick &&
+			mWorldState.GetPlayMode() <=PM_Opp_Offside_Kick){
+		return;
+	}
 
 	if (closest_tm == mSelfState.GetUnum() || mStrategy.GetMyInterCycle() <= mStrategy.GetSureTmInterCycle()) {
 		ActiveBehavior block(mAgent, BT_Block);

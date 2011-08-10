@@ -83,6 +83,7 @@ public:
 	bool KickBall(Agent & agent, double angle, double speed_out, KickMode mode = KM_Hard, int *cycle_left = 0, bool is_shoot = false);
     bool KickBall(Agent & agent, const Vector & target, double speed_out, KickMode mode = KM_Hard, int * cycle_left = 0, bool is_shoot = false);
 
+    bool KickBallCloseToBody(Agent & agent , AngleDeg ang, double KickRatio );
     /**
      * Ö´ÐÐº¯Êý
      * Execute a kick action plan.

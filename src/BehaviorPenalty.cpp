@@ -234,6 +234,8 @@ void BehaviorPenaltyPlanner::Plan(std::list<ActiveBehavior> &behaviorlist)
     {
 		if (mSelfState.IsGoalie())
         {
+			BehaviorInterceptPlanner(mAgent).Plan(behaviorlist);
+			if(behaviorlist.empty() || mSelfState.IsBallCatchable())
             BehaviorGoaliePlanner(mAgent).Plan(behaviorlist);
         }
         else if (mStrategy.IsMyPenaltyTaken() == true)

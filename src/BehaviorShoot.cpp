@@ -44,6 +44,9 @@
 #include "Evaluation.h"
 #include <list>
 #include <cmath>
+#include "PositionInfo.h"
+#include "Geometry.h"
+#include "BehaviorBase.h"
 
 using namespace std;
 
@@ -77,7 +80,10 @@ BehaviorShootExecuter::~BehaviorShootExecuter()
 bool BehaviorShootExecuter::Execute(const ActiveBehavior & shoot)
 {
 	Logger::instance().LogShoot(mBallState.GetPos(), shoot.mTarget, "@Shoot");
-	return Kicker::instance().KickBall(mAgent, shoot.mTarget, ServerParam::instance().ballSpeedMax(), KM_Hard, 0, true);
+	if (shoot.mDetailType == BDT_Shoot_Tackle)
+		return Tackler::instance().TackleToDir(mAgent,shoot.mAngle);
+	else
+		return Kicker::instance().KickBall(mAgent, shoot.mTarget, ServerParam::instance().ballSpeedMax(), KM_Quick, 0, true);
 }
 
 /**
@@ -105,22 +111,38 @@ void BehaviorShootPlanner::Plan(list<ActiveBehavior> & behavior_list)
 
     if (mWorldState.GetPlayMode() == PM_Our_Foul_Charge_Kick ||
             mWorldState.GetPlayMode() == PM_Our_Back_Pass_Kick ||
-            mWorldState.GetPlayMode() == PM_Our_Indirect_Free_Kick)
+            mWorldState.GetPlayMode() == PM_Our_Indirect_Free_Kick||
+    		(mWorldState.GetLastPlayMode()==PM_Our_Indirect_Free_Kick&&mStrategy.IsLastActiveBehaviorInActOf(BT_Pass)))   //Indircet后传球保持不射门，至少跑位后上个动作会改
     {
         return;
     }
 
 	if (mSelfState.GetPos().X() > ServerParam::instance().pitchRectanglar().Right() - PlayerParam::instance().shootMaxDistance()) {
-		if (ServerParam::instance().oppPenaltyArea().IsWithin(mBallState.GetPos())) {
-			Vector target = random() % 2? ServerParam::instance().oppLeftGoalPost() + Vector(0.0, 1.0): ServerParam::instance().oppRightGoalPost() + Vector(0.0, -1.0);
-
-			if (mStrategy.IsLastActiveBehaviorInActOf(BT_Shoot)) {
-				target = mStrategy.GetLastActiveBehaviorInAct()->mTarget; //行为保持
+			AngleDeg left= (ServerParam::instance().oppLeftGoalPost()- mSelfState.GetPos()).Dir()  ;
+			AngleDeg right = (ServerParam::instance().oppRightGoalPost()- mSelfState.GetPos()).Dir();
+			Vector target ;
+			AngleDeg interval;
+			Line c(ServerParam::instance().oppLeftGoalPost(),ServerParam::instance().oppRightGoalPost());
+			AngleDeg shootDir = mPositionInfo.GetShootAngle(left,right,mSelfState ,interval);
+			if(interval < mSelfState.GetRandAngle(ServerParam::instance().maxPower(),ServerParam::instance().ballSpeedMax(),mBallState)*3){
+				return;
 			}
 
+			Ray f(mSelfState.GetPos(),shootDir);
+			c.Intersection(f,target);
+			if(Tackler::instance().CanTackleToDir(mAgent, shootDir)
+				&& Tackler::instance().GetBallVelAfterTackle(mAgent,shootDir).Mod() > ServerParam::instance().ballSpeedMax() -  0.05){
+				ActiveBehavior shoot(mAgent, BT_Shoot,BDT_Shoot_Tackle);
+				shoot.mTarget = target;
+				shoot.mAngle = shootDir;
+				shoot.mEvaluation = 2.0 + FLOAT_EPS;
+				behavior_list.push_back(shoot);
+			}
+
+			else {
 			ActiveBehavior shoot(mAgent, BT_Shoot);
 			shoot.mTarget = target;
-			shoot.mEvaluation = 1.0 + FLOAT_EPS;
+			shoot.mEvaluation = 2.0 + FLOAT_EPS;
 
 			behavior_list.push_back(shoot);
 		}

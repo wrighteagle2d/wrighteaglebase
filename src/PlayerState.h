@@ -482,6 +482,7 @@ public:
     const double & GetAccelerationFront(const double & power) const { return PlayerParam::instance().HeteroPlayer(mPlayerType).accelerationFront(power); }
     const double & GetAccelerationSide(const double & power) const { return PlayerParam::instance().HeteroPlayer(mPlayerType).accelerationSide(power); }
 
+    AngleDeg GetRandAngle(const double & power ,const double & vel ,const BallState & bs ) const;
 	double GetCatchProb( const double & dist ) const;
 	double GetControlBallProb(const Vector & ball_pos) const; //返回kick、catch、tackle三者中概率最大的一个
 

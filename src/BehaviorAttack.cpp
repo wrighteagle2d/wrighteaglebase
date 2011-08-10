@@ -37,6 +37,7 @@
 #include "BehaviorIntercept.h"
 #include "BehaviorPosition.h"
 #include "WorldState.h"
+#include "BehaviorHold.h"
 
 
 BehaviorAttackPlanner::BehaviorAttackPlanner(Agent & agent): BehaviorPlannerBase<BehaviorAttackData>( agent )
@@ -49,13 +50,14 @@ BehaviorAttackPlanner::~BehaviorAttackPlanner()
 
 void BehaviorAttackPlanner::Plan(std::list<ActiveBehavior> & behavior_list)
 {
-	if (mSelfState.IsBallCatchable()) return;
+	if (mSelfState.IsBallCatchable()  && mStrategy.IsLastOppControl() &&(!(mStrategy.IsLastActiveBehaviorInActOf(BT_Pass)||mStrategy.IsLastActiveBehaviorInActOf(BT_Dribble)))) return;
 
 	BehaviorInterceptPlanner(mAgent).Plan(mActiveBehaviorList);
 	BehaviorShootPlanner(mAgent).Plan(mActiveBehaviorList);
 	BehaviorPassPlanner(mAgent).Plan(mActiveBehaviorList);
 	BehaviorDribblePlanner(mAgent).Plan(mActiveBehaviorList);
 	BehaviorPositionPlanner(mAgent).Plan(mActiveBehaviorList);
+	BehaviorHoldPlanner(mAgent).Plan(mActiveBehaviorList);
 
 	if (!mActiveBehaviorList.empty()) {
 		mActiveBehaviorList.sort(std::greater<ActiveBehavior>());

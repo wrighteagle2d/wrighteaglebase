@@ -82,10 +82,15 @@ void BehaviorMarkPlanner::Plan(std::list<ActiveBehavior> & behavior_list)
 	if (closest_opp && closest_tm && closest_tm == mSelfState.GetUnum()) {
 		ActiveBehavior mark(mAgent, BT_Mark);
 
+		Vector ballPos = mBallState.GetPos();
+		AngleDeg b2o = (mBallState.GetPos()- mWorldState.GetOpponent(closest_opp).GetPos()).Dir();
 		mark.mBuffer = mSelfState.GetKickableArea();
 		mark.mPower = mSelfState.CorrectDashPowerForStamina(ServerParam::instance().maxDashPower());
-		mark.mTarget = mWorldState.GetOpponent(closest_opp).GetPos();
+		mark.mTarget = mWorldState.GetOpponent(closest_opp).GetPos()  + Polar2Vector(mark.mBuffer , b2o);
 		mark.mEvaluation = Evaluation::instance().EvaluatePosition(mark.mTarget, false);
+		if( mAgent.GetFormation().GetMyRole().mLineType == LT_Defender){
+			mark.mEvaluation = Evaluation::instance().EvaluatePosition(mark.mTarget, true);
+		}
 
 		behavior_list.push_back(mark);
 	}

@@ -53,4 +53,11 @@ public:
 	void SendOptionToServer();
 };
 
+class PlayerCompare
+{
+public:
+	bool operator()(const std::pair<int, double> & i, const std::pair<int, double> & j){
+		return i.second < j.second;
+	}
+};
 #endif

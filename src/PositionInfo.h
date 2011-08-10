@@ -59,6 +59,7 @@ public:
     const std::list<KeyPlayerInfo> & GetXSortOpponent();
 
 	std::vector<Unum> GetClosePlayerToPoint(const Vector & bp, const Unum & exclude_unum = 0) const;
+	std::vector<Unum> GetCloseOpponentToPoint(const Vector& bp );
 
 	const std::vector<Unum> & GetClosePlayerToBall();
 	const std::vector<Unum> & GetCloseTeammateToBall();
@@ -76,6 +77,7 @@ public:
 	const std::vector<Unum> & GetCloseTeammateToOpponent(Unum i) { Assert(i > 0); return GetCloseTeammateToPlayer(-i); }
 	const std::vector<Unum> & GetCloseOpponentToOpponent(Unum i) { Assert(i > 0); return GetCloseOpponentToPlayer(-i); }
 
+	Unum GetClosestOpponentToPoint(const Vector& bp)   { return GetCloseOpponentToPoint(bp).empty()? 0: GetCloseOpponentToPoint(bp)[0]; }
 	Unum GetClosestPlayerToBall()   { return GetClosePlayerToBall().empty()? 0: GetClosePlayerToBall()[0]; }
 	Unum GetClosestTeammateToBall() { return GetCloseTeammateToBall().empty()? 0: GetCloseTeammateToBall()[0]; }
 	Unum GetClosestOpponentToBall() { return GetCloseOpponentToBall().empty()? 0: GetCloseOpponentToBall()[0]; }
@@ -105,6 +107,7 @@ public:
 	const double & GetOpponentOffsideLine() const       { return mOpponentOffsideLine; }
 	const double & GetOpponentOffsideLineConf() const   { return mOpponentOffsideLineConf; }
 	const double & GetOpponentOffsideLineSpeed() const  { return mOpponentOffsideLineSpeed; }
+	AngleDeg GetShootAngle(AngleDeg left,AngleDeg right , const PlayerState & state  , AngleDeg & interval);
 
 	/** 得到当前可以踢到球的球员列表 */
 	const std::vector<Unum> & GetPlayerWithBallList();
@@ -185,6 +188,12 @@ private:
 
 private:
 	class PlayerDistCompare {
+	public:
+		bool operator()(const std::pair<Unum, double> & i, const std::pair<Unum, double> & j){
+			return i.second < j.second;
+		}
+	};
+	class PlayerDirCompare {
 	public:
 		bool operator()(const std::pair<Unum, double> & i, const std::pair<Unum, double> & j){
 			return i.second < j.second;

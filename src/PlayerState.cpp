@@ -174,6 +174,32 @@ AngleDeg PlayerState::GetEffectiveTurn(AngleDeg moment, double my_speed) const
 	return GetTurnAngle(moment, GetPlayerType(), my_speed);
 }
 
+AngleDeg PlayerState::GetRandAngle( const double & power ,const  double & vel , const BallState & bs ) const
+{
+
+    double dir_diff = fabs((bs.GetPos()-GetPos()).Dir() - GetBodyDir());
+    Vector tmp = bs.GetPos() - GetPos();
+    double dist_ball = ( tmp.Mod() - GetPlayerSize() -
+                         - ServerParam::instance().ballSize());
+
+	double pos_rate
+	            = 0.5
+	            + 0.25 * ( dir_diff/180 + dist_ball/GetKickableMargin());
+	        // [0.5, 1.0]
+	        double speed_rate
+	            = 0.5
+	            + 0.5 * ( bs.GetVel().Mod()
+	                      / ( ServerParam::instance().ballSpeedMax()
+	                          * ServerParam::instance().ballDecay() ) );
+	        // [0, 2*kick_rand]
+	        double max_rand
+	            = GetKickRand()
+	            * ( power / ServerParam::instance().maxPower() )
+	            * ( pos_rate + speed_rate );
+
+	  return Rad2Deg(max_rand/vel);
+}
+
 double PlayerState::GetControlBallProb(const Vector & ball_pos) const
 {
 	const double dist = GetPos().Dist(ball_pos);

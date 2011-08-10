@@ -46,6 +46,7 @@
 #include <vector>
 #include <utility>
 #include "Evaluation.h"
+#include <cmath>
 
 
 using namespace std;
@@ -69,9 +70,61 @@ BehaviorDribbleExecuter::~BehaviorDribbleExecuter(void)
 bool BehaviorDribbleExecuter::Execute(const ActiveBehavior & dribble)
 {
 	Logger::instance().LogDribble(mBallState.GetPos(), dribble.mTarget, "@Dribble", true);
+	if(dribble.mDetailType == BDT_Dribble_Normal){
+    Vector ballpos = mBallState.GetPos();
+	PlayerState   oppState = mWorldState.GetOpponent(mPositionInfo.GetClosestOpponentToBall());
+	  Vector  	 	posOpp   = oppState.GetPos();
+    	ballpos = mBallState.GetPredictedPos(1);
+    	Vector agentpos = mSelfState.GetPos();
+    	Vector agent_v = agentpos - mSelfState.GetPos();
+    	AngleDeg agentang = mSelfState.GetBodyDir();
+		 AtomicAction act;
+		 if ( mSelfState.GetStamina() < 2700){
+			 Dasher::instance().GoToPoint(mAgent,act,dribble.mTarget,0.01,30);
+		 }
+		 else {
+			 Dasher::instance().GoToPoint(mAgent,act,dribble.mTarget, 0.01 ,100 );
+		 }
+        agent_v = mSelfState.GetVel() * mSelfState.GetDecay();
+        if(act.mType != CT_Dash){
+        	agentpos = mSelfState.GetPredictedPos(1);
+        }
+        else
+        	agentpos = mSelfState.GetPredictedPosWithDash(1,act.mDashPower,act.mDashDir);
+
+    bool collide = mSelfState.GetCollideWithPlayer();
+    if ( ballpos.Dist(agentpos) > 0.95 * ( mSelfState.GetKickableArea())
+            || collide )//will not be kickable or will make a collision ??
+    {
+        int p = ( ( mBallState.GetPos() - mSelfState.GetPos() ).Dir() - mSelfState.GetBodyDir()) > 0 ? 1:-1 ;
+		double outSpeed = mSelfState.GetVel().Mod();
+		if ( act.mType == CT_Dash && fabs( act.mDashDir ) < FLOAT_EPS )
+			outSpeed += mSelfState.GetAccelerationFront(act.mDashPower);
+		if((agentpos + Polar2Vector(mSelfState.GetKickableArea(),agentang + p * 45) - mBallState.GetPos()).Mod() <
+			(	agentpos + Polar2Vector(mSelfState.GetKickableArea(),agentang + p * 45) -mSelfState.GetPos()).Mod()){
+	        if ( mSelfState.GetStamina() < 2700)
+	        {
+	            return Dasher::instance().GoToPoint( mAgent , dribble.mTarget,0.01,30 ); // dash slow
+	        }
+	        else return Dasher::instance().GoToPoint( mAgent , dribble.mTarget,0.01,100 );
+
+		}
+        	return Kicker::instance().KickBall(mAgent ,agentpos + Polar2Vector(mSelfState.GetKickableArea(),agentang + p * 45) , outSpeed,KM_Hard);
+    }
+
+    else {
+        if ( mSelfState.GetStamina() < 2700)
+        {
+            return Dasher::instance().GoToPoint( mAgent , dribble.mTarget,0.01,30 ); // dash slow
+        }
+        else return Dasher::instance().GoToPoint( mAgent , dribble.mTarget,0.01,100 );
+    }
+	}
+	else /*if(dribble.mDetailType == BDT_Dribble_Fast)*/{
 	return Kicker::instance().KickBall(mAgent, dribble.mAngle, dribble.mKickSpeed, KM_Quick);
 }
 
+}
 BehaviorDribblePlanner::BehaviorDribblePlanner(Agent & agent) :
     BehaviorPlannerBase <BehaviorAttackData>(agent)
 {
@@ -89,7 +142,6 @@ void BehaviorDribblePlanner::Plan(std::list<ActiveBehavior> & behavior_list)
 	if (mStrategy.IsForbidenDribble()) return;
 	if (mSelfState.IsGoalie()) return;
 
-	double speed = mSelfState.GetEffectiveSpeedMax();
 
 	for (AngleDeg dir = -90.0; dir < 90.0; dir += 2.5) {
 		ActiveBehavior dribble(mAgent, BT_Dribble, BDT_Dribble_Normal);
@@ -111,15 +163,42 @@ void BehaviorDribblePlanner::Plan(std::list<ActiveBehavior> & behavior_list)
 
 		if (min_differ < 10.0) continue;
 
-		dribble.mKickSpeed = speed;
+		dribble.mTarget= mSelfState.GetPos() + Polar2Vector( mSelfState.GetEffectiveSpeedMax(), dir);
 
-		dribble.mEvaluation = 0.0;
-		for (int i = 1; i <= 10; ++i) { //这里简单假设该方向可以连续带球10周期
+		dribble.mEvaluation = Evaluation::instance().EvaluatePosition(dribble.mTarget, true);
+
+		mActiveBehaviorList.push_back(dribble);
+	}
+	double speed = mSelfState.GetEffectiveSpeedMax();
+
+	for (AngleDeg dir = -90.0; dir < 90.0; dir += 2.5) {
+		ActiveBehavior dribble(mAgent, BT_Dribble, BDT_Dribble_Fast);
+		dribble.mKickSpeed = speed;
+		dribble.mAngle = dir;
+
+		const std::vector<Unum> & opp2ball = mPositionInfo.GetCloseOpponentToBall();
+		Vector target = mBallState.GetPos() + Polar2Vector(dribble.mKickSpeed * 10, dribble.mAngle);
+		if(!ServerParam::instance().pitchRectanglar().IsWithin(target)){
+			continue;
+		}
+		bool ok = true;
+		for (uint j = 0; j < opp2ball.size(); ++j) {
+			Vector rel_pos = mWorldState.GetOpponent(opp2ball[j]).GetPos() - target;
+			if (rel_pos.Mod() < dribble.mKickSpeed * 12 ||
+					mWorldState.GetOpponent(opp2ball[j]).GetPosConf() < PlayerParam::instance().minValidConf()){
+			ok = false;
+			break;
+			}
+		}
+		if(!ok){
+			continue;
+		}
+		dribble.mEvaluation = 0;
+		for (int i = 1; i <= 8; ++i) {
 			dribble.mEvaluation += Evaluation::instance().EvaluatePosition(mBallState.GetPos() + Polar2Vector(dribble.mKickSpeed * i, dribble.mAngle), true);
 		}
-		dribble.mEvaluation /= 10;
-
-		dribble.mTarget = mBallState.GetPos() + Polar2Vector(dribble.mKickSpeed, dribble.mAngle);
+		dribble.mEvaluation /= 8;
+		dribble.mTarget = target;
 
 		mActiveBehaviorList.push_back(dribble);
 	}

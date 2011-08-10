@@ -38,7 +38,7 @@
 
 const char PlayerParam::CONFIG_FILE[] = "./conf/player.conf";
 const char PlayerParam::LOG_DIR[] = "Logfiles";
-const char PlayerParam::TEAM_NAME[] = "WE2010";
+const char PlayerParam::TEAM_NAME[] = "WrightEagleBASE";
 const char PlayerParam::OPPONENT_TEAM_NAME[] = "";
 const char PlayerParam::HETERO_TEST_MODEL[] = "./conf/hetero.conf";
 

@@ -35,6 +35,7 @@
 #include "Utilities.h"
 #include <algorithm>
 #include <cmath>
+#include <cstdlib>
 using namespace std;
 
 PositionInfo::PositionInfo(WorldState *pWorldState, InfoState *pInfoState):
@@ -295,7 +296,51 @@ const list<KeyPlayerInfo> & PositionInfo::GetXSortOpponent()
     return mXSortOpponentList;
 }
 
+AngleDeg PositionInfo::GetShootAngle(AngleDeg left,AngleDeg right, const PlayerState & state , AngleDeg & interval)
+{
+	vector< pair<Unum, AngleDeg> > tmp;
+	for (vector<PlayerState*>::const_iterator it = mpWorldState->GetPlayerList().begin(); it != mpWorldState->GetPlayerList().end(); ++it){
+    if ((*it)->IsAlive() && (*it)->GetPosConf() > FLOAT_EPS && (*it)->GetUnum() != state.GetUnum() &&((*it)->GetPos()-state.GetPos()).Dir() + Rad2Deg(1/10) >left&&((*it)->GetPos()-state.GetPos()).Dir() - Rad2Deg(1/10) <right){//介于左右门柱之间
+		tmp.push_back(pair<Unum, AngleDeg>((*it)->GetUnum(), ((*it)->GetPos()-state.GetPos()).Dir()));
+	}
+	}
+	if(tmp.size()!=0){
+		sort(tmp.begin(),tmp.end(),PlayerDirCompare());
+			vector<pair<int,AngleDeg> > dis;
+			int i=0;
+	vector<pair<int,AngleDeg> >::const_iterator it;
+	for(it = tmp.begin(); it != tmp.end();++it){
+			if(i==0){
+				dis.push_back(pair<int,AngleDeg>(i++,((*it).second-left/* - Rad2Deg(1/10) - Rad2Deg(1/3)*/)));
+				}
+			else{
+				dis.push_back(pair<int,AngleDeg>(i++,((*it).second-(*(it-1)).second)/*- 2*Rad2Deg(1/10) - Rad2Deg(1/3)*/));
+			}
+			}
+				dis.push_back(pair<int,AngleDeg>(i,(right-(*(it-1)).second)/*- Rad2Deg(1/10) - Rad2Deg(1/3)*/));
+		sort(dis.begin(),dis.end(),PlayerDirCompare());
 
+		if(dis.back().first==0){
+			interval = dis.back().second-Rad2Deg(1.0/10.0)-Rad2Deg(1.0/4.0);
+			return MinMax(left + 1,dis.back().second/2+left-Rad2Deg(1.0/10.0)-Rad2Deg(1.0/4.0),right -1 );
+		}
+		else if(dis.back().first == i){
+			interval = dis.back().second-Rad2Deg(1.0/10.0)-Rad2Deg(1.0/4.0);
+			return MinMax(left + 1,right -dis.back().second/2+Rad2Deg(1.0/10.0)+Rad2Deg(1.0/4.0),right -1);
+		}
+		else{
+			interval = dis.back().second  - 2* Rad2Deg(1.0/10.0) - Rad2Deg(1.0/4.0);
+			return MinMax(left +1,(*(tmp.begin()+dis.back().first-1)).second + dis.back().second/2 ,right -1);
+		}
+	}
+	else {
+		interval = right-left  ;
+		return (left+right)/2;
+	}
+}
+
+
+//到某个点距离的按大小排列队员（F）
 vector<Unum> PositionInfo::GetClosePlayerToPoint(const Vector & bp, const Unum & exclude_unum) const
 {
 	vector< pair<Unum, double> > tmp;
@@ -350,6 +395,19 @@ const vector<Unum> & PositionInfo::GetCloseOpponentToBall()
 	return mOpponent2BallList;
 }
 
+vector<Unum>  PositionInfo::GetCloseOpponentToPoint(const Vector& bp )
+{
+		vector<Unum> opp2point;
+		const vector<Unum> & player2ball = GetClosePlayerToPoint(bp);
+		for (vector<Unum>::const_iterator it = player2ball.begin(); it != player2ball.end(); ++it){
+			if ((*it) < 0){
+				opp2point.push_back(-(*it));
+			}
+		}
+
+	return opp2point;
+}
+
 const vector<Unum> & PositionInfo::GetClosePlayerToPlayer(Unum i)
 {
 	int index = Unum2Index(i);
@@ -387,6 +445,7 @@ const vector<Unum> & PositionInfo::GetCloseOpponentToPlayer(Unum i)
 	return mOpponent2PlayerList[index];
 }
 
+//距离球最近按距离且可踢（F）
 const vector<Unum> & PositionInfo::GetPlayerWithBallList()
 {
 	if (mPlayerWithBallList_UpdateTime != mpWorldState->CurrentTime()){
@@ -433,7 +492,7 @@ Unum PositionInfo::GetTeammateWithBall()
 }
 
 /**
- * @param buffer
+ * buffer误差范围内得到一个可踢球的队友
  * @return
  */
 Unum PositionInfo::GetTeammateWithBall(const double buffer)
@@ -447,7 +506,7 @@ Unum PositionInfo::GetTeammateWithBall(const double buffer)
     	if (mpWorldState->GetTeammate(tm).IsKickable(mpWorldState->GetBall(), buffer)) {
     		return tm;
     	}
-    	if (GetBallDistToTeammate(tm) > 2.0) break;
+    	if (GetBallDistToTeammate(tm) > 2.0) break;//（因为list是按距离顺序排好的，剩下的就不用了）
     }
 
     return 0;

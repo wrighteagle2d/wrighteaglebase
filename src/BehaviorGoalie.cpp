@@ -76,7 +76,10 @@ BehaviorGoalieExecuter::~BehaviorGoalieExecuter(void)
 
 void BehaviorGoaliePlanner::Plan(std::list<ActiveBehavior>& behavior_list)
 {
-	if (mSelfState.IsBallCatchable()) {
+	if(mStrategy.IsLastActiveBehaviorInActOf(BT_Pass)||mStrategy.IsLastActiveBehaviorInActOf(BT_Dribble))
+		return;
+	if (mSelfState.IsBallCatchable() && mStrategy.IsLastOppControl())
+	 {
 		ActiveBehavior catchball(mAgent, BT_Goalie, BDT_Goalie_Catch);
 
 		catchball.mEvaluation = 1.0 + FLOAT_EPS;
@@ -91,8 +94,16 @@ void BehaviorGoaliePlanner::Plan(std::list<ActiveBehavior>& behavior_list)
 		ActiveBehavior position(mAgent, BT_Goalie, BDT_Goalie_Position);
 
 		position.mTarget = target;
+		if(ServerParam::instance().ourPenaltyArea().IsWithin(target)){
 		position.mEvaluation = Evaluation::instance().EvaluatePosition(position.mTarget, false);
-
+		}
+		else
+			{
+			Ray ball_ray(ServerParam::instance().ourGoal(), (mBallState.GetPos() - ServerParam::instance().ourGoal()).Dir());
+			ServerParam::instance().ourGoalArea().Intersection(ball_ray, target);
+			position.mEvaluation = Evaluation::instance().EvaluatePosition(position.mTarget, false);
+			position.mTarget = target;
+		}
 		behavior_list.push_back(position);
 	}
 }

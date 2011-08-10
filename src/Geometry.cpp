@@ -305,3 +305,70 @@ int	Circle::Intersection(const Ray &r, double &t1, double &t2, const double & bu
 	    return 2;
     }
 }
+
+int	Circle::Intersection(const Circle &C, Vector &v1, Vector &v2, const double & buffer = FLOAT_EPS) const
+{
+    double  d, a, b, c, p, q, r;
+    double  cos_value[2], sin_value[2];
+    if (mCenter.Dist(C.Center()) <= buffer
+        && fabs(mRadius-C.Radius())<= buffer ) {
+        return -1;
+    }
+
+    d = mCenter.Dist(C.Center());
+    if  (d > mRadius + C.Radius()
+        || d < fabs (mRadius - C.Radius())) {
+        return 0;
+    }
+
+    a = 2.0 * mRadius * (mCenter.X() - C.Center().X());
+    b = 2.0 * mRadius * (mCenter.Y() - C.Center().Y());
+    c = C.Radius() * C.Radius() - mRadius * mRadius
+        - mCenter.Dist2(C.Center());
+    p = a * a + b * b;
+    q = -2.0 * a * c;
+    if  (fabs(d - mRadius - C.Radius()) <= buffer
+        || fabs(d - fabs (mRadius - C.Radius()) <= buffer )) {
+        cos_value[0] = -q / p / 2.0;
+        sin_value[0] = sqrt (1 - cos_value[0] * cos_value[0]);
+
+        v1.SetX(mRadius * cos_value[0] + mCenter.X());
+        v1.SetY(mRadius * sin_value[0] + mCenter.Y());
+
+        if  (fabs(v1.Dist2( C.Center()) -
+                           C.Radius() * C.Radius()) >= buffer) {
+           v1.SetY(mCenter.Y() - mRadius * sin_value[0]);
+        }
+        return 1;
+    }
+
+    r = c * c - b * b;
+    cos_value[0] = (sqrt (q * q - 4.0 * p * r) - q) / p / 2.0;
+    cos_value[1] = (-sqrt (q * q - 4.0 * p * r) - q) / p / 2.0;
+    sin_value[0] = sqrt (1 - cos_value[0] * cos_value[0]);
+    sin_value[1] = sqrt (1 - cos_value[1] * cos_value[1]);
+
+    v1.SetX(mRadius * cos_value[0] + mCenter.X());
+    v2.SetX(mRadius * cos_value[1] + mCenter.X());
+    v1.SetY(mRadius * sin_value[0] + mCenter.Y());
+    v2.SetY(mRadius * sin_value[1] + mCenter.Y());
+
+    if  ( fabs(v1.Dist2( C.Center()) -
+                       C.Radius() * C.Radius())>=buffer) {
+       v1.SetY(mCenter.Y() - mRadius * sin_value[0]);
+    }
+
+    if  (fabs(v2.Dist2( C.Center()) -
+                       C.Radius() * C.Radius())>= buffer) {
+       v2.SetY(mCenter.Y() - mRadius * sin_value[0]);
+    }
+
+    if  (v1.Dist(v2) <= buffer) {
+        if  (v1.Y() > 0) {
+            v2.SetY(-v2.Y());
+        } else {
+            v1.SetY(-v1.Y());
+        }
+    }
+    return 2;
+}

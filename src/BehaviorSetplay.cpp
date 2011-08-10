@@ -41,6 +41,7 @@
 #include "BehaviorShoot.h"
 #include "BehaviorIntercept.h"
 #include "Evaluation.h"
+#include "Utilities.h"
 #include <stdio.h>
 #include <algorithm>
 using namespace std;
@@ -82,6 +83,9 @@ bool BehaviorSetplayExecuter::Execute(const ActiveBehavior &setplay)
 		}
 		else if (setplay.mDetailType == BDT_Setplay_GetBall) {
 			return Dasher::instance().GetBall(mAgent);
+		}
+		if (setplay.mDetailType == BDT_Setplay_Move) {
+			return mAgent.Move(setplay.mTarget);
 		}
 		else {
 			PRINT_ERROR("Setplay Detail Type Error");
@@ -136,6 +140,19 @@ void BehaviorSetplayPlanner::Plan(std::list<ActiveBehavior> & behavior_list)
 							setplay.mEvaluation = Evaluation::instance().EvaluatePosition(setplay.mTarget, true);
 
 							behavior_list.push_back(setplay);
+						}
+						else if(mWorldState.CurrentTime().T() - mWorldState.GetPlayModeTime().T() == 20 && mSelfState.IsGoalie()){
+							setplay.mDetailType = BDT_Setplay_Move;
+							for (list<KeyPlayerInfo>::const_iterator it =mPositionInfo.GetXSortTeammate().begin(); it != mPositionInfo.GetXSortTeammate().end(); ++it){
+								if (	mWorldState.GetTeammate((*it).mUnum).GetPos().X() > ServerParam::instance().ourPenaltyArea().Right() &&
+										(mWorldState.GetOpponent(mPositionInfo.GetClosestOpponentToTeammate((*it).mUnum)).GetPos()- mWorldState.GetTeammate((*it).mUnum).GetPos()).Mod() >= 1.0){
+									double y = MinMax(ServerParam::instance().ourPenaltyArea().Top() + 1, mWorldState.GetTeammate((*it).mUnum).GetPos().Y(), ServerParam::instance().ourPenaltyArea().Bottom() - 1);
+									setplay.mTarget = Vector(ServerParam::instance().ourPenaltyArea().Right() - 1 , y);
+									setplay.mEvaluation = Evaluation::instance().EvaluatePosition(setplay.mTarget, true);
+									behavior_list.push_back(setplay);
+									break;
+								}
+							}
 						}
 					}
 				}

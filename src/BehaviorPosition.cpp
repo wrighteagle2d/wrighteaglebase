@@ -88,10 +88,47 @@ void BehaviorPositionPlanner::Plan(ActiveBehaviorList &behavior_list)
 	if (mWorldState.GetPlayMode() > PM_Opp_Mode) return;
 
 	ActiveBehavior position(mAgent, BT_Position);
-
+	Vector target;
 	position.mBuffer = 1.0;
+	target = mStrategy.GetTeammateSBSPPosition(mSelfState.GetUnum(), mBallState.GetPos());
+	if(mPositionInfo.GetTeammateWithBall() && mPositionInfo.GetClosestPlayerToTeammate(mPositionInfo.GetTeammateWithBall()) == mSelfState.GetUnum()){
+		if((mWorldState.GetOpponent(mPositionInfo.GetClosestOpponentToTeammate(mSelfState.GetUnum())).GetPos()-
+				mSelfState.GetPos()).Mod() >= 1.0)
+		position.mTarget = target;
+		else {
+			position.mTarget.SetX(target.X() + 1.0);
+			position.mTarget.SetY(target.Y());
+		}
+
+	}
+	else position.mTarget = target;
+
+	if(mWorldState.GetPlayMode() == PM_Our_Goalie_Free_Kick  &&
+			mAgent.GetFormation().GetMyRole().mLineType == LT_Forward){
+		if(mAgent.GetFormation().GetMyRole().mPositionType ==PT_Left){
+			position.mTarget.SetY(26);
+		}
+		if(mAgent.GetFormation().GetMyRole().mPositionType ==PT_Right){
+			position.mTarget.SetY(-26);
+		}
+	}
+
+	Unum opp =mPositionInfo.GetClosestOpponentToPoint(position.mTarget);
+	if(mWorldState.GetOpponent(opp).GetPos().Dist(position.mTarget) < 1.5){
+			int p =mWorldState.GetOpponent(mPositionInfo.GetClosestOpponentToPlayer(opp)).GetPos().Y() > mWorldState.GetOpponent(opp).GetPos().X() ? -1:1;
+			position.mTarget.SetY(target.Y() + p * 2);
+	}
+
+	if(mPositionInfo.GetOpponentOffsideLine() > mBallState.GetPos().X()){
+		position.mTarget.SetX(Min(target.X(),(mPositionInfo.GetOpponentOffsideLine())));
+	}
+	if(position.mTarget.X()> mSelfState.GetPos().X() && mAgent.GetFormation().GetMyRole().mLineType == LT_Forward){
 	position.mPower = mSelfState.CorrectDashPowerForStamina(ServerParam::instance().maxDashPower());
-	position.mTarget = mStrategy.GetTeammateSBSPPosition(mSelfState.GetUnum(), mBallState.GetPos());
+	}
+	else 	if(position.mTarget.X()< mSelfState.GetPos().X() && mAgent.GetFormation().GetMyRole().mLineType == LT_Defender){
+		position.mPower = mSelfState.CorrectDashPowerForStamina(ServerParam::instance().maxDashPower());
+	}
+	else position.mPower = mSelfState.CorrectDashPowerForStamina(ServerParam::instance().maxDashPower())/2;
 	position.mEvaluation = Evaluation::instance().EvaluatePosition(position.mTarget, false);
 
 	behavior_list.push_back(position);

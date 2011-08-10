@@ -41,6 +41,7 @@
 #include "VisualSystem.h"
 #include "BehaviorDribble.h"
 #include "Evaluation.h"
+#include "BehaviorBase.h"
 
 using namespace std;
 
@@ -83,13 +84,69 @@ void BehaviorInterceptPlanner::Plan(std::list<ActiveBehavior> & behavior_list)
 	{
 		return;
 	}
+	if (!mInterceptInfo.IsPlayerBallInterceptable(mSelfState.GetUnum()) ){
+		if(mSelfState.IsGoalie()){
+			ActiveBehavior intercept(mAgent, BT_Intercept, BDT_Intercept_Normal);
+			Ray a (mBallState.GetPos(),mBallState.GetVel().Dir());
+			Line c(ServerParam::instance().ourLeftGoalPost(),ServerParam::instance().ourRightGoalPost());
+			c.Intersection(a,intercept.mTarget);
+			if(intercept.mTarget.Y() < ServerParam::instance().ourLeftGoalPost().Y()
+				|| intercept.mTarget.Y() > ServerParam::instance().ourRightGoalPost().Y()){
+				return;
+			}
+			else {
+				intercept.mEvaluation = Evaluation::instance().EvaluatePosition(intercept.mTarget, true);
+				behavior_list.push_back(intercept);
+			}
+		}
+		else {
+		return;
+		}
+	}
 
-	if (mStrategy.GetMyInterCycle() <= mStrategy.GetMinTmInterCycle() && mStrategy.GetMyInterCycle() <= mStrategy.GetSureOppInterCycle() + 1) {
+	Rectangular GoalieInterRec = ServerParam::instance().ourGoalArea();
+	GoalieInterRec.SetRight(ServerParam::instance().ourPenaltyArea().Right());
+
+	if (mStrategy.GetMyInterCycle() <= mStrategy.GetMinTmInterCycle() && mStrategy.GetMyInterCycle() <= mStrategy.GetSureOppInterCycle() + 1 && (!mSelfState.IsGoalie())) {
 		ActiveBehavior intercept(mAgent, BT_Intercept, BDT_Intercept_Normal);
 
 		intercept.mTarget = mStrategy.GetMyInterPos();
 		intercept.mEvaluation = Evaluation::instance().EvaluatePosition(intercept.mTarget, true);
 
+		behavior_list.push_back(intercept);
+	}
+	else if ((mWorldState.GetTeammate(mPositionInfo.GetClosestTeammateToBall()).GetPos()-mWorldState.GetOpponent(mPositionInfo.GetClosestOpponentToBall()).GetPos()).Mod() <= 1 &&
+			mSelfState.GetUnum() == mPositionInfo.GetCloseTeammateToBall().at(1))//0.4受PlayerSize影响，这里直接使用0.3
+	{
+		ActiveBehavior intercept(mAgent, BT_Intercept, BDT_Intercept_Normal);
+		intercept.mTarget = mStrategy.GetMyInterPos();
+		intercept.mEvaluation = Evaluation::instance().EvaluatePosition(intercept.mTarget, true);
+		behavior_list.push_back(intercept);
+
+	}
+	else if (mSelfState.IsGoalie() && GoalieInterRec.IsWithin(mStrategy.GetMyInterPos()))
+	{
+		ActiveBehavior intercept(mAgent, BT_Intercept, BDT_Intercept_Normal);
+		intercept.mTarget = mStrategy.GetMyInterPos();
+		intercept.mEvaluation = Evaluation::instance().EvaluatePosition(intercept.mTarget, true);
+		if(mWorldState.GetPlayMode() == PM_Opp_Penalty_Taken){
+			intercept.mEvaluation = Evaluation::instance().EvaluatePosition(intercept.mTarget, false);
+		}
+		behavior_list.push_back(intercept);
+	}
+	else if (mSelfState.GetUnum() == mPositionInfo.GetClosestTeammateToBall()
+			&& !mSelfState.IsGoalie()){
+		ActiveBehavior intercept(mAgent, BT_Intercept, BDT_Intercept_Normal);
+		intercept.mTarget = mStrategy.GetMyInterPos();
+		intercept.mEvaluation = Evaluation::instance().EvaluatePosition(intercept.mTarget, true);
+		behavior_list.push_back(intercept);
+	}
+	else if (mPositionInfo.GetClosestTeammateToBall() == mWorldState.GetTeammateGoalieUnum()
+			&& mSelfState.GetUnum() == mPositionInfo.GetCloseTeammateToBall()[1]){
+
+		ActiveBehavior intercept(mAgent, BT_Intercept, BDT_Intercept_Normal);
+		intercept.mTarget = mStrategy.GetMyInterPos();
+		intercept.mEvaluation = Evaluation::instance().EvaluatePosition(intercept.mTarget, true);
 		behavior_list.push_back(intercept);
 	}
 }

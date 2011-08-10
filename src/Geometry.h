@@ -572,6 +572,7 @@ public:
 	* \return number of intersection points.
 	*/
 	int	Intersection(const Ray &r, double &t1, double &t2, const double & buffer = 0.0) const;
+	int	Intersection(const Circle &c, Vector &v1, Vector &v2, const double & buffer) const;
 
 private:
 	Vector mCenter;

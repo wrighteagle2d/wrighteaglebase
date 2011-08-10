@@ -64,13 +64,61 @@ void Coach::SendOptionToServer()
 		UDPSocket::instance().Send("(eye on)");
 		WaitFor(200);
 	}
+	vector<pair<int , double> > a ;
+	for (int i=0 ;i <= 17 ; ++i){  //这里的18不知道如何去引用PlayerParam::DEFAULT_PLAYER_TYPES
+		a.push_back(pair<int , double>(i,PlayerParam::instance().HeteroPlayer(i).effectiveSpeedMax()));
+	}
+	sort(a.begin(),a.end(),PlayerCompare());
+	for (int i = 1; i <= TEAMSIZE; ++i)
+    {
+        if (i != PlayerParam::instance().ourGoalieUnum() && mpObserver->Teammate_Coach(i).IsAlive())
+        {
+        	mpAgent->CheckCommands(mpObserver);
+        	if(mpAgent->GetFormation().GetTeammateRoleType(i).mLineType==LT_Forward){
+        		mpAgent->ChangePlayerType(i, a.back().first);
+        		a.pop_back();
+        	}
+            mpObserver->SetCommandSend();
+            WaitFor(5);
+        }
+	}
+	for (int i = 1; i <= TEAMSIZE; ++i)
+    {
+        if (i != PlayerParam::instance().ourGoalieUnum() && mpObserver->Teammate_Coach(i).IsAlive())
+        {
+        	mpAgent->CheckCommands(mpObserver);
+        	if(mpAgent->GetFormation().GetTeammateRoleType(i).mLineType==LT_Defender){
+        		mpAgent->ChangePlayerType(i, a.back().first);
+        	a.pop_back();
+        	}
+            mpObserver->SetCommandSend();
+            WaitFor(5);
+        }
+	}
+	if(mpObserver->Teammate_Coach(PlayerParam::instance().ourGoalieUnum()).IsAlive()){
+	double maxAcceleration = 0 ;
+	vector<pair<int , double> > ::iterator goalie;
+	for (vector<pair<int , double> > ::iterator it = a.begin(); it != a.end(); it++){
+		if(PlayerParam::instance().HeteroPlayer((*it).first).dashPowerRate() > maxAcceleration){
+			maxAcceleration = PlayerParam::instance().HeteroPlayer((*it).first).dashPowerRate();
+			goalie = it;
+		}
+	}
+	mpAgent->CheckCommands(mpObserver);
+	mpAgent->ChangePlayerType(PlayerParam::instance().ourGoalieUnum(), (*goalie).first);
+	a.erase(goalie);
+	}
 
+    mpObserver->SetCommandSend();
 	for (int i = 1; i <= TEAMSIZE; ++i)
     {
         if (i != PlayerParam::instance().ourGoalieUnum() && mpObserver->Teammate_Coach(i).IsAlive())
         {
             mpAgent->CheckCommands(mpObserver);
-            mpAgent->ChangePlayerType(i, i);
+        	if(mpAgent->GetFormation().GetPlayerRoleType(i).mLineType==LT_Midfielder){
+        		mpAgent->ChangePlayerType(i, a.back().first);
+        	a.pop_back();
+    		}
             mpObserver->SetCommandSend();
             WaitFor(5);
         }
@@ -78,7 +126,7 @@ void Coach::SendOptionToServer()
 
     /** check whether each player's type is changed OK */
 	WaitFor(200);
-	for (int i = 1; i <= TEAMSIZE; ++i)
+/*	for (int i = 1; i <= TEAMSIZE; ++i)
     {
         if (i != PlayerParam::instance().ourGoalieUnum() && mpObserver->Teammate_Coach(i).IsAlive())
         {
@@ -91,6 +139,44 @@ void Coach::SendOptionToServer()
 		    }
         }
 	}
+	*/
+/*	a.clear();
+	for (int i=1 ;i <= 18 ; ++i){  //这里的18不知道如何去引用PlayerParam::DEFAULT_PLAYER_TYPES
+		a.push_back(pair<int , double>(i,PlayerParam::instance().HeteroPlayer(i).kickRand()));
+	}
+	for (int i = 1; i <= TEAMSIZE; ++i)
+    {
+        if (i != PlayerParam::instance().ourGoalieUnum() && mpObserver->Teammate_Coach(i).IsAlive())
+        {
+        	mpAgent->CheckCommands(mpObserver);
+        	if(mpAgent->GetFormation().GetPlayerRoleType(i).mLineType==LT_Forward)
+        		mpAgent->ChangePlayerType(i, a.back().first);
+            mpObserver->SetCommandSend();
+            WaitFor(5);
+        }
+	}
+	for (int i = 1; i <= TEAMSIZE; ++i)
+    {
+        if (i != PlayerParam::instance().ourGoalieUnum() && mpObserver->Teammate_Coach(i).IsAlive())
+        {
+        	mpAgent->CheckCommands(mpObserver);
+        	if(mpAgent->GetFormation().GetPlayerRoleType(i).mLineType==LT_Defender)
+        		mpAgent->ChangePlayerType(i, a.back().first);
+            mpObserver->SetCommandSend();
+            WaitFor(5);
+        }
+	}
+	for (int i = 1; i <= TEAMSIZE; ++i)
+    {
+        if (i != PlayerParam::instance().ourGoalieUnum() && mpObserver->Teammate_Coach(i).IsAlive())
+        {
+        	mpAgent->CheckCommands(mpObserver);
+        	if(mpAgent->GetFormation().GetPlayerRoleType(i).mLineType==LT_Midfielder)
+        		mpAgent->ChangePlayerType(i, a.back().first);
+            mpObserver->SetCommandSend();
+            WaitFor(5);
+        }
+	}*/
 }
 
 /*
