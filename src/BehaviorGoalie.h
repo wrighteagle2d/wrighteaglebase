@@ -60,7 +60,7 @@ class BehaviorGoaliePlanner : public BehaviorPlannerBase<BehaviorDefenseData>
 {
 public:
     BehaviorGoaliePlanner(Agent& agent);
-    ~BehaviorGoaliePlanner(void);
+    virtual ~BehaviorGoaliePlanner(void);
 
     void Plan(std::list<ActiveBehavior>& behavior_list);
 };

@@ -39,7 +39,7 @@ class BehaviorBlockExecuter : public BehaviorExecuterBase<BehaviorDefenseData>
 {
 public:
     BehaviorBlockExecuter(Agent & agent);
-    ~BehaviorBlockExecuter(void);
+    virtual ~BehaviorBlockExecuter(void);
 
 	bool Execute(const ActiveBehavior & act_bhv);
 

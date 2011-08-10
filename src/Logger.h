@@ -284,7 +284,7 @@ public:
      * Initialize.
      */
     void Initial(Observer *observer, WorldState *world_state );
-    ~Logger();
+    virtual ~Logger();
 
     /**
      * 主循环函数

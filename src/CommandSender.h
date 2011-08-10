@@ -45,7 +45,7 @@ public:
      * 构造函数和析构函数
      */
     CommandSender(Observer *pObserver);
-    ~CommandSender();
+    virtual ~CommandSender();
 
     /**
      * 主循环函数

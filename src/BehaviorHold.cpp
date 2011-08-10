@@ -49,7 +49,7 @@ bool ret = BehaviorExecutable::AutoRegister<BehaviorHoldExecuter>();
 }
 
 BehaviorHoldExecuter::BehaviorHoldExecuter(Agent & agent) :
-    BehaviorExecuterBase<BehaviorAttackData>( agent )
+   BehaviorExecuterBase<BehaviorAttackData>( agent )
 {
 	Assert(ret);
 }
@@ -61,9 +61,9 @@ BehaviorHoldExecuter::~BehaviorHoldExecuter(void)
 bool BehaviorHoldExecuter::Execute(const ActiveBehavior & hold)
 {
 	Logger::instance().LogDribble(mBallState.GetPos(), hold.mTarget, "@Hold", true);
-//	Logger::instance().GetTextLogger("Hold")<< mWorldState.CurrentTime(). + "Hold";
+	//	Logger::instance().GetTextLogger("Hold")<< mWorldState.CurrentTime(). + "Hold";
 	if(hold.mDetailType == BDT_Hold_Turn){
-		 return Dasher::instance().GetTurnBodyToAngleAction(mAgent, hold.mAngle).Execute(mAgent);
+		return Dasher::instance().GetTurnBodyToAngleAction(mAgent, hold.mAngle).Execute(mAgent);
 	}
 	else
 		return Kicker::instance().KickBallCloseToBody(mAgent ,hold.mAngle, 0.6);
@@ -88,47 +88,47 @@ void BehaviorHoldPlanner::Plan(std::list<ActiveBehavior> & behavior_list)
 			mStrategy.GetSureOppInterCycle() != 0 ){
 
 		ActiveBehavior hold(mAgent, BT_Hold);
-		  double        dDist;
-		  Vector   		posAgent = mSelfState.GetPos();
-		  PlayerState   objOpp = mWorldState.GetOpponent(mPositionInfo.GetClosestOpponentToBall());
-		  Vector  	 	posOpp   = objOpp.GetPos();
-		  dDist = (posOpp - posAgent).Mod();
-		  AngleDeg      angOpp   = objOpp.GetBodyDir();
-		  AngleDeg      ang      = 0.0;
+		double        dDist;
+		Vector   		posAgent = mSelfState.GetPos();
+		PlayerState   objOpp = mWorldState.GetOpponent(mPositionInfo.GetClosestOpponentToBall());
+		Vector  	 	posOpp   = objOpp.GetPos();
+		dDist = (posOpp - posAgent).Mod();
+		AngleDeg      angOpp   = objOpp.GetBodyDir();
+		AngleDeg      ang      = 0.0;
 
-		  if(dDist < 5 )
-		  {
-		    ang = ( posAgent - posOpp ).Dir();
-		    int iSign = (GetNormalizeAngleDeg( angOpp - ang )) >0 ? -1:1;
-		    ang +=  iSign*45 - mSelfState.GetBodyDir();
-		    ang = GetNormalizeAngleDeg( ang );
-		  }
+		if(dDist < 5 )
+		{
+			ang = ( posAgent - posOpp ).Dir();
+			int iSign = (GetNormalizeAngleDeg( angOpp - ang )) >0 ? -1:1;
+			ang +=  iSign*45 - mSelfState.GetBodyDir();
+			ang = GetNormalizeAngleDeg( ang );
+		}
 
-		  if( mBallState.GetPos().Dist(posAgent + Polar2Vector(0.7,ang))< 0.3 )
-		  {
+		if( mBallState.GetPos().Dist(posAgent + Polar2Vector(0.7,ang))< 0.3 )
+		{
 
-		    Vector   posBallPred = mBallState.GetPredictedPos(1);
-		    Vector   posPred     = mSelfState.GetPredictedPos(1);
-		    if( posPred.Dist( posBallPred )< 0.85 * mSelfState.GetKickableArea() )
-		    {
-		    	hold.mDetailType = BDT_Hold_Turn;
-				  hold.mEvaluation = 1.0 + FLOAT_EPS;
-		    	hold.mAngle = (Vector(ServerParam::instance().PITCH_LENGTH / 2.0, 0.0) - mSelfState.GetPos()).Dir();
-		    	mActiveBehaviorList.push_back(hold);
-		    }
-		  }
-		  else
-		  {
-			  hold.mDetailType = BDT_Hold_Kick;
-			  hold.mAngle = ang;
-			  hold.mEvaluation = 1.0 + FLOAT_EPS;
-		  	  mActiveBehaviorList.push_back(hold);
-		  }
-
-			if (!mActiveBehaviorList.empty()) {
-				mActiveBehaviorList.sort(std::greater<ActiveBehavior>());
-				behavior_list.push_back(mActiveBehaviorList.front());
+			Vector   posBallPred = mBallState.GetPredictedPos(1);
+			Vector   posPred     = mSelfState.GetPredictedPos(1);
+			if( posPred.Dist( posBallPred )< 0.85 * mSelfState.GetKickableArea() )
+			{
+				hold.mDetailType = BDT_Hold_Turn;
+				hold.mEvaluation = 1.0 + FLOAT_EPS;
+				hold.mAngle = (Vector(ServerParam::instance().PITCH_LENGTH / 2.0, 0.0) - mSelfState.GetPos()).Dir();
+				mActiveBehaviorList.push_back(hold);
 			}
+		}
+		else
+		{
+			hold.mDetailType = BDT_Hold_Kick;
+			hold.mAngle = ang;
+			hold.mEvaluation = 1.0 + FLOAT_EPS;
+			mActiveBehaviorList.push_back(hold);
+		}
+
+		if (!mActiveBehaviorList.empty()) {
+			mActiveBehaviorList.sort(std::greater<ActiveBehavior>());
+			behavior_list.push_back(mActiveBehaviorList.front());
+		}
 	}
 
 }

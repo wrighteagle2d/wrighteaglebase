@@ -1657,6 +1657,7 @@ bool WorldStateUpdater::ComputePlayerMaySeeOrNot(const PlayerState& state)
 		break;
 	default:
 		view_angle = 120;
+		break;
 	}
 
 	Vector dist_vec = state.GetPos() - GetSelf().GetPos();
@@ -2910,6 +2911,7 @@ bool WorldStateUpdater::ComputeShouldSeeOrNot(Vector pos)
 		break;
 	default:
 		view_angle = 120;
+		break;
 	}
 
 	//获得位置相对自己的夹角

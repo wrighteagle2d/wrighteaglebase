@@ -39,7 +39,7 @@ class BehaviorPenaltyExecuter : public BehaviorExecuterBase<BehaviorAttackData>
 {
 public:
 	BehaviorPenaltyExecuter(Agent & agent);
-    ~BehaviorPenaltyExecuter(void) { }
+    virtual ~BehaviorPenaltyExecuter(void) { }
 
     bool Execute(const ActiveBehavior &beh);
 

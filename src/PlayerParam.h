@@ -51,7 +51,7 @@ class HeteroParam: public ParamEngine {
 
 public:
 	HeteroParam();
-	~HeteroParam(){};
+	virtual ~HeteroParam(){};
 
 private:
 	void AddParams();
@@ -136,7 +136,7 @@ class PlayerParam: public ParamEngine {
 	PlayerParam & operator=( const PlayerParam & ); // not used
 
 public:
-	~PlayerParam();
+	virtual ~PlayerParam();
 	static PlayerParam &instance();
 	void init(int argc, char **argv);
 

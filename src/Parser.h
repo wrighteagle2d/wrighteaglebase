@@ -158,7 +158,7 @@ public:
      * 构造函数和析构函数
      */
     Parser(Observer *p_observer);
-    ~Parser();
+    virtual ~Parser();
 
     /**
      * 主循环函数
@@ -169,7 +169,7 @@ public:
      * 动态调试需要用到的接口
      */
 	void Parse(char *msg);
-	bool ParseInitializeMsg(char *msg);
+	bool ParseInitializeMsg(const char *msg);
 
 private:
 	void ConnectToServer();

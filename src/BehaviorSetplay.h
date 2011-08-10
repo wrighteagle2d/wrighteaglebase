@@ -39,7 +39,7 @@ class BehaviorSetplayExecuter : public BehaviorExecuterBase<BehaviorAttackData>
 {
 public:
 	BehaviorSetplayExecuter(Agent & agent);
-	~BehaviorSetplayExecuter(void);
+	virtual ~BehaviorSetplayExecuter(void);
 
 	bool Execute(const ActiveBehavior &act_bhv);
 
@@ -51,7 +51,7 @@ class BehaviorSetplayPlanner: public BehaviorPlannerBase<BehaviorAttackData>
 {
 public:
 	BehaviorSetplayPlanner(Agent & agent);
-	~BehaviorSetplayPlanner();
+	virtual ~BehaviorSetplayPlanner();
 
 	void Plan(std::list<ActiveBehavior> & behavior_list);
 };

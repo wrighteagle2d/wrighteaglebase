@@ -47,7 +47,7 @@ public:
      * 构造函数和析构函数
      */
     Player();
-    ~Player();
+    virtual ~Player();
 
     void Run();
     void SendOptionToServer();

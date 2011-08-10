@@ -39,7 +39,7 @@ class BehaviorFormationExecuter : public BehaviorExecuterBase<BehaviorDefenseDat
 {
 public:
     BehaviorFormationExecuter(Agent & agent);
-    ~BehaviorFormationExecuter(void);
+    virtual ~BehaviorFormationExecuter(void);
 
 	bool Execute(const ActiveBehavior & act_bhv);
 

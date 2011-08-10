@@ -37,6 +37,8 @@
 #include "Parser.h"
 #include "Utilities.h"
 
+#include <cstring>
+
 using namespace std;
 
 /**

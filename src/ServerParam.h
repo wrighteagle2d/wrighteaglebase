@@ -42,7 +42,7 @@ class ServerParam: public ParamEngine {
     ServerParam & operator=( const ServerParam & ); // not used
 
 public:
-	~ServerParam(){};
+	virtual ~ServerParam(){};
 	static ServerParam &instance();
 	void init(int argc, char **argv);
 

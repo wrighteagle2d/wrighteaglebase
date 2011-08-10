@@ -34,6 +34,8 @@
 #include "PlayerParam.h"
 #include "DynamicDebug.h"
 
+#include <cstring>
+
 timeval RealTime::mStartTime = GetRealTime();
 const long RealTime::ONE_MILLION = 1000000;
 

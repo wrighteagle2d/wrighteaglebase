@@ -149,7 +149,7 @@ void Parser::SendInitialLizeMsg(){
 	}
 }
 
-bool Parser::ParseInitializeMsg(char *msg)
+bool Parser::ParseInitializeMsg(const char *msg)
 {
 	char play_mode[128];
 	char my_side = '?';
@@ -424,6 +424,7 @@ void Parser::ParseSight(char *msg)
 					}
 				}
 			}
+			break;
 		default:
 			break;
 		}
@@ -1405,6 +1406,7 @@ void Parser::ParseCard(char *msg)
 		break;
 	default:
 		card_type = CR_None;
+		break;
 	}
 	Unum player;
 
@@ -1524,6 +1526,7 @@ void Parser::ParseSight_Coach(char *msg)
 					mpObserver->Opponent_Coach(obj.num).UpdateFoulChargedCycle(0);
 				}
 			}
+			break;
 		default:
 			break;
 		}

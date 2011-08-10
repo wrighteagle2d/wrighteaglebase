@@ -34,6 +34,7 @@
 #include "PlayerParam.h"
 
 #include <cstdio>
+#include <cstdarg>
 
 Plotter::Plotter():
 	mIsDisplayOk(false),

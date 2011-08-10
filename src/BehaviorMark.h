@@ -39,7 +39,7 @@ class BehaviorMarkExecuter : public BehaviorExecuterBase<BehaviorDefenseData>
 {
 public:
     BehaviorMarkExecuter(Agent & agent);
-    ~BehaviorMarkExecuter(void);
+    virtual ~BehaviorMarkExecuter(void);
 
 	bool Execute(const ActiveBehavior & act_bhv);
 

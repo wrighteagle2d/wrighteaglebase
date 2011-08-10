@@ -862,6 +862,7 @@ void ActionEffector::CheckCommandQueue(Observer *observer)
 					observer->SetPlayerTurnNeckTime(observer->CurrentTime());
 					observer->SetPlayerNeckDirByTurnNeck(neck_dir);
 				}
+				break;
 			default:
 				break;
 			}
@@ -1066,10 +1067,12 @@ void ActionEffector::ResetForScan()
 				mIsTurnNeck = false;
 				--mTurnNeckCount;
 				it = mCommandQueue.erase(it);
+				break;
 			case CT_Tackle:
 				mIsTackle = false;
 				--mTackleCount;
 				it = mCommandQueue.erase(it);
+				break;
 			default:
 				++it;
 				break;
