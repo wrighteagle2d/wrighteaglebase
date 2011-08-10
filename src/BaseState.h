@@ -38,7 +38,7 @@
 #include "PlayerParam.h"
 #include <cstring>
 
-//×î»ù±¾µÄÖµ
+//æœ€åŸºæœ¬çš„å€¼
 template<class T>
 class StateValue
 {
@@ -56,9 +56,9 @@ public:
 		mConf = o.mConf;
 	}
 
-	/**ÄÚ²¿×Ô¸üĞÂ
-	* @param Ã¿ÖÜÆÚdelay¼ÓÉÏµÄÊı¾İ
-	* @param Ã¿ÖÜÆÚconfË¥¼õµÄÊı¾İ*/
+	/**å†…éƒ¨è‡ªæ›´æ–°
+	* @param æ¯å‘¨æœŸdelayåŠ ä¸Šçš„æ•°æ®
+	* @param æ¯å‘¨æœŸconfè¡°å‡çš„æ•°æ®*/
 	void AutoUpdate(int delay_add = 1 , double conf_dec_factor = 1)
 	{
 		mCycleDelay += delay_add;
@@ -66,18 +66,18 @@ public:
 	}
 
 public:
-	/**Öµ´óĞ¡*/
+	/**å€¼å¤§å°*/
 	T mValue;
 
-	/**Öµ¾àµ±Ç°Ê±¼ä*/
+	/**å€¼è·å½“å‰æ—¶é—´*/
 	int mCycleDelay;
 
-	/**ÖµµÄ¿ÉĞÅ¶È*/
+	/**å€¼çš„å¯ä¿¡åº¦*/
 	double mConf;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-/**×î»ù´¡µÄBaseStateÀà*/
+/**æœ€åŸºç¡€çš„BaseStateç±»*/
 class BaseState
 {
 public:
@@ -91,52 +91,52 @@ public:
 		mPos = o.mPos;
 	}
 
-	/**¸üĞÂÎ»ÖÃ
-	* @param Î»ÖÃ
-	* @param Ê±¼ä
-	* @param ÖÃĞÅ¶È*/
+	/**æ›´æ–°ä½ç½®
+	* @param ä½ç½®
+	* @param æ—¶é—´
+	* @param ç½®ä¿¡åº¦*/
 	void UpdatePos(const Vector & pos , int delay = 0, double conf = 1);
 
-	/**»ñµÃµ±Ç°»òÇ°¼¸´ÎµÄÎ»ÖÃ
-	* @param ×îĞÂÖµÖ®Ç°µÄÖÜÆÚÊı£¬·¶Î§Îª0µ½RECORDSIZE-1,·ñÔò»áÑ­»·
+	/**è·å¾—å½“å‰æˆ–å‰å‡ æ¬¡çš„ä½ç½®
+	* @param æœ€æ–°å€¼ä¹‹å‰çš„å‘¨æœŸæ•°ï¼ŒèŒƒå›´ä¸º0åˆ°RECORDSIZE-1,å¦åˆ™ä¼šå¾ªç¯
 	*/
 	const Vector & GetPos() const { return mPos.mValue; }
 
-	/**»ñµÃµ±Ç°»òÇ°¼¸´ÎµÄÊ±¼ä
-	* @param ×îĞÂÖµÖ®Ç°µÄÖÜÆÚÊı£¬·¶Î§Îª0µ½RECORDSIZE-1,·ñÔò»áÑ­»·
+	/**è·å¾—å½“å‰æˆ–å‰å‡ æ¬¡çš„æ—¶é—´
+	* @param æœ€æ–°å€¼ä¹‹å‰çš„å‘¨æœŸæ•°ï¼ŒèŒƒå›´ä¸º0åˆ°RECORDSIZE-1,å¦åˆ™ä¼šå¾ªç¯
 	*/
 	int GetPosDelay() const { return mPos.mCycleDelay; }
 
-	/**»ñµÃµ±Ç°»òÇ°¼¸´ÎµÄÖÃĞÅ¶È
-	* @param ×îĞÂÖµÖ®Ç°µÄÖÜÆÚÊı£¬·¶Î§Îª0µ½RECORDSIZE-1,·ñÔò»áÑ­»·
+	/**è·å¾—å½“å‰æˆ–å‰å‡ æ¬¡çš„ç½®ä¿¡åº¦
+	* @param æœ€æ–°å€¼ä¹‹å‰çš„å‘¨æœŸæ•°ï¼ŒèŒƒå›´ä¸º0åˆ°RECORDSIZE-1,å¦åˆ™ä¼šå¾ªç¯
 	*/
 	const double & GetPosConf() const { return mPos.mConf; }
 
 
 	/**
-	 *  ÉèÖÃposµÄÎó²î·¶Î§,Ö÷ÒªÖ¸Îó²îÔ²µÄ°ë¾¶
+	 *  è®¾ç½®posçš„è¯¯å·®èŒƒå›´,ä¸»è¦æŒ‡è¯¯å·®åœ†çš„åŠå¾„
 	 */
 	void UpdatePosEps(double eps)  { mPosEps = eps;}
 
 	/**
-	 * »ñµÃposµÄÎó²îµÄeps
+	 * è·å¾—posçš„è¯¯å·®çš„eps
 	 */
 	const double & GetPosEps() const { return mPosEps;}
 
-	/**ÄÚ²¿×Ô¸üĞÂ
-	* @param Ã¿ÖÜÆÚdelay¼ÓÉÏµÄÊı¾İ
-	* @param Ã¿ÖÜÆÚconfË¥¼õµÄÊı¾İ*/
+	/**å†…éƒ¨è‡ªæ›´æ–°
+	* @param æ¯å‘¨æœŸdelayåŠ ä¸Šçš„æ•°æ®
+	* @param æ¯å‘¨æœŸconfè¡°å‡çš„æ•°æ®*/
 	void AutoUpdate(int delay_add = 1 , double conf_dec_factor = 1);
 private:
-	/**´æ´¢ÊıÖÜÆÚµÄÎ»ÖÃ*/
+	/**å­˜å‚¨æ•°å‘¨æœŸçš„ä½ç½®*/
 	StateValue<Vector> mPos;
 
 	double mPosEps;
 };
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
-/**¾²Ì¬ÎïÌå»ùÀà*/
-/**×¢£ºÔİÊ±Ã»Ïëµ½ÓĞÊ²Ã´ĞÅÏ¢*/
+/**é™æ€ç‰©ä½“åŸºç±»*/
+/**æ³¨ï¼šæš‚æ—¶æ²¡æƒ³åˆ°æœ‰ä»€ä¹ˆä¿¡æ¯*/
 class StaticState: public BaseState
 {
 };
@@ -182,39 +182,39 @@ public:
 		return *this;
 	}
 
-	/**¸üĞÂËÙ¶È
-	* @param ËÙ¶È
-	* @param Ê±¼ä
-	* @param ÖÃĞÅ¶È*/
+	/**æ›´æ–°é€Ÿåº¦
+	* @param é€Ÿåº¦
+	* @param æ—¶é—´
+	* @param ç½®ä¿¡åº¦*/
 	void UpdateVel(const Vector & vel , int delay = 0, double conf = 1);
 
-	/**»ñµÃµ±Ç°»òÇ°¼¸´ÎµÄËÙ¶È
-	* @param ×îĞÂÖµÖ®Ç°µÄÖÜÆÚÊı£¬·¶Î§Îª0µ½RECORDSIZE-1,·ñÔò»áÑ­»·
+	/**è·å¾—å½“å‰æˆ–å‰å‡ æ¬¡çš„é€Ÿåº¦
+	* @param æœ€æ–°å€¼ä¹‹å‰çš„å‘¨æœŸæ•°ï¼ŒèŒƒå›´ä¸º0åˆ°RECORDSIZE-1,å¦åˆ™ä¼šå¾ªç¯
 	*/
 	const Vector & GetVel() const { return mVel.mValue; }
 
-	/**»ñµÃµ±Ç°»òÇ°¼¸´ÎµÄËÙ¶ÈµÄÊ±¼ä
-	* @param ×îĞÂÖµÖ®Ç°µÄÖÜÆÚÊı£¬·¶Î§Îª0µ½RECORDSIZE-1,·ñÔò»áÑ­»·
+	/**è·å¾—å½“å‰æˆ–å‰å‡ æ¬¡çš„é€Ÿåº¦çš„æ—¶é—´
+	* @param æœ€æ–°å€¼ä¹‹å‰çš„å‘¨æœŸæ•°ï¼ŒèŒƒå›´ä¸º0åˆ°RECORDSIZE-1,å¦åˆ™ä¼šå¾ªç¯
 	*/
 	int GetVelDelay() const { return mVel.mCycleDelay; }
 
-	/**»ñµÃµ±Ç°»òÇ°¼¸´ÎµÄËÙ¶ÈµÄÖÃĞÅ¶È
-	* @param ×îĞÂÖµÖ®Ç°µÄÖÜÆÚÊı£¬·¶Î§Îª0µ½RECORDSIZE-1,·ñÔò»áÑ­»·
+	/**è·å¾—å½“å‰æˆ–å‰å‡ æ¬¡çš„é€Ÿåº¦çš„ç½®ä¿¡åº¦
+	* @param æœ€æ–°å€¼ä¹‹å‰çš„å‘¨æœŸæ•°ï¼ŒèŒƒå›´ä¸º0åˆ°RECORDSIZE-1,å¦åˆ™ä¼šå¾ªç¯
 	*/
 	const double & GetVelConf() const { return mVel.mConf; }
 
 	/**
-	 * ¼ÆËãËÙ¶ÈÎó²î
+	 * è®¡ç®—é€Ÿåº¦è¯¯å·®
 	 */
 	void UpdateVelEps(double eps) { mVelEps = eps;}
 
 	/**
-	 * »ñµÃËÙ¶ÈÎó²î
+	 * è·å¾—é€Ÿåº¦è¯¯å·®
 	 */
 	double GetVelEps() const { return mVelEps;};
 
 	/**
-	* µÃµ½ÔË¶¯ decay
+	* å¾—åˆ°è¿åŠ¨ decay
 	* @return
 	*/
 	const double & GetDecay() const { return mDecay; }
@@ -222,14 +222,14 @@ public:
 	void SetDecay(const double & decay) { mDecay = decay; }
 
 	/**
-	* Êµ¼Ê×î´óËÙ¶È
+	* å®é™…æœ€å¤§é€Ÿåº¦
 	*/
 	const double & GetEffectiveSpeedMax() const { return mEffectiveSpeedMax; }
 	void SetEffectiveSpeedMax(double effective_speed_max) { mEffectiveSpeedMax = effective_speed_max; }
 
-	/**ÄÚ²¿×Ô¸üĞÂ
-	* @param Ã¿ÖÜÆÚdelay¼ÓÉÏµÄÊı¾İ
-	* @param Ã¿ÖÜÆÚconfË¥¼õµÄÊı¾İ*/
+	/**å†…éƒ¨è‡ªæ›´æ–°
+	* @param æ¯å‘¨æœŸdelayåŠ ä¸Šçš„æ•°æ®
+	* @param æ¯å‘¨æœŸconfè¡°å‡çš„æ•°æ®*/
 	void AutoUpdate(int delay_add = 1 , double conf_dec_factor = 1);
 
 public:
@@ -321,7 +321,7 @@ public:
 	}
 
 private:
-	/**´æ´¢Êı¸öÖÜÆÚµÄËÙ¶È*/
+	/**å­˜å‚¨æ•°ä¸ªå‘¨æœŸçš„é€Ÿåº¦*/
 	StateValue<Vector> mVel;
 
 	double mVelEps;

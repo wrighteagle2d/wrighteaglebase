@@ -52,32 +52,32 @@ public:
     static Kicker & instance();
 
     /**
-     * ¼ÆËãmKickerValue±í
+     * è®¡ç®—mKickerValueè¡¨
      * Compute kicker value table.
      */
     void ComputeUtilityTable();
 
     /**
-     * Í¨¹ıkickµÄÎó²îÄ£ĞÍ¼ÆËãÌßÇòºóµÄmax_rand
+     * é€šè¿‡kickçš„è¯¯å·®æ¨¡å‹è®¡ç®—è¸¢çƒåçš„max_rand
      * Calculate maximum random error after kick action.
      */
     double GetMaxRandAfterKick(const Agent & agent, double power);
 
     /**
-     * ¸ù¾İÇòµÄ³õËÙ¶ÈºÍÄ¿±êËÙ¶È£¬µÃµ½kickĞèÒªµÄpower£¬²ÎÊı¶¼Îª¾ø¶ÔÁ¿»ò¶¼ÎªÏà¶ÔÁ¿
+     * æ ¹æ®çƒçš„åˆé€Ÿåº¦å’Œç›®æ ‡é€Ÿåº¦ï¼Œå¾—åˆ°kickéœ€è¦çš„powerï¼Œå‚æ•°éƒ½ä¸ºç»å¯¹é‡æˆ–éƒ½ä¸ºç›¸å¯¹é‡
      * Calculate power need for an kick action according to initial and objective velocity.
      */
     double GetOneKickPower(const Vector & ball_vel, const Vector & ball_goal_vel, const double kick_rate);
 
     /**
-     * ÏÂÃæ2¸öÖØÔØº¯Êı¼ÆËãÔÚ¸ø¶¨Ä¿±êµã»òÌßÇò½Ç¶ÈºÍÌßÇòÖÜÆÚµÄÇ°ÌáÏÂ£¬Ê¹ÇòÄÜ´ïµ½µÄ×î´óÇòËÙ£¬²ÎÊı¾ùÎª¾ø¶ÔÁ¿
+     * ä¸‹é¢2ä¸ªé‡è½½å‡½æ•°è®¡ç®—åœ¨ç»™å®šç›®æ ‡ç‚¹æˆ–è¸¢çƒè§’åº¦å’Œè¸¢çƒå‘¨æœŸçš„å‰æä¸‹ï¼Œä½¿çƒèƒ½è¾¾åˆ°çš„æœ€å¤§çƒé€Ÿï¼Œå‚æ•°å‡ä¸ºç»å¯¹é‡
      * The following 2 functions calculate maximum speed the ball can reach by given conditions.
      */
 	double GetMaxSpeed(const Agent & agent, const double & kick_angle, const int & cycle, Vector * kick_out_pos = 0);
     double GetMaxSpeed(const Agent & agent, const Vector & kick_pos, const int & cycle, Vector * kick_out_pos = 0, Vector *last_vel = 0);
 
     /**
-     * ÍâÃæÓÃµ½µÄ½Ó¿Ú£¬ÀïÃæ»á¼ÆËãĞèÒª¼¸ÖÜÆÚÌßÇò
+     * å¤–é¢ç”¨åˆ°çš„æ¥å£ï¼Œé‡Œé¢ä¼šè®¡ç®—éœ€è¦å‡ å‘¨æœŸè¸¢çƒ
      * the following 2 functions generate kick action plans.
      */
 	bool KickBall(Agent & agent, double angle, double speed_out, KickMode mode = KM_Hard, int *cycle_left = 0, bool is_shoot = false);
@@ -85,14 +85,14 @@ public:
 
     bool KickBallCloseToBody(Agent & agent , AngleDeg ang, double KickRatio );
     /**
-     * Ö´ĞĞº¯Êı
+     * æ‰§è¡Œå‡½æ•°
      * Execute a kick action plan.
      */
     void Execute(Agent &agent, const ActionPlan &plan);
 
 private:
 
-    /** ÔÚÀëÉ¢µãÖÓÑ°ÕÒ×î½üµÄÒ»¸öµã */
+    /** åœ¨ç¦»æ•£ç‚¹é’Ÿå¯»æ‰¾æœ€è¿‘çš„ä¸€ä¸ªç‚¹ */
     inline int NearestPoint(const Vector & p)
     {
         double ang = 0.0;
@@ -124,14 +124,14 @@ private:
 	    }
     }
 
-    /** ¶ÁÈ¡mKickerValue±í */
+    /** è¯»å–mKickerValueè¡¨ */
     void ReadUtilityTable();
 
-    /** ¸üĞÂkickµÄÊı¾İ£¬ÀïÃæÓĞÊ±¼ä¿ØÖÆ */
+    /** æ›´æ–°kickçš„æ•°æ®ï¼Œé‡Œé¢æœ‰æ—¶é—´æ§åˆ¶ */
     void UpdateKickData(const Agent & agent);
 
     /**
-     * µÃµ½Ò»´ÎkickÔÚÄ³·½ÏòÄÜ´ïµ½µÄ×î´óËÙ¶È£¬²ÎÊı¶¼Îª¾ø¶ÔÁ¿»ò¶¼ÎªÏà¶ÔÁ¿
+     * å¾—åˆ°ä¸€æ¬¡kickåœ¨æŸæ–¹å‘èƒ½è¾¾åˆ°çš„æœ€å¤§é€Ÿåº¦ï¼Œå‚æ•°éƒ½ä¸ºç»å¯¹é‡æˆ–éƒ½ä¸ºç›¸å¯¹é‡
      * Calculate maximum speed from acceleration. All parameters should be in the same coordinate
      * system. And return value will be in the same system.
      * \param ball_vel velocity of ball.
@@ -154,74 +154,74 @@ private:
     	}
     }
 
-    /** ÒÑÖª¼¸ÖÜÆÚÌßÇòºó£¬¸Ãº¯Êı±»µ÷ÓÃ */
+    /** å·²çŸ¥å‡ å‘¨æœŸè¸¢çƒåï¼Œè¯¥å‡½æ•°è¢«è°ƒç”¨ */
     bool KickBall(Agent & agent, const Vector & target, double speed_out, int cycle, bool is_shoot = false);
 
-    /** ÏÂÃæÊÇµÃµ½ActionInfo½Ó¿ÚµÄº¯Êı */
+    /** ä¸‹é¢æ˜¯å¾—åˆ°ActionInfoæ¥å£çš„å‡½æ•° */
 	AtomicAction GetOneKickAction(const Agent & agent, const Vector & ball_pos, const Vector & ball_vel, const Vector & target, bool is_self = true);
 	AtomicAction GetKickOutAction(const Agent & agent, Vector & ball_pos, Vector & ball_vel, bool is_self = true);
     AtomicAction GetMaxKickOutAction(const Agent & agent, Vector & ball_pos, Vector & ball_vel, bool is_self = true);
     AtomicAction GetTurnAction(const Agent & agent);
 
-    /** Ò»ÖÜÆÚÌßÇòºÍ¶àÖÜÆÚÌßÇò£¬ÒÔ¼°×ªÉíµÄ¹æ»® */
+    /** ä¸€å‘¨æœŸè¸¢çƒå’Œå¤šå‘¨æœŸè¸¢çƒï¼Œä»¥åŠè½¬èº«çš„è§„åˆ’ */
     ActionPlan OneCycleKick(const Agent & agent, bool is_shoot = false);
     ActionPlan MultiCycleKick(const Agent & agent, int cycle);
     AtomicAction TurnPlan(const Agent & agent, int index, double turn_max_speed);
 
 private:
     enum {
-    	STEP_KICK_ANGLE = 10, // KickerÀàÖĞËÑË÷½Ç¶ÈµÄ²½³¤£¬¹²ÓĞ360 / 10 = 36¸ö½Ç¶È
-    	POINTS_NUM = 81 // KickerÀàÖĞËÑË÷µÄ×ÜµãÊı£¬POINTS_NUM = nlayer[0] + nlayer[1] + nlayer[2]
+    	STEP_KICK_ANGLE = 10, // Kickerç±»ä¸­æœç´¢è§’åº¦çš„æ­¥é•¿ï¼Œå…±æœ‰360 / 10 = 36ä¸ªè§’åº¦
+    	POINTS_NUM = 81 // Kickerç±»ä¸­æœç´¢çš„æ€»ç‚¹æ•°ï¼ŒPOINTS_NUM = nlayer[0] + nlayer[1] + nlayer[2]
     };
 
     AgentID     mAgentID;
 
-    Array<int, 3>  mNlayer;         /** Ã¿²ãµÄÀëÉ¢µãÊı */
-    double      mD1;                /** 1,2²ã°ë¾¶µÄ¾ùÖµ */
-    double      mD2;                /** 2,3²ã°ë¾¶µÄ¾ùÖµ */
-    Array<double, 3> mDlayer;    /** Ã¿²ãµÄ°ë¾¶ */
-    Array<Vector, POINTS_NUM> mPoint; /** ´æ´¢ËùÓĞµã */
+    Array<int, 3>  mNlayer;         /** æ¯å±‚çš„ç¦»æ•£ç‚¹æ•° */
+    double      mD1;                /** 1,2å±‚åŠå¾„çš„å‡å€¼ */
+    double      mD2;                /** 2,3å±‚åŠå¾„çš„å‡å€¼ */
+    Array<double, 3> mDlayer;    /** æ¯å±‚çš„åŠå¾„ */
+    Array<Vector, POINTS_NUM> mPoint; /** å­˜å‚¨æ‰€æœ‰ç‚¹ */
 
-    float mKickerValue[3][36][POINTS_NUM][POINTS_NUM]; /** 2,3,4½ÅÌßÇò£¬36¸ö½Ç¶È£¬POINTS_NUM¸öµã */ // float¼´¿É£¬½ÚÊ¡ËùÕ¼¿Õ¼ä
+    float mKickerValue[3][36][POINTS_NUM][POINTS_NUM]; /** 2,3,4è„šè¸¢çƒï¼Œ36ä¸ªè§’åº¦ï¼ŒPOINTS_NUMä¸ªç‚¹ */ // floatå³å¯ï¼ŒèŠ‚çœæ‰€å ç©ºé—´
 
-    ReciprocalCurve mOppCurve;      /** ¶ÔÊÖµÄÓ°Ïì */
-    ReciprocalCurve mRandCurve;     /** Îó²îµÄÓ°Ïì */
-    ReciprocalCurve mSpeedCurve;    /** ÇòËÙµÄÓ°Ïì */
+    ReciprocalCurve mOppCurve;      /** å¯¹æ‰‹çš„å½±å“ */
+    ReciprocalCurve mRandCurve;     /** è¯¯å·®çš„å½±å“ */
+    ReciprocalCurve mSpeedCurve;    /** çƒé€Ÿçš„å½±å“ */
 
-    ActionInput mInput;                 /** ¼ÇÂ¼kickµÄ×´Ì¬ĞÅÏ¢ */
-    double      mKickSpeed;             /** kickµÄÆÚÍûËÙ¶È´óĞ¡ */
-    Vector      mKickTarget;            /** kickµÄÄ¿±êµã£¬ÔÚplayer×ø±êÏµÖĞ */
+    ActionInput mInput;                 /** è®°å½•kickçš„çŠ¶æ€ä¿¡æ¯ */
+    double      mKickSpeed;             /** kickçš„æœŸæœ›é€Ÿåº¦å¤§å° */
+    Vector      mKickTarget;            /** kickçš„ç›®æ ‡ç‚¹ï¼Œåœ¨playeråæ ‡ç³»ä¸­ */
 
-    Array<double, POINTS_NUM> mKickRate;/** ÔÚÃ¿¸öµãÇòÔ±µÄkick_rate */
-    Array<double, POINTS_NUM> mMaxAccel;/** ÔÚÃ¿¸öµãÇòÔ±ÄÜ²úÉúµÄ×î´ó¼ÓËÙ¶Èeff_power */
-    Array<double, POINTS_NUM> mRandEva; /** ÔÚÃ¿¸öµãÇòÔ±kick²úÉúµÄ×î´óÎó²î */
-    Array<double, POINTS_NUM> mPointEva;/** ÔÚÃ¿¸öµãÇòÔ±kickµÄeva */
+    Array<double, POINTS_NUM> mKickRate;/** åœ¨æ¯ä¸ªç‚¹çƒå‘˜çš„kick_rate */
+    Array<double, POINTS_NUM> mMaxAccel;/** åœ¨æ¯ä¸ªç‚¹çƒå‘˜èƒ½äº§ç”Ÿçš„æœ€å¤§åŠ é€Ÿåº¦eff_power */
+    Array<double, POINTS_NUM> mRandEva; /** åœ¨æ¯ä¸ªç‚¹çƒå‘˜kickäº§ç”Ÿçš„æœ€å¤§è¯¯å·® */
+    Array<double, POINTS_NUM> mPointEva;/** åœ¨æ¯ä¸ªç‚¹çƒå‘˜kickçš„eva */
 
-    double      mMaxRandFactor;         /** ¼ÇÂ¼Çókick randÊ±µÄÒ»¸öÁ¿ */
+    double      mMaxRandFactor;         /** è®°å½•æ±‚kick randæ—¶çš„ä¸€ä¸ªé‡ */
 
-    Array<Array<AgentID, 3>, 360 > mMaxSpeedFlag;     /** ¼ÇÂ¼¸÷¸ö½Ç¶ÈµÄ¼ÆËã±ê¼Ç£¬ */
-    Array<Array<double, 3>, 360 > mMaxSpeed;          /** 360¸ö½Ç¶È£¬1,2,3½ÅÇé¿öÏÂÄÜ´ïµ½µÄ×î´óËÙ¶È */
-    Array<Array<Vector, 3>, 360 > mMaxSpeedOutPos;    /** 360¸ö½Ç¶È£¬1,2,3½ÅÇé¿öÏÂ´ïµ½×î´óËÙ¶ÈÊ±µÄ³öÇòµÄÎ»ÖÃ */
+    Array<Array<AgentID, 3>, 360 > mMaxSpeedFlag;     /** è®°å½•å„ä¸ªè§’åº¦çš„è®¡ç®—æ ‡è®°ï¼Œ */
+    Array<Array<double, 3>, 360 > mMaxSpeed;          /** 360ä¸ªè§’åº¦ï¼Œ1,2,3è„šæƒ…å†µä¸‹èƒ½è¾¾åˆ°çš„æœ€å¤§é€Ÿåº¦ */
+    Array<Array<Vector, 3>, 360 > mMaxSpeedOutPos;    /** 360ä¸ªè§’åº¦ï¼Œ1,2,3è„šæƒ…å†µä¸‹è¾¾åˆ°æœ€å¤§é€Ÿåº¦æ—¶çš„å‡ºçƒçš„ä½ç½® */
     Array<Array<Vector, 3>, 360 > mMaxSpeedOutFirstPos;
-    Array<Array<Vector, 3>, 360 > mMaxSpeedOutLastVel;/** ×î´óËÙ¶È³öÇòÊ±£¬×îºóÒ»¸öÖÜÆÚµÄËÙ¶È£¨kickÇ°£© */
+    Array<Array<Vector, 3>, 360 > mMaxSpeedOutLastVel;/** æœ€å¤§é€Ÿåº¦å‡ºçƒæ—¶ï¼Œæœ€åä¸€ä¸ªå‘¨æœŸçš„é€Ÿåº¦ï¼ˆkickå‰ï¼‰ */
 
 public:
-    /** ÏÂÃæÌá¹©ÓĞ¹ØÓĞÇòagentµÄ½Ó¿Ú£¬Ö±½Ó·µ»ØAtomicAction£¬¹©Íâ²¿µ÷ÓÃ */
+    /** ä¸‹é¢æä¾›æœ‰å…³æœ‰çƒagentçš„æ¥å£ï¼Œç›´æ¥è¿”å›AtomicActionï¼Œä¾›å¤–éƒ¨è°ƒç”¨ */
 
     /**
-     * ±£Ö¤kickÍêÊ¹ÇòËÙ´ïµ½×îĞ¡
+     * ä¿è¯kickå®Œä½¿çƒé€Ÿè¾¾åˆ°æœ€å°
      * Get an atomic action to stop ball or minimum ball speed.
      */
     AtomicAction GetStopBallAction(const Agent & agent, bool forceStop = true);
 
     /**
-     * ½«Çò¼ÓËÙµ½ÌØ¶¨µÄÄ¿±êËÙ¶È
+     * å°†çƒåŠ é€Ÿåˆ°ç‰¹å®šçš„ç›®æ ‡é€Ÿåº¦
      * Accelerate the ball to a certain velocity.
      */
     AtomicAction GetAccelerateBallAction(const Agent & agent, Vector & goal_vel);
 
     /**
-     * ½«ÇòÌßÏòÌØ¶¨·½Ïò
+     * å°†çƒè¸¢å‘ç‰¹å®šæ–¹å‘
      * Kick the ball to a certain direction.
      */
     AtomicAction GetKickBallToAngleAction(const Agent & agent, AngleDeg rel_angle, double rel_dist_rate = 0.9);

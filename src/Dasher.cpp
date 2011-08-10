@@ -69,7 +69,7 @@ Dasher & Dasher::instance()
 }
 
 
-/** ÒÔ×î¿ìµÄ·½Ê½ÅÜµ½Ä¿±êµã
+/** ä»¥æœ€å¿«çš„æ–¹å¼è·‘åˆ°ç›®æ ‡ç‚¹
 * Run to the destination point with the fastest method.
 * \param agent the agent itself.
 * \param act an atomic action caculated to go to pos for this cycle.
@@ -94,7 +94,7 @@ void Dasher::GoToPoint(Agent & agent, AtomicAction & act, Vector target, double 
 	AngleDeg dirdiff = GetNormalizeAngleDeg((target - my_pre_pos).Dir() - agent.GetSelf().GetBodyDir());
 
 	if (fabs(dirdiff) < 90.0){
-		can_inverse = false; //²»ĞèÒªµ¹×ÅÅÜ
+		can_inverse = false; //ä¸éœ€è¦å€’ç€è·‘
 	}
 
 	bool inverse = false;
@@ -108,7 +108,7 @@ void Dasher::GoToPoint(Agent & agent, AtomicAction & act, Vector target, double 
 	GoToPointWithCertainPosture(agent, act, target, buffer, power, inverse, turn_first);
 }
 
-/** ÒÔÈ·¶¨µÄ×ËÊÆ£¨Ö¸µ¹×ÅÅÜºÍÕıÅÜ£©£¬ÅÜµ½Ä¿±êµã
+/** ä»¥ç¡®å®šçš„å§¿åŠ¿ï¼ˆæŒ‡å€’ç€è·‘å’Œæ­£è·‘ï¼‰ï¼Œè·‘åˆ°ç›®æ ‡ç‚¹
 * Run to the destination point with a certain posture, forward or backword.
 * \param agent the agent itself.
 * \param act an atomic action caculated to go to pos for this cycle.
@@ -125,7 +125,7 @@ void Dasher::GoToPointWithCertainPosture(Agent & agent, AtomicAction & act, Vect
 
 	const Vector & my_pre_pos = agent.Self().GetPredictedPos(1);
 	double dist = my_pre_pos.Dist(target);
-	AngleDeg dirdiff = inverse? GetNormalizeAngleDeg((my_pre_pos - target).Dir() - agent.GetSelf().GetBodyDir()): GetNormalizeAngleDeg((target - my_pre_pos).Dir() - agent.GetSelf().GetBodyDir()); //ĞèÒª×ªÉíµÄ½Ç¶È
+	AngleDeg dirdiff = inverse? GetNormalizeAngleDeg((my_pre_pos - target).Dir() - agent.GetSelf().GetBodyDir()): GetNormalizeAngleDeg((target - my_pre_pos).Dir() - agent.GetSelf().GetBodyDir()); //éœ€è¦è½¬èº«çš„è§’åº¦
 
 	double bufang;
 
@@ -153,15 +153,15 @@ void Dasher::GoToPointWithCertainPosture(Agent & agent, AtomicAction & act, Vect
 				act.mSucceed = true;
 			}
 			else {
-				act.mType = CT_None; //powerÎªÁãÊ±¾Í²»ÒªÖ´ĞĞÁË£¬Ã»ÒâÒå
-				TurnDashPlaning(agent, act, target, buffer, power, inverse, turn_first);//ÔÙ´Î¿¼ÂÇ×ªÉí£¬ÒÔÃâÂ©µôÒ»ÏßºÃµÄ×ªÉíµÄ»ú»á
+				act.mType = CT_None; //powerä¸ºé›¶æ—¶å°±ä¸è¦æ‰§è¡Œäº†ï¼Œæ²¡æ„ä¹‰
+				TurnDashPlaning(agent, act, target, buffer, power, inverse, turn_first);//å†æ¬¡è€ƒè™‘è½¬èº«ï¼Œä»¥å…æ¼æ‰ä¸€çº¿å¥½çš„è½¬èº«çš„æœºä¼š
 			}
 		}
 	}
 }
 
 /**
-* ¿¼ÂÇ×ªÉí»òÖ±½Ódash
+* è€ƒè™‘è½¬èº«æˆ–ç›´æ¥dash
 * Planing to turn or to dash.
 * @param agent the agent itself.
 * @param act an atomic action to return the caculated decision.
@@ -181,10 +181,10 @@ void Dasher::TurnDashPlaning(Agent & agent, AtomicAction & act, Vector target, d
 	PlayerState & self = agent.Self();
 	const Vector & my_pre_pos = self.GetPredictedPos(1);
 	double target_dist = my_pre_pos.Dist(target);
-	AngleDeg target_ang = inverse? GetNormalizeAngleDeg((my_pre_pos - target).Dir() - agent.GetSelf().GetBodyDir()): GetNormalizeAngleDeg((target - my_pre_pos).Dir() - agent.GetSelf().GetBodyDir()); //ĞèÒª×ªÉíµÄ½Ç¶È
+	AngleDeg target_ang = inverse? GetNormalizeAngleDeg((my_pre_pos - target).Dir() - agent.GetSelf().GetBodyDir()): GetNormalizeAngleDeg((target - my_pre_pos).Dir() - agent.GetSelf().GetBodyDir()); //éœ€è¦è½¬èº«çš„è§’åº¦
 
 	//DT_none
-	//´¦Àí×ªÉíÎÊÌâ,¿ÉÄÜ1dash + 1turn¸üºÃ
+	//å¤„ç†è½¬èº«é—®é¢˜,å¯èƒ½1dash + 1turnæ›´å¥½
 	double bufang;
 	if(buffer > FLOAT_EPS){
 		bufang = ASin(buffer / target_dist / 2) * 2;
@@ -211,16 +211,16 @@ void Dasher::TurnDashPlaning(Agent & agent, AtomicAction & act, Vector target, d
 		oneturnang += 2.6;
 	}
 
-	if(turn_first || diffang <= oneturnang || speed < 0.04){ //ÓÉÓÚÔëÉùµÄ´æÔÚ£¬ÔÚ·ÇÉíÌå·½ÏòÒ²ÓĞËÙ¶È£¬µ÷Ò²µ÷²»¹ıÀ´£¬Ì«Ğ¡Ê±²»ÈçÖ±½Ó×ª,0.04ÊÇÒ»°ã¶ÓÔ±µÄÎó²î¼«Öµ
+	if(turn_first || diffang <= oneturnang || speed < 0.04){ //ç”±äºå™ªå£°çš„å­˜åœ¨ï¼Œåœ¨éèº«ä½“æ–¹å‘ä¹Ÿæœ‰é€Ÿåº¦ï¼Œè°ƒä¹Ÿè°ƒä¸è¿‡æ¥ï¼Œå¤ªå°æ—¶ä¸å¦‚ç›´æ¥è½¬,0.04æ˜¯ä¸€èˆ¬é˜Ÿå‘˜çš„è¯¯å·®æå€¼
 		act.mType = CT_Turn;
 		act.mTurnAngle = target_ang;
 		act.mSucceed = true;
 		return;
 	}
 	else {
-		//¼ÆËã1 dash + 1turn;
-		//ÏÂÃæ¶¼ÊÇËãdashµ½Ê²Ã´ËÙ¶È×îºÃ
-		double mspd1 = (180.0/ ( diffang + 10 ) - 1.0 ) / inertia_moment; //10ÊÇbuf£¬²»È»ÈİÒ×µ÷ÕûºóÕıºÃ»¹×ª²»¹ıÀ´
+		//è®¡ç®—1 dash + 1turn;
+		//ä¸‹é¢éƒ½æ˜¯ç®—dashåˆ°ä»€ä¹ˆé€Ÿåº¦æœ€å¥½
+		double mspd1 = (180.0/ ( diffang + 10 ) - 1.0 ) / inertia_moment; //10æ˜¯bufï¼Œä¸ç„¶å®¹æ˜“è°ƒæ•´åæ­£å¥½è¿˜è½¬ä¸è¿‡æ¥
 		double dash2spd = Min(mspd1 / decay, speedmax) / (1 + ServerParam::instance().playerRand());
 
 		if( fabs(GetNormalizeAngleDeg(vel.Dir() - facing)) > 90.0){
@@ -232,9 +232,9 @@ void Dasher::TurnDashPlaning(Agent & agent, AtomicAction & act, Vector target, d
 		Ray cur_r(self.GetPos(), facing);
 		Vector pt_inf = cur_r.GetPoint(spd_inf * (1.0 + decay));
 		Vector pt_sup = cur_r.GetPoint(spd_sup * (1.0 + decay));
-		Vector pt;//ÒªÈ¡µÃµã
-		bool bnegtive;//ÒªÅÜµÄµãÊÇ²»ÊÇÔÚÉíºó
-		Line pdl = Line(cur_r).GetPerpendicular(target);//´¹Ïß
+		Vector pt;//è¦å–å¾—ç‚¹
+		bool bnegtive;//è¦è·‘çš„ç‚¹æ˜¯ä¸æ˜¯åœ¨èº«å
+		Line pdl = Line(cur_r).GetPerpendicular(target);//å‚çº¿
 		if(pdl.IsPointInSameSide(pt_inf, pt_sup)){
 			if(fabs(GetNormalizeAngleDeg(facing-target_ang)) < 90.0){
 				pt = pt_sup;
@@ -247,15 +247,15 @@ void Dasher::TurnDashPlaning(Agent & agent, AtomicAction & act, Vector target, d
 		}
 		else{
 			double dist;
-			bnegtive = !cur_r.Intersection(pdl, dist); //´¹µã
+			bnegtive = !cur_r.Intersection(pdl, dist); //å‚ç‚¹
 			pt = cur_r.GetPoint(dist);
 		}
-		double dis = pt.Dist(target);//Á½¸öÖÜÆÚºóÀëpointµÄ¾àÀë,ÓÃÀ´compare with 2 turn
+		double dis = pt.Dist(target);//ä¸¤ä¸ªå‘¨æœŸåç¦»pointçš„è·ç¦»,ç”¨æ¥compare with 2 turn
 		double twoturnang = oneturnang + 180.0 / (1.0 + inertia_moment * fabs(speed) * decay);
 		if(twoturnang > diffang){
 			const Vector & pt2 = self.GetPredictedPos(2);
 			double dis2 = pt2.Dist(target);
-			if(dis2 < dis || diffang > 102.6){ //Ò»´Î×ªÌ«´ó£¬Îó²îÒ²´ó²»ÈçÖ±½Ó2turn
+			if(dis2 < dis || diffang > 102.6){ //ä¸€æ¬¡è½¬å¤ªå¤§ï¼Œè¯¯å·®ä¹Ÿå¤§ä¸å¦‚ç›´æ¥2turn
 				act.mType = CT_Turn;
 				act.mTurnAngle = target_ang;
 				act.mSucceed = true;
@@ -269,7 +269,7 @@ void Dasher::TurnDashPlaning(Agent & agent, AtomicAction & act, Vector target, d
 		else{
 			spd_need = (pt - self.GetPos()).Mod() / (1.0 + decay);
 		}
-		//»á×ÜÊÇdash¶ødashºóÓÖ×ª²»¹ıÀ´...,¿´×Å¾ÍÏñ²»ÄÃÇò
+		//ä¼šæ€»æ˜¯dashè€Œdashååˆè½¬ä¸è¿‡æ¥...,çœ‹ç€å°±åƒä¸æ‹¿çƒ
 		double turnang_after_dash = 180.0 / (1.0 + inertia_moment * fabs(spd_need) * decay) - 5.0;
 		if(GetAngleDegDiffer((target - pt).Dir(), facing) > turnang_after_dash ){
 			act.mType = CT_Turn;
@@ -287,14 +287,14 @@ void Dasher::TurnDashPlaning(Agent & agent, AtomicAction & act, Vector target, d
 			act.mSucceed = true;
 		}
 		else {
-			act.mType = CT_Turn; //powerÎªÁãÊ±¾Í²»ÒªÖ´ĞĞÁË£¬Ã»ÒâÒå
+			act.mType = CT_Turn; //powerä¸ºé›¶æ—¶å°±ä¸è¦æ‰§è¡Œäº†ï¼Œæ²¡æ„ä¹‰
 			act.mTurnAngle = 0.0;
 			act.mSucceed = true;
 		}
 	}
 }
 
-/** ÒÔ×î¿ìµÄ·½Ê½ÅÜµ½Ä¿±êµã
+/** ä»¥æœ€å¿«çš„æ–¹å¼è·‘åˆ°ç›®æ ‡ç‚¹
 * Run to the destination point with the fastest method.
 * \param agent the agent itself.
 * \param pos the destination point.
@@ -314,11 +314,11 @@ bool Dasher::GoToPoint(Agent & agent, Vector pos, double buffer, double power, b
 }
 
 /**
-* Ö÷ÒªÊÇÎªÁËµ÷ÕûpowerÓÃ£¬ÎªÁË±ÜÃâpower¹ı´ó¶øÅÜ¹ı¿É
-* Ä¿±êµã¡£Ô­ÔòÊÓÎªÁË¸ü¸ß²ãĞ­µ÷£¬powerÖ»¿ÉÄÜ¼õĞ¡²»¿É
-* ÄÜÔö´ó¡£ÎªÁË²»±ØÒªµ½dash£¬powerÒ²¿É¿ÉÄÜÎªÁã¡£Ò²¾Í
-* dash²»Ö´ĞĞ
-* power µÄÕı¸ºÓÉÍâÃæ¸ø¶¨
+* ä¸»è¦æ˜¯ä¸ºäº†è°ƒæ•´powerç”¨ï¼Œä¸ºäº†é¿å…powerè¿‡å¤§è€Œè·‘è¿‡å¯
+* ç›®æ ‡ç‚¹ã€‚åŸåˆ™è§†ä¸ºäº†æ›´é«˜å±‚åè°ƒï¼Œpoweråªå¯èƒ½å‡å°ä¸å¯
+* èƒ½å¢å¤§ã€‚ä¸ºäº†ä¸å¿…è¦åˆ°dashï¼Œpowerä¹Ÿå¯å¯èƒ½ä¸ºé›¶ã€‚ä¹Ÿå°±
+* dashä¸æ‰§è¡Œ
+* power çš„æ­£è´Ÿç”±å¤–é¢ç»™å®š
 * This funcition is mainly used to adjust ( usually decrease ) the dash power 
 * to avoid run over the target position by using a big power. The final power 
 * could be 0 to avoid an unnecessary dash.
@@ -339,11 +339,11 @@ double Dasher::AdjustPowerForDash(const PlayerState & player, Vector target, dou
 
 	const double & facing = player.GetBodyDir();
 
-	if (pos.Dist(target) > speedmax + buffer){ //ÔõÃ´ÅÜµÄ¶¼²»»áÅÜ¹ı
+	if (pos.Dist(target) > speedmax + buffer){ //æ€ä¹ˆè·‘çš„éƒ½ä¸ä¼šè·‘è¿‡
 		return power;
 	}
 
-	if((pos + vel).Dist(target) < buffer) { //²»ÅÜÒ²ÄÜµ½µ½´ï£¬¾Í²»ÓÃÅÜÁË
+	if((pos + vel).Dist(target) < buffer) { //ä¸è·‘ä¹Ÿèƒ½åˆ°åˆ°è¾¾ï¼Œå°±ä¸ç”¨è·‘äº†
 		return 0.0;
 	}
 
@@ -364,11 +364,11 @@ double Dasher::AdjustPowerForDash(const PlayerState & player, Vector target, dou
 }
 
 /**
-* ·µ»ØplayerÅÜµ½targetËùĞèµÄ×îĞ¡ÖÜÆÚÊı£¬°üÀ¨¸ºdash
-* Ä¿Ç°ÊÇ°´ÕÕÀÏµÄdashÄ£ĞÍËãµÃ
+* è¿”å›playerè·‘åˆ°targetæ‰€éœ€çš„æœ€å°å‘¨æœŸæ•°ï¼ŒåŒ…æ‹¬è´Ÿdash
+* ç›®å‰æ˜¯æŒ‰ç…§è€çš„dashæ¨¡å‹ç®—å¾—
 */
 /**
-* player ÅÜµ½ target µÄËùĞèµÄ×îĞ¡ÖÜÆÚÊı
+* player è·‘åˆ° target çš„æ‰€éœ€çš„æœ€å°å‘¨æœŸæ•°
 * This function returns the minimum cycles for a player to go to a target position.
 * @param player the player to caculate.
 * @param target the target position to go to.
@@ -391,13 +391,13 @@ int Dasher::CycleNeedToPoint(const PlayerState & player, Vector target, bool can
 		facing = vel.Dir();
 	}
 	else {
-		facing = dir; //ÈÏÎª²»ÓÃ×ªÉí
+		facing = dir; //è®¤ä¸ºä¸ç”¨è½¬èº«
 	}
 
 	double diffang = fabs(GetNormalizeAngleDeg(dir - facing));
 
 	if (diffang < 90.0){
-		can_inverse = false; //Ã»ÓĞ±ØÒªµ¹×ÅÅÜ
+		can_inverse = false; //æ²¡æœ‰å¿…è¦å€’ç€è·‘
 	}
 
 	if (can_inverse){
@@ -425,7 +425,7 @@ int Dasher::CycleNeedToPoint(const PlayerState & player, Vector target, bool can
 }
 
 /**
-* player ÒÔÈ·¶¨µÃ×ËÊÆ£¨Ö¸µ¹×ÅÅÜºÍÕıÅÜ£©£¬ÅÜµ½ target ËùĞèÒªµÄÖÜÆÚÊı
+* player ä»¥ç¡®å®šå¾—å§¿åŠ¿ï¼ˆæŒ‡å€’ç€è·‘å’Œæ­£è·‘ï¼‰ï¼Œè·‘åˆ° target æ‰€éœ€è¦çš„å‘¨æœŸæ•°
 * This function returns the minimum cycles for a player to go to a target position with 
 * a certain posture, forward or backward.
 * @param player the player to caculate.
@@ -436,7 +436,7 @@ int Dasher::CycleNeedToPoint(const PlayerState & player, Vector target, bool can
 */
 int Dasher::CycleNeedToPointWithCertainPosture(const PlayerState & player, Vector target, const bool inverse, double *buf)
 {
-	int cycle = 0; //ÓÃµÄÖÜÆÚ
+	int cycle = 0; //ç”¨çš„å‘¨æœŸ
 
 	const double & decay = player.GetPlayerDecay();
 	const double & speedmax = player.GetEffectiveSpeedMax();
@@ -470,7 +470,7 @@ int Dasher::CycleNeedToPointWithCertainPosture(const PlayerState & player, Vecto
 		facing = vel.Dir();
 	}
 	else {
-		facing = dir; //ÈÏÎª²»ÓÃ×ªÉí
+		facing = dir; //è®¤ä¸ºä¸ç”¨è½¬èº«
 	}
 
 	double diffang = fabs(GetNormalizeAngleDeg(dir - facing));
@@ -486,29 +486,29 @@ int Dasher::CycleNeedToPointWithCertainPosture(const PlayerState & player, Vecto
 		facing = GetNormalizeAngleDeg(180.0 + facing);
 	}
 
-	//I µ÷Õû½×¶Î
-	if(diffang <= angbuf){ //²»ĞèÒª×ªÉí
+	//I è°ƒæ•´é˜¶æ®µ
+	if(diffang <= angbuf){ //ä¸éœ€è¦è½¬èº«
 		target = (target - pos).Rotate(-facing);
 		dis = fabs(target.X());
 		double y = fabs(target.Y());
 		if(y < kick_area){
 			dis -= sqrt(kick_area * kick_area - y * y);
 		}
-		speed *= Cos(vel.Dir() - facing); //ÉíÌå·½ÏòÉÏµÄÍ¶Ó°
+		speed *= Cos(vel.Dir() - facing); //èº«ä½“æ–¹å‘ä¸Šçš„æŠ•å½±
 	}
 	else if(diffang <= oneturnang){
 		cycle += 1;
 		target -= predict_pos_1;
-		speed *= Cos(vel.Dir() - dir); //È¡µÃÄ¿±ê·½ÏòµÄÍ¶Ó°
-		speed *= decay;//½øĞĞÍ¶Ó°.´¹Ö±·½Ïò1¸öÖÜÆÚºóË¥¼õµ½10+ÀåÃ×ÁË,²¢ÇÒÔÚ1turnÊ±¿É¼ÓÈë¿¼ÂÇĞŞÕıµô
+		speed *= Cos(vel.Dir() - dir); //å–å¾—ç›®æ ‡æ–¹å‘çš„æŠ•å½±
+		speed *= decay;//è¿›è¡ŒæŠ•å½±.å‚ç›´æ–¹å‘1ä¸ªå‘¨æœŸåè¡°å‡åˆ°10+å˜ç±³äº†,å¹¶ä¸”åœ¨1turnæ—¶å¯åŠ å…¥è€ƒè™‘ä¿®æ­£æ‰
 		dis = target.Mod();
 		dis -= kick_area;
 	}
-	else{ //ÈÏÎª×ªÉíÁ½ÏÂ£¨²»Ï¸ÖÂ£©
+	else{ //è®¤ä¸ºè½¬èº«ä¸¤ä¸‹ï¼ˆä¸ç»†è‡´ï¼‰
 		cycle += 2;
 		target -= predict_pos_2;
-		speed *= Cos(vel.Dir() - dir); //È¡µÃÄ¿±ê·½ÏòµÄÍ¶Ó°
-		speed *= decay * decay;//½øĞĞÍ¶Ó°.´¹Ö±·½Ïò1¸öÖÜÆÚºóË¥¼õµ½10+ÀåÃ×ÁË,²¢ÇÒÔÚ1turnÊ±¿É¼ÓÈë¿¼ÂÇĞŞÕıµô
+		speed *= Cos(vel.Dir() - dir); //å–å¾—ç›®æ ‡æ–¹å‘çš„æŠ•å½±
+		speed *= decay * decay;//è¿›è¡ŒæŠ•å½±.å‚ç›´æ–¹å‘1ä¸ªå‘¨æœŸåè¡°å‡åˆ°10+å˜ç±³äº†,å¹¶ä¸”åœ¨1turnæ—¶å¯åŠ å…¥è€ƒè™‘ä¿®æ­£æ‰
 		dis = target.Mod();
 		dis -= kick_area;
 	}
@@ -521,10 +521,10 @@ int Dasher::CycleNeedToPointWithCertainPosture(const PlayerState & player, Vecto
 		return Max(cycle, 0);
 	}
 
-	//II ¼ÓËÙ & ÏûºÄÌåÁ¦½×¶Î
+	//II åŠ é€Ÿ & æ¶ˆè€—ä½“åŠ›é˜¶æ®µ
 	const double stamina_used_per_cycle = inverse? dash_max * 2.0: dash_max;
-	const int full_cyc = int((stamina - stamina_recovery_thr) / (stamina_used_per_cycle - stamina_inc_max)); //ÂúÌåÁ¦½×¶Î
-	int acc_cyc = 0;//¼ÓËÙ½×¶Î
+	const int full_cyc = int((stamina - stamina_recovery_thr) / (stamina_used_per_cycle - stamina_inc_max)); //æ»¡ä½“åŠ›é˜¶æ®µ
+	int acc_cyc = 0;//åŠ é€Ÿé˜¶æ®µ
 	const double speedmax_thr = speedmax * decay * 0.98;
 	const double accmax = accrate * dash_max;
 
@@ -534,7 +534,7 @@ int Dasher::CycleNeedToPointWithCertainPosture(const PlayerState & player, Vecto
 			speed = speedmax;
 		}
 		dis -= speed;
-		if(dis <= 0){//»¹Ã»¼ÓËÙµ½×î´ó¾ÍÅÜµ½ÁË...
+		if(dis <= 0){//è¿˜æ²¡åŠ é€Ÿåˆ°æœ€å¤§å°±è·‘åˆ°äº†...
 			cycle += acc_cyc + 1;
 			if(buf != NULL){
 				*buf = -dis /( speed / decay );
@@ -548,7 +548,7 @@ int Dasher::CycleNeedToPointWithCertainPosture(const PlayerState & player, Vecto
 
 	cycle += acc_cyc;
 
-	//III ÂúÌåÔÈËÙ½×¶Î
+	//III æ»¡ä½“åŒ€é€Ÿé˜¶æ®µ
 	int aver_cyc = full_cyc - acc_cyc;
 	double aver_cyc_dis = aver_cyc * speedmax;
 	if(aver_cyc_dis >= dis){
@@ -569,7 +569,7 @@ int Dasher::CycleNeedToPointWithCertainPosture(const PlayerState & player, Vecto
 		dis -= aver_cyc_dis;
 	}
 
-	//IV Ã»Ìå(0ÏûºÄ)¼õËÙ½×¶Î
+	//IV æ²¡ä½“(0æ¶ˆè€—)å‡é€Ÿé˜¶æ®µ
 	double acc_tired = stamina_inc_max * accrate;
 	double speed_tired = acc_tired / (1 - decay);
 	double speed_tired_thr = speed_tired * decay;
@@ -589,7 +589,7 @@ int Dasher::CycleNeedToPointWithCertainPosture(const PlayerState & player, Vecto
 		return Max(cycle, 0);
 	}
 
-	//V Ã»Ìå(0ÏûºÄ)ÔÈËÙ½×¶Î
+	//V æ²¡ä½“(0æ¶ˆè€—)åŒ€é€Ÿé˜¶æ®µ
 
     if( buf != NULL){
         double realcyc = cycle + dis / speed_tired;
@@ -605,7 +605,7 @@ int Dasher::CycleNeedToPointWithCertainPosture(const PlayerState & player, Vecto
 
 //=============================================================================
 /**
-* ½«ÉíÌå×ªÏòÌØ¶¨·½Ïò
+* å°†èº«ä½“è½¬å‘ç‰¹å®šæ–¹å‘
 * Turn body to a certain direction.
 * @param agent the agent itself.
 * @param ang the angle to turn to.
@@ -679,11 +679,11 @@ bool Dasher::GetPowerForForwardDash(const Agent &agent, double* dash_power, Vect
 	}
 }
 
-/**ÇòfreeÊ±,ËãÔÚint_cycleÊ±ÄÃÇòÎ»ÖÃµÄÖ´ĞĞ¶¯×÷,int_cycle¸ø-1,Ôò×Ô¼ºËãÔÚ×î½üµãµÄÄÃ·¨
+/**çƒfreeæ—¶,ç®—åœ¨int_cycleæ—¶æ‹¿çƒä½ç½®çš„æ‰§è¡ŒåŠ¨ä½œ,int_cycleç»™-1,åˆ™è‡ªå·±ç®—åœ¨æœ€è¿‘ç‚¹çš„æ‹¿æ³•
 *
 * \param &act
 * \param /
-* \return Êµ¼ÊÅÜµ½µÄÖÜÆÚ,¸ºµÄ¼´ÈÏÎªÄÇ²»µ½
+* \return å®é™…è·‘åˆ°çš„å‘¨æœŸ,è´Ÿçš„å³è®¤ä¸ºé‚£ä¸åˆ°
 */
 
 /**
@@ -776,7 +776,7 @@ Vector Dasher::CorrectTurnForDash(const PlayerState & player, const Vector & tar
 }
 
 /**
-* ¼ÆËãÓÃÍ¬Ò»dash_powerµ½´ïÄ³µãĞèÒªµÄÊ±¼ä
+* è®¡ç®—ç”¨åŒä¸€dash_poweråˆ°è¾¾æŸç‚¹éœ€è¦çš„æ—¶é—´
 * Caculate cycles needed to a target position with a certain dash power.
 * @param player the player to caculate.
 * @param target the target position to go to.
@@ -833,7 +833,7 @@ int Dasher::CyclePredictedToPoint(const PlayerState& player , Vector target , do
 			targ_ang = (target - position).Dir() - GetNormalizeAngleDeg(myang + 180);
 		}
 
-		double max_go_to_point_angle_err = 4; //¼û08CP_max_go_to_point_angle_err
+		double max_go_to_point_angle_err = 4; //è§08CP_max_go_to_point_angle_err
 		if (fabs(GetNormalizeAngleDeg(targ_ang)) > max_go_to_point_angle_err)
 		{
 			/*turnint*/
@@ -869,7 +869,7 @@ int Dasher::CyclePredictedToPoint(const PlayerState& player , Vector target , do
 		position += velocity;
 		velocity *= player.GetPlayerDecay();
 
-		//08 ÄÚUpdatePredictStaminaWithDashº¯Êı Ö±½ÓĞ´Èë´Ëº¯Êı
+		//08 å†…UpdatePredictStaminaWithDashå‡½æ•° ç›´æ¥å†™å…¥æ­¤å‡½æ•°
 		if (dash_power > 0)
 		{
 			predicted_stamina -= dash_power;
@@ -899,7 +899,7 @@ int Dasher::CyclePredictedToPoint(const PlayerState& player , Vector target , do
 			predicted_effort += ServerParam::instance().effortDec();
 		}
 
-		//Ôö¼Ócapacity¸Ä½ø
+		//å¢åŠ capacityæ”¹è¿›
 		double stamina_inc = Min(predicted_recovery * player.GetStaminaIncMax() , predicted_capacity);
 		predicted_stamina += stamina_inc;
 		if (predicted_stamina > ServerParam::instance().staminaMax())

@@ -47,7 +47,7 @@ class WorldModel;
  * Identifies an agent.
  */
 struct AgentID {
-	Unum     mAgentUnum; //×ÜÊÇÎªÕı
+	Unum     mAgentUnum; //æ€»æ˜¯ä¸ºæ­£
 	Time     mCurrentTime;
 	bool     mReverse;
 
@@ -70,7 +70,7 @@ struct AgentID {
 };
 
 /**
- * ½ÌÁ·ºÍÇòÔ±Í¨ÓÃ
+ * æ•™ç»ƒå’Œçƒå‘˜é€šç”¨
  */
 class Agent
 {
@@ -85,12 +85,12 @@ public:
 	/**
 	 * Interface to create an agent which represents a team mate.
 	 */
-	Agent * CreateTeammateAgent(Unum unum); ///·´Ëã¶ÓÓÑ
+	Agent * CreateTeammateAgent(Unum unum); ///åç®—é˜Ÿå‹
 
 	/**
 	 * Interface to create an agent which represents an opponent.
 	 */
-	Agent * CreateOpponentAgent(Unum unum); ///·´Ëã¶ÔÊÖ
+	Agent * CreateOpponentAgent(Unum unum); ///åç®—å¯¹æ‰‹
 
 	/**
 	 * Interfaces to get the agent's world state.
@@ -105,7 +105,7 @@ public:
 	const InfoState  & GetInfoState() const { return *mpInfoState; }
 
 	/**
-	 * ×Ô¼ºÏà¹ØµÄ½Ó¿Ú
+	 * è‡ªå·±ç›¸å…³çš„æ¥å£
 	 * Interfaces to get information about the agent it self.
 	 */
 	AgentID             GetAgentID() const { return AgentID(mSelfUnum, GetWorldState().CurrentTime(), mReverse); }
@@ -204,7 +204,7 @@ private:
 
 public:
 	/**
-	 * Ã¿´Îµ÷ÓÃµÄÊ±ºò£¬¼ì²éÊÇ·ñĞèÒª¸üĞÂ£¬´óÁ¿Ê¹ÓÃÊ±£¬×îºÃÏÈ¸³Öµ¸ø±äÁ¿£¬ÕâÑù±È½Ï¿ì
+	 * æ¯æ¬¡è°ƒç”¨çš„æ—¶å€™ï¼Œæ£€æŸ¥æ˜¯å¦éœ€è¦æ›´æ–°ï¼Œå¤§é‡ä½¿ç”¨æ—¶ï¼Œæœ€å¥½å…ˆèµ‹å€¼ç»™å˜é‡ï¼Œè¿™æ ·æ¯”è¾ƒå¿«
 	 * Each the following methods will check if an update should be performed first when it is called.
 	 * It's better to store the returned value in a variable when multiple uses are needed.
 	 */
@@ -239,19 +239,19 @@ public:
 	bool IsReverse() const { return mReverse; }
 
 private:
-	const Unum mSelfUnum; //AgentµÄºÅÂë×ÜÊÇÎªÕı
-	const bool mReverse;  //±ê¼ÇÕâ¸öAgentÊÇ·ñ·´Ëã¶ÔÊÖ
+	const Unum mSelfUnum; //Agentçš„å·ç æ€»æ˜¯ä¸ºæ­£
+	const bool mReverse;  //æ ‡è®°è¿™ä¸ªAgentæ˜¯å¦åç®—å¯¹æ‰‹
 	WorldModel * const mpWorldModel;
 	WorldState * const mpWorldState;
 
-	/** ÒÔÉÏ±äÁ¿ÔÚ Agent µÄÉú´æÖÜÆÚÄÚÊÇ²»»á±äµÄ£¬¸÷ÖÖĞÎÊ½µÄ·´Ëã£¨°üÀ¨·´Ëã¶ÓÓÑºÍ¶ÔÊÖ£©¶¼Òª new Ò»¸ö Agent */
+	/** ä»¥ä¸Šå˜é‡åœ¨ Agent çš„ç”Ÿå­˜å‘¨æœŸå†…æ˜¯ä¸ä¼šå˜çš„ï¼Œå„ç§å½¢å¼çš„åç®—ï¼ˆåŒ…æ‹¬åç®—é˜Ÿå‹å’Œå¯¹æ‰‹ï¼‰éƒ½è¦ new ä¸€ä¸ª Agent */
 
 	InfoState  * mpInfoState;
 
 	bool mIsNewSight;
 	Time mBallSeenTime;
 
-	/** ÒÔÏÂ±äÁ¿ÔÚµÚÒ»´ÎÊ¹ÓÃÊ±Éú³ÉÖ¸ÏòÊµÀı£¬ÔÚÃ¿´Îµ÷ÓÃÊ±¼ì²éÊÇ·ñĞèÒª¸üĞÂ */
+	/** ä»¥ä¸‹å˜é‡åœ¨ç¬¬ä¸€æ¬¡ä½¿ç”¨æ—¶ç”ŸæˆæŒ‡å‘å®ä¾‹ï¼Œåœ¨æ¯æ¬¡è°ƒç”¨æ—¶æ£€æŸ¥æ˜¯å¦éœ€è¦æ›´æ–° */
 	Strategy * mpStrategy;
 	Analyser * mpAnalyser;
 

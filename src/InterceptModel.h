@@ -58,33 +58,33 @@ public:
 
 		}
 
-		int tangc;     	//ÇĞµãÊıÄ¿ {0, 1, 2}
-		int interc;		//½»µãÊıÄ¿ {1, 3}
+		int tangc;     	//åˆ‡ç‚¹æ•°ç›® {0, 1, 2}
+		int interc;		//äº¤ç‚¹æ•°ç›® {1, 3}
 
-		Array<double, 2> tangp;		//ÍâÇĞµã(0)ºÍÄÚÇĞµã(1)
-		Array<double, 2> tangv;		//ÍâÇĞµãËÙ¶È(0)ºÍÄÚÇĞµãËÙ¶Èv
-		Array<double, 3> interp;	//×î¶àÈı¸ö½»µã
-		Array<double, 3> intert;	//½»µã´¦¶ÔÓ¦µÄÖÜÆÚÊı
+		Array<double, 2> tangp;		//å¤–åˆ‡ç‚¹(0)å’Œå†…åˆ‡ç‚¹(1)
+		Array<double, 2> tangv;		//å¤–åˆ‡ç‚¹é€Ÿåº¦(0)å’Œå†…åˆ‡ç‚¹é€Ÿåº¦v
+		Array<double, 3> interp;	//æœ€å¤šä¸‰ä¸ªäº¤ç‚¹
+		Array<double, 3> intert;	//äº¤ç‚¹å¤„å¯¹åº”çš„å‘¨æœŸæ•°
 	};
 
 public:
 	/**
-	 * ÏÂÃæµÄº¯ÊıÊÇÓÃÀ´Çó½âÀíÏë½ØÇòÄ£ĞÍ
+	 * ä¸‹é¢çš„å‡½æ•°æ˜¯ç”¨æ¥æ±‚è§£ç†æƒ³æˆªçƒæ¨¡å‹
 	 */
 	void CalcInterception(const Vector & ball_pos, const Vector & ball_vel, const double buffer, const PlayerState * player, InterceptSolution * sol);
 	int CalcTangPoint(double x0, double y0, double vp, double ka, double cd, InterceptSolution * sol);
 	double CalcInterPoint(double x_init, double x0, double y0, double vb, double vp, double ka, double cd);
 
 	/**
-	 * ÏÂÃæµÄº¯Êı¸úpeakptºÍ´©Ô½ËÙ¶ÈÏà¹Ø
+	 * ä¸‹é¢çš„å‡½æ•°è·Ÿpeakptå’Œç©¿è¶Šé€Ÿåº¦ç›¸å…³
 	 */
-	///ÏÂÃæµÄ fix ÊÇÇòÔ±µÄÅÜ¶¯ÑÓ³Ù£¬°üÀ¨¼ÓËÙÑÓ³ÙºÍ·´Ó¦ÑÓ³Ù£¬ÕâÀïÄ¬ÈÏÈ¥1.5¸öÖÜÆÚ
+	///ä¸‹é¢çš„ fix æ˜¯çƒå‘˜çš„è·‘åŠ¨å»¶è¿Ÿï¼ŒåŒ…æ‹¬åŠ é€Ÿå»¶è¿Ÿå’Œååº”å»¶è¿Ÿï¼Œè¿™é‡Œé»˜è®¤å»1.5ä¸ªå‘¨æœŸ
 	double CalcPeakPoint(const Vector & relpos, const double & vp, const double & ka, const double fix = 1.5);
     double CalcGoingThroughSpeed(const PlayerState & player, const Ray & ballcourse, const double & distance, const double fix = 1.5);
 
 private:
 	/**
-	 * »­³öÀíÏë½ØÇòÇúÏß
+	 * ç”»å‡ºç†æƒ³æˆªçƒæ›²çº¿
 	 * @param x0
 	 * @param y0
 	 * @param v0

@@ -98,7 +98,7 @@ void InterceptInfo::AnalyseInterceptSolution(const BallState & ball, PlayerInter
 {
 	pInfo->mIntervals = (pInfo->solution.interc == 1)? 1: 2;
 	pInfo->mMinCycle = pInfo->mInterCycle[0];
-	if (pInfo->mMinCycle == 0) pInfo->mIntervals = 0; //±íÊ¾¿ÉÌß
+	if (pInfo->mMinCycle == 0) pInfo->mIntervals = 0; //è¡¨ç¤ºå¯è¸¢
 	pInfo->mInterPos = ball.GetPredictedPos(pInfo->mMinCycle);
 
 	if (!ServerParam::instance().pitchRectanglar().IsWithin(pInfo->mInterPos, 4.0)){
@@ -113,11 +113,11 @@ void InterceptInfo::CalcIdealInterception(const BallState & ball, PlayerIntercep
 {
 	const int idle_cycle = pInfo->mpPlayer->GetIdleCycle();
 
-	//step 1. Çó½â¼ò»¯½ØÇòÄ£ÐÍ
+	//step 1. æ±‚è§£ç®€åŒ–æˆªçƒæ¨¡åž‹
 	InterceptModel::instance().CalcInterception(ball.GetPredictedPos(idle_cycle), ball.GetPredictedVel(idle_cycle), buffer, pInfo->mpPlayer, &(pInfo->solution));
 
-	//step 2. ÐÞÕý½ØÇòÇø¼ä
-	//	È¡Õû
+	//step 2. ä¿®æ­£æˆªçƒåŒºé—´
+	//	å–æ•´
 	if (pInfo->solution.interc == 1){
 		pInfo->mInterCycle[0] = (int)floor(pInfo->solution.intert[0]);
 	}
@@ -133,7 +133,7 @@ void InterceptInfo::CalcIdealInterception(const BallState & ball, PlayerIntercep
 		}
 	}
 
-	bool kickable = pInfo->mpPlayer->GetPos().Dist(ball.GetPredictedPos(idle_cycle)) < buffer; //ÅÐ¶Ï¿ªÊ¼½ØÇòµÄµÚÒ»¸öÖÜÆÚ£¬ÊÇ·ñ¿ÉÌß
+	bool kickable = pInfo->mpPlayer->GetPos().Dist(ball.GetPredictedPos(idle_cycle)) < buffer; //åˆ¤æ–­å¼€å§‹æˆªçƒçš„ç¬¬ä¸€ä¸ªå‘¨æœŸï¼Œæ˜¯å¦å¯è¸¢
 	if (!kickable) {
 		pInfo->mInterCycle[0] = Max(pInfo->mInterCycle[0], 1);
 	}
@@ -164,17 +164,17 @@ void InterceptInfo::CalcLooseInterception(const BallState & ball, PlayerIntercep
 
 void InterceptInfo::CalcTightInterception(const BallState & ball, PlayerInterceptInfo *pInfo, bool can_inverse)
 {
-	CalcIdealInterception(ball, pInfo, pInfo->mpPlayer->GetKickableArea()); //TODO: ¸Ä³É´ÓÍâÃæ´«½øÀ´ buffer
+	CalcIdealInterception(ball, pInfo, pInfo->mpPlayer->GetKickableArea()); //TODO: æ”¹æˆä»Žå¤–é¢ä¼ è¿›æ¥ buffer
 
 	const int idle_cycle = pInfo->mpPlayer->GetIdleCycle();
 
-	//¸ù¾Ýgo_to_pointÄ£ÐÍÐÞÕý
+	//æ ¹æ®go_to_pointæ¨¡åž‹ä¿®æ­£
 	if (pInfo->solution.interc == 1){
 		int cycle_sup = pInfo->mInterCycle[0];
 		int cycle_inf = MobileState::Predictor::MAX_STEP;
 		for (int i = cycle_sup; i <= cycle_inf; ++i){
 			int n = Dasher::instance().CycleNeedToPoint(*(pInfo->mpPlayer), ball.GetPredictedPos(i), can_inverse) + idle_cycle;
-			if (n <= i){ //nÒÔºóÍêÈ«¿É½Ø
+			if (n <= i){ //nä»¥åŽå®Œå…¨å¯æˆª
 				break;
 			}
 			pInfo->mInterCycle[0] ++;
@@ -200,7 +200,7 @@ void InterceptInfo::CalcTightInterception(const BallState & ball, PlayerIntercep
 				}
 				pInfo->mInterCycle[1] --;
 			}
-			if (pInfo->mInterCycle[0] > pInfo->mInterCycle[1]){ //´°¿ÚÊÕËõ³Éµã
+			if (pInfo->mInterCycle[0] > pInfo->mInterCycle[1]){ //çª—å£æ”¶ç¼©æˆç‚¹
 				pInfo->solution.interc = 1;
 			}
 		}
@@ -212,7 +212,7 @@ void InterceptInfo::CalcTightInterception(const BallState & ball, PlayerIntercep
 		cycle_inf = MobileState::Predictor::MAX_STEP;
 		for (int i = cycle_sup; i <= cycle_inf; ++i){
 			int n = Dasher::instance().CycleNeedToPoint(*(pInfo->mpPlayer), ball.GetPredictedPos(i), can_inverse) + idle_cycle;
-			if (n <= i){ //nÒÔºóÍêÈ«¿É½Ø
+			if (n <= i){ //nä»¥åŽå®Œå…¨å¯æˆª
 				break;
 			}
 			pInfo->mInterCycle[2] ++;

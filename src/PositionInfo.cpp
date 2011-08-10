@@ -50,7 +50,7 @@ void PositionInfo::UpdateRoutine()
 	UpdateOffsideLine();
     UpdateOppGoalInfo();
 
-	/** Ã¿¸öÖÜÆÚclearÒ»´Î */
+	/** æ¯ä¸ªå‘¨æœŸclearä¸€æ¬¡ */
 	mPlayer2BallList.clear();
 	mTeammate2BallList.clear();
 	mOpponent2BallList.clear();
@@ -88,7 +88,7 @@ void PositionInfo::UpdateDistMatrix()
             mDistMatrix[0][index] = rel_pos.Mod();
 			mDistMatrix[index][index] = 0.0;
 
-            // ¸üĞÂÇòÔ±Ïà¶ÔÓÚÇòµÄ½Ç¶È
+            // æ›´æ–°çƒå‘˜ç›¸å¯¹äºçƒçš„è§’åº¦
             if ((*it)->GetUnum() > 0)
             {
                 mTeammateDir2Ball[(*it)->GetUnum() - 1] = rel_pos.Dir();
@@ -300,7 +300,7 @@ AngleDeg PositionInfo::GetShootAngle(AngleDeg left,AngleDeg right, const PlayerS
 {
 	vector< pair<Unum, AngleDeg> > tmp;
 	for (vector<PlayerState*>::const_iterator it = mpWorldState->GetPlayerList().begin(); it != mpWorldState->GetPlayerList().end(); ++it){
-    if ((*it)->IsAlive() && (*it)->GetPosConf() > FLOAT_EPS && (*it)->GetUnum() != state.GetUnum() &&((*it)->GetPos()-state.GetPos()).Dir() + Rad2Deg(1/10) >left&&((*it)->GetPos()-state.GetPos()).Dir() - Rad2Deg(1/10) <right){//½éÓÚ×óÓÒÃÅÖùÖ®¼ä
+    if ((*it)->IsAlive() && (*it)->GetPosConf() > FLOAT_EPS && (*it)->GetUnum() != state.GetUnum() &&((*it)->GetPos()-state.GetPos()).Dir() + Rad2Deg(1/10) >left&&((*it)->GetPos()-state.GetPos()).Dir() - Rad2Deg(1/10) <right){//ä»‹äºå·¦å³é—¨æŸ±ä¹‹é—´
 		tmp.push_back(pair<Unum, AngleDeg>((*it)->GetUnum(), ((*it)->GetPos()-state.GetPos()).Dir()));
 	}
 	}
@@ -340,13 +340,13 @@ AngleDeg PositionInfo::GetShootAngle(AngleDeg left,AngleDeg right, const PlayerS
 }
 
 
-//µ½Ä³¸öµã¾àÀëµÄ°´´óĞ¡ÅÅÁĞ¶ÓÔ±£¨F£©
+//åˆ°æŸä¸ªç‚¹è·ç¦»çš„æŒ‰å¤§å°æ’åˆ—é˜Ÿå‘˜ï¼ˆFï¼‰
 vector<Unum> PositionInfo::GetClosePlayerToPoint(const Vector & bp, const Unum & exclude_unum) const
 {
 	vector< pair<Unum, double> > tmp;
 
 	for (vector<PlayerState*>::const_iterator it = mpWorldState->GetPlayerList().begin(); it != mpWorldState->GetPlayerList().end(); ++it){
-        if ((*it)->IsAlive() && (*it)->GetPosConf() > FLOAT_EPS && (*it)->GetUnum() != exclude_unum){ // Ëã¾àÀë×Ô¼ºµÄÇòÔ±Ê±°Ñ×Ô¼ºÅÅ³ıµô
+        if ((*it)->IsAlive() && (*it)->GetPosConf() > FLOAT_EPS && (*it)->GetUnum() != exclude_unum){ // ç®—è·ç¦»è‡ªå·±çš„çƒå‘˜æ—¶æŠŠè‡ªå·±æ’é™¤æ‰
 			tmp.push_back(pair<Unum, double>((*it)->GetUnum(), (*it)->GetPos().Dist2(bp)));
 		}
 	}
@@ -445,7 +445,7 @@ const vector<Unum> & PositionInfo::GetCloseOpponentToPlayer(Unum i)
 	return mOpponent2PlayerList[index];
 }
 
-//¾àÀëÇò×î½ü°´¾àÀëÇÒ¿ÉÌß£¨F£©
+//è·ç¦»çƒæœ€è¿‘æŒ‰è·ç¦»ä¸”å¯è¸¢ï¼ˆFï¼‰
 const vector<Unum> & PositionInfo::GetPlayerWithBallList()
 {
 	if (mPlayerWithBallList_UpdateTime != mpWorldState->CurrentTime()){
@@ -492,7 +492,7 @@ Unum PositionInfo::GetTeammateWithBall()
 }
 
 /**
- * bufferÎó²î·¶Î§ÄÚµÃµ½Ò»¸ö¿ÉÌßÇòµÄ¶ÓÓÑ
+ * bufferè¯¯å·®èŒƒå›´å†…å¾—åˆ°ä¸€ä¸ªå¯è¸¢çƒçš„é˜Ÿå‹
  * @return
  */
 Unum PositionInfo::GetTeammateWithBall(const double buffer)
@@ -506,7 +506,7 @@ Unum PositionInfo::GetTeammateWithBall(const double buffer)
     	if (mpWorldState->GetTeammate(tm).IsKickable(mpWorldState->GetBall(), buffer)) {
     		return tm;
     	}
-    	if (GetBallDistToTeammate(tm) > 2.0) break;//£¨ÒòÎªlistÊÇ°´¾àÀëË³ĞòÅÅºÃµÄ£¬Ê£ÏÂµÄ¾Í²»ÓÃÁË£©
+    	if (GetBallDistToTeammate(tm) > 2.0) break;//ï¼ˆå› ä¸ºlistæ˜¯æŒ‰è·ç¦»é¡ºåºæ’å¥½çš„ï¼Œå‰©ä¸‹çš„å°±ä¸ç”¨äº†ï¼‰
     }
 
     return 0;

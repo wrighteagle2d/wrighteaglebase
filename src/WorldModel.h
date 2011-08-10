@@ -38,7 +38,7 @@ class WorldState;
 class HistoryState;
 
 /**
- * WorldModel 里面存放两对 WorldState，一对用于队友的决策，另一对用于对手的决策
+ * WorldModel 閲岄潰瀛樻斁涓ゅ WorldState锛屼竴瀵圭敤浜庨槦鍙嬬殑鍐崇瓥锛屽彟涓�瀵圭敤浜庡鎵嬬殑鍐崇瓥
  */
 class WorldModel {
 	WorldModel(WorldModel &);

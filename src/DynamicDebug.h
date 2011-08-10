@@ -42,7 +42,7 @@
 #include "PlayerParam.h"
 
 /**
- * ¶¯Ì¬µ÷ÊÔÖĞ¼ÇÂ¼ÏûÏ¢µÄÀàĞÍ
+ * åŠ¨æ€è°ƒè¯•ä¸­è®°å½•æ¶ˆæ¯çš„ç±»å‹
  * Message type in dynamic debugging.
  */
 enum MessageType
@@ -59,18 +59,18 @@ class DynamicDebug
 
 	struct MessageFileHead
 	{
-		//char    mHeadFlag[2]; // ÓÃÀ´Ê¶±ğÊÇ·ñÊÇ¶¯Ì¬µ÷ÊÔ¼ÇÂ¼µÄÏûÏ¢ÎÄ¼ş
-		Time    mMaxCycle; // ÎÄ¼şÖĞ¼ÇÂ¼µÄ×î´óÖÜÆÚ
-		long long  mIndexTableSize; // Ë÷Òı±í´óĞ¡
-		long long  mIndexTableOffset; // Ë÷Òı±íÎ»ÖÃ
+		//char    mHeadFlag[2]; // ç”¨æ¥è¯†åˆ«æ˜¯å¦æ˜¯åŠ¨æ€è°ƒè¯•è®°å½•çš„æ¶ˆæ¯æ–‡ä»¶
+		Time    mMaxCycle; // æ–‡ä»¶ä¸­è®°å½•çš„æœ€å¤§å‘¨æœŸ
+		long long  mIndexTableSize; // ç´¢å¼•è¡¨å¤§å°
+		long long  mIndexTableOffset; // ç´¢å¼•è¡¨ä½ç½®
 		long long  mParserTableSize;
 		long long  mParserTableOffset;
 		long long  mDecisionTableSize;
 		long long  mDecisionTableOffset;
 		long long  mCommandSendTableSize;
 		long long  mCommandSendTableOffset;
-		/*int  mIndexTableSize; // Ë÷Òı±í´óĞ¡
-		int  mIndexTableOffset; // Ë÷Òı±íÎ»ÖÃ
+		/*int  mIndexTableSize; // ç´¢å¼•è¡¨å¤§å°
+		int  mIndexTableOffset; // ç´¢å¼•è¡¨ä½ç½®
 		int  mParserTableSize;
 		int  mParserTableOffset;
 		int  mDecisionTableSize;
@@ -85,13 +85,13 @@ class DynamicDebug
 
 	struct MessageIndexTableUnit
 	{
-		Time    mServerTime; // Êı¾İ¶ÔÓ¦µÄÖÜÆÚ
-		long long  mDataSize; // Êı¾İ³¤¶È
-		long long  mDataOffset; // Êı¾İµÄ´æ´¢Î»ÖÃ
-		long long  mTimeOffset; // Ê±¼ä±íµÄ´æ´¢Î»ÖÃ
-		/*int  mDataSize; // Êı¾İ³¤¶È
-		int  mDataOffset; // Êı¾İµÄ´æ´¢Î»ÖÃ
-		int  mTimeOffset; // Ê±¼ä±íµÄ´æ´¢Î»ÖÃ*/
+		Time    mServerTime; // æ•°æ®å¯¹åº”çš„å‘¨æœŸ
+		long long  mDataSize; // æ•°æ®é•¿åº¦
+		long long  mDataOffset; // æ•°æ®çš„å­˜å‚¨ä½ç½®
+		long long  mTimeOffset; // æ—¶é—´è¡¨çš„å­˜å‚¨ä½ç½®
+		/*int  mDataSize; // æ•°æ®é•¿åº¦
+		int  mDataOffset; // æ•°æ®çš„å­˜å‚¨ä½ç½®
+		int  mTimeOffset; // æ—¶é—´è¡¨çš„å­˜å‚¨ä½ç½®*/
 	};
 
 	struct Message
@@ -107,20 +107,20 @@ class DynamicDebug
 
 public:
 	/**
-     * ¹¹Ôìº¯ÊıºÍÎö¹¹º¯Êı
+     * æ„é€ å‡½æ•°å’Œææ„å‡½æ•°
      */
     ~DynamicDebug();
 
     /**
-     * ´´½¨ÊµÀı£¬³õÊ¼»¯º¯Êı
+     * åˆ›å»ºå®ä¾‹ï¼Œåˆå§‹åŒ–å‡½æ•°
      */
     static DynamicDebug & instance();
     void Initial(Observer *pObserver);
 
     /**
-     * ÏÂÃæº¯ÊıÊÇÕı³£±ÈÈüÒª¼ÇÂ¼serverĞÅÏ¢Ê±ÓÃµ½µÄ½Ó¿Ú
-     * AddMessage()Õâ¸öº¯ÊıÒ»¶¨Òª·Åµ½¸÷¸öÏß³ÌµÄÈë¿Úº¯ÊıµÄÇ°Ãæµ÷ÓÃ£¬·ñÔò¶¯Ì¬µ÷ÊÔµÃµ½ÏµÍ³Ê±¼äÊ±»á³ö´í
-     * ±ÈÈç£¬ÒªÔÚParser::Parse()£¬Client::Decision()ºÍCommandSend::Run()Ö®Ç°µ÷ÓÃ
+     * ä¸‹é¢å‡½æ•°æ˜¯æ­£å¸¸æ¯”èµ›è¦è®°å½•serverä¿¡æ¯æ—¶ç”¨åˆ°çš„æ¥å£
+     * AddMessage()è¿™ä¸ªå‡½æ•°ä¸€å®šè¦æ”¾åˆ°å„ä¸ªçº¿ç¨‹çš„å…¥å£å‡½æ•°çš„å‰é¢è°ƒç”¨ï¼Œå¦åˆ™åŠ¨æ€è°ƒè¯•å¾—åˆ°ç³»ç»Ÿæ—¶é—´æ—¶ä¼šå‡ºé”™
+     * æ¯”å¦‚ï¼Œè¦åœ¨Parser::Parse()ï¼ŒClient::Decision()å’ŒCommandSend::Run()ä¹‹å‰è°ƒç”¨
      */
     void AddMessage(const char *msg, MessageType msg_type);
     void AddTimeParser(timeval &time);
@@ -128,7 +128,7 @@ public:
     void AddTimeCommandSend(timeval &time);
 
     /**
-     * ÏÂÃæº¯ÊıÊÇ¶¯Ì¬µ÷ÊÔÊ±ÓÃµ½µÄ½Ó¿Ú
+     * ä¸‹é¢å‡½æ•°æ˜¯åŠ¨æ€è°ƒè¯•æ—¶ç”¨åˆ°çš„æ¥å£
      */
     MessageType Run(char *msg);
     MessageType GetMessage(char *msg);
@@ -141,13 +141,13 @@ private:
     void Flush();
 
 private:
-    Observer    *mpObserver; // WorldModelµÄÖ¸Õë
-    bool        mInitialOK; // ÊÇ·ñÒÑ¾­³õÊ¼»¯Íê±Ï
+    Observer    *mpObserver; // WorldModelçš„æŒ‡é’ˆ
+    bool        mInitialOK; // æ˜¯å¦å·²ç»åˆå§‹åŒ–å®Œæ¯•
 
-    // ÎÄ¼şÍ·²¿ĞÅÏ¢£¬¼ÇÂ¼4ÖÖĞÅÏ¢µÄÁ¿
+    // æ–‡ä»¶å¤´éƒ¨ä¿¡æ¯ï¼Œè®°å½•4ç§ä¿¡æ¯çš„é‡
     MessageFileHead mFileHead;
 
-    // ÏÂÃæ4¸ö±íÓÃÀ´¼ÇÂ¼ºÍ±£´æ4ÖÖĞÅÏ¢
+    // ä¸‹é¢4ä¸ªè¡¨ç”¨æ¥è®°å½•å’Œä¿å­˜4ç§ä¿¡æ¯
     std::vector<MessageIndexTableUnit>  mIndexTable;
     std::vector<timeval>                mParserTimeTable;
     std::vector<timeval>                mDecisionTimeTable;
@@ -155,24 +155,24 @@ private:
 
     std::vector<Message>                mMessageTable;
 
-    // ÏÂÃæ4¸öÖ¸ÕëÓÃÀ´ÔÚ¶ÁĞ´ÎÄ¼şÊ±Ê¹ÓÃ
+    // ä¸‹é¢4ä¸ªæŒ‡é’ˆç”¨æ¥åœ¨è¯»å†™æ–‡ä»¶æ—¶ä½¿ç”¨
     MessageIndexTableUnit   *mpIndex;
     timeval                 *mpParserTime;
     timeval                 *mpDecisionTime;
     timeval                 *mpCommandSendTime;
 
-    // µ±Ç°¶ÁÈ¡µÄµ¥Ôª
+    // å½“å‰è¯»å–çš„å•å…ƒ
     MessageIndexTableUnit   *mpCurrentIndex;
 
-    // ÓÃÓÚÎÄ¼ş²Ù×÷
+    // ç”¨äºæ–‡ä»¶æ“ä½œ
     ThreadMutex     mFileMutex;
     FILE            *mpFile;
     std::ifstream   *mpFileStream;
     std::streambuf  *mpStreamBuffer;
 
-    bool mRunning; // ÊÇ·ñÕıÔÚÔËĞĞ
-    bool mShowMessage; // ÊÇ·ñÊä³öĞÅÏ¢
-    Time mRuntoCycle; // ÒªRunµ½µÄÖÜÆÚ
+    bool mRunning; // æ˜¯å¦æ­£åœ¨è¿è¡Œ
+    bool mShowMessage; // æ˜¯å¦è¾“å‡ºä¿¡æ¯
+    Time mRuntoCycle; // è¦Runåˆ°çš„å‘¨æœŸ
 };
 
 #endif

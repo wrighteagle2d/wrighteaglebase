@@ -146,10 +146,10 @@ void BehaviorPassPlanner::Plan(std::list<ActiveBehavior> & behavior_list)
 		}
 		behavior_list.push_back(mActiveBehaviorList.front());
 	}
-	else {														//Èç¹û´ËÖÜÆÚÃ»ÓĞºÃµÄ¶¯×÷
+	else {														//å¦‚æœæ­¤å‘¨æœŸæ²¡æœ‰å¥½çš„åŠ¨ä½œ
 		if (mStrategy.IsLastActiveBehaviorInActOf(BT_Pass)) {
 			ActiveBehavior pass(mAgent, BT_Pass, BDT_Pass_Direct);
-			pass.mTarget = mStrategy.GetLastActiveBehaviorInAct()->mTarget; //ĞĞÎª±£³Ö
+			pass.mTarget = mStrategy.GetLastActiveBehaviorInAct()->mTarget; //è¡Œä¸ºä¿æŒ
 			pass.mEvaluation = Evaluation::instance().EvaluatePosition(pass.mTarget, true);
 		pass.mKickSpeed = ServerParam::instance().GetBallSpeed(5 + random() % 6, pass.mTarget.Dist(mBallState.GetPos()));
 		pass.mKickSpeed = MinMax(2.0, pass.mKickSpeed, ServerParam::instance().ballSpeedMax());

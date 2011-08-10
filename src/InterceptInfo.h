@@ -36,14 +36,14 @@
 #include "InfoState.h"
 #include "InterceptModel.h"
 
-enum InterceptRes { //À¹½Ø½á¹û
+enum InterceptRes { //æ‹¦æˆªç»“æœ
 	IR_None,
 
 	IR_Failure,
 	IR_Success
 };
 
-//¸ù¾İ¼ò»¯Ä£ĞÍÇó½âµÃµ½µÄ½ØÇòĞÅÏ¢
+//æ ¹æ®ç®€åŒ–æ¨¡å‹æ±‚è§£å¾—åˆ°çš„æˆªçƒä¿¡æ¯
 class PlayerInterceptInfo
 {
 private:
@@ -62,13 +62,13 @@ public:
 
 	}
 
-	Time mTime;		//¸üĞÂÊ±¼ä
+	Time mTime;		//æ›´æ–°æ—¶é—´
 	const PlayerState *mpPlayer;
-	Array<int, 3> mInterCycle; //ĞŞÕıºóµÄ½ØÇòÇø¼ä¶ÔÓ¦µÄÖÜÆÚÊı
-	int mMinCycle; //×îĞ¡½ØÇòÖÜÆÚ£¨¸ù¾İÇ°ÃæµÄÊı¾İ¼ÆËã¶øµÃ£©
-	Vector mInterPos; //×îĞ¡ÖÜÆÚ¶ÔÓ¦µÄ½ØÇòµã
-	int mIntervals; //Çø¼ä¸öÊı {1, 2}
-	InterceptRes mRes; //½ØÇò³É¹¦ÊÇÖ¸ÄÜÔÚ³¡µØÖ®ÄÚ½Øµ½Çò
+	Array<int, 3> mInterCycle; //ä¿®æ­£åçš„æˆªçƒåŒºé—´å¯¹åº”çš„å‘¨æœŸæ•°
+	int mMinCycle; //æœ€å°æˆªçƒå‘¨æœŸï¼ˆæ ¹æ®å‰é¢çš„æ•°æ®è®¡ç®—è€Œå¾—ï¼‰
+	Vector mInterPos; //æœ€å°å‘¨æœŸå¯¹åº”çš„æˆªçƒç‚¹
+	int mIntervals; //åŒºé—´ä¸ªæ•° {1, 2}
+	InterceptRes mRes; //æˆªçƒæˆåŠŸæ˜¯æŒ‡èƒ½åœ¨åœºåœ°ä¹‹å†…æˆªåˆ°çƒ
 
 	friend std::ostream &operator<<(std::ostream &os, const PlayerInterceptInfo &it){
 		if (it.solution.interc == 1){
@@ -85,8 +85,8 @@ struct OrderedIT {
 
 	}
 
-	PlayerInterceptInfo *mpInterceptInfo; //Ö¸ÏònumµÄplayerµÄÀ¹½Øinfo,ÎŞĞ§Ê±ÎªNULL
-	Unum mUnum; //+ Îª¶ÓÓÑ£¬- Îª¶ÔÊÖ
+	PlayerInterceptInfo *mpInterceptInfo; //æŒ‡å‘numçš„playerçš„æ‹¦æˆªinfo,æ— æ•ˆæ—¶ä¸ºNULL
+	Unum mUnum; //+ ä¸ºé˜Ÿå‹ï¼Œ- ä¸ºå¯¹æ‰‹
 	int mCycleDelay;   //cycle delay
 
 	bool operator < (const OrderedIT& it) const {
@@ -101,10 +101,10 @@ public:
 
     PlayerInterceptInfo *GetPlayerInterceptInfo(Unum unum) const;
     const std::vector<OrderedIT> & GetOIT() const { return mOIT; }
-    bool IsPlayerBallInterceptable(Unum unum) const { return GetPlayerInterceptInfo(unum)? GetPlayerInterceptInfo(unum)->mRes == IR_Success: false; } //¿ÉÒÔÔÚÇò³ö½çÇ°À¹½Øµ½Çò
+    bool IsPlayerBallInterceptable(Unum unum) const { return GetPlayerInterceptInfo(unum)? GetPlayerInterceptInfo(unum)->mRes == IR_Success: false; } //å¯ä»¥åœ¨çƒå‡ºç•Œå‰æ‹¦æˆªåˆ°çƒ
 
-	static void CalcTightInterception(const BallState & ball, PlayerInterceptInfo *pInfo, bool can_inverse = true); //Çó½â¿ÉÌß¼´¿É½Ø`½ô'½ØÇòÇø¼ä -- ¿¼ÂÇgotopointĞŞÕı
-	static void CalcLooseInterception(const BallState & ball, PlayerInterceptInfo *pInfo, const double & buffer); //Çó½âbuffer¿É½ØµÄ`ËÉ¡®½ØÇòÇø¼ä -- ²»¿¼ÂÇgotopointĞŞÕı
+	static void CalcTightInterception(const BallState & ball, PlayerInterceptInfo *pInfo, bool can_inverse = true); //æ±‚è§£å¯è¸¢å³å¯æˆª`ç´§'æˆªçƒåŒºé—´ -- è€ƒè™‘gotopointä¿®æ­£
+	static void CalcLooseInterception(const BallState & ball, PlayerInterceptInfo *pInfo, const double & buffer); //æ±‚è§£bufferå¯æˆªçš„`æ¾â€˜æˆªçƒåŒºé—´ -- ä¸è€ƒè™‘gotopointä¿®æ­£
 
 private:
 	static void CalcIdealInterception(const BallState & ball, PlayerInterceptInfo *pInfo, const double & buffer);
@@ -119,7 +119,7 @@ private:
 private:
     PlayerArray<PlayerInterceptInfo> mTeammateInterceptInfo;
     PlayerArray<PlayerInterceptInfo> mOpponentInterceptInfo;
-    std::vector<OrderedIT> mOIT; //À¹½ØÅÅĞòÁ´±í
+    std::vector<OrderedIT> mOIT; //æ‹¦æˆªæ’åºé“¾è¡¨
 };
 
 #endif

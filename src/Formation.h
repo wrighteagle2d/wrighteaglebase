@@ -44,24 +44,24 @@
 class Agent;
 class WorldState;
 
-#define FORMATION_LINE_NUM 3 // ÕóĞÍÓĞ3Ìõ·æÏß
+#define FORMATION_LINE_NUM 3 // é˜µå‹æœ‰3æ¡é”‹çº¿
 
 /**
- * ÕâÀïÓĞ4ÖÖ¿ÉÑ¡ÕóĞÍ£¬¶ÔÓÚteammate£¬Ò»°ãÖ»ÓÃFT_Attack_ForwardºÍFT_Defend_BackÁ½ÖÖ£¬¶ÔÓÚopponent£¬½ÌÁ··¢¹ıÀ´µÄÕóĞÍÊÇ°´ÕÕ4ÖÖÇé¿ö·Ö±ğÀ´·¢µÄ
+ * è¿™é‡Œæœ‰4ç§å¯é€‰é˜µå‹ï¼Œå¯¹äºteammateï¼Œä¸€èˆ¬åªç”¨FT_Attack_Forwardå’ŒFT_Defend_Backä¸¤ç§ï¼Œå¯¹äºopponentï¼Œæ•™ç»ƒå‘è¿‡æ¥çš„é˜µå‹æ˜¯æŒ‰ç…§4ç§æƒ…å†µåˆ†åˆ«æ¥å‘çš„
  * There are four kinds of optional formation, the teammate, the general FT_Attack_Forward and FT_Defend_Back
  * only two, the opponent, the coach sent in accordance with the formation for each of four kinds of fat to the
  */
 enum FormationType
 {
-    FT_Attack_Forward = 0,  // Ç°³¡½ø¹¥
-    FT_Attack_Midfield, // ÖĞ³¡½ø¹¥
-    FT_Defend_Midfield, // ÖĞ³¡·ÀÊØ
-    FT_Defend_Back,     // ºó³¡·ÀÊØ
+    FT_Attack_Forward = 0,  // å‰åœºè¿›æ”»
+    FT_Attack_Midfield, // ä¸­åœºè¿›æ”»
+    FT_Defend_Midfield, // ä¸­åœºé˜²å®ˆ
+    FT_Defend_Back,     // ååœºé˜²å®ˆ
     FT_Max
 };
 
 /**
- * ·æÏßÀàĞÍ
+ * é”‹çº¿ç±»å‹
  * Front type
  */
 enum LineType
@@ -74,7 +74,7 @@ enum LineType
 };
 
 /**
- * Î»ÖÃÀàĞÍ
+ * ä½ç½®ç±»å‹
  * Position type.
  */
 enum PositionType
@@ -113,7 +113,7 @@ struct RoleType
 {
 	RoleType(): mIndexX(0), mIndexY(0), mLineType(LT_Null), mPositionType(PT_Null) {}
 
-	/** x·½ÏòºÍy·½ÏòµÄË÷Òı */
+	/** xæ–¹å‘å’Œyæ–¹å‘çš„ç´¢å¼• */
 	int mIndexX; /** 0 - 3 */
 	int mIndexY; /** 1 - 4*/
 
@@ -140,13 +140,13 @@ public:
 
     double GetVInterval(int index_V) const
     {
-    	Assert(index_V != 0); //¶ÔÓÚÊØÃÅÔ±Õâ¸öÁ¿ÊÇÃ»ÓĞÒâÒåµÄ
+    	Assert(index_V != 0); //å¯¹äºå®ˆé—¨å‘˜è¿™ä¸ªé‡æ˜¯æ²¡æœ‰æ„ä¹‰çš„
 	    return mVInterval[index_V];
     }
 
     int GetLineArrange(int index_i) const
     {
-        return mLineArrange[index_i]; // index_i == 0±íÊ¾ÊÇÊØÃÅÔ±ÕâÌõ·æÏß
+        return mLineArrange[index_i]; // index_i == 0è¡¨ç¤ºæ˜¯å®ˆé—¨å‘˜è¿™æ¡é”‹çº¿
     }
 
     void SetLineArrange(int index_i, int num)
@@ -197,11 +197,11 @@ public:
         mUnum2Index[unum] = index;
     }
 
-    /** Í¨¹ıÕóÎ»µÃµ½ÇòÔ±ºÅÂë */
+    /** é€šè¿‡é˜µä½å¾—åˆ°çƒå‘˜å·ç  */
 	Unum GetUnumFromPos(int index_i, int index_j);
 	bool SetUnumForPos(Unum player1, int index_i, int index_j);
 
-	/** ÕóĞÍÖĞĞÄºÍÕóĞÍ»ù±¾µã£¬·ÅÔÚÕâÀï¹©Íâ²¿µ÷ÓÃ£¬ĞèÒª´«ÈëWorldState */
+	/** é˜µå‹ä¸­å¿ƒå’Œé˜µå‹åŸºæœ¬ç‚¹ï¼Œæ”¾åœ¨è¿™é‡Œä¾›å¤–éƒ¨è°ƒç”¨ï¼Œéœ€è¦ä¼ å…¥WorldState */
     const Vector & GetFormationCenter(const WorldState & world_state, bool is_teammate, double min_conf = 0.6);
 	void SetFormationCenter(Unum num, Vector position);
     Vector GetFormationPoint(const WorldState &world_state, bool is_teammate, Unum unum, double min_conf = 0.6);
@@ -213,41 +213,41 @@ public:
 protected:
     FormationType mFormationType;
 
-    /** ¸÷Ìõ·æÏß¼äµÄ¼ä¾à£¬[0]±íÊ¾ºóÎÀÓëÖĞ³¡Ö®¼ä£¬[1]±íÊ¾ÖĞ³¡ÓëÇ°·æÖ®¼ä */
+    /** å„æ¡é”‹çº¿é—´çš„é—´è·ï¼Œ[0]è¡¨ç¤ºåå«ä¸ä¸­åœºä¹‹é—´ï¼Œ[1]è¡¨ç¤ºä¸­åœºä¸å‰é”‹ä¹‹é—´ */
 	Array<double, FORMATION_LINE_NUM-1, true> mHInterval;
 
-	/** ¸÷Ìõ·æÏßÄÚ²¿ÈËÔ±¼ä¾à */
+	/** å„æ¡é”‹çº¿å†…éƒ¨äººå‘˜é—´è· */
 	Array<double, FORMATION_LINE_NUM+1, true> mVInterval;
 
-	/** Ã¿Ìõ·æÏßÉÏµÄÈËÔ±ÊıÄ¿·ÖÅä */
+	/** æ¯æ¡é”‹çº¿ä¸Šçš„äººå‘˜æ•°ç›®åˆ†é… */
 	Array<int, FORMATION_LINE_NUM+1, true> mLineArrange;
 
 	double      mHBallFactor;
 	double      mVBallFactor;
 
-	/** [2]±íÊ¾2ºÅÕóÎ»µÄRoleTypeĞÅÏ¢ */
+	/** [2]è¡¨ç¤º2å·é˜µä½çš„RoleTypeä¿¡æ¯ */
 	PlayerArray<RoleType> mPlayerRole;
 
-	/** Ã¿ÃûÇòÔ±µÄÓĞĞ§ÇøÓò */
-	PlayerArray<Rectangular> mActiveField; //¶ÔÓÚÊØÃÅÔ±Î´×¼È·¶¨Òå£¬²»ÒËÊ¹ÓÃ
-	/** Í¨¹ıÎ»ÖÃµÄµ½ÕóÎ»£¬µÚÒ»Î¬Ö¸µÚ¼¸·æÏß£¨ÊØÃÅÔ±ÊÇ0£©£¬µÚ¶şÎ¬Ö¸·æÏßÉÏµÄµÚ¼¸¸öÈË£¨×î×ó±ßµÄÊÇ0£© */
+	/** æ¯åçƒå‘˜çš„æœ‰æ•ˆåŒºåŸŸ */
+	PlayerArray<Rectangular> mActiveField; //å¯¹äºå®ˆé—¨å‘˜æœªå‡†ç¡®å®šä¹‰ï¼Œä¸å®œä½¿ç”¨
+	/** é€šè¿‡ä½ç½®çš„åˆ°é˜µä½ï¼Œç¬¬ä¸€ç»´æŒ‡ç¬¬å‡ é”‹çº¿ï¼ˆå®ˆé—¨å‘˜æ˜¯0ï¼‰ï¼Œç¬¬äºŒç»´æŒ‡é”‹çº¿ä¸Šçš„ç¬¬å‡ ä¸ªäººï¼ˆæœ€å·¦è¾¹çš„æ˜¯0ï¼‰ */
     Array<Array<int, TEAMSIZE, true>, FORMATION_LINE_NUM+1> mPos2Index;
 
 	/**
-	 * ÇòÔ±·ÖÅä±í
-	 * 0ÓÀÔ¶¶ÔÓ¦0£¬ÒÔ·½±ãÔÚÄ³Ğ©Ê±ºò±íÊ¾¡°Çò¡±»òÕß¡°Ã»ÓĞÈË¡±¡£
+	 * çƒå‘˜åˆ†é…è¡¨
+	 * 0æ°¸è¿œå¯¹åº”0ï¼Œä»¥æ–¹ä¾¿åœ¨æŸäº›æ—¶å€™è¡¨ç¤ºâ€œçƒâ€æˆ–è€…â€œæ²¡æœ‰äººâ€ã€‚
 	 */
     Array<Unum, TEAMSIZE+1> mIndex2Unum;
 	Array<int, TEAMSIZE+1> mUnum2Index;
 
-	/** Æ«ÒÆ¾ØÕó */
-	Array<Array<Vector, TEAMSIZE+1>, TEAMSIZE+1 > mOffsetMatrix; //¶ÔÓÚÊØÃÅÔ±Î´×¼È·¶¨Òå£¬²»ÒËÊ¹ÓÃ
+	/** åç§»çŸ©é˜µ */
+	Array<Array<Vector, TEAMSIZE+1>, TEAMSIZE+1 > mOffsetMatrix; //å¯¹äºå®ˆé—¨å‘˜æœªå‡†ç¡®å®šä¹‰ï¼Œä¸å®œä½¿ç”¨
     Vector      mFormationCT;
 };
 
 
 /**
- * ÎÒ·½µÄÕóĞÎ£¬ÓÉ³õÊ¼»¯Ê±»ñµÃ
+ * æˆ‘æ–¹çš„é˜µå½¢ï¼Œç”±åˆå§‹åŒ–æ—¶è·å¾—
  */
 class TeammateFormation: public FormationBase {
 	TeammateFormation(const TeammateFormation & formation);
@@ -265,16 +265,16 @@ private:
 	double m_FORMATION_MAX_X;
 	double m_FORMATION_MAX_Y;
   
-    /** ³õÊ¼»¯ÕóĞÍµÄ»ù±¾ĞÅÏ¢ */
+    /** åˆå§‹åŒ–é˜µå‹çš„åŸºæœ¬ä¿¡æ¯ */
     void InitialFormation(std::vector<std::string> & config);
 
-    /** ÓÃÀ´ÉèÖÃ¶ÓÓÑµÄÀàĞÍ */
+    /** ç”¨æ¥è®¾ç½®é˜Ÿå‹çš„ç±»å‹ */
     void SetTeammateRole();
 
-    /** ÓÃÀ´ÉèÖÃ¸÷·æÏßÁ½Á½¼ä¾à,µ÷ÓÃÖ®Ç°ĞèÒªÊ×ÏÈ·ÖÅäºÃÇòÔ±ºÅÂëºÍ½ÇÉ«ÀàĞÍ */
+    /** ç”¨æ¥è®¾ç½®å„é”‹çº¿ä¸¤ä¸¤é—´è·,è°ƒç”¨ä¹‹å‰éœ€è¦é¦–å…ˆåˆ†é…å¥½çƒå‘˜å·ç å’Œè§’è‰²ç±»å‹ */
 	void SetHInterval(double back_middle, double middle_front);
 
-	/** ÓÃÀ´ÉèÖÃ¸÷·æÏßÄÚ²¿ÇòÔ±µÄÁ½Á½¼ä¾à,µ÷ÓÃÖ®Ç°ĞèÒªÊ×ÏÈ·ÖÅäºÃÇòÔ±ºÅÂëºÍ½ÇÉ«ÀàĞÍ */
+	/** ç”¨æ¥è®¾ç½®å„é”‹çº¿å†…éƒ¨çƒå‘˜çš„ä¸¤ä¸¤é—´è·,è°ƒç”¨ä¹‹å‰éœ€è¦é¦–å…ˆåˆ†é…å¥½çƒå‘˜å·ç å’Œè§’è‰²ç±»å‹ */
 	void SetVInterval(double back, double middle, double front);
 
     Array<FormationTacticBase *, FTT_MAX> mTactics;
@@ -282,7 +282,7 @@ private:
 
 
 /**
- * ¶Ô·½ÕóĞÎ
+ * å¯¹æ–¹é˜µå½¢
  */
 class OpponentFormation: public FormationBase {
 	friend class Formation;
@@ -309,9 +309,9 @@ public:
 	FormationTacticBase * GetTactic(FormationTacticType tactic) { return mTactics[tactic]; }
 
 private:
-    Array<std::vector<int>, 3> mLineMember; // 3·æÏßÄÚ²¿³ÉÔ±£¬0ÊÇºóÎÀ£¬1ÊÇÖĞ³¡£¬2ÊÇÇ°·æ
-    unsigned long mUsedTimes; // ÓĞĞ§Í³¼Æ´ÎÊı
-    Array<int, 2> mHIntervalTimes; // HIntervalµÄÓĞĞ§´ÎÊı
+    Array<std::vector<int>, 3> mLineMember; // 3é”‹çº¿å†…éƒ¨æˆå‘˜ï¼Œ0æ˜¯åå«ï¼Œ1æ˜¯ä¸­åœºï¼Œ2æ˜¯å‰é”‹
+    unsigned long mUsedTimes; // æœ‰æ•ˆç»Ÿè®¡æ¬¡æ•°
+    Array<int, 2> mHIntervalTimes; // HIntervalçš„æœ‰æ•ˆæ¬¡æ•°
     Unum mGoalieUnum;
     Array<FormationTacticBase *, FTT_MAX> mTactics;
 
@@ -320,7 +320,7 @@ public:
     {
         FRONT_CODE_SIZE = 10,
         BACK_CODE_SIZE = 10,
-        FORMATION_CODE_SIZE = 21 // ÕóĞÍ±àÂë³¤¶È = 1 + 10 + 10
+        FORMATION_CODE_SIZE = 21 // é˜µå‹ç¼–ç é•¿åº¦ = 1 + 10 + 10
     };
 
     bool operator < (const OpponentFormation& other) const
@@ -360,7 +360,7 @@ public:
 
 
 /**
- * Í³Ò»Î¬»¤×Ô¼ºµÄÕóĞÎºÍ¶Ô·½µÄÕóĞÎ£¬¾ö²ßÀïÃæ¶¼Ê¹ÓÃÕâ¸öÀàÌá¹©µÄ½Ó¿Ú
+ * ç»Ÿä¸€ç»´æŠ¤è‡ªå·±çš„é˜µå½¢å’Œå¯¹æ–¹çš„é˜µå½¢ï¼Œå†³ç­–é‡Œé¢éƒ½ä½¿ç”¨è¿™ä¸ªç±»æä¾›çš„æ¥å£
  */
 class Formation
 {
@@ -392,7 +392,7 @@ public:
 	    return mpOpponentFormation->GetUnumFromPos(index_i, index_j);
     }
 
-    // ×Ô¼ºµÄÕóĞÍ±£Ö¤Ã¿Ìõ·æÏßÖÁÉÙ2¸öÈË£¬ËùÒÔ¼ÓÏÂÃæµÄ½Ó¿Ú£¬»»ÕóĞÍ·½±ã   2009-05-04
+    // è‡ªå·±çš„é˜µå‹ä¿è¯æ¯æ¡é”‹çº¿è‡³å°‘2ä¸ªäººï¼Œæ‰€ä»¥åŠ ä¸‹é¢çš„æ¥å£ï¼Œæ¢é˜µå‹æ–¹ä¾¿   2009-05-04
     Unum GetTeammateLeftDefender() const
     {
         return GetTeammateUnumFromIndex(1, 1);
@@ -558,7 +558,7 @@ public:
         void SetOpponentFormation(FormationType type, OpponentFormation * formation) { mpOpponentFormations[type] = formation; }
 
     	/**
-         * ÔÚ½ÌÁ··¢À´ĞÅÏ¢Ö®Ç°ÓÉ×Ô¼ºÀ´´ÖÂÔ¼ÆËãÒ»ÏÂ¶ÔÊÖÕóĞÍ£¬²»Éæ¼°ÕıËã»¹ÊÇ·´Ëã¡£
+         * åœ¨æ•™ç»ƒå‘æ¥ä¿¡æ¯ä¹‹å‰ç”±è‡ªå·±æ¥ç²—ç•¥è®¡ç®—ä¸€ä¸‹å¯¹æ‰‹é˜µå‹ï¼Œä¸æ¶‰åŠæ­£ç®—è¿˜æ˜¯åç®—ã€‚
          */
         void UpdateOpponentRole();
     	void SetOpponentGoalieUnum(Unum goalie_unum);

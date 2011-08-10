@@ -47,7 +47,7 @@ DynamicDebug::DynamicDebug()
 
 	mpFile              = 0;
 	mpFileStream        = 0;
-	mpStreamBuffer      = std::cin.rdbuf(); // ±£´æstd::cinµÄÁ÷£¬ºóÃæÒªÖØ¶¨Ïò
+	mpStreamBuffer      = std::cin.rdbuf(); // ä¿å­˜std::cinçš„æµï¼Œåé¢è¦é‡å®šå‘
 
 	mRunning            = false;
 	mShowMessage        = false;
@@ -105,7 +105,7 @@ void DynamicDebug::Initial(Observer *pObserver)
 
 	mpObserver = pObserver;
 
-	if (PlayerParam::instance().DynamicDebugMode() == true) // ¶¯Ì¬µ÷ÊÔ
+	if (PlayerParam::instance().DynamicDebugMode() == true) // åŠ¨æ€è°ƒè¯•
 	{
 		mpFileStream = new std::ifstream("dynamicdebug.txt");
 		if (mpFileStream)
@@ -113,9 +113,9 @@ void DynamicDebug::Initial(Observer *pObserver)
 			std::cin.rdbuf(mpFileStream->rdbuf());
 		}
 	}
-	else // Õı³£±ÈÈüÊ±
+	else // æ­£å¸¸æ¯”èµ›æ—¶
 	{
-		if (PlayerParam::instance().SaveServerMessage() == true) // ĞèÒª±£´æserverĞÅÏ¢
+		if (PlayerParam::instance().SaveServerMessage() == true) // éœ€è¦ä¿å­˜serverä¿¡æ¯
 		{
 			char file_name[64];
 			sprintf(file_name, "%s/%s-%d-msg.log", PlayerParam::instance().logDir().c_str(), PlayerParam::instance().teamName().c_str(), mpObserver->MyUnum());
@@ -133,7 +133,7 @@ void DynamicDebug::Initial(Observer *pObserver)
 
 		if (mpFile != 0)
 		{
-			fseek(mpFile, sizeof(mFileHead) + 2 * sizeof( char ), SEEK_SET); // Áô³ömFileHeadµÄµØ·½£¬×îºóÔÙÌî
+			fseek(mpFile, sizeof(mFileHead) + 2 * sizeof( char ), SEEK_SET); // ç•™å‡ºmFileHeadçš„åœ°æ–¹ï¼Œæœ€åå†å¡«
 			mFileHead.mIndexTableSize = 0;
 			mIndexTable.reserve(8192);
 			mMessageTable.reserve(8192);
@@ -151,10 +151,10 @@ void DynamicDebug::AddMessage(const char *msg, MessageType msg_type)
     {
 	    if (!mInitialOK)
 	    {
-		    return; // Ã»ÓĞ³õÊ¼»¯»òÕß²»ÓÃ¼ÇÂ¼serverĞÅÏ¢¶¼·µ»Ø
+		    return; // æ²¡æœ‰åˆå§‹åŒ–æˆ–è€…ä¸ç”¨è®°å½•serverä¿¡æ¯éƒ½è¿”å›
 	    }
 
-	    mFileMutex.Lock(); // ÓĞ¿ÉÄÜ¶à¸öÏß³ÌÍ¬Ê±ÔÚĞ´ÎÄ¼ş£¬ËùÒÔÒª±£Ö¤»¥³â
+	    mFileMutex.Lock(); // æœ‰å¯èƒ½å¤šä¸ªçº¿ç¨‹åŒæ—¶åœ¨å†™æ–‡ä»¶ï¼Œæ‰€ä»¥è¦ä¿è¯äº’æ–¥
 
 	    MessageIndexTableUnit index_table_unit;
 	    index_table_unit.mServerTime = mpObserver->CurrentTime();
@@ -220,7 +220,7 @@ void DynamicDebug::AddTimeCommandSend(timeval &time)
 //==============================================================================
 MessageType DynamicDebug::Run(char *msg)
 {
-	std::cerr << std::endl << mpObserver->CurrentTime(); // Êä³öµ±Ç°ÖÜÆÚ
+	std::cerr << std::endl << mpObserver->CurrentTime(); // è¾“å‡ºå½“å‰å‘¨æœŸ
 
 	if (mRunning == true)
 	{
@@ -251,7 +251,7 @@ MessageType DynamicDebug::Run(char *msg)
 
 		if (*read_msg.c_str() == '\0')
 		{
-			std::cin.rdbuf(mpStreamBuffer); // µ½´ïÎÄ¼şÄ©Î²»á¶ÁÈë'\0'£¬ÕâÀïÖØ¶¨Ïò
+			std::cin.rdbuf(mpStreamBuffer); // åˆ°è¾¾æ–‡ä»¶æœ«å°¾ä¼šè¯»å…¥'\0'ï¼Œè¿™é‡Œé‡å®šå‘
 			continue;
 		}
 
@@ -324,7 +324,7 @@ MessageType DynamicDebug::Run(char *msg)
             }
 
 			fseek(mpFile, sizeof(mFileHead) + 2 * sizeof( char ), SEEK_SET);
-			mpCurrentIndex = mpIndex; // loadºó£¬µÚÒ»¸öÎª³õÊ¼»¯ĞÅÏ¢£¬ÏÈ½øĞĞ³õÊ¼»¯
+			mpCurrentIndex = mpIndex; // loadåï¼Œç¬¬ä¸€ä¸ªä¸ºåˆå§‹åŒ–ä¿¡æ¯ï¼Œå…ˆè¿›è¡Œåˆå§‹åŒ–
 
 			std::cerr << "Load finished." << std::endl;
 			fseek(mpFile, mpCurrentIndex->mDataOffset, SEEK_SET);
@@ -460,13 +460,13 @@ MessageType DynamicDebug::GetMessage(char *msg)
 	}
 
 	fseek(mpFile, mpCurrentIndex->mDataOffset, SEEK_SET);
-	if (fread(msg, 1, 1, mpFile) < 1) // ¶ÁÈ¡ĞÅÏ¢ÀàĞÍ
+	if (fread(msg, 1, 1, mpFile) < 1) // è¯»å–ä¿¡æ¯ç±»å‹
     {
         Assert(0);
     }
 	MessageType msg_type = (MessageType)msg[0];
 
-    if (mpCurrentIndex->mDataSize > 0 && fread(msg, mpCurrentIndex->mDataSize, 1, mpFile) < 1) // ¶ÁÈ¡ĞÅÏ¢ÄÚÈİ
+    if (mpCurrentIndex->mDataSize > 0 && fread(msg, mpCurrentIndex->mDataSize, 1, mpFile) < 1) // è¯»å–ä¿¡æ¯å†…å®¹
     {
         Assert(0);
     }
@@ -546,11 +546,11 @@ void DynamicDebug::Flush()
     {
 	    if (mpFile != 0)
 	    {
-		    long long i = 0; // Ñ­»·±äÁ¿
+		    long long i = 0; // å¾ªç¯å˜é‡
 		    //mFileHead.mHeadFlag[0] = 'D';
 		    //mFileHead.mHeadFlag[1] = 'D';
 
-		    // ¸³Öµ4¸ö±íµÄ´óĞ¡£¬ºóÃæ½«ÒªĞ´µ½ÎÄ¼şÖĞ
+		    // èµ‹å€¼4ä¸ªè¡¨çš„å¤§å°ï¼Œåé¢å°†è¦å†™åˆ°æ–‡ä»¶ä¸­
 		    mFileHead.mIndexTableSize = mIndexTable.size();
 		    mFileHead.mParserTableSize = mParserTimeTable.size();
 		    mFileHead.mDecisionTableSize = mDecisionTimeTable.size();
@@ -560,7 +560,7 @@ void DynamicDebug::Flush()
 		    long long size = mFileHead.mIndexTableSize;
 		    for (i = 0; i < size; ++i) {
 			    mIndexTable[i].mDataOffset = ftell(mpFile);
-			    fwrite(& mMessageTable[i].mType, 1, 1, mpFile); // ÏÈĞ´ÈëÏûÏ¢ÀàĞÍ
+			    fwrite(& mMessageTable[i].mType, 1, 1, mpFile); // å…ˆå†™å…¥æ¶ˆæ¯ç±»å‹
 			    fwrite(mMessageTable[i].mString.c_str(), mIndexTable[i].mDataSize, 1, mpFile);
 		    }
 

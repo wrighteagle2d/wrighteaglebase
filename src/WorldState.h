@@ -45,7 +45,7 @@ class UnknownPlayerObserver;
 class UnknownUnumPlayerObserver;
 
 /**
- * pointÒªÇóµÄ×î´ó½Ç¶È -- Ò»¸öÔ¼¶¨
+ * pointè¦æ±‚çš„æœ€å¤§è§’åº¦ -- ä¸€ä¸ªçº¦å®š
  * Max point direction.
  */
 #define MAX_POINT_DIR 120
@@ -54,7 +54,7 @@ class HistoryState;
 class BeliefState;
 
 /**
- * WorldState ÀïµÄĞÅÏ¢¸ú×Ô¼ºµÃºÅÂëÎŞ¹Ø£¬ÓÉÓÚËùÓĞĞÅÏ¢ÓÃ¶ÓÓÑºÍ¶ÔÊÖÇø·Ö£¬ËùÒÔ±¾ÖÊÉÏÒ²Óë×Ô¼ºµÄ±ßÎŞ¹Ø
+ * WorldState é‡Œçš„ä¿¡æ¯è·Ÿè‡ªå·±å¾—å·ç æ— å…³ï¼Œç”±äºæ‰€æœ‰ä¿¡æ¯ç”¨é˜Ÿå‹å’Œå¯¹æ‰‹åŒºåˆ†ï¼Œæ‰€ä»¥æœ¬è´¨ä¸Šä¹Ÿä¸è‡ªå·±çš„è¾¹æ— å…³
  */
 class WorldState {
     friend class WorldStateUpdater;
@@ -65,13 +65,13 @@ public:
     virtual ~WorldState() {}
 
      /**
-     * ´ÓObserver¸üĞÂWorldState
+     * ä»Observeræ›´æ–°WorldState
     * @param observer
      */
     void UpdateFromObserver(Observer *observer);
 
      /**
-     * ´Óworld_state¸üĞÂ£¬µÃµ½Ò»¸ö¹©·´Ëã¶ÔÊÖÊ±ÓÃµÄÊÀ½ç×´Ì¬
+     * ä»world_stateæ›´æ–°ï¼Œå¾—åˆ°ä¸€ä¸ªä¾›åç®—å¯¹æ‰‹æ—¶ç”¨çš„ä¸–ç•ŒçŠ¶æ€
     * @param world_state
      */
     void GetReverseFrom(WorldState *world_state);
@@ -143,7 +143,7 @@ private:
 };
 
 /**
- * ¸ºÔğWorldStateµÄ¸üĞÂ
+ * è´Ÿè´£WorldStateçš„æ›´æ–°
  */
 class WorldStateUpdater {
     WorldStateUpdater(const WorldStateUpdater &);
@@ -163,12 +163,12 @@ public:
     }
 
      /**
-      * ¸üĞÂÀı³Ì
+      * æ›´æ–°ä¾‹ç¨‹
       */
     void Run();
 
 private:
-     /** Ò»Ğ©Ö»ÔÚ¸üĞÂÊ±ÓÃµÄ½Ó¿Ú */
+     /** ä¸€äº›åªåœ¨æ›´æ–°æ—¶ç”¨çš„æ¥å£ */
     inline BallState   & Ball();
     inline PlayerState & Teammate(Unum i);
     inline PlayerState & Opponent(Unum i);
@@ -185,19 +185,19 @@ private:
     inline char GetSelfSide();
 
 private:
-    /** ¸÷ÖÖ¸üĞÂ·½·¨ */
+    /** å„ç§æ›´æ–°æ–¹æ³• */
 	void UpdateWorldState();
 
 private:
     /**
-     * »ñµÃµ±Ç°¿É¼ûµÄ×î½üµÄ¶ÓÓÑ
-     * Ã»ÓĞÔò·µ»ØµÄºÅÂëÎª0
+     * è·å¾—å½“å‰å¯è§çš„æœ€è¿‘çš„é˜Ÿå‹
+     * æ²¡æœ‰åˆ™è¿”å›çš„å·ç ä¸º0
      */
     Unum GetSeenClosestTeammate();
 
     /**
-     * »ñµÃµ±Ç°¿É¼ûµÄ×î½üµÄ¶ÔÊÖ
-     * Ã»ÓĞÔò·µ»ØµÄºÅÂëÎª0
+     * è·å¾—å½“å‰å¯è§çš„æœ€è¿‘çš„å¯¹æ‰‹
+     * æ²¡æœ‰åˆ™è¿”å›çš„å·ç ä¸º0
      */
     Unum GetSeenClosestOpponent();
 
@@ -214,61 +214,61 @@ private:
 	Unum GetClosestPlayerToBall();
 
 
-//=======================================ÄÚ²¿¸üĞÂµÄ½Ó¿Ú================================================
+//=======================================å†…éƒ¨æ›´æ–°çš„æ¥å£================================================
 public:
-    /** ¸üĞÂActionĞèÒªµÄĞÅÏ¢ */
+    /** æ›´æ–°Actionéœ€è¦çš„ä¿¡æ¯ */
     void UpdateActionInfo();
 
 private:
 	/**update sight delay */
 	void UpdateSightDelay();
 
-    /** ¸üĞÂ×Ô¼ºĞÅÏ¢ */
+    /** æ›´æ–°è‡ªå·±ä¿¡æ¯ */
     void UpdateSelfInfo();
 
-    /** ¸üĞÂ×Ô¼ºµÄsense */
+    /** æ›´æ–°è‡ªå·±çš„sense */
     void UpdateSelfSense();
 
-    /** ¸üĞÂËùÓĞµÄ¶ÓÔ±µÄĞÅÏ¢ */
+    /** æ›´æ–°æ‰€æœ‰çš„é˜Ÿå‘˜çš„ä¿¡æ¯ */
     void UpdateKnownPlayers();
 
-    /** ¸üĞÂÎ´ÖªÇòÔ±µÄĞÅÏ¢ */
+    /** æ›´æ–°æœªçŸ¥çƒå‘˜çš„ä¿¡æ¯ */
     void UpdateUnknownPlayers();
 
 	bool UpdateMostSimilarPlayer(const Vector & pos ,int index);
 
-    /** ¸üĞÂÄ³Ò»¸öÌØ¶¨µÄ¶ÓÔ± */
+    /** æ›´æ–°æŸä¸€ä¸ªç‰¹å®šçš„é˜Ÿå‘˜ */
     void UpdateSpecificPlayer(const PlayerObserver& player , Unum unum , bool is_teammate);
 
-    /** ¸üĞÂÄ³¸öÌØ¶¨µÄÎ´ÖªµÄÇòÔ± */
+    /** æ›´æ–°æŸä¸ªç‰¹å®šçš„æœªçŸ¥çš„çƒå‘˜ */
     void UpdateSpecificUnknownPlayer(const UnknownPlayerObserver& player , Unum num , bool is_teammate);
 
-    /** ¸üĞÂÇòµÄĞÅÏ¢ */
+    /** æ›´æ–°çƒçš„ä¿¡æ¯ */
     void UpdateBallInfo();
 
-    /** ×Ô¶¯½«delay¼Ó1 */
+    /** è‡ªåŠ¨å°†delayåŠ 1 */
     void AutoDelay(int delay_add);
 
-    /** ¸üĞÂÌØ¶¨µÄÎ»ÖÃ´ÓÌØ¶¨×´Ì¬ */
+    /** æ›´æ–°ç‰¹å®šçš„ä½ç½®ä»ç‰¹å®šçŠ¶æ€ */
     void UpdateInfoFromPlayMode();
 
-    /** ¸üĞÂ³¡ÉÏµÄĞÅÏ¢ */
+    /** æ›´æ–°åœºä¸Šçš„ä¿¡æ¯ */
     void UpdateFieldInfo();
 
-    /** ¸ù¾İÌı¾õ¸üĞÂ */
+    /** æ ¹æ®å¬è§‰æ›´æ–° */
     void UpdateFromAudio();
 
-    /** ¸ü¼Ócollide¸üĞÂ */
+    /** æ›´åŠ collideæ›´æ–° */
     void UpdateInfoWhenCollided();
-//=========================================¸üĞÂºÍÔ¤²âµÄ¼ÆËã¹¤¾ß=============================================
+//=========================================æ›´æ–°å’Œé¢„æµ‹çš„è®¡ç®—å·¥å…·=============================================
 private:
-    /**¼ÆËã×Ô¼ºÍ·µÄ½Ç¶È*/
+    /**è®¡ç®—è‡ªå·±å¤´çš„è§’åº¦*/
     bool ComputeSelfDir(double& angle);
 
-    /**¼ÆËã×Ô¼ºµÄÎ»ÖÃ*/
+    /**è®¡ç®—è‡ªå·±çš„ä½ç½®*/
     bool ComputeSelfPos(Vector& vec , double& eps);
 
-    /**¼ÆËãÏÂÒ»¸öÖÜÆÚ*/
+    /**è®¡ç®—ä¸‹ä¸€ä¸ªå‘¨æœŸ*/
     bool ComputeNextCycle(MobileState& ms , double decay);
 
     double ComputePlayerMaxDist(const PlayerState& state);
@@ -282,16 +282,16 @@ private:
 	/** estimate to now*/
 	void EstimateToNow();
 
-      /** ¸ù¾İÔË¶¯¹æÂÉºÍÉÏÖÜÆÚÖ´ĞĞµÄ¶¯×÷£¬Ä£ÄâÒ»ÖÜÆÚ */
+      /** æ ¹æ®è¿åŠ¨è§„å¾‹å’Œä¸Šå‘¨æœŸæ‰§è¡Œçš„åŠ¨ä½œï¼Œæ¨¡æ‹Ÿä¸€å‘¨æœŸ */
     void EstimateWorld(bool is_estimate_to_now = false , int cycle = 0);
 
-      /** Ô¤¹À×Ô¼ºµÄĞÅÏ¢ */
+      /** é¢„ä¼°è‡ªå·±çš„ä¿¡æ¯ */
     void EstimateSelf(bool is_estimate_to_now = false , int cycle = 0);
 
-      /** Ô¤¹ÀÇòµÄĞÅÏ¢ */
+      /** é¢„ä¼°çƒçš„ä¿¡æ¯ */
     void EstimateBall(bool is_estimate_to_now = false , int cycle = 0);
 
-      /** Ô¤¹À³ıÁË×Ô¼ºµÄÆäËüÇòÔ±µÄĞÅÏ¢ */
+      /** é¢„ä¼°é™¤äº†è‡ªå·±çš„å…¶å®ƒçƒå‘˜çš„ä¿¡æ¯ */
     void EstimatePlayers();
 
 	/**
@@ -314,7 +314,7 @@ private:
 	 */
 	void EvaluatePlayer(PlayerState& player);
 
-	bool ShouldSee(const Vector & pos); //±¾Ó¦¸Ã¿´µ½/¸ĞÖªµ½µÄ
+	bool ShouldSee(const Vector & pos); //æœ¬åº”è¯¥çœ‹åˆ°/æ„ŸçŸ¥åˆ°çš„
 
 	Vector GetNearSidePos(const Vector & pos, const Vector *expected_pos = 0);
 
@@ -363,32 +363,32 @@ private:
 	bool mIsHearBallVel;
 
 public:
-    /** ¼ÆËãÇòÔ±µÄ²ùÇò³É¹¦ÂÊ£¬ÒòÎªÔÚÕâÀï¸üĞÂ£¬ËùÒÔ·ÅÔÚÕâÀï±È½ÏºÃ */
+    /** è®¡ç®—çƒå‘˜çš„é“²çƒæˆåŠŸç‡ï¼Œå› ä¸ºåœ¨è¿™é‡Œæ›´æ–°ï¼Œæ‰€ä»¥æ”¾åœ¨è¿™é‡Œæ¯”è¾ƒå¥½ */
     double ComputeTackleProb(const Unum & unum, bool foul = false);
 };
 
 /**
- * ÓÃÀ´ÉèÖÃworldstateÀïµÄÊı¾İ£¬ÒÔ¹©·´Ëã¶ÓÓÑ»ò¶ÔÊÖ£¬ÓÃÍêÔÚÎö¹¹º¯ÊıÀïÃæ»Ö¸´×´Ì¬
+ * ç”¨æ¥è®¾ç½®worldstateé‡Œçš„æ•°æ®ï¼Œä»¥ä¾›åç®—é˜Ÿå‹æˆ–å¯¹æ‰‹ï¼Œç”¨å®Œåœ¨ææ„å‡½æ•°é‡Œé¢æ¢å¤çŠ¶æ€
  */
 /**
  * EXAMPLE:
  * void Behavior*Planner::Plan() {
  *      ActiveBehavior teammate_behavior;
  *
- *      { //ÓÃÀ´Ö¸Ã÷·´Ëã´æÔÚµÄ´úÂë·¶Î§£¬ÒÔÊ¹»Ö¸´Õı³£½øĞĞ
+ *      { //ç”¨æ¥æŒ‡æ˜åç®—å­˜åœ¨çš„ä»£ç èŒƒå›´ï¼Œä»¥ä½¿æ¢å¤æ­£å¸¸è¿›è¡Œ
  *      	WorldStateSetter setter(mWorldState);
  *      	setter.Ball().UpdatePos(Vector(0, 0));
  *      	//... ...
- *          setter.IncStopTime(); //¿ÉÒÔ¿ªÊ¼·´ËãÁË
+ *          setter.IncStopTime(); //å¯ä»¥å¼€å§‹åç®—äº†
  *      	Agent * agent = mAgent.CreateTeammateAgent(mStrategy.GetSureTm());
  *          ActiveBehaviorList bhv_list;
- *			{ //ÓÃÓÚ±êÊ¾PlannerµÄ×÷ÓÃÓò£¬×÷ÓÃÓò½áÊøºóPlanner½«±»³·Ïú¡£
- *			  //Èç´Ë°²ÅÅÊÇÒòÎª±ØĞëÏÈ³·ÏúPlannerÔÙ³·ÏúAgent
+ *			{ //ç”¨äºæ ‡ç¤ºPlannerçš„ä½œç”¨åŸŸï¼Œä½œç”¨åŸŸç»“æŸåPlannerå°†è¢«æ’¤é”€ã€‚
+ *			  //å¦‚æ­¤å®‰æ’æ˜¯å› ä¸ºå¿…é¡»å…ˆæ’¤é”€Plannerå†æ’¤é”€Agent
  *      		BehaviorPassPlanner(*agent).Plan(bhv_list);
  *      	}
  *          teammate_behavior = bhv_list.front();
  *          delete agent;
- *          //ÕâÀï»áµôÓÃsetterµÄÎö¹¹º¯Êı»Ö¸´ÊÀ½ç×´Ì¬
+ *          //è¿™é‡Œä¼šæ‰ç”¨setterçš„ææ„å‡½æ•°æ¢å¤ä¸–ç•ŒçŠ¶æ€
  *      }
  *
  *      //do_some_thing_about teammate_behavior
@@ -412,7 +412,7 @@ public:
 			delete mpBackupBallState;
 		}
 		for (int i = 0; i < TEAMSIZE * 2 + 1; ++i) {
-			if (mpBackupPlayerState[i] != 0) { //Õâ¸ö±¸·İ¹ıÁË£¬ÏÈÔÚ»Ö¸´Ëü
+			if (mpBackupPlayerState[i] != 0) { //è¿™ä¸ªå¤‡ä»½è¿‡äº†ï¼Œå…ˆåœ¨æ¢å¤å®ƒ
 				Assert(i != 0);
 				if (i <= TEAMSIZE) {
 					mWorldState.Teammate(i) = *mpBackupPlayerState[i];
@@ -427,7 +427,7 @@ public:
 	}
 
 	/**
-	 * ÒªÓÃÏÂÃæµÄ½Ó¿ÚÀ´¸ÄstateµÄÊı¾İ£¬·ñÔò²»ÄÜ±¸·İ
+	 * è¦ç”¨ä¸‹é¢çš„æ¥å£æ¥æ”¹stateçš„æ•°æ®ï¼Œå¦åˆ™ä¸èƒ½å¤‡ä»½
 	 * @return
 	 */
 	BallState   & Ball() { if (pBall() == 0) pBall() = new BallState(mWorldState.Ball()); return mWorldState.Ball(); }
@@ -465,7 +465,7 @@ private:
 	Time mBackupTime;
 };
 
-/**¼ÇÂ¼StateWorldÀúÊ·ĞÅÏ¢*/
+/**è®°å½•StateWorldå†å²ä¿¡æ¯*/
 class HistoryState
 {
 public:
@@ -476,21 +476,21 @@ public:
     	HISTORY_SIZE = 10
     };
 
-    /**½«µ±Ç°ÊÀ½ç¼ÓÈë¶ÓÁĞ
-     * @param ÏÖÊµÊÀ½çµÄÒıÓÃ
+    /**å°†å½“å‰ä¸–ç•ŒåŠ å…¥é˜Ÿåˆ—
+     * @param ç°å®ä¸–ç•Œçš„å¼•ç”¨
      */
     void UpdateHistory(const WorldState & world);
 
-    /**»ñµÃÖ®Ç°µÄÊı×é
-     * @param È¡Öµ·¶Î§Îª1~HISTORYSIZE£¬´ú±í´Ó×îĞÂµ½×îÇ°µÄËÑË÷
+    /**è·å¾—ä¹‹å‰çš„æ•°ç»„
+     * @param å–å€¼èŒƒå›´ä¸º1~HISTORYSIZEï¼Œä»£è¡¨ä»æœ€æ–°åˆ°æœ€å‰çš„æœç´¢
      */
     WorldState *GetHistory(int num);
 
 private:
-    /**¼ÇÂ¼StateWorldµÄÊı×é*/
+    /**è®°å½•StateWorldçš„æ•°ç»„*/
     Array<WorldState, HISTORY_SIZE> mRecord;
 
-    /**¼ÇÂ¼Êı×éµ±Ç°µÄÖÃ¶¥Ç°Ò»¸ö¿Õ°×*/
+    /**è®°å½•æ•°ç»„å½“å‰çš„ç½®é¡¶å‰ä¸€ä¸ªç©ºç™½*/
     int mNum;
 };
 

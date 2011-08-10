@@ -70,7 +70,7 @@ inline double Sqr(const double & x)
 #ifdef _FAST_SQRT
 /**
  * Faster sqrt algorithm. 4 times faster than std::sqrt.
- * Ïà¶Ô¾«¶È 1e-4.
+ * ç›¸å¯¹ç²¾åº¦ 1e-4.
  */
 inline double Sqrt(const double x)
 {
@@ -234,7 +234,7 @@ inline AngleRad GetAngleRadDiffer(const AngleRad & ang1, const AngleRad & ang2)
 }
 
 /**
- * ·µ»Ø½Ç¶ÈgammaÊÇ·ñÎ»ÓÚÓÉalpha°´Ë³Ê±Õë·½ÏòĞı×ªµ½betaËùÎ§³ÉµÄÉÈĞÎÇø¼äÄÚ
+ * è¿”å›è§’åº¦gammaæ˜¯å¦ä½äºç”±alphaæŒ‰é¡ºæ—¶é’ˆæ–¹å‘æ—‹è½¬åˆ°betaæ‰€å›´æˆçš„æ‰‡å½¢åŒºé—´å†…
  * @param alpha
  * @param gamma
  * @param beta
@@ -246,11 +246,11 @@ inline bool IsAngleDegInBetween(const AngleDeg & alpha, const AngleDeg & gamma, 
 }
 
 /**
- * ·µ»ØgammaÊÇ·ñÀëalpha¸ü½ü
+ * è¿”å›gammaæ˜¯å¦ç¦»alphaæ›´è¿‘
  * @param alpha
  * @param gamma
  * @param beta
- * @return trueÈç¹û¸ü½ü
+ * @return trueå¦‚æœæ›´è¿‘
  */
 inline bool IsAngleDegCloseToLeft(const AngleDeg & alpha, const AngleDeg & gamma, const AngleDeg & beta)
 {
@@ -276,12 +276,12 @@ inline double drand( double low, double high )
 
 
 /**
- * ÏÂÃæËÄ¸öº¯Êı¶¼ÊÇµÃµ½ÏµÍ³Ê±¼ä£¬µ«ÓÃµÄµØ·½²»Í¬£¬Ò»¶¨Òª×¢Òâ
+ * ä¸‹é¢å››ä¸ªå‡½æ•°éƒ½æ˜¯å¾—åˆ°ç³»ç»Ÿæ—¶é—´ï¼Œä½†ç”¨çš„åœ°æ–¹ä¸åŒï¼Œä¸€å®šè¦æ³¨æ„
  *
- * GetRealTime()ÓÃÔÚ¶¯Ì¬µ÷ÊÔÊ±²»»á¾­¹ıµÄµØ·½£¬¼´ÏÂÃæ3¸öº¯Êı²»ÄÜÓÃµÄµØ·½
- * GetRealTimeParser()ÓÃÔÚParser::Parse()¼°Æäµ÷ÓÃµÄËùÓĞº¯ÊıÖĞ
- * GetRealTimeDecision()ÓÃÔÚPlayer::Decision()¼°Æäµ÷ÓÃµÄËùÓĞº¯ÊıÖĞ
- * GetRealTimeCommandSend()ÓÃÔÚCommandSend::Run()¼°Æäµ÷ÓÃµÄËùÓĞº¯ÊıÖĞ
+ * GetRealTime()ç”¨åœ¨åŠ¨æ€è°ƒè¯•æ—¶ä¸ä¼šç»è¿‡çš„åœ°æ–¹ï¼Œå³ä¸‹é¢3ä¸ªå‡½æ•°ä¸èƒ½ç”¨çš„åœ°æ–¹
+ * GetRealTimeParser()ç”¨åœ¨Parser::Parse()åŠå…¶è°ƒç”¨çš„æ‰€æœ‰å‡½æ•°ä¸­
+ * GetRealTimeDecision()ç”¨åœ¨Player::Decision()åŠå…¶è°ƒç”¨çš„æ‰€æœ‰å‡½æ•°ä¸­
+ * GetRealTimeCommandSend()ç”¨åœ¨CommandSend::Run()åŠå…¶è°ƒç”¨çš„æ‰€æœ‰å‡½æ•°ä¸­
  */
 timeval GetRealTime();
 timeval GetRealTimeParser();
@@ -289,10 +289,10 @@ timeval GetRealTimeDecision();
 timeval GetRealTimeCommandSend();
 
 /**
- * °²È«Êı×é£¬Debug°æ±¾»á¼ì²éÔ½½ç·ÃÎÊ
- * _Tp Êı¾İÓòÀàĞÍ
- * _Nm Êı×é´óĞ¡
- * _Zero ±ê¼ÇÊÇ·ñÔÚ¹¹Ôìº¯ÊıÄÚÇåÁã
+ * å®‰å…¨æ•°ç»„ï¼ŒDebugç‰ˆæœ¬ä¼šæ£€æŸ¥è¶Šç•Œè®¿é—®
+ * _Tp æ•°æ®åŸŸç±»å‹
+ * _Nm æ•°ç»„å¤§å°
+ * _Zero æ ‡è®°æ˜¯å¦åœ¨æ„é€ å‡½æ•°å†…æ¸…é›¶
  */
 template<typename _Tp, std::size_t _Nm, bool _Zero = false>
 class Array
@@ -342,7 +342,7 @@ public:
 };
 
 /**
- * ÇòÔ±Ïà¹ØÊı×é£¬ÓĞĞ§ÏÂ±ê£º1..TEAMSIZE
+ * çƒå‘˜ç›¸å…³æ•°ç»„ï¼Œæœ‰æ•ˆä¸‹æ ‡ï¼š1..TEAMSIZE
  */
 template <typename _Tp, bool _Zero = false>
 class PlayerArray
@@ -374,8 +374,8 @@ public:
 };
 
 /**
- * ´æ·Å¹ØÓÚ³¡ÉÏ¶ÔÏó£¨ÇòÔ±ºÍÇò£©Êı¾İµÄÊı×é
- * ÓĞĞ§ÏÂ±ê£º-TEAMSIZE..TEAMSIZE
+ * å­˜æ”¾å…³äºåœºä¸Šå¯¹è±¡ï¼ˆçƒå‘˜å’Œçƒï¼‰æ•°æ®çš„æ•°ç»„
+ * æœ‰æ•ˆä¸‹æ ‡ï¼š-TEAMSIZE..TEAMSIZE
  */
 template <typename _Tp, bool _Zero = false>
 class ObjectArray

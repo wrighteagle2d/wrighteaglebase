@@ -34,7 +34,7 @@
 #include "Utilities.h"
 
 /**
- * ÇóÓëÖ±ÏßÊÇ·ñÏà½»
+ * æ±‚ä¸ç›´çº¿æ˜¯å¦ç›¸äº¤
  * \param l line
  * \param intersection_dist will be set to the distance from origin to
  *                          intersection point
@@ -45,19 +45,19 @@ bool Ray::Intersection(const Line & l, double & dist) const
 	SinCosT value = SinCos(mDirection);
 
     double tmp = l.A() * Cos(value) + l.B() * Sin(value);
-	if (fabs(tmp) < FLOAT_EPS)// Èç¹ûÆ½ĞĞ
+	if (fabs(tmp) < FLOAT_EPS)// å¦‚æœå¹³è¡Œ
     {
         return false;
     }
     else
     {
-        dist = (-l.C() - l.A() * mOrigin.X() - l.B() * mOrigin.Y()) / tmp; //ÕıÏÒ¶¨Àí
+        dist = (-l.C() - l.A() * mOrigin.X() - l.B() * mOrigin.Y()) / tmp; //æ­£å¼¦å®šç†
         return dist >= 0;
     }
 }
 
 /**
- * ÇóÓëÖ±ÏßÊÇ·ñÏà½»
+ * æ±‚ä¸ç›´çº¿æ˜¯å¦ç›¸äº¤
  * \param l line
  * \return -1000 if not intersect
  *         distance from origin to intersection point otherwise
@@ -69,7 +69,7 @@ double Ray::Intersection(const Line & l) const
 }
 
 /**
- * ÇóÓëÖ±ÏßÊÇ·ñÏà½»
+ * æ±‚ä¸ç›´çº¿æ˜¯å¦ç›¸äº¤
  * \param l line
  * \param point will be set to the intersection point
  * \return if intersect
@@ -85,7 +85,7 @@ bool Ray::Intersection(const Line & l, Vector & point) const
 }
 
 /**
- * ÇóÓëÉäÏßÊÇ·ñÏà½»
+ * æ±‚ä¸å°„çº¿æ˜¯å¦ç›¸äº¤
  * \param r ray
  * \param point will be set to the intersection point
  * \return if intersect
@@ -107,7 +107,7 @@ bool Ray::Intersection(const Ray &r, Vector & point) const
 }
 
 /**
- * ÇóÓëÉäÏßÊÇ·ñÏà½»
+ * æ±‚ä¸å°„çº¿æ˜¯å¦ç›¸äº¤
  * \param r ray
  * \param intersection_dist will be set to the distance from origin to
  *                          intersection point
@@ -122,7 +122,7 @@ bool Ray::Intersection(const Ray &r, double & dist) const
 }
 
 /**
- * µÃµ½Ò»ÌõÉäÏßÉÏÀëÕâ¸öµã×î½üµÄµã
+ * å¾—åˆ°ä¸€æ¡å°„çº¿ä¸Šç¦»è¿™ä¸ªç‚¹æœ€è¿‘çš„ç‚¹
  */
 Vector Ray::GetClosestPoint(const Vector& point) const
 {
@@ -132,7 +132,7 @@ Vector Ray::GetClosestPoint(const Vector& point) const
 }
 
 /**
- * ÅĞ¶ÏÒ»µãµÄ´¹×ãÊÇ·ñÔÚÁ½µãÖ®¼ä
+ * åˆ¤æ–­ä¸€ç‚¹çš„å‚è¶³æ˜¯å¦åœ¨ä¸¤ç‚¹ä¹‹é—´
  */
 bool Line::IsInBetween(const Vector & pt, const Vector & end1, const Vector & end2) const
 {
@@ -154,7 +154,7 @@ Vector Line::Intersection(const Line &l) const
 }
 
 /**
- * ÇóÓëÖ±ÏßÊÇ·ñÏà½»
+ * æ±‚ä¸ç›´çº¿æ˜¯å¦ç›¸äº¤
  * \param l line
  * \param point will be set to the intersection point
  * \return if intersect
@@ -183,7 +183,7 @@ bool Line::Intersection(const Line & l, Vector & point) const
 
 
 /**
- * ÇóÓëÉäÏßÊÇ·ñÏà½»
+ * æ±‚ä¸å°„çº¿æ˜¯å¦ç›¸äº¤
  * \param r ray
  * \param point will be set to the intersection point
  * \return if intersect
@@ -201,7 +201,7 @@ bool Line::Intersection(const Ray & r, Vector & point) const
 }
 
 /**
- * µÃµ½Ö±ÏßÉÏÁ½µã¼ä¾àÀëÕâ¸öµã×î½üµÄµã
+ * å¾—åˆ°ç›´çº¿ä¸Šä¸¤ç‚¹é—´è·ç¦»è¿™ä¸ªç‚¹æœ€è¿‘çš„ç‚¹
  */
 Vector Line::GetClosestPointInBetween(const Vector & pt, const Vector & end1, const Vector & end2) const
 {

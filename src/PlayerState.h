@@ -40,8 +40,8 @@
 class PlayerState : public MobileState
 {
 public:
-	/**ÊÖ±ÛÖ¸Ïò¶¯×÷µÄÀà ×¢£º×Ô¼º¶ÓÔ±ºÍ×Ô¼º»ñµÃµÄĞÅÏ¢²»Ò»Ñù£¬
-	* ÔİÊ±ÒÔ×Ô¼º¿É»ñµÃµÄĞÅÏ¢Îª±ê×¼¹¹½¨Àà£¬ÆäËüÈËÔ±Ö»ÄÜ»ñµÃĞÅÏ¢µÄÒ»²¿·Ö*/
+	/**æ‰‹è‡‚æŒ‡å‘åŠ¨ä½œçš„ç±» æ³¨ï¼šè‡ªå·±é˜Ÿå‘˜å’Œè‡ªå·±è·å¾—çš„ä¿¡æ¯ä¸ä¸€æ ·ï¼Œ
+	* æš‚æ—¶ä»¥è‡ªå·±å¯è·å¾—çš„ä¿¡æ¯ä¸ºæ ‡å‡†æ„å»ºç±»ï¼Œå…¶å®ƒäººå‘˜åªèƒ½è·å¾—ä¿¡æ¯çš„ä¸€éƒ¨åˆ†*/
 	class ArmPoint
 	{
 	public:
@@ -53,20 +53,20 @@ public:
 		{
 		}
 
-		/**µ½ÏÂ´ÎÊÖ±ÛÄÜ¶¯µÄÊ£ÓàÖÜÆÚÊı*/
+		/**åˆ°ä¸‹æ¬¡æ‰‹è‡‚èƒ½åŠ¨çš„å‰©ä½™å‘¨æœŸæ•°*/
 		int mMovableBan;
 
-		/**Ö±µ½ÊÖ±Û¶¯×÷Ê§Ğ§Ê£ÓàµÄÖÜÆÚÊı*/
+		/**ç›´åˆ°æ‰‹è‡‚åŠ¨ä½œå¤±æ•ˆå‰©ä½™çš„å‘¨æœŸæ•°*/
 		int mExpireBan;
 
-		/**Ö¸ÏòÄ¿±êµÄ¾àÀë*/
+		/**æŒ‡å‘ç›®æ ‡çš„è·ç¦»*/
 		double mTargetDist;
 
-		/**Ö¸ÏòÄ¿±êµÄ·½Ïò*/
+		/**æŒ‡å‘ç›®æ ‡çš„æ–¹å‘*/
 		AngleDeg mTargetDir;
 	};
 
-	/**×¢ÊÓ¶ÔÏóµÄÀà ×¢£ºÔİÊ±Ö»ÓĞ×Ô¼º¿ÉÒÔ»ñµÃ×¢ÊÓµÄĞÅÏ¢£¬ÕâÑùÖ»ÊÇÎªÒÔºóÁô½Ó¿Ú*/
+	/**æ³¨è§†å¯¹è±¡çš„ç±» æ³¨ï¼šæš‚æ—¶åªæœ‰è‡ªå·±å¯ä»¥è·å¾—æ³¨è§†çš„ä¿¡æ¯ï¼Œè¿™æ ·åªæ˜¯ä¸ºä»¥åç•™æ¥å£*/
 	class FocusOn
 	{
 	public:
@@ -76,10 +76,10 @@ public:
 		{
 		}
 
-		/**×¢ÊÓµÄ¶ÔÏóÎªÄÄÒ»¶Ó*/
+		/**æ³¨è§†çš„å¯¹è±¡ä¸ºå“ªä¸€é˜Ÿ*/
 		char mFocusSide;
 
-		/**×¢ÊÓµÄÇòÔ±ºÅ*/
+		/**æ³¨è§†çš„çƒå‘˜å·*/
 		Unum mFocusNum;
 	};
 
@@ -87,24 +87,24 @@ public:
 	PlayerState();
 	virtual ~PlayerState() {}
 
-	/**¸üĞÂÌåÁ¦
-	* @param ÌåÁ¦
-	* @param Ê±¼ä
-	* @param ÖÃĞÅ¶È*/
+	/**æ›´æ–°ä½“åŠ›
+	* @param ä½“åŠ›
+	* @param æ—¶é—´
+	* @param ç½®ä¿¡åº¦*/
 	void UpdateStamina(double stamina);
 
-	/**»ñµÃµ±Ç°»òÇ°¼¸´ÎµÄÌåÁ¦
+	/**è·å¾—å½“å‰æˆ–å‰å‡ æ¬¡çš„ä½“åŠ›
 	*/
 	const double & GetStamina() const { return mStamina; }
 
-	/**¸üĞÂeffort
-	* @param ÌåÁ¦
-	* @param Ê±¼ä
-	* @param ÖÃĞÅ¶È*/
+	/**æ›´æ–°effort
+	* @param ä½“åŠ›
+	* @param æ—¶é—´
+	* @param ç½®ä¿¡åº¦*/
 	void UpdateEffort(double effort);
 	void UpdateCapacity(double capacity);
 
-	/**»ñµÃµ±Ç°»òÇ°¼¸´ÎµÄeffort
+	/**è·å¾—å½“å‰æˆ–å‰å‡ æ¬¡çš„effort
 	*/
 	const double & GetEffort() const { return mEffort; }
 
@@ -119,44 +119,44 @@ public:
 	/** get recovery*/
 	const double & GetRecovery() const { return mRecovery;}
 
-	/**¸üĞÂ²±×Ó³¯Ïò
-	* @param ³¯Ïò
-	* @param Ê±¼ä
-	* @param ÖÃĞÅ¶È*/
+	/**æ›´æ–°è„–å­æœå‘
+	* @param æœå‘
+	* @param æ—¶é—´
+	* @param ç½®ä¿¡åº¦*/
 	void UpdateNeckDir(double dir , int delay = 0, double conf = 1);
 
-	/**»ñµÃµ±Ç°»òÇ°¼¸´ÎµÄ²±×ÓÈ«¾Ö³¯Ïò
+	/**è·å¾—å½“å‰æˆ–å‰å‡ æ¬¡çš„è„–å­å…¨å±€æœå‘
 	*/
 	double GetNeckGlobalDir() const { return GetNormalizeAngleDeg(GetNeckDir() + GetBodyDir()); }
 
-	/**»ñµÃµ±Ç°²±×ÓÏà¶ÔÓÚÉíÌåµÄ½Ç¶È
-	* ×¢ÒâÇø±ğÓëGetGlobalNeckDir£¨£©
+	/**è·å¾—å½“å‰è„–å­ç›¸å¯¹äºèº«ä½“çš„è§’åº¦
+	* æ³¨æ„åŒºåˆ«ä¸GetGlobalNeckDirï¼ˆï¼‰
 	*/
 	double GetNeckDir() const { return GetNormalizeNeckAngle(mNeckDir.mValue); }
 
-	/**»ñµÃµ±Ç°»òÇ°¼¸´ÎµÄ²±×Ó³¯ÏòµÄÊ±¼ä
+	/**è·å¾—å½“å‰æˆ–å‰å‡ æ¬¡çš„è„–å­æœå‘çš„æ—¶é—´
 	*/
 	int GetNeckDirDelay() const { return mNeckDir.mCycleDelay; }
 
-	/**»ñµÃµ±Ç°»òÇ°¼¸´ÎµÄ²±×Ó³¯ÏòµÄÖÃĞÅ¶È
+	/**è·å¾—å½“å‰æˆ–å‰å‡ æ¬¡çš„è„–å­æœå‘çš„ç½®ä¿¡åº¦
 	*/
 	double GetNeckDirConf() const { return mNeckDir.mConf; }
 
-	/**¸üĞÂÉíÌå³¯Ïò
-	* @param ³¯Ïò
-	* @param Ê±¼ä
-	* @param ÖÃĞÅ¶È*/
+	/**æ›´æ–°èº«ä½“æœå‘
+	* @param æœå‘
+	* @param æ—¶é—´
+	* @param ç½®ä¿¡åº¦*/
 	void UpdateBodyDir(double dir , int delay = 0, double conf = 1);
 
-	/**»ñµÃµ±Ç°»òÇ°¼¸´ÎµÄÉíÌå³¯Ïò
+	/**è·å¾—å½“å‰æˆ–å‰å‡ æ¬¡çš„èº«ä½“æœå‘
 	*/
     const double & GetBodyDir() const { return mBodyDir.mValue; }
 
-	/**»ñµÃµ±Ç°»òÇ°¼¸´ÎµÄÉíÌå³¯ÏòµÄÊ±¼ä
+	/**è·å¾—å½“å‰æˆ–å‰å‡ æ¬¡çš„èº«ä½“æœå‘çš„æ—¶é—´
 	*/
 	int GetBodyDirDelay() const { return mBodyDir.mCycleDelay; }
 
-	/**»ñµÃµ±Ç°»òÇ°¼¸´ÎµÄÉíÌå³¯ÏòµÄÖÃĞÅ¶È
+	/**è·å¾—å½“å‰æˆ–å‰å‡ æ¬¡çš„èº«ä½“æœå‘çš„ç½®ä¿¡åº¦
 	*/
 	double GetBodyDirConf() const { return mBodyDir.mConf; }
 
@@ -164,91 +164,91 @@ public:
 
 	int GetTackleBan() const { return mTackleBan; }
 
-	/**¸üĞÂ¿ÉÆËÇòµÄÖÜÆÚ
-	* @param »¹Ê£¶àÉÙÖÜÆÚ¿ÉÒÔÆËÇò
+	/**æ›´æ–°å¯æ‰‘çƒçš„å‘¨æœŸ
+	* @param è¿˜å‰©å¤šå°‘å‘¨æœŸå¯ä»¥æ‰‘çƒ
 	*/
 	void UpdateCatchBan(int ban);
 
-	/**»ñµÃµ±Ç°ÖÜÆÚ»¹ÓĞ¶àÉÙÖÜÆÚ¿ÉÒÔÆËÇò ÔİÊ±ÎŞ·¨ÓÃ*/
+	/**è·å¾—å½“å‰å‘¨æœŸè¿˜æœ‰å¤šå°‘å‘¨æœŸå¯ä»¥æ‰‘çƒ æš‚æ—¶æ— æ³•ç”¨*/
 	int GetCatchBan() const { return mCatchBan; }
 
-	/**¸üĞÂÊÖÖ¸Ïò³¯Ïò
-	* @param ÊÖ³¯Ïò
-	* @param Ê±¼ä
-	* @param ÖÃĞÅ¶È
-	* @param ¾àÀë
-	* @param ÏÂ´Î¿É¶¯Ê±¼ä
-	* @param ÓĞĞ§Ê±¼äÊ£Óà*/
+	/**æ›´æ–°æ‰‹æŒ‡å‘æœå‘
+	* @param æ‰‹æœå‘
+	* @param æ—¶é—´
+	* @param ç½®ä¿¡åº¦
+	* @param è·ç¦»
+	* @param ä¸‹æ¬¡å¯åŠ¨æ—¶é—´
+	* @param æœ‰æ•ˆæ—¶é—´å‰©ä½™*/
 	void UpdateArmPoint(AngleDeg dir , int delay = 0, double conf = 1 , double  dist = 0 , int move_ban = -1 , int expire_ban = -1);
 
-	/**ÊÇ·ñÔÚÖ¸*/
+	/**æ˜¯å¦åœ¨æŒ‡*/
 	bool IsPointing() const {return mIsPointing;}
 	void SetIsPointing(bool is_pointing) {mIsPointing = is_pointing;}
 
-	/**»ñµÃÊÖÖ¸ÏòµÄ³¯Ïò*/
+	/**è·å¾—æ‰‹æŒ‡å‘çš„æœå‘*/
 	AngleDeg GetArmPointDir() const { return GetNormalizeAngleDeg(mArmPoint.mValue.mTargetDir); }
 
-	/**»ñµÃÊÖÖ¸ÏòµÄ¾àÀë ÔİÊ±·Ç×Ô¼º²»¿ÉÓÃ*/
+	/**è·å¾—æ‰‹æŒ‡å‘çš„è·ç¦» æš‚æ—¶éè‡ªå·±ä¸å¯ç”¨*/
 	double  GetArmPointDist() const { return mArmPoint.mValue.mTargetDist; }
 
-	/**»ñµÃÊÖ»¹Ê£¶àÉÙÊ±¼ä²Å¿É¶¯ ÔİÊ±·Ç×Ô¼º²»¿ÉÓÃ*/
+	/**è·å¾—æ‰‹è¿˜å‰©å¤šå°‘æ—¶é—´æ‰å¯åŠ¨ æš‚æ—¶éè‡ªå·±ä¸å¯ç”¨*/
 	int GetArmPointMovableBan() const { return mArmPoint.mValue.mMovableBan; }
 
-	/**»ñµÃÊÖ¶¯µÄÓĞĞ§Ê±¼äÊ£Óà ÔİÊ±·Ç×Ô¼º²»¿ÉÓÃ*/
+	/**è·å¾—æ‰‹åŠ¨çš„æœ‰æ•ˆæ—¶é—´å‰©ä½™ æš‚æ—¶éè‡ªå·±ä¸å¯ç”¨*/
 	int GetArmPointExpireBan() const { return mArmPoint.mValue.mExpireBan; }
 
-	/**»ñµÃÊÖÖ¸ÏòµÄÊ±¼äÑÓ³Ù*/
+	/**è·å¾—æ‰‹æŒ‡å‘çš„æ—¶é—´å»¶è¿Ÿ*/
 	int GetArmPointDelay() const { return mArmPoint.mCycleDelay; }
 
-	/**»ñµÃÊÖÖ¸ÏòµÄÖÃĞÅ¶È*/
+	/**è·å¾—æ‰‹æŒ‡å‘çš„ç½®ä¿¡åº¦*/
 	double GetArmPointConf() const { return mArmPoint.mConf; }
 
-	/**¸üĞÂ×¢ÊÓÄ¿±ê
-	* @param ×¢ÊÓÄÄ·½
-	* @param ×¢ÊÓ¶ÓÔ±ºÅ
-	* @param Ê±¼ä
-	* @param ÖÃĞÅ¶È*/
+	/**æ›´æ–°æ³¨è§†ç›®æ ‡
+	* @param æ³¨è§†å“ªæ–¹
+	* @param æ³¨è§†é˜Ÿå‘˜å·
+	* @param æ—¶é—´
+	* @param ç½®ä¿¡åº¦*/
 	void UpdateFocusOn(char side , Unum num , int delay = 0 , double conf = 1);
 
-	/**»ñµÃ×¢ÊÓµÄ¶ÓÔ±·½Î»*/
+	/**è·å¾—æ³¨è§†çš„é˜Ÿå‘˜æ–¹ä½*/
 	char GetFocusOnSide() const { return mFocusOn.mValue.mFocusSide; }
 
-	/**»ñµÃ×¢ÊÓµÄ¶ÓÔ±ºÅÂë*/
+	/**è·å¾—æ³¨è§†çš„é˜Ÿå‘˜å·ç */
 	Unum GetFocusOnUnum() const { return mFocusOn.mValue.mFocusNum; }
 
-	/**»ñµÃ×¢ÊÓµÄÊ±¼äÑÓ³Ù*/
+	/**è·å¾—æ³¨è§†çš„æ—¶é—´å»¶è¿Ÿ*/
 	int GetFocusOnDelay() const { return mFocusOn.mCycleDelay; }
 
-	/**»ñµÃ×¢ÊÓµÄÖÃĞÅ¶È*/
+	/**è·å¾—æ³¨è§†çš„ç½®ä¿¡åº¦*/
 	double GetFocusOnConf() const { return mFocusOn.mConf; }
 
-	/**¸üĞÂÊÇ·ñ±¾ÖÜÆÚÌßÇò*/
+	/**æ›´æ–°æ˜¯å¦æœ¬å‘¨æœŸè¸¢çƒ*/
 	void UpdateKicked(bool is_kicked);
 
-	/**¸üĞÂ±¾ÖÜÆÚÊÇ·ñ²ùÇò*/ //  ***********************ÏÖÔÚ¸Ãº¯ÊıÎŞĞ§**********************
+	/**æ›´æ–°æœ¬å‘¨æœŸæ˜¯å¦é“²çƒ*/ //  ***********************ç°åœ¨è¯¥å‡½æ•°æ— æ•ˆ**********************
 	void UpdateTackling(bool is_tackling);
 
-	/**¸üĞÂ±¾ÖÜÆÚÊÇ·ñ±»²ùµ¹*/
+	/**æ›´æ–°æœ¬å‘¨æœŸæ˜¯å¦è¢«é“²å€’*/
 	void UpdateLying(bool is_lying);
 
-	/**»ñµÃÉÏÖÜÆÚÊÇ·ñÌßÇò ÔİÊ±¶Ô×Ô¼º¹À¼ÆÎŞ·¨ÓÃ*/
+	/**è·å¾—ä¸Šå‘¨æœŸæ˜¯å¦è¸¢çƒ æš‚æ—¶å¯¹è‡ªå·±ä¼°è®¡æ— æ³•ç”¨*/
 	bool IsKicked() const { return mIsKicked; }
 
-	/**»ñµÃ±¾ÖÜÆÚÊÇ·ñ»î×Å ÔİÊ±¶Ô×Ô¼º¹À¼ÆÎŞ·¨ÓÃ*/
+	/**è·å¾—æœ¬å‘¨æœŸæ˜¯å¦æ´»ç€ æš‚æ—¶å¯¹è‡ªå·±ä¼°è®¡æ— æ³•ç”¨*/
 	bool IsAlive() const { return mIsAlive; }
 
 	void SetIsAlive(bool alive);
 
-	/**»ñµÃ±¾ÖÜÆÚÊÇ·ñÓÉÓÚ²ùÇò¶ø´¦ÓÚtackle_banÖĞ*/
+	/**è·å¾—æœ¬å‘¨æœŸæ˜¯å¦ç”±äºé“²çƒè€Œå¤„äºtackle_banä¸­*/
 	bool IsTackling() const { return mTackleBan > 0; }
 
 	bool IsLying() const { return mFoulChargedCycle > 0; }
 
-	/**¸üĞÂÇòÔ±·¸¹æ¼ÇÂ¼*/
+	/**æ›´æ–°çƒå‘˜çŠ¯è§„è®°å½•*/
 	CardType GetCardType() const { return mCardType; }
 	void UpdateCardType(CardType card_type) { if ( mCardType == CR_None || ( mCardType == CR_Yellow && card_type == CR_Red ) ) mCardType = card_type; }
 
-	/**»ñµÃÓë¸üĞÂÇòÔ±²ùµ¹Ê±¼ä*/
+	/**è·å¾—ä¸æ›´æ–°çƒå‘˜é“²å€’æ—¶é—´*/
 	int GetFoulChargedCycle () const { return mFoulChargedCycle; }
 
 	void UpdateFoulChargedCycle(int x)
@@ -266,30 +266,30 @@ public:
 		return GetTackleBan() + GetFoulChargedCycle();
 	}
 
-	/**»ñµÃÇòÔ±µÄÀàĞÍ*/
+	/**è·å¾—çƒå‘˜çš„ç±»å‹*/
 	int GetPlayerType() const { return mPlayerType; }
 
-	/**ÉèÖÃÇòÔ±µÄÀàĞÍ*/
+	/**è®¾ç½®çƒå‘˜çš„ç±»å‹*/
 	void UpdatePlayerType(int type);
 
-	/**ÉèÖÃÇòÔ±µÄÊÓ½Ç¿í¶È*/
+	/**è®¾ç½®çƒå‘˜çš„è§†è§’å®½åº¦*/
 	void UpdateViewWidth(ViewWidth width);
 
-	/**»ñµÃÊÓ½Ç¿í¶È*/
+	/**è·å¾—è§†è§’å®½åº¦*/
 	ViewWidth GetViewWidth() const { return mViewWidth; }
 
 	/**get view angle*/
 	AngleDeg GetViewAngle() const { return sight::ViewAngle(mViewWidth);}
 
-	/**ÄÚ²¿×Ô¸üĞÂ
-	* @param Ã¿ÖÜÆÚdelay¼ÓÉÏµÄÊı¾İ
-	* @param Ã¿ÖÜÆÚconfË¥¼õµÄÊı¾İ*/
+	/**å†…éƒ¨è‡ªæ›´æ–°
+	* @param æ¯å‘¨æœŸdelayåŠ ä¸Šçš„æ•°æ®
+	* @param æ¯å‘¨æœŸconfè¡°å‡çš„æ•°æ®*/
 	void AutoUpdate(int delay_add = 1 , double conf_dec_factor = 1);
 
-	/**ÉèÖÃÇòÔ±±ßºÍUnum*/
+	/**è®¾ç½®çƒå‘˜è¾¹å’ŒUnum*/
 	void UpdateUnum(Unum num);
 
-	/**»ñµÃUnum*/
+	/**è·å¾—Unum*/
 	Unum GetUnum() const { return mUnum; }
 
 	/**update collide with ball*/
@@ -310,57 +310,57 @@ public:
 	/** get collide with post*/
 	bool GetCollideWithPost() const { return mCollideWithPost;}
 
-	/**×ª»»µÃµ½Ò»¸öÓÃÓÚ·´ËãµÄPlayerState*/
+	/**è½¬æ¢å¾—åˆ°ä¸€ä¸ªç”¨äºåç®—çš„PlayerState*/
 	void GetReverseFrom(const PlayerState & o);
 
 private:
-	/**´æ´¢Êı¸öÖÜÆÚµÄÌåÁ¦*/
+	/**å­˜å‚¨æ•°ä¸ªå‘¨æœŸçš„ä½“åŠ›*/
 	double mStamina;
 
-	/**´æ´¢Effort*/
+	/**å­˜å‚¨Effort*/
 	double mEffort;
 
-	/**´æ´¢capacity*/
+	/**å­˜å‚¨capacity*/
 	double mCapacity;
 
 	/**store Recovery*/
 	double mRecovery;
 
-	/**´æ´¢²±×ÓµÄ³¯Ïò*/
+	/**å­˜å‚¨è„–å­çš„æœå‘*/
 	StateValue<double> mNeckDir;
 
-	/**´æ´¢ÉíÌåµÄ³¯Ïò*/
+	/**å­˜å‚¨èº«ä½“çš„æœå‘*/
 	StateValue<double> mBodyDir;
 
-	/**»¹ÓĞ¶àÉÙÖÜÆÚ¿ÉÒÔ²ùÇò*/
+	/**è¿˜æœ‰å¤šå°‘å‘¨æœŸå¯ä»¥é“²çƒ*/
 	int mTackleBan;
 
-	/**»¹ÓĞ¶àÉÙÖÜÆÚ¿ÉÒÔÆËÇò ÔİÊ±ÎŞ·¨ÓÃ*/
+	/**è¿˜æœ‰å¤šå°‘å‘¨æœŸå¯ä»¥æ‰‘çƒ æš‚æ—¶æ— æ³•ç”¨*/
 	int mCatchBan;
 
-	/**¶ÓÔ±Ö¸ÏòĞÅÏ¢*/
+	/**é˜Ÿå‘˜æŒ‡å‘ä¿¡æ¯*/
 	StateValue<ArmPoint> mArmPoint;
 
-	/**¶ÓÔ±×¢ÊÓĞÅÏ¢*/
+	/**é˜Ÿå‘˜æ³¨è§†ä¿¡æ¯*/
 	StateValue<FocusOn>  mFocusOn;
 
-	/**ÉÏ´Î¿´µ½Ê±ÊÇ·ñÔÚÖ¸*/
+	/**ä¸Šæ¬¡çœ‹åˆ°æ—¶æ˜¯å¦åœ¨æŒ‡*/
 	bool mIsPointing;
 
 	bool mIsKicked;
 
-	/**ÊÇ·ñ»î×Å ÔİÊ±×Ô¼º¹À¼ÆÎŞ·¨ÓÃ*/
+	/**æ˜¯å¦æ´»ç€ æš‚æ—¶è‡ªå·±ä¼°è®¡æ— æ³•ç”¨*/
 	bool mIsAlive;
 
-	/**ÇòÔ±ÀàĞÍ*/
+	/**çƒå‘˜ç±»å‹*/
 	int mPlayerType;
 
-	/**ÊÓ½Ç¿í¶È*/
+	/**è§†è§’å®½åº¦*/
 	ViewWidth mViewWidth;
 
 	/**
-	 * ×Ô¼ºµÄUnum
-	 * + ±íÊ¾ÊÇ¶ÓÓÑ£¬- ±íÊ¾ÊÇ¶ÔÊÖ
+	 * è‡ªå·±çš„Unum
+	 * + è¡¨ç¤ºæ˜¯é˜Ÿå‹ï¼Œ- è¡¨ç¤ºæ˜¯å¯¹æ‰‹
 	 * */
 	Unum mUnum;
 
@@ -379,7 +379,7 @@ private:
 	 */
 	bool mCollideWithPost;
 
-	int mFoulChargedCycle; //±»²ùµ¹ÔÚµØµÄÖÜÆÚ
+	int mFoulChargedCycle; //è¢«é“²å€’åœ¨åœ°çš„å‘¨æœŸ
 
 	//==============================================================================
 public:
@@ -411,7 +411,7 @@ public:
 	bool IsBodyDirMayChanged() const { return mIsBodyDirMayChanged;}
 	void UpdateBodyDirMayChanged(bool may_changed) { mIsBodyDirMayChanged = may_changed;}
 
-	//ÖØĞÂÉèÖÃPos_delay  Ö÷ÒªÔÚBT_InterceptÊ¹ÓÃ;
+	//é‡æ–°è®¾ç½®Pos_delay  ä¸»è¦åœ¨BT_Interceptä½¿ç”¨;
 	void ResetPosDelay(int delay)
 	{
 		Assert(delay >= 0);
@@ -430,11 +430,11 @@ private:
 	bool        mBallCatchable; /** catch */
 
 	Array<double, 2,true> mTackleProb;    /** tackle */
-	bool mUnderDangerousTackleCondition; //Èç¹û²ùÇò£¬ÊÇ·ñ¿ÉÄÜÊÇÎ£ÏÕÇé¿ö
+	bool mUnderDangerousTackleCondition; //å¦‚æœé“²çƒï¼Œæ˜¯å¦å¯èƒ½æ˜¯å±é™©æƒ…å†µ
 
 	AngleDeg    mMaxTurnAngle;  /** turn */
 	bool		mIsTired;		/** tell is  tired or not*/
-    double      mMinStamina; // ×îµÍÌåÁ¦Öµ£¬¿¼ÂÇÁËplayerµÄextraStamina
+    double      mMinStamina; // æœ€ä½ä½“åŠ›å€¼ï¼Œè€ƒè™‘äº†playerçš„extraStamina
 	CardType    mCardType;  /** card */
 
 	//just for update body dir other should not use
@@ -452,7 +452,7 @@ public:
     void UpdateIsSensed(bool is_sensed) { mIsSensed = is_sensed; }
 
 private:
-    bool        mIsSensed; // Îªtrue±íÊ¾ÊÇ¿ÉÒÔÊÕµ½senseĞÅÏ¢µÄÇòÔ±£¬¼´¡°ÕæÕı¡±µÄ×Ô¼º
+    bool        mIsSensed; // ä¸ºtrueè¡¨ç¤ºæ˜¯å¯ä»¥æ”¶åˆ°senseä¿¡æ¯çš„çƒå‘˜ï¼Œå³â€œçœŸæ­£â€çš„è‡ªå·±
 
 public:
 	/** some useful interfaces */
@@ -484,7 +484,7 @@ public:
 
     AngleDeg GetRandAngle(const double & power ,const double & vel ,const BallState & bs ) const;
 	double GetCatchProb( const double & dist ) const;
-	double GetControlBallProb(const Vector & ball_pos) const; //·µ»Økick¡¢catch¡¢tackleÈıÕßÖĞ¸ÅÂÊ×î´óµÄÒ»¸ö
+	double GetControlBallProb(const Vector & ball_pos) const; //è¿”å›kickã€catchã€tackleä¸‰è€…ä¸­æ¦‚ç‡æœ€å¤§çš„ä¸€ä¸ª
 
 	Vector GetPredictedPosWithDash(int steps = 1, double dash_power = 0, AngleDeg dash_dir = 0.0) const;
 	Vector GetPredictedVelWithDash(int steps = 1, double dash_power = 0, AngleDeg dash_dir = 0.0) const;

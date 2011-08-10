@@ -44,7 +44,7 @@ class Agent;
 class PlayerState;
 
 /**
- * ÓÉÓÚ Strategy ÀïµÃĞÅÏ¢¸üĞÂÊ±£¬ÒªÓÃµ½×Ô¼ºµÃºÅÂë£¬ËùÒÔ²»ÄÜ·ÅÔÚ InfoState ÀïÃæ£¬ÏÖÔÚÒÆµ½ Agent Àï
+ * ç”±äº Strategy é‡Œå¾—ä¿¡æ¯æ›´æ–°æ—¶ï¼Œè¦ç”¨åˆ°è‡ªå·±å¾—å·ç ï¼Œæ‰€ä»¥ä¸èƒ½æ”¾åœ¨ InfoState é‡Œé¢ï¼Œç°åœ¨ç§»åˆ° Agent é‡Œ
  */
 class Strategy: public DecisionData
 {
@@ -111,71 +111,71 @@ public:
 	Unum GetSureOpp() const { return mSureOpp; }
 
 private:
-	bool mIsBallActuralKickable;//ÊÇ·ñÊµ¼Ê¿ÉÌß
+	bool mIsBallActuralKickable;//æ˜¯å¦å®é™…å¯è¸¢
 	bool mIsBallFree;
-	int mBallFreeCycleLeft; //ball_free»¹ÄÜ³ÖĞøµÄÖÜÆÚ
+	int mBallFreeCycleLeft; //ball_freeè¿˜èƒ½æŒç»­çš„å‘¨æœŸ
 
-	Unum mController; //+±íÊ¾×Ô¼ºÈË¿ØÇò£¬-±íÊ¾¶Ô·½¿ØÇò£¬0±íÊ¾Ã»ÈË¿ØÇò£¨ÓĞÈË¿ØÇò¸úÇò²»ÊÇfree²»ÊÇÒ»»ØÊÂ£¬ÇòfreeÊÇÖ¸µ±Ç°ÎŞÈË¿ÉÌßÇò£¬µ«¿ØÇòµÄÈË²»Ò»¶¨ÒªÄÜÌßÇò£¬¿ÉÒÔÊÇ×î¿ì½Øµ½ÇòµÄÈË£©
-	Unum mChallenger; //¶Ô·½¿ÉÌßµÄÈË +
+	Unum mController; //+è¡¨ç¤ºè‡ªå·±äººæ§çƒï¼Œ-è¡¨ç¤ºå¯¹æ–¹æ§çƒï¼Œ0è¡¨ç¤ºæ²¡äººæ§çƒï¼ˆæœ‰äººæ§çƒè·Ÿçƒä¸æ˜¯freeä¸æ˜¯ä¸€å›äº‹ï¼Œçƒfreeæ˜¯æŒ‡å½“å‰æ— äººå¯è¸¢çƒï¼Œä½†æ§çƒçš„äººä¸ä¸€å®šè¦èƒ½è¸¢çƒï¼Œå¯ä»¥æ˜¯æœ€å¿«æˆªåˆ°çƒçš„äººï¼‰
+	Unum mChallenger; //å¯¹æ–¹å¯è¸¢çš„äºº +
 
 	bool mIsLastBallFree;
     Time mLastBallFreeTime;
-    Unum mLastController; //¼ÇÂ¼ÉÏ´Î¿ØÇòµÄÈË£¨¿ÉÒÔÊÇÉÏ¸öÖÜÆÚ£¨±ÈÈçÔÚ¸ù½áµã£©£¬Ò²¿ÉÒÔÊÇÉÏ¸ö½×¶ÎµÄ£¨±ÈÈçÔÚnewµÄinfostateÀï£©£©
+    Unum mLastController; //è®°å½•ä¸Šæ¬¡æ§çƒçš„äººï¼ˆå¯ä»¥æ˜¯ä¸Šä¸ªå‘¨æœŸï¼ˆæ¯”å¦‚åœ¨æ ¹ç»“ç‚¹ï¼‰ï¼Œä¹Ÿå¯ä»¥æ˜¯ä¸Šä¸ªé˜¶æ®µçš„ï¼ˆæ¯”å¦‚åœ¨newçš„infostateé‡Œï¼‰ï¼‰
     Unum mLastChallenger;
 
-	//ÏÂÃæÊÇ¿¼ÂÇcycle_delayµÄ×îĞ¡½ØÇòÖÜÆÚ£¨¾ÍÊÇÈÏÎªcycle_delayÊ±¼äÄÚÒÑ¾­ÅÜÏòÇò£©
+	//ä¸‹é¢æ˜¯è€ƒè™‘cycle_delayçš„æœ€å°æˆªçƒå‘¨æœŸï¼ˆå°±æ˜¯è®¤ä¸ºcycle_delayæ—¶é—´å†…å·²ç»è·‘å‘çƒï¼‰
 	int mMyInterCycle;
-	int mMinTmInterCycle; /*ÕâÀïµÄ¶ÓÓÑ²»°üº¬×Ô¼º*/
+	int mMinTmInterCycle; /*è¿™é‡Œçš„é˜Ÿå‹ä¸åŒ…å«è‡ªå·±*/
 	int mMinOppInterCycle;
 	int mMinIntercCycle;
 	Unum mFastestTm;
 	Unum mFastestOpp;
 
-	//ÏÂÃæÊÇ×ÛºÏ¿¼ÂÇËã³öµÄ×îÓĞ¿ÉÄÜµÄ½ØÇòÖÜÆÚ
+	//ä¸‹é¢æ˜¯ç»¼åˆè€ƒè™‘ç®—å‡ºçš„æœ€æœ‰å¯èƒ½çš„æˆªçƒå‘¨æœŸ
 	int mSureTmInterCycle;
 	int mSureOppInterCycle;
 	int mSureInterCycle;
 	Unum mSureTm;
 	Unum mSureOpp;
 
-	Vector mBallInterPos; //Çò±»×îÏÈ½Ø×¡µÄµØ·½£¬¿ÉÒÔÊÇ×Ô¼ºÈËºÍ¶Ô·½È¥½Øµ½
-	int mBallOutCycle; //¾àÀëÇò³ö½çµÄÖÜÆÚ
+	Vector mBallInterPos; //çƒè¢«æœ€å…ˆæˆªä½çš„åœ°æ–¹ï¼Œå¯ä»¥æ˜¯è‡ªå·±äººå’Œå¯¹æ–¹å»æˆªåˆ°
+	int mBallOutCycle; //è·ç¦»çƒå‡ºç•Œçš„å‘¨æœŸ
 
-	Situation mSituation;	//µ±Ç°µÄ¹¥·ÀĞÎÊÆ
+	Situation mSituation;	//å½“å‰çš„æ”»é˜²å½¢åŠ¿
 
 private:
-	bool mForbiddenDribble; //setplay·¢ÇòÊ±²»ÄÜ´øÇò
+	bool mForbiddenDribble; //setplayå‘çƒæ—¶ä¸èƒ½å¸¦çƒ
 
 public:
 	bool IsForbidenDribble() const { return mForbiddenDribble; }
 	void SetForbidenDribble(const bool & forbiden) { mForbiddenDribble = forbiden; }
 
 /**
- * ¹ØÓÚlast behaviorµÄ½Ó¿Ú
- * ×¢Òâ: ÉèÖÃµÄ½Ó¿Ú¶¼ÊÇÔÚÍâÃæµ÷ÓÃµÄ£¬behavior*ÀïÃæ²»ÓÃ¹Ü
+ * å…³äºlast behaviorçš„æ¥å£
+ * æ³¨æ„: è®¾ç½®çš„æ¥å£éƒ½æ˜¯åœ¨å¤–é¢è°ƒç”¨çš„ï¼Œbehavior*é‡Œé¢ä¸ç”¨ç®¡
  **/
 public:
 	/**
-	 * µÃµ½ÉÏÖÜÆÚ±£´æµÄactivebehavior£¬Ã»ÓĞÔòÎª¿Õ
+	 * å¾—åˆ°ä¸Šå‘¨æœŸä¿å­˜çš„activebehaviorï¼Œæ²¡æœ‰åˆ™ä¸ºç©º
 	 * @param type
 	 * @return
 	 */
 	ActiveBehavior *GetLastActiveBehavior(BehaviorType type) const;
 
 	/**
-	 * µÃµ½ÉÏÖÜÆÚÊµ¼ÊÖ´ĞĞµÄactivebehavior
+	 * å¾—åˆ°ä¸Šå‘¨æœŸå®é™…æ‰§è¡Œçš„activebehavior
 	 * @return
 	 */
 	ActiveBehavior *GetLastActiveBehaviorInAct() const { return mLastActiveBehavior[0]; }
 
 	/**
-	 * ·µ»Ø±¾ÖÜÆÚÖ´ĞĞµÄĞĞÎª -- Õâ¸öÒªÔÚDecisionTree::Decision·µ»Øºó²ÅÓĞÒâÒå
+	 * è¿”å›æœ¬å‘¨æœŸæ‰§è¡Œçš„è¡Œä¸º -- è¿™ä¸ªè¦åœ¨DecisionTree::Decisionè¿”å›åæ‰æœ‰æ„ä¹‰
 	 * @return
 	 */
 	ActiveBehavior *GetActiveBehaviorInAct() const { return mActiveBehavior[0]; }
 
 	/**
-	 * ·µ»ØÉÏÖÜÆÚÊÇ·ñÖ´ĞĞÁËtypeÀàĞÍµÄactivebehavior
+	 * è¿”å›ä¸Šå‘¨æœŸæ˜¯å¦æ‰§è¡Œäº†typeç±»å‹çš„activebehavior
 	 * @param type
 	 * @return
 	 */
@@ -185,7 +185,7 @@ public:
 
 private:
 	/**
-	 * ±£´æbehavior*¾ö²ß³öµÄ×îÓÅactivebehavior -- plan½áÊøÊ±±£´æ
+	 * ä¿å­˜behavior*å†³ç­–å‡ºçš„æœ€ä¼˜activebehavior -- planç»“æŸæ—¶ä¿å­˜
 	 * @param type
 	 */
 	void SaveActiveBehavior(const ActiveBehavior & beh);
@@ -195,7 +195,7 @@ private:
 	void SaveActiveBehaviorList(const std::list<ActiveBehavior> & behavior_list);
 
 	/**
-	 * ÉèÖÃ±¾ÖÜÆÚÊµ¼ÊÖ´ĞĞµÄactivebehavior -- excuteÊ±ÉèÖÃ
+	 * è®¾ç½®æœ¬å‘¨æœŸå®é™…æ‰§è¡Œçš„activebehavior -- excuteæ—¶è®¾ç½®
 	 * @param type
 	 */
 	void SetActiveBehaviorInAct(BehaviorType type);
@@ -207,7 +207,7 @@ private:
 	Array<ActiveBehavior*, BT_Max, true> mLastActiveBehavior;
 
 public:
-    PlayerInterceptInfo mMyTackleInfo; //¼ÙÉè×Ô¼ºµÄ¿ÉÌß·¶Î§À©´óµ½²ùÇò¾àÀëµÄ½ØÇòĞÅÏ¢
+    PlayerInterceptInfo mMyTackleInfo; //å‡è®¾è‡ªå·±çš„å¯è¸¢èŒƒå›´æ‰©å¤§åˆ°é“²çƒè·ç¦»çš„æˆªçƒä¿¡æ¯
 
     Vector AdjustTargetForSetplay(Vector target);
 
@@ -218,7 +218,7 @@ private:
 		const double & GetKickableArea() const { return ServerParam::instance().maxTackleArea(); }
 	};
 
-/** ¹ØÓÚµãÇòµÄ½Ó¿ÚºÍÊı¾İ */
+/** å…³äºç‚¹çƒçš„æ¥å£å’Œæ•°æ® */
 public:
 	void SetPenaltyFirstStep(bool flag)    { mIsPenaltyFirstStep = flag; }
 	bool IsPenaltyFirstStep() const        { return mIsPenaltyFirstStep; }
@@ -230,9 +230,9 @@ private:
 	void PenaltyAnalyze();
 
 private:
-	bool mIsPenaltyFirstStep; // ·£ÇòÕßsetupÊ±ÓÃµ½µÄÁ¿
-	int mPenaltySetupTime; // ÎÒ·½µÚ¼¸´Î·£µãÇò
-	Unum mPenaltyTaker; // ·£µãÇòµÄÈË£¬¶ÔÊÖ·£Ê±Îª-1
+	bool mIsPenaltyFirstStep; // ç½šçƒè€…setupæ—¶ç”¨åˆ°çš„é‡
+	int mPenaltySetupTime; // æˆ‘æ–¹ç¬¬å‡ æ¬¡ç½šç‚¹çƒ
+	Unum mPenaltyTaker; // ç½šç‚¹çƒçš„äººï¼Œå¯¹æ‰‹ç½šæ—¶ä¸º-1
 };
 
 #endif

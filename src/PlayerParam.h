@@ -38,7 +38,7 @@
 #include "Parser.h"
 
 /**
- * ½«dash powerÀëÉ¢Îª100¸ö£¬´æ´¢Ò»Ğ©Êı¾İ
+ * å°†dash powerç¦»æ•£ä¸º100ä¸ªï¼Œå­˜å‚¨ä¸€äº›æ•°æ®
  * Dash power will be divided into 100, some data storage.
  */
 #define DASH_POWER_NUM 100
@@ -80,7 +80,7 @@ private:
 	double kickable_area;
 	double min_catch_area;
 	double max_catch_area;
-    // ÏÂÃæ4¸öÁ¿¶¼ÊÇÒÔeffort_maxÀ´¼ÆËãµÄ£¬Ê¹ÓÃÊ±Òª×¢Òâ
+    // ä¸‹é¢4ä¸ªé‡éƒ½æ˜¯ä»¥effort_maxæ¥è®¡ç®—çš„ï¼Œä½¿ç”¨æ—¶è¦æ³¨æ„
     double effective_speed_max;
     double acceleration_front_rate;
     double acceleration_side_rate;
@@ -125,7 +125,7 @@ public:
 	double accelerationRateOnDir(const double & dir) const;
 
 	/**
-	*  Ò»Ğ©ÓĞÒÀÀµ¹ØÏµµÄ±äÁ¿µÄ³õÊ¼»¯ºÍ¸³Öµ
+	*  ä¸€äº›æœ‰ä¾èµ–å…³ç³»çš„å˜é‡çš„åˆå§‹åŒ–å’Œèµ‹å€¼
 	*/
 	void MaintainConsistency();
 };
@@ -197,7 +197,7 @@ private:
 	static const int SHOOT_MAX_SEARCH_COUNT;
 	static const double SHOOT_DIR_SEARCH_STEP;
 
-	//confµÄ³£Á¿ ²Î¿¼we2008
+	//confçš„å¸¸é‡ å‚è€ƒwe2008
 	static const double MAX_CONF;
 	static const double MIN_VALID_CONF;
 	static const double CONF_DECAY;
@@ -283,7 +283,7 @@ private:
 public:
 
 
-	//sight dist Ö÷ÒªÖ¸ÊÓ¾õÖĞball playerµÄdist ,ÆäËù¼ÓµÄÎó²î¼ÓÁË0.1µÄ½Ø¶Ï
+	//sight dist ä¸»è¦æŒ‡è§†è§‰ä¸­ball playerçš„dist ,å…¶æ‰€åŠ çš„è¯¯å·®åŠ äº†0.1çš„æˆªæ–­
     double ConvertSightDist(double dist)
     {
 		Assert(dist >= 0);
@@ -367,7 +367,7 @@ public:
 		 return 0;
 	}
 
-	//mark dist Ö÷ÒªÖ¸ÊÓ¾õÖĞmarker µÄdistµÄÎó²î ,ÆäËù¼ÓµÄ½Ø¶ÏÎª0.01
+	//mark dist ä¸»è¦æŒ‡è§†è§‰ä¸­marker çš„distçš„è¯¯å·® ,å…¶æ‰€åŠ çš„æˆªæ–­ä¸º0.01
     double ConvertMarkDist(double dist)
     {
 		Assert(dist >= 0);
@@ -524,8 +524,8 @@ public:
 
 	const std::string & heteroTestModel() const { return M_hetero_test_model; }
 
-	const int & ourGoalieUnum() const { return M_our_goalie_unum; } //Õâ¸öÁ¿ÔÚ¾ö²ß²ã²»Ó¦¸ÃÊ¹ÓÃ£¬·ñÔò·´Ëã¶ÔÊÖÊ±»á³ö´í
-	const bool & isGoalie() const { return M_is_goalie; } //Õâ¸öÁ¿ÔÚ¾ö²ß²ã²»Ó¦¸ÃÊ¹ÓÃ£¬·ñÔò·´Ëã¶ÔÊÖÊ±»á³ö´í
+	const int & ourGoalieUnum() const { return M_our_goalie_unum; } //è¿™ä¸ªé‡åœ¨å†³ç­–å±‚ä¸åº”è¯¥ä½¿ç”¨ï¼Œå¦åˆ™åç®—å¯¹æ‰‹æ—¶ä¼šå‡ºé”™
+	const bool & isGoalie() const { return M_is_goalie; } //è¿™ä¸ªé‡åœ¨å†³ç­–å±‚ä¸åº”è¯¥ä½¿ç”¨ï¼Œå¦åˆ™åç®—å¯¹æ‰‹æ—¶ä¼šå‡ºé”™
 	const bool & isCoach() const { return M_is_coach; }
 	const double & playerVersion() const { return M_player_version; }
 	const double & coachVersion() const { return M_coach_version; }
@@ -590,36 +590,36 @@ private:
 	static const double SETPLAY_REINFORCE_DIST;
 	static const int SETPLAY_REINFORCE_PLAYERS;
 
-	bool mDynamicDebugMode; // DynamicDebugÄ£Ê½
-	bool mSaveServerMessage; // ÊÇ·ñ±£´æserverµÄĞÅÏ¢£¬ÓÃÓÚ¶¯Ì¬µ÷ÊÔ
-	bool mSaveSightLog; // ÊÇ·ñ±£´æsight_log
-	bool mSaveDecLog; // ÊÇ·ñ±£´ædec_log
+	bool mDynamicDebugMode; // DynamicDebugæ¨¡å¼
+	bool mSaveServerMessage; // æ˜¯å¦ä¿å­˜serverçš„ä¿¡æ¯ï¼Œç”¨äºåŠ¨æ€è°ƒè¯•
+	bool mSaveSightLog; // æ˜¯å¦ä¿å­˜sight_log
+	bool mSaveDecLog; // æ˜¯å¦ä¿å­˜dec_log
 	bool mSaveTextLog;
 	bool mUsePlotter;
     bool mUseTeamGraphic;
 	bool mTimeTest;
 	bool mNetworkTest;
-	int mWaitSightBuffer; // µÈ´ıÊÓ¾õµ½À´µÄ×î´óbuffer
-	int mWaitHearBuffer; // µÈ´ıÌı¾õµ½À´µÄ×î´óbuffer
-	int mWaitTimeOut; // µÈ´ıserverµÄ×î´óÊ±¼ä
+	int mWaitSightBuffer; // ç­‰å¾…è§†è§‰åˆ°æ¥çš„æœ€å¤§buffer
+	int mWaitHearBuffer; // ç­‰å¾…å¬è§‰åˆ°æ¥çš„æœ€å¤§buffer
+	int mWaitTimeOut; // ç­‰å¾…serverçš„æœ€å¤§æ—¶é—´
 
     double mTiredBuffer;
     double mMinStamina;
     double mAtPointBuffer;
 
-    //ÉäÃÅÏà¹Ø
+    //å°„é—¨ç›¸å…³
 	double shoot_max_distance;
 
 	/**
-     * ¶ÔÓ¦KickerµÄ¼¸ÖÖ×´Ì¬
+     * å¯¹åº”Kickerçš„å‡ ç§çŠ¶æ€
      *
-     * 0±íÊ¾¶ÁÈ¡Öµº¯ÊıÎÄ¼ş£¬½øĞĞÕı³£±ÈÈü
-     * 1±íÊ¾ÀëÏß¼ÆËãÖµº¯Êı£¬ĞèÒª¹ØµôËùÓĞlog
+     * 0è¡¨ç¤ºè¯»å–å€¼å‡½æ•°æ–‡ä»¶ï¼Œè¿›è¡Œæ­£å¸¸æ¯”èµ›
+     * 1è¡¨ç¤ºç¦»çº¿è®¡ç®—å€¼å‡½æ•°ï¼Œéœ€è¦å…³æ‰æ‰€æœ‰log
      */
     int mKickerMode;
 
     /**
-     * Èç¹ûÊÓ¾õ²¿·Öµ¼ÖÂ³¬Ê±ÑÏÖØ£¬¾Íµ÷´óÕâ¸ö±äÁ¿£¬×î´óÎª1
+     * å¦‚æœè§†è§‰éƒ¨åˆ†å¯¼è‡´è¶…æ—¶ä¸¥é‡ï¼Œå°±è°ƒå¤§è¿™ä¸ªå˜é‡ï¼Œæœ€å¤§ä¸º1
      */
 	double M_min_appearance_poss;
 

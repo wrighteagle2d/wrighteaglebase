@@ -66,7 +66,7 @@ void InterceptModel::CalcInterception(const Vector & ball_pos, const Vector & ba
 
 	Vector start_pt = (player->GetPos() - ball_pos).Rotate(-ball_vel.Dir());
 
-	//È¡µÃÄ£ĞÍÊäÈë
+	//å–å¾—æ¨¡å‹è¾“å…¥
 	const double x0 = start_pt.X();
 	const double y0 = start_pt.Y();
 	const double ball_spd = ball_vel.Mod();
@@ -81,11 +81,11 @@ void InterceptModel::CalcInterception(const Vector & ball_pos, const Vector & ba
 //		PlotInterceptCurve(x0, y0, ball_spd, player_spd, kick_area, cycle_delay, max_x);
 //	}
 
-	//ÌØÊâÇé¿ö´¦Àí
+	//ç‰¹æ®Šæƒ…å†µå¤„ç†
 	const double s = Sqrt(x0 * x0 + y0 * y0);
 	const double self_fix = kick_area + cycle_delay * player_spd;
 
-	if (s < self_fix){ //×îºÃµÄÇé¿öÒÑ¾­¿ÉÌß
+	if (s < self_fix){ //æœ€å¥½çš„æƒ…å†µå·²ç»å¯è¸¢
 		sol->tangc = 0;
 		sol->interc = 1;
 		sol->interp[0] = 0;
@@ -104,10 +104,10 @@ void InterceptModel::CalcInterception(const Vector & ball_pos, const Vector & ba
 		return;
 	}
 
-	//ÏÈÅĞ¶ÏÇĞµã¸öÊı -- ¸ù¾İÇĞµã¸öÊıµÃµ½½âµÄ¸öÊı£¬²¢ÒÀ´ÎÑ¡Ôñµü´úµÄ³õÖµ
+	//å…ˆåˆ¤æ–­åˆ‡ç‚¹ä¸ªæ•° -- æ ¹æ®åˆ‡ç‚¹ä¸ªæ•°å¾—åˆ°è§£çš„ä¸ªæ•°ï¼Œå¹¶ä¾æ¬¡é€‰æ‹©è¿­ä»£çš„åˆå€¼
 	int n = CalcTangPoint(x0, y0, player_spd, kick_area, cycle_delay, sol);
 
-	if (n < 1){ //Ã»ÓĞÇĞµã
+	if (n < 1){ //æ²¡æœ‰åˆ‡ç‚¹
 		sol->interc = 1;
 
 		sol->interp[0] = CalcInterPoint(max_x - 1.0, x0, y0, ball_spd, player_spd, kick_area, cycle_delay);
@@ -115,7 +115,7 @@ void InterceptModel::CalcInterception(const Vector & ball_pos, const Vector & ba
 	}
 	else if (n == 1){
 		/**
-		* n = 1µÄÇé¿ö¶ÔÓ¦Ö»ÓĞÒ»¸öÇĞµã£¬¼´ÍâÇĞµÄÊ±ºòÍ¬Ê±ÄÚÇĞ
+		* n = 1çš„æƒ…å†µå¯¹åº”åªæœ‰ä¸€ä¸ªåˆ‡ç‚¹ï¼Œå³å¤–åˆ‡çš„æ—¶å€™åŒæ—¶å†…åˆ‡
 		**/
 		sol->interc = 1;
 
@@ -129,13 +129,13 @@ void InterceptModel::CalcInterception(const Vector & ball_pos, const Vector & ba
 		sol->intert[0] = log(1.0 - sol->interp[0] * (1.0 - alpha) / ball_spd) / ln_alpha;
 	}
 	else {
-		if (ball_spd < sol->tangv[1]){ //Ã»ÓĞ×î¼Ñ½ØÇòÇø¼ä£¬ÔçÆÚ¾Í¿É½Ø
+		if (ball_spd < sol->tangv[1]){ //æ²¡æœ‰æœ€ä½³æˆªçƒåŒºé—´ï¼Œæ—©æœŸå°±å¯æˆª
 			sol->interc = 1;
 
 			sol->interp[0] = CalcInterPoint(x0, x0, y0, ball_spd, player_spd, kick_area, cycle_delay);
 			sol->intert[0] = log(1.0 - sol->interp[0] * (1.0 - alpha) / ball_spd) / ln_alpha;
 		}
-		else if (ball_spd < sol->tangv[0]){ //ÓĞ×î¼Ñ½ØÇòÇø¼ä
+		else if (ball_spd < sol->tangv[0]){ //æœ‰æœ€ä½³æˆªçƒåŒºé—´
 			sol->interc = 3;
 
 			sol->interp[0] = CalcInterPoint(x0, x0, y0, ball_spd, player_spd, kick_area, cycle_delay);
@@ -147,7 +147,7 @@ void InterceptModel::CalcInterception(const Vector & ball_pos, const Vector & ba
 			sol->interp[2] = CalcInterPoint((sol->tangp[1] + max_x) * 0.5, x0, y0, ball_spd, player_spd, kick_area, cycle_delay);
 			sol->intert[2] = log(1.0 - sol->interp[2] * (1.0 - alpha) / ball_spd) / ln_alpha;
 		}
-		else { //Ã»ÓĞ×î¼Ñ½ØÇòÇø¼ä£¬Ö»ÓĞºóÆÚ²Å¿É½Ø
+		else { //æ²¡æœ‰æœ€ä½³æˆªçƒåŒºé—´ï¼Œåªæœ‰åæœŸæ‰å¯æˆª
 			sol->interc = 1;
 
 			sol->interp[0] = CalcInterPoint(max_x - 1.0, x0, y0, ball_spd, player_spd, kick_area, cycle_delay);
@@ -157,23 +157,23 @@ void InterceptModel::CalcInterception(const Vector & ball_pos, const Vector & ba
 }
 
 /**
- * ¼ÆËãÇĞµãµÄ¸öÊıºÍÎ»ÖÃ
+ * è®¡ç®—åˆ‡ç‚¹çš„ä¸ªæ•°å’Œä½ç½®
  *
- * ÇòÔË¶¯x¾àÀëĞèÒªµÄÊ±¼ä£ºbt(x) = ln(1 - x(1-¦Á)/v0)/ln(¦Á) -- ¦ÁÎªÇòµÄdecay
- * ÈËÔË¶¯µ½´Ë´¦ËùĞè×î¶ÌÊ±¼ä£ºpt(x) = (s(x) - ka)/vp - cd -- s(x) = sqrt((x-x0)**2 + y0**2)£¬**ÎªÃİ
- * ÇĞµãÂú×ã£ºpt(x) = bt(x) ÇÒ pt'(x) = bt'(x)
- * ÏûÈ¥v0£¬µÃµ½·½³Ì£º
- * f(x) = 1 - ¦Á**pt(x) * (1 - x(x-x0)ln(¦Á)/(s(x)vp))
- * f'(x) = ln(¦Á)/vp * {(f(x)-1)(x-x0)/s(x) + ¦Á**pt(x) * {(2x-x0)/s(x) - x(x-x0)**2/s(x)**3}}
- * È¡x0Îª³õÖµ£¬ÓÃÅ£¶Ùµü´ú·¨Çó½â£¬µÃµ½ÍâÇĞµã£¬ÔÙÈ¡Ò»¸ö´óÒ»µãµÄx×÷Îª³õÖµ£¬Çó½âµÃµ½ÄÚÇĞµã
+ * çƒè¿åŠ¨xè·ç¦»éœ€è¦çš„æ—¶é—´ï¼šbt(x) = ln(1 - x(1-Î±)/v0)/ln(Î±) -- Î±ä¸ºçƒçš„decay
+ * äººè¿åŠ¨åˆ°æ­¤å¤„æ‰€éœ€æœ€çŸ­æ—¶é—´ï¼špt(x) = (s(x) - ka)/vp - cd -- s(x) = sqrt((x-x0)**2 + y0**2)ï¼Œ**ä¸ºå¹‚
+ * åˆ‡ç‚¹æ»¡è¶³ï¼špt(x) = bt(x) ä¸” pt'(x) = bt'(x)
+ * æ¶ˆå»v0ï¼Œå¾—åˆ°æ–¹ç¨‹ï¼š
+ * f(x) = 1 - Î±**pt(x) * (1 - x(x-x0)ln(Î±)/(s(x)vp))
+ * f'(x) = ln(Î±)/vp * {(f(x)-1)(x-x0)/s(x) + Î±**pt(x) * {(2x-x0)/s(x) - x(x-x0)**2/s(x)**3}}
+ * å–x0ä¸ºåˆå€¼ï¼Œç”¨ç‰›é¡¿è¿­ä»£æ³•æ±‚è§£ï¼Œå¾—åˆ°å¤–åˆ‡ç‚¹ï¼Œå†å–ä¸€ä¸ªå¤§ä¸€ç‚¹çš„xä½œä¸ºåˆå€¼ï¼Œæ±‚è§£å¾—åˆ°å†…åˆ‡ç‚¹
  *
  * @param x0
  * @param y0
- * @param vp ÇòÔ±×î´óËÙ¶È
- * @param ka ÇòÔ±¿ÉÌß·¶Î§°ë¾¶
- * @param cd ÇòÔ±µÄcycle_celay
+ * @param vp çƒå‘˜æœ€å¤§é€Ÿåº¦
+ * @param ka çƒå‘˜å¯è¸¢èŒƒå›´åŠå¾„
+ * @param cd çƒå‘˜çš„cycle_celay
  * @param sol
- * @return ÇĞµã¸öÊı
+ * @return åˆ‡ç‚¹ä¸ªæ•°
  */
 int InterceptModel::CalcTangPoint(double x0, double y0, double vp, double ka, double cd, InterceptSolution *sol)
 {
@@ -187,7 +187,7 @@ int InterceptModel::CalcTangPoint(double x0, double y0, double vp, double ka, do
 
     if (fabs(y0) < FLOAT_EPS) {
         sol->tangc = 0;
-        return 0; //Ã»ÓĞÇĞµã
+        return 0; //æ²¡æœ‰åˆ‡ç‚¹
     }
 
 	x = x0;
@@ -204,7 +204,7 @@ int InterceptModel::CalcTangPoint(double x0, double y0, double vp, double ka, do
 
 		if(fabs(f) > fabs(last_f)){
 			sol->tangc = 0;
-			return 0; //Ã»ÓĞÇĞµã
+			return 0; //æ²¡æœ‰åˆ‡ç‚¹
 		}
 		else{
 			last_f = f;
@@ -221,7 +221,7 @@ int InterceptModel::CalcTangPoint(double x0, double y0, double vp, double ka, do
 	p = (s - ka)/vp - cd;
 	if (p < 0.0) p = 0.0;
 	alpha_p = pow(alpha, (p));
-	if (1.0 - alpha_p < FLOAT_EPS){ //±íÊ¾×Ô¼ºµ½ÄÇÀï¼¸ºõ²»»¨Ê±¼ä
+	if (1.0 - alpha_p < FLOAT_EPS){ //è¡¨ç¤ºè‡ªå·±åˆ°é‚£é‡Œå‡ ä¹ä¸èŠ±æ—¶é—´
 		sol->tangv[0] = 1000.0;
 		sol->tangc = 1;
 		return 1;
@@ -230,7 +230,7 @@ int InterceptModel::CalcTangPoint(double x0, double y0, double vp, double ka, do
 		sol->tangv[0] = x * (1.0 - alpha) / (1.0 - alpha_p);
 	}
 
-	x += 0.5; //¼ì²âÊÇ·ñÖ»ÓĞÒ»¸öÇĞµã
+	x += 0.5; //æ£€æµ‹æ˜¯å¦åªæœ‰ä¸€ä¸ªåˆ‡ç‚¹
 	s = Sqrt((x - x0) * (x - x0) + y0 * y0);
 	p = (s - ka)/vp - cd;
 	if (p < 0.0) p = 0.0;
@@ -238,7 +238,7 @@ int InterceptModel::CalcTangPoint(double x0, double y0, double vp, double ka, do
 	f = 1.0 - alpha_p * (1 - x * (x - x0) * ln_alpha / (s * vp));
 	if (f > 0.0){
 		sol->tangc = 1;
-		return 1; //Ö»ÓĞÒ»¸öÇĞµã
+		return 1; //åªæœ‰ä¸€ä¸ªåˆ‡ç‚¹
 	}
 	else {
 		do {
@@ -281,27 +281,27 @@ int InterceptModel::CalcTangPoint(double x0, double y0, double vp, double ka, do
 			sol->tangv[1] = x * (1.0 - alpha) / (1.0 - alpha_p);
 		}
 		sol->tangc = 2;
-		return 2; //ÓĞÁ½¸öÇĞµã
+		return 2; //æœ‰ä¸¤ä¸ªåˆ‡ç‚¹
 	}
 }
 
 /**
- * Çó½â½»µã
+ * æ±‚è§£äº¤ç‚¹
  *
- * ÇòÔË¶¯x¾àÀëĞèÒªµÄÊ±¼ä£ºbt(x) = ln(1 - x(1-¦Á)/v0)/ln(¦Á) -- ¦ÁÎªÇòµÄdecay
- * ÈËÔË¶¯µ½´Ë´¦ËùĞè×î¶ÌÊ±¼ä£ºpt(x) = (s(x) - ka)/vp - cd -- s(x) = sqrt((x-x0)**2 + y0**2)£¬**ÎªÃİ
- * ½ØÇòµãÂú×ã£ºpt(x) = bt(x)
- * µÃµ½·½³Ì
+ * çƒè¿åŠ¨xè·ç¦»éœ€è¦çš„æ—¶é—´ï¼šbt(x) = ln(1 - x(1-Î±)/v0)/ln(Î±) -- Î±ä¸ºçƒçš„decay
+ * äººè¿åŠ¨åˆ°æ­¤å¤„æ‰€éœ€æœ€çŸ­æ—¶é—´ï¼špt(x) = (s(x) - ka)/vp - cd -- s(x) = sqrt((x-x0)**2 + y0**2)ï¼Œ**ä¸ºå¹‚
+ * æˆªçƒç‚¹æ»¡è¶³ï¼špt(x) = bt(x)
+ * å¾—åˆ°æ–¹ç¨‹
  * f(x) = pt(x) - bt(x)
- * f'(x) = (x - x0)/(s(x)*vp) + (1/ln¦Á)/(v0/(1-¦Á)-x)
+ * f'(x) = (x - x0)/(s(x)*vp) + (1/lnÎ±)/(v0/(1-Î±)-x)
  *
- * @param x_init µü´úµÄ³õÊ¼Öµ
+ * @param x_init è¿­ä»£çš„åˆå§‹å€¼
  * @param x0
  * @param y0
- * @param vb ÇòµÄµ±Ç°ËÙ¶È
- * @param vp ÇòÔ±×î´óËÙ¶È
- * @param ka ÇòÔ±¿ÉÌß·¶Î§°ë¾¶
- * @param cd ÇòÔ±µÄcycle_celay
+ * @param vb çƒçš„å½“å‰é€Ÿåº¦
+ * @param vp çƒå‘˜æœ€å¤§é€Ÿåº¦
+ * @param ka çƒå‘˜å¯è¸¢èŒƒå›´åŠå¾„
+ * @param cd çƒå‘˜çš„cycle_celay
  * @param sol
  */
 double InterceptModel::CalcInterPoint(double x_init, double x0, double y0, double vb, double vp, double ka, double cd)
@@ -336,11 +336,11 @@ double InterceptModel::CalcInterPoint(double x_init, double x0, double y0, doubl
 }
 
 /**
- * ×î¼Ñ½ØÇòµã£¨Óëµ±Ç°ÇòËÙÎŞ¹Ø£¬ÊÇ½ØÇò´°¿Ú±ä»¯Ê±ÊÕËõ³ÉµÄÄÇ¸öµã£¬Ò²¾ÍÊÇÍâÇĞµã£© -- ÕâÀï²»¿¼ÂÇcd
+ * æœ€ä½³æˆªçƒç‚¹ï¼ˆä¸å½“å‰çƒé€Ÿæ— å…³ï¼Œæ˜¯æˆªçƒçª—å£å˜åŒ–æ—¶æ”¶ç¼©æˆçš„é‚£ä¸ªç‚¹ï¼Œä¹Ÿå°±æ˜¯å¤–åˆ‡ç‚¹ï¼‰ -- è¿™é‡Œä¸è€ƒè™‘cd
  * @param relpos
- * @param vp ÇòÔ±×î´óËÙ¶È
- * @param ka ÇòÔ±¿ÉÌß·¶Î§°ë¾¶
- * @param fix ÊÇÅÜ¶¯ÑÓ³ÙµÄĞŞÕı£¨¼´player²»ÄÜÈ«ËÙÅÜ£¬ÓÃÈ«ËÙÅÜ¼ÆËã£¬Òª¼Ó¸öĞŞÕı£©
+ * @param vp çƒå‘˜æœ€å¤§é€Ÿåº¦
+ * @param ka çƒå‘˜å¯è¸¢èŒƒå›´åŠå¾„
+ * @param fix æ˜¯è·‘åŠ¨å»¶è¿Ÿçš„ä¿®æ­£ï¼ˆå³playerä¸èƒ½å…¨é€Ÿè·‘ï¼Œç”¨å…¨é€Ÿè·‘è®¡ç®—ï¼Œè¦åŠ ä¸ªä¿®æ­£ï¼‰
  * @return
  */
 double InterceptModel::CalcPeakPoint(const Vector & relpos, const double & vp, const double & ka, const double fix)
@@ -357,7 +357,7 @@ double InterceptModel::CalcPeakPoint(const Vector & relpos, const double & vp, c
 	}
 
 	if (fabs(y0) < ka){
-		return -1.0; //²»¿ÉÄÜ´©Ô½
+		return -1.0; //ä¸å¯èƒ½ç©¿è¶Š
 	}
 
 	double s, p, alpha_p, f, dfdx, last_f = 1000.0, x, last_x = x0;
@@ -376,7 +376,7 @@ double InterceptModel::CalcPeakPoint(const Vector & relpos, const double & vp, c
 		f = 1.0 - alpha_p * (1 - x * (x - x0) * ln_alpha / (s * vp));
 
 		if(fabs(f) > fabs(last_f)){
-			return last_x; //Ã»ÓĞÇĞµã
+			return last_x; //æ²¡æœ‰åˆ‡ç‚¹
 		}
 		else{
 			last_f = f;

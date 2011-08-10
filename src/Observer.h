@@ -66,13 +66,13 @@ public:
 
 //======================================================================================================================
 /**
-* »ù±¾µÄÊÓ¾õ¹Û²ìÀà
+* åŸºæœ¬çš„è§†è§‰è§‚å¯Ÿç±»
 */
 class SightObserver {
-	ObserverRecord<double>   mDist;						///Ïà¶Ô¾àÀë
-	ObserverRecord<AngleDeg> mDir;						///Ïà¶Ô×Ô¼ºÍ·²¿µÄ·½Ïò -- Í·²¿½Ç¶ÈÖ¸È«¾ÖµÄ²±×Ó½Ç¶È
-	ObserverRecord<double>   mDistChg;					///Ïà¶Ô¾àÀëµÄ±ä»¯Á¿ -- ¾¶ÏòËÙ¶È
-	ObserverRecord<AngleDeg> mDirChg;					///Ïà¶Ô½Ç¶ÈµÄ±ä»¯ --- ·¨ÏòËÙ¶È
+	ObserverRecord<double>   mDist;						///ç›¸å¯¹è·ç¦»
+	ObserverRecord<AngleDeg> mDir;						///ç›¸å¯¹è‡ªå·±å¤´éƒ¨çš„æ–¹å‘ -- å¤´éƒ¨è§’åº¦æŒ‡å…¨å±€çš„è„–å­è§’åº¦
+	ObserverRecord<double>   mDistChg;					///ç›¸å¯¹è·ç¦»çš„å˜åŒ–é‡ -- å¾„å‘é€Ÿåº¦
+	ObserverRecord<AngleDeg> mDirChg;					///ç›¸å¯¹è§’åº¦çš„å˜åŒ– --- æ³•å‘é€Ÿåº¦
 
 public:
 	const double & Dist() const { return mDist.value(); }
@@ -106,7 +106,7 @@ public:
 
 //======================================================================================================================
 class MarkerObserver: public FlagObserver {
-	MarkerType mType;											///markerµÄÀàĞÍ
+	MarkerType mType;											///markerçš„ç±»å‹
 	void SetType(MarkerType type) { mType = type; }
 
 public:
@@ -122,7 +122,7 @@ public:
 
 //======================================================================================================================
 class LineObserver: public FlagObserver {
-	SideLineType mType;										 		///lineµÄÀàĞÍ
+	SideLineType mType;										 		///lineçš„ç±»å‹
 	void SetType(SideLineType type) { mType = type; }
 	const double & DistChg();  // not used
 	const AngleDeg & DirChg(); // not used
@@ -142,14 +142,14 @@ public:
 class PlayerObserver: public SightObserver {
 	char mSide;
 	int  mUnum;
-	ObserverRecord<AngleDeg> mBodyDir;					///¶Ô·½ÉíÌåÏà¶Ô×Ô¼ºÍ·²¿µÄ½Ç¶È
-	ObserverRecord<AngleDeg> mHeadDir;					///¶Ô·½Í·²¿Ïà¶Ô×Ô¼ºÍ·²¿µÄ½Ç¶È
-	ObserverRecord<bool>     mIsTackling;				///±ê¼ÇÊÇ·ñÔÚ²ùÇò
-	ObserverRecord<bool>     mIsKicked;				    ///±ê¼ÇÊÇ·ñÔÚÉÏÖÜÆÚÌß¹ıÇò
-	ObserverRecord<bool>     mIsPointing;				///±ê¼ÇÊÇ·ñÔÚÖ¸
-	ObserverRecord<bool>     mIsLying;					///±ê¼ÇÊÇ·ñ±»²ùµ¹
-	CardType				 mCardType;					///±ê¼Ç·¸¹æ¼ÇÂ¼
-	AngleDeg                 mPointDir;					///Ïà¶ÔÍ·²¿µÄÖ¸Ïò½Ç¶È
+	ObserverRecord<AngleDeg> mBodyDir;					///å¯¹æ–¹èº«ä½“ç›¸å¯¹è‡ªå·±å¤´éƒ¨çš„è§’åº¦
+	ObserverRecord<AngleDeg> mHeadDir;					///å¯¹æ–¹å¤´éƒ¨ç›¸å¯¹è‡ªå·±å¤´éƒ¨çš„è§’åº¦
+	ObserverRecord<bool>     mIsTackling;				///æ ‡è®°æ˜¯å¦åœ¨é“²çƒ
+	ObserverRecord<bool>     mIsKicked;				    ///æ ‡è®°æ˜¯å¦åœ¨ä¸Šå‘¨æœŸè¸¢è¿‡çƒ
+	ObserverRecord<bool>     mIsPointing;				///æ ‡è®°æ˜¯å¦åœ¨æŒ‡
+	ObserverRecord<bool>     mIsLying;					///æ ‡è®°æ˜¯å¦è¢«é“²å€’
+	CardType				 mCardType;					///æ ‡è®°çŠ¯è§„è®°å½•
+	AngleDeg                 mPointDir;					///ç›¸å¯¹å¤´éƒ¨çš„æŒ‡å‘è§’åº¦
 
 public:
 	PlayerObserver() { mSide = '?'; mUnum = 0; }
@@ -186,7 +186,7 @@ public:
 
 //======================================================================================================================
 /**
-* Î´ÄÜÊ¶±ğ³öunumºÍsideµÄÇòÔ±
+* æœªèƒ½è¯†åˆ«å‡ºunumå’Œsideçš„çƒå‘˜
 */
 //============================use the server's bug  add by oldtai==========================
 class ServerBugInfo
@@ -208,13 +208,13 @@ public:
 
 //======================================================================================================================
 /**
-* Î´ÄÜÊ¶±ğ³öµÄÇòÔ±
+* æœªèƒ½è¯†åˆ«å‡ºçš„çƒå‘˜
 */
 class UnknownPlayerObserver: public SightObserver {
 	bool mIsKnownSide;			//tell whether it know the side
 	char mSide;
-	ObserverRecord<bool>     mIsTackling;				///±ê¼ÇÊÇ·ñÔÚ²ùÇò
-	ObserverRecord<bool>     mIsKicked;				///±ê¼ÇÊÇ·ñÔÚ²ùÇò
+	ObserverRecord<bool>     mIsTackling;				///æ ‡è®°æ˜¯å¦åœ¨é“²çƒ
+	ObserverRecord<bool>     mIsKicked;				///æ ‡è®°æ˜¯å¦åœ¨é“²çƒ
 	ObserverRecord<bool>     mIsLying;
 	const double & DistChg();  // not used
 	const AngleDeg & DirChg(); // not used
@@ -242,10 +242,10 @@ public:
 
 //======================================================================================================================
 /**
-* ÇòÔ±×Ô¼ºµÄsense¹Û²ìÀà
+* çƒå‘˜è‡ªå·±çš„senseè§‚å¯Ÿç±»
 */
 class SenseObserver {
-	ViewWidth mViewWidth; //Í¬²½Ä£Ê½ÏÂºöÂÔ ViewQuality
+	ViewWidth mViewWidth; //åŒæ­¥æ¨¡å¼ä¸‹å¿½ç•¥ ViewQuality
 
 	double    mStamina;
 	double    mEffort;
@@ -285,14 +285,14 @@ class SenseObserver {
 	CardType mCardType;
 
 	//foul charged cycle
-	int mFoulChargedCycle; //±»²ùµ¹µÄÖÜÆÚ
+	int mFoulChargedCycle; //è¢«é“²å€’çš„å‘¨æœŸ
 
 	//collision
 	bool mIsCollideWithPost;
 	bool mIsCollideWithPlayer;
 	bool mIsCollideWithBall;
 
-	Time mSenseTime;		//¸ĞÖªĞÅÏ¢µ½´ïµÄÖÜÆÚ
+	Time mSenseTime;		//æ„ŸçŸ¥ä¿¡æ¯åˆ°è¾¾çš„å‘¨æœŸ
 public:
 	SenseObserver()
 	{
@@ -450,10 +450,10 @@ public:
     void SetTeammateSayConent(const std::string & content) { mTeammateSayContent = content; }
 
 private:
-    bool mIsOurCoachSayValid;           // ½ÌÁ·Ëµ»°µ±Ç°ÊÇ·ñºÏ·¨
-    std::vector<std::string> mOurCoachSayContent;    // ½ÌÁ·Ëµ»°ÄÚÈİ
-    bool mIsTeammateSayValid;           // ¶ÓÓÑËµ»°µ±Ç°ÊÇ·ñºÏ·¨
-    std::string mTeammateSayContent;	// ¶ÓÓÑËµ»°ÄÚÈİ
+    bool mIsOurCoachSayValid;           // æ•™ç»ƒè¯´è¯å½“å‰æ˜¯å¦åˆæ³•
+    std::vector<std::string> mOurCoachSayContent;    // æ•™ç»ƒè¯´è¯å†…å®¹
+    bool mIsTeammateSayValid;           // é˜Ÿå‹è¯´è¯å½“å‰æ˜¯å¦åˆæ³•
+    std::string mTeammateSayContent;	// é˜Ÿå‹è¯´è¯å†…å®¹
 
 public:
     const int & GetOpponentType(const Unum & unum) const { return mOpponentType[unum]; }
@@ -462,14 +462,14 @@ public:
 
 private:
 
-    PlayerArray<int> mOpponentType; // Ìıµ½½ÌÁ·ËµµÄ¶ÔÊÖÀàĞÍ
+    PlayerArray<int> mOpponentType; // å¬åˆ°æ•™ç»ƒè¯´çš„å¯¹æ‰‹ç±»å‹
 
 
 private:
-	AngleDeg    mHearDir;	//ÉùÔ´·½Ïò
-	Unum        mHearUnum;		//Ëµ»°µÄ¶ÓÔ±ºÅÂë
+	AngleDeg    mHearDir;	//å£°æºæ–¹å‘
+	Unum        mHearUnum;		//è¯´è¯çš„é˜Ÿå‘˜å·ç 
 
-	//ÏÂÃæµÄÁ¿¼ÇÂ¼Ìı¾õĞÅÏ¢½âÎöºóµÄĞÅÏ¢ÄÚÈİ
+	//ä¸‹é¢çš„é‡è®°å½•å¬è§‰ä¿¡æ¯è§£æåçš„ä¿¡æ¯å†…å®¹
 	ObserverRecord<Vector> mBallPos;
 	ObserverRecord<Vector> mBallVel;
 
@@ -478,7 +478,7 @@ private:
 
 	int mTeammateCount;
 	int mOpponentCount;
-	int mHearInfoType; //¼ÇÂ¼×îºóÒ»ÌõÌıµ½µÄĞÅÏ¢ÀàĞÍ
+	int mHearInfoType; //è®°å½•æœ€åä¸€æ¡å¬åˆ°çš„ä¿¡æ¯ç±»å‹
 
 public:
 	AudioObserver() {
@@ -513,7 +513,7 @@ public:
 	int GetTeammateCount() const{ return mTeammateCount;}
 	int GetOpponentCount() const{ return mOpponentCount;}
 
-	//³õÊ¼Êı×é´óĞ¡ÉèÎªÁã
+	//åˆå§‹æ•°ç»„å¤§å°è®¾ä¸ºé›¶
 	void Reset()
 	{
 		mTeammateCount = mOpponentCount = 0;
@@ -523,17 +523,17 @@ public:
 
 //======================================================================================================================
 /**
-* ¹Û²ìÀà£¬´æ·Å´Ó Parser ÀïµÃµ½µÄµÚÒ»ÊÖÊı¾İ£¬ÆäËûÊı¾İ¶¼´Ó´Ë¼ÆËãµÃµ½
+* è§‚å¯Ÿç±»ï¼Œå­˜æ”¾ä» Parser é‡Œå¾—åˆ°çš„ç¬¬ä¸€æ‰‹æ•°æ®ï¼Œå…¶ä»–æ•°æ®éƒ½ä»æ­¤è®¡ç®—å¾—åˆ°
 */
 class Observer {
 public:
 	Observer();
 	virtual ~Observer();
 
-	void Reset(); //Ã¿ÖÜÆÚÖ»ÔËĞĞÒ»´Î
-	void ResetSight(); //ÖØĞÂ³õÊ¼»¯ÊÓ¾õĞÅÏ¢,Ö÷ÒªÊÇÎªÁËÉí·İÊ¶±ğµÄ¸²¸Ç,ÔİÊ±ÎªÈ¨ÒË,½üÆÚ¿ÉÄÜ»á¶Ô´Ëbug¸Ä½ø
+	void Reset(); //æ¯å‘¨æœŸåªè¿è¡Œä¸€æ¬¡
+	void ResetSight(); //é‡æ–°åˆå§‹åŒ–è§†è§‰ä¿¡æ¯,ä¸»è¦æ˜¯ä¸ºäº†èº«ä»½è¯†åˆ«çš„è¦†ç›–,æš‚æ—¶ä¸ºæƒå®œ,è¿‘æœŸå¯èƒ½ä¼šå¯¹æ­¤bugæ”¹è¿›
 
-	//Ìá¹©¸ø Parser µÄ½Ó¿Ú
+	//æä¾›ç»™ Parser çš„æ¥å£
     void SetOurInitSide(char side) { mOurInitSide = side; }
 	void SetOurSide(char side) { mOurSide = side; mOppSide = (mOurSide == 'l'? 'r': 'l'); }
 	void SetMyNumber(char unum) { mMyUnum = unum; }
@@ -541,7 +541,7 @@ public:
 	void SetPlayMode(PlayMode play_mode) { mPlayMode = play_mode; }
 	void SetKickOffMode(KickOffMode kickoffmode) {mKickOffMode = kickoffmode;}
 	void SetServerPlayMode(ServerPlayMode server_play_mode) { mServerPlayMode = server_play_mode; }
-	void Initialize();	//ÕâÒªÔÚÖªµÀ×Ô¼ºµÄsideºó£¬²ÅÄÜ³õÊ¼»¯
+	void Initialize();	//è¿™è¦åœ¨çŸ¥é“è‡ªå·±çš„sideåï¼Œæ‰èƒ½åˆå§‹åŒ–
 	void SetTeammateType(Unum unum, int type) { mTeammateType[unum] = type; }
 	void SetOpponentType(Unum unum, int type) { mOpponentType[unum] = type; }
 	void SetTeammateCardType(Unum unum, CardType type) { mTeammateCardType[unum] = type; }
@@ -586,7 +586,7 @@ public:
 			Time sense_time
 	);
 
-    // coachÃ»ÓĞsenseĞÅÏ¢£¬ÉèÖÃÖ»ÄÜÍ¨¹ıokĞÅÏ¢
+    // coachæ²¡æœ‰senseä¿¡æ¯ï¼Œè®¾ç½®åªèƒ½é€šè¿‡okä¿¡æ¯
     const int & GetCoachSayCount() const { return mSenseObserver.GetSayCount(); }
     void SetCoachSayCount(const int count) { mSenseObserver.SetSayCount(count); }
 
@@ -600,8 +600,8 @@ public:
 	void HearOurCoachSay(const std::string & hear_content);
 	void HearTeammateSay(AngleDeg hear_dir, Unum hear_unum, const std::string & hear_content);
 
-	//Í¬²½Ä£Ê½ÏÂÖ»ÓĞ¸ßÖÊÁ¿µÄÊÓ¾õ£¬ËùÒÔ²»´æÔÚÖ»¿´µ½½Ç¶È¿´²»µ½¾àÀëµÄÇé¿ö
-	//¿´µ½µÄÊ±¼ä£¬¶¼Ä¬ÈÏ mCurrentTime
+	//åŒæ­¥æ¨¡å¼ä¸‹åªæœ‰é«˜è´¨é‡çš„è§†è§‰ï¼Œæ‰€ä»¥ä¸å­˜åœ¨åªçœ‹åˆ°è§’åº¦çœ‹ä¸åˆ°è·ç¦»çš„æƒ…å†µ
+	//çœ‹åˆ°çš„æ—¶é—´ï¼Œéƒ½é»˜è®¤ mCurrentTime
 	void SeeLine  (SideLineType line, double dist, double dir);
 
 	void SeeMarker(MarkerType marker, double dist, double dir);
@@ -625,7 +625,7 @@ public:
     void HearOpponentType(const Unum & unum, const int & type) { mAudioObserver.SetOpponentType(unum, type); }
 
     void HearOppGoalie(int unum) { Assert(unum >= 1 && unum <= 11); mOppGoalieUnum = unum; }
-	//Ìá¹©¸ø WorldModel µÄ½Ó¿Ú
+	//æä¾›ç»™ WorldModel çš„æ¥å£
 	const Unum & MyUnum() const { return mMyUnum; }
     const char & OurInitSide() const { return mOurInitSide; }
 	const char & OurSide() const { return mOurSide; }
@@ -669,13 +669,13 @@ public:
 	void SetNewOppType(bool NewOppType) {mIsNewOppType = NewOppType; }
 
 private:
-	Time mCurrentTime;							//µ±Ç°Ê±¼ä
-	Time mLatestSightTime;                      //ÊÕµ½×îĞÂÊÓ¾õµÄÊ±¼ä£¬ÔÚµÈÂ©ÊÓ¾õµÄÇé¿öÏÂ£¬±ÈmCurrentTimeĞ¡
+	Time mCurrentTime;							//å½“å‰æ—¶é—´
+	Time mLatestSightTime;                      //æ”¶åˆ°æœ€æ–°è§†è§‰çš„æ—¶é—´ï¼Œåœ¨ç­‰æ¼è§†è§‰çš„æƒ…å†µä¸‹ï¼Œæ¯”mCurrentTimeå°
 
 	PlayMode mPlayMode;
 	KickOffMode mKickOffMode;
-	ServerPlayMode mServerPlayMode; //À´×ÔserverµÄplaymode£¬sight_logÒªÓÃ
-	char mOurInitSide; // ¼ÇÂ¼³õÊ¼side£¬ÓÀÔ¶²»»á±ä£¬¶ømOurSideÔÚµãÇò´óÕ½Ê±ÓĞ¿ÉÄÜ±ä
+	ServerPlayMode mServerPlayMode; //æ¥è‡ªserverçš„playmodeï¼Œsight_logè¦ç”¨
+	char mOurInitSide; // è®°å½•åˆå§‹sideï¼Œæ°¸è¿œä¸ä¼šå˜ï¼Œè€ŒmOurSideåœ¨ç‚¹çƒå¤§æˆ˜æ—¶æœ‰å¯èƒ½å˜
     char mOurSide;
 	char mOppSide;
 	int  mMyUnum;
@@ -683,14 +683,14 @@ private:
 	int  mOurScore;
 	int  mOppScore;
 
-	PlayerArray<int, true> mTeammateType;//¶ÓÓÑµÄÇòÔ±ÀàĞÍ £­£­ ´Óserver»ñµÃ
-	PlayerArray<int, true> mOpponentType;//¶ÔÊÖµÄÇòÔ±ÀàĞÍ £­£­ ´Ócoach»ñµÃ
-	PlayerArray<int, true> mOpponentTypeChangedCount;//¶ÔÊÖµÄÇòÔ±ÀàĞÍ¸Ä±äµÄ´ÎÊı
-	PlayerArray<CardType, true> mTeammateCardType;//¶ÓÓÑ·¸¹æ¼ÇÂ¼
-	PlayerArray<CardType, true> mOpponentCardType;//¶ÔÊÖ·¸¹æ¼ÇÂ¼ ¾ù´Óserver»ñµÃ
+	PlayerArray<int, true> mTeammateType;//é˜Ÿå‹çš„çƒå‘˜ç±»å‹ ï¼ï¼ ä»serverè·å¾—
+	PlayerArray<int, true> mOpponentType;//å¯¹æ‰‹çš„çƒå‘˜ç±»å‹ ï¼ï¼ ä»coachè·å¾—
+	PlayerArray<int, true> mOpponentTypeChangedCount;//å¯¹æ‰‹çš„çƒå‘˜ç±»å‹æ”¹å˜çš„æ¬¡æ•°
+	PlayerArray<CardType, true> mTeammateCardType;//é˜Ÿå‹çŠ¯è§„è®°å½•
+	PlayerArray<CardType, true> mOpponentCardType;//å¯¹æ‰‹çŠ¯è§„è®°å½• å‡ä»serverè·å¾—
 
-	bool mIsBallDropped; //ÇòÊÇ·ñ±»drop
-	bool mIsNewOppType;  //½ÌÁ·ÊÇ·ñ·¢À´ĞÂµÄ¶ÔÊÖÒì¹¹
+	bool mIsBallDropped; //çƒæ˜¯å¦è¢«drop
+	bool mIsNewOppType;  //æ•™ç»ƒæ˜¯å¦å‘æ¥æ–°çš„å¯¹æ‰‹å¼‚æ„
 
 	SenseObserver  mSenseObserver;
 	AudioObserver  mAudioObserver;
@@ -700,7 +700,7 @@ private:
 	PlayerArray<PlayerObserver> mOpponentObservers;
 	Array<LineObserver, SL_MAX> mLineObservers;
 	Array<UnknownPlayerObserver, TEAMSIZE * 2> mUnknownPlayers;
-	int mUnknownPlayerCount;							//Ã¿¸öÖÜÆÚ¸üĞÂÊ±¶¼ÒªÉèÎª0
+	int mUnknownPlayerCount;							//æ¯ä¸ªå‘¨æœŸæ›´æ–°æ—¶éƒ½è¦è®¾ä¸º0
 
 	//for using server bug
 	Array<ServerBugInfo, TEAMSIZE * 2> mUnknownPlayersBugInfo;
@@ -725,7 +725,7 @@ public:
 	bool WaitForNewSense();
 	bool WaitForNewSight();
 	bool WaitForCommandSend();
-    bool WaitForCoachNewHear(); // coachÓÃÀ´µÈ´ıhearĞÅÏ¢
+    bool WaitForCoachNewHear(); // coachç”¨æ¥ç­‰å¾…hearä¿¡æ¯
 	void SetNewSense();
 	void SetNewSight();
 	void SetCommandSend();
@@ -749,21 +749,21 @@ private:
 
     bool            mIsBeginDecision;
 	bool            mIsNewSense;
-	bool            mIsNewSight; //ÅĞ¶ÏÊÇ·ñÓĞÊÓ¾õ add by tai £¨9/7/08)
+	bool            mIsNewSight; //åˆ¤æ–­æ˜¯å¦æœ‰è§†è§‰ add by tai ï¼ˆ9/7/08)
 	bool            mIsCommandSend;
-	bool            mIsPlanned;  //±¾ÖÜÆÚÒÑ¾­¾ö²ß¹ıÁË
+	bool            mIsPlanned;  //æœ¬å‘¨æœŸå·²ç»å†³ç­–è¿‡äº†
 	bool            mIsNewHear;
-	bool            mSenseArrived; //ÓĞsenseĞÅÏ¢µ½À´
+	bool            mSenseArrived; //æœ‰senseä¿¡æ¯åˆ°æ¥
 	bool            mSightArrived;
 	ThreadCondition mCondNewSense;
 	ThreadCondition mCondNewSight;
 	ThreadCondition mCondCommandSend;
-	ThreadCondition mCondCoachNewHear; //Ö»ÓĞµ±×Ô¼ºÊÇcoachÊ±²ÅÓÃÕâ¸öÁ¿
+	ThreadCondition mCondCoachNewHear; //åªæœ‰å½“è‡ªå·±æ˜¯coachæ—¶æ‰ç”¨è¿™ä¸ªé‡
 
-	ThreadMutex     mUpdateMutex; //¸üĞÂÊ±Óëparser»¥³â
+	ThreadMutex     mUpdateMutex; //æ›´æ–°æ—¶ä¸parseräº’æ–¥
 
 private:
-	//´ÓcoachµÄÊÓ¾õĞÅÏ¢¸üĞÂµÃµ½µÄ»òcoach·¢¹ıÀ´µÄworldstate
+	//ä»coachçš„è§†è§‰ä¿¡æ¯æ›´æ–°å¾—åˆ°çš„æˆ–coachå‘è¿‡æ¥çš„worldstate
 	BallState mBall_Coach;
 	PlayerArray<PlayerState> mTeammate_Coach;
 	PlayerArray<PlayerState> mOpponent_Coach;
@@ -823,7 +823,7 @@ private:
 	AngleDeg    mPlayerBodyDirByTurn;
 
 	Time        mPlayerTurnNeckTime;
-	AngleDeg    mPlayerNeckDirByTurnNeck; // ²±×Ó½Ç¶È£¬Ïà¶ÔÁ¿
+	AngleDeg    mPlayerNeckDirByTurnNeck; // è„–å­è§’åº¦ï¼Œç›¸å¯¹é‡
 };
 
 #endif /* OBSERVER_H_ */

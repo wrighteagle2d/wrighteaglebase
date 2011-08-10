@@ -132,8 +132,8 @@ Vector Tackler::GetBallVelAfterTackle(const Agent & agent, AngleDeg tackle_angle
     UpdateTackleData(agent);
 
     tackle_angle = GetNormalizeAngleDeg(tackle_angle, 0.0);
-    int idx1 = ang2idx(tackle_angle); //ÏÂ½ç
-    int idx2 = ang2idx(tackle_angle + 1.0); //ÉÏ½ç
+    int idx1 = ang2idx(tackle_angle); //ä¸‹ç•Œ
+    int idx2 = ang2idx(tackle_angle + 1.0); //ä¸Šç•Œ
     double rate = MinMax(0.0, idx2 - tackle_angle, 1.0);
 
     return mBallVelAfterTackle[idx1] * rate + mBallVelAfterTackle[idx2] * (1.0 - rate);
@@ -158,9 +158,9 @@ bool Tackler::GetTackleInfoToDir(const Agent & agent, AngleDeg dir, AngleDeg *p_
 
 	Array<int, 3> dir_idx;
 
-	dir_idx[0] = dir2idx(dir); //µ±Ç°Çø¼ä
-	dir_idx[1] = dir2idx(dir - 1.0); //×ó±ßÏàÁÚÇø¼ä
-	dir_idx[2] = dir2idx(dir + 1.0); //ÓÒ±ßÏàÁÚÇø¼ä
+	dir_idx[0] = dir2idx(dir); //å½“å‰åŒºé—´
+	dir_idx[1] = dir2idx(dir - 1.0); //å·¦è¾¹ç›¸é‚»åŒºé—´
+	dir_idx[2] = dir2idx(dir + 1.0); //å³è¾¹ç›¸é‚»åŒºé—´
 
 	Vector optimal_ball_vel;
 	AngleDeg best_tackle_angle = 0.0;
@@ -178,7 +178,7 @@ bool Tackler::GetTackleInfoToDir(const Agent & agent, AngleDeg dir, AngleDeg *p_
 			if (IsAngleDegInBetween(dir1, dir, dir2)) {
 				ret = true;
 
-				if (p_tackle_angle || p_ball_vel) { //ÕâÀïÒªÕÒ³öÊ¹³öÇòËÙ¶È×î´óµÄtackle_angle
+				if (p_tackle_angle || p_ball_vel) { //è¿™é‡Œè¦æ‰¾å‡ºä½¿å‡ºçƒé€Ÿåº¦æœ€å¤§çš„tackle_angle
 					dir2 = GetNormalizeAngleDeg(dir2, dir1);
 					dir = GetNormalizeAngleDeg(dir, dir1);
 
@@ -291,7 +291,7 @@ bool Tackler::TackleStopBall(Agent & agent)
 
 bool Tackler::MayDangerousIfTackle(const PlayerState & tackler, const WorldState & world_state)
 {
-	if (tackler.GetTackleProb(false) < FLOAT_EPS && tackler.GetTackleProb(true) < FLOAT_EPS) { //²»¿É²ù
+	if (tackler.GetTackleProb(false) < FLOAT_EPS && tackler.GetTackleProb(true) < FLOAT_EPS) { //ä¸å¯é“²
 		return false;
 	}
 
@@ -309,14 +309,14 @@ bool Tackler::MayDangerousIfTackle(const PlayerState & tackler, const WorldState
 		if (opp.IsIdling()) continue; //idling
 		if (!opp.IsKickable()) continue; //not kickable
 
-		//cond. 1. opp no dashing -- ÎŞ´ÓÖªÏş£¬ÕâÀïÈÏÎª¶ÔÊÖÒ»¶¨»ádash
-		//cond. 2. ball near -- ÇòÀë×Ô¼º¸ü½ü£¬²»¹¹³ÉÎ£ÏÕÇé¿ö
+		//cond. 1. opp no dashing -- æ— ä»çŸ¥æ™“ï¼Œè¿™é‡Œè®¤ä¸ºå¯¹æ‰‹ä¸€å®šä¼šdash
+		//cond. 2. ball near -- çƒç¦»è‡ªå·±æ›´è¿‘ï¼Œä¸æ„æˆå±é™©æƒ…å†µ
 		Vector opp_2_tackler = opp.GetPos() - tackler_pos;
 		if (opp_2_tackler.Mod2() > ball_dist2) continue;
-		//cond. 3. behind or big y_diff -- ¶ÔÊÖÔÚ×Ô¼ºÓëÇòÁ¬Ïß·½ÏòÉÏÔÚ×Ô¼ºÉíºó»ò´í¿ªÎ»ÖÃÌ«´ó£¬²»¹¹³ÉÎ£ÏÕÇé¿ö
+		//cond. 3. behind or big y_diff -- å¯¹æ‰‹åœ¨è‡ªå·±ä¸çƒè¿çº¿æ–¹å‘ä¸Šåœ¨è‡ªå·±èº«åæˆ–é”™å¼€ä½ç½®å¤ªå¤§ï¼Œä¸æ„æˆå±é™©æƒ…å†µ
 		opp_2_tackler = opp_2_tackler.Rotate(-ball_dir);
 		if (opp_2_tackler.X() < 0.0 || std::fabs( opp_2_tackler.Y() ) > opp.GetPlayerSize() + tackler.GetPlayerSize()) continue;
-		//cond. 4. over body_diff -- ¶ÔÊÖÉíÌå½Ç¶È¸ú×Ô¼ºÓëÇòÁ¬Ïß·½ÏòµÄ¼Ğ½Ç´óÓÚ90¶È£¬²»¹¹³ÉÎ£ÏÕÇé¿ö
+		//cond. 4. over body_diff -- å¯¹æ‰‹èº«ä½“è§’åº¦è·Ÿè‡ªå·±ä¸çƒè¿çº¿æ–¹å‘çš„å¤¹è§’å¤§äº90åº¦ï¼Œä¸æ„æˆå±é™©æƒ…å†µ
 		AngleDeg body_diff = std::fabs( GetNormalizeAngleDeg( opp.GetBodyDir() - ball_dir ) );
 		if (body_diff > 90.0) continue;
 

@@ -155,18 +155,18 @@ class Parser: public Thread
 
 public:
     /**
-     * ¹¹Ôìº¯ÊıºÍÎö¹¹º¯Êı
+     * æ„é€ å‡½æ•°å’Œææ„å‡½æ•°
      */
     Parser(Observer *p_observer);
     ~Parser();
 
     /**
-     * Ö÷Ñ­»·º¯Êı
+     * ä¸»å¾ªç¯å‡½æ•°
      */
    void StartRoutine();
 
     /**
-     * ¶¯Ì¬µ÷ÊÔĞèÒªÓÃµ½µÄ½Ó¿Ú
+     * åŠ¨æ€è°ƒè¯•éœ€è¦ç”¨åˆ°çš„æ¥å£
      */
 	void Parse(char *msg);
 	bool ParseInitializeMsg(char *msg);
@@ -257,8 +257,8 @@ private:
 	ObjProperty ParseObjProperty(char* msg);
 	ObjProperty_Coach ParseObjProperty_Coach(char* msg);
 
-	ThreadMutex mOkMutex; //¸üĞÂokĞÅÏ¢ÊÇÒªÓë¾ö²ßÏß³Ì»¥³â
-	int mHalfTime; // ¼ÇÂ¼ÊÇµÚ¼¸¸öhalf
+	ThreadMutex mOkMutex; //æ›´æ–°okä¿¡æ¯æ˜¯è¦ä¸å†³ç­–çº¿ç¨‹äº’æ–¥
+	int mHalfTime; // è®°å½•æ˜¯ç¬¬å‡ ä¸ªhalf
     bool mConnectServerOk;
 	bool mClangOk;
 	bool mSynchOk;

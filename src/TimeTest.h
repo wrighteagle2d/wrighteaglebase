@@ -39,7 +39,7 @@
 #include "Utilities.h"
 
 /**
- * ²âÊÔº¯ÊıËù»¨Ê±¼äµÄ½Ó¿Ú
+ * æµ‹è¯•å‡½æ•°æ‰€èŠ±æ—¶é—´çš„æ¥å£
  * Interface to calculate the time cost of a function.
  */
 #define TIMETEST(func_name) TimeTestFunc time_test_func(func_name);
@@ -64,37 +64,37 @@ struct TimeCost
     }
 
 	/**
-	 * ¾­¹ı´ÎÊı
+	 * ç»è¿‡æ¬¡æ•°
 	 * Number of times a function was called.
 	 */
     long    mNum;
 
     /**
-     * Æ½¾ùºÄÊ±
+     * å¹³å‡è€—æ—¶
      * Average cost.
      */
     double  mAveCost; //
 
     /**
-     * ×î´óºÄÊ±¶ÔÓ¦µÄÖÜÆÚ
+     * æœ€å¤§è€—æ—¶å¯¹åº”çš„å‘¨æœŸ
      * Cycle which the highest cost was generated at.
      */
     Time    mMaxTime;
 
     /**
-     * ×î´óºÄÊ±
+     * æœ€å¤§è€—æ—¶
      * Highest time cost.
      */
     long    mMaxCost;
 
     /**
-     * ×îĞ¡ºÄÊ±¶ÔÓ¦µÄÖÜÆÚ
+     * æœ€å°è€—æ—¶å¯¹åº”çš„å‘¨æœŸ
      * Cycle which the lowest cost was generated at.
      */
     Time    mMinTime;
 
     /**
-     * ×îĞ¡ºÄÊ±
+     * æœ€å°è€—æ—¶
      * Lowest time cost.
      */
     long    mMinCost;
@@ -116,25 +116,25 @@ struct TimeRecord
     }
 
     /**
-	 * Ã¿ÖÜÆÚµÄĞÅÏ¢
+	 * æ¯å‘¨æœŸçš„ä¿¡æ¯
 	 * Time cost for every cycle.
 	 */
     TimeCost    mEachCycle;
 
     /**
-     * Ã¿Ò»´ÎµÄĞÅÏ¢
+     * æ¯ä¸€æ¬¡çš„ä¿¡æ¯
      * Time cost for each call.
      */
     TimeCost    mEachTime;
 
     /**
-     * Ã¿Ò»´ÎµÄ¿ªÊ¼Ê±¼ä
+     * æ¯ä¸€æ¬¡çš„å¼€å§‹æ—¶é—´
      * Begin time for each call.
      */
     RealTime    mBeginTime;
 
     /**
-     * Ã¿Ò»ÖÜÆÚ×Ü¹²»¨µÄÊ±¼ä
+     * æ¯ä¸€å‘¨æœŸæ€»å…±èŠ±çš„æ—¶é—´
      * Total cost for each cycle.
      */
     long        mCycleTimeCost;
@@ -152,43 +152,43 @@ public:
     ~TimeTest();
 
     /**
-     * ´´½¨ÊµÀı
+     * åˆ›å»ºå®ä¾‹
      * Instacne.
      */
     static TimeTest & instance();
 
     /**
-     * ĞÂµÄÖÜÆÚµ½À´ºó½øĞĞ¸üĞÂ£¬´«ÈëµÄcurrent_timeÎª¸üĞÂÇ°µÄÄÇ¸öÖÜÆÚ
+     * æ–°çš„å‘¨æœŸåˆ°æ¥åè¿›è¡Œæ›´æ–°ï¼Œä¼ å…¥çš„current_timeä¸ºæ›´æ–°å‰çš„é‚£ä¸ªå‘¨æœŸ
      * Update when each cycle begins.
      */
     void Update(Time current_time);
 
     /**
-     * Ã¿´Î²âÊÔµÄ¿ªÊ¼
+     * æ¯æ¬¡æµ‹è¯•çš„å¼€å§‹
      * Begin of each test.
      */
     int Begin(std::string func_name);
 
     /**
-     * Ã¿´Î²âÊÔµÄ½áÊø
+     * æ¯æ¬¡æµ‹è¯•çš„ç»“æŸ
      * End of each test.
      */
     void End(int event_id);
 
     /**
-     * ÉèÖÃ×Ô¼ºµÄºÅÂë£¬ÓÃÓÚÎÄ¼şÃûµÄ¸³Öµ
+     * è®¾ç½®è‡ªå·±çš„å·ç ï¼Œç”¨äºæ–‡ä»¶åçš„èµ‹å€¼
      * Set self unum, which record files will be named after.
      */
     inline void SetUnum(int unum) { mUnum = unum; }
 
 private:
-    std::vector<std::string>    mEventQueue; // ¼ÇÂ¼²âÊÔº¯ÊıµÄÃû×Ö
-    std::vector<TimeRecord>     mRecordQueue; // ¼ÇÂ¼²âÊÔµÄ½á¹û
-    std::vector<bool>           mIsExecute; // ¼ÇÂ¼µ±Ç°ÖÜÆÚÊÇ·ñ±»Ö´ĞĞ¹ı
-    std::vector<bool>           mIsBegin; // ÓÃÀ´±£Ö¤Begin()ºÍEnd()½»ÌæÖ´ĞĞ
+    std::vector<std::string>    mEventQueue; // è®°å½•æµ‹è¯•å‡½æ•°çš„åå­—
+    std::vector<TimeRecord>     mRecordQueue; // è®°å½•æµ‹è¯•çš„ç»“æœ
+    std::vector<bool>           mIsExecute; // è®°å½•å½“å‰å‘¨æœŸæ˜¯å¦è¢«æ‰§è¡Œè¿‡
+    std::vector<bool>           mIsBegin; // ç”¨æ¥ä¿è¯Begin()å’ŒEnd()äº¤æ›¿æ‰§è¡Œ
 
-    Time        mUpdateTime; // ÉÏ´ÎupdateµÄÖÜÆÚ
-    int         mUnum; // ×Ô¼ºµÄºÅÂë
+    Time        mUpdateTime; // ä¸Šæ¬¡updateçš„å‘¨æœŸ
+    int         mUnum; // è‡ªå·±çš„å·ç 
 };
 
 

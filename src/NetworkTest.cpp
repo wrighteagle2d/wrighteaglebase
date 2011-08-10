@@ -37,7 +37,7 @@
 
 StatisticUnit::StatisticUnit()
 {
-	//³õÊ¼»¯CU
+	//åˆå§‹åŒ–CU
 	CU.count = 0;
 	CU.average = 0;
 	CU.quadrature = 0;
@@ -280,19 +280,19 @@ void StatisticUnit::SetMaxVal(TIMEDATA td)
 	}
 	return;
 }
-//¼ÆËãÆ½¾ùÖµ
+//è®¡ç®—å¹³å‡å€¼
 void StatisticUnit::SetAverage(long val)
 {
 	CU.average = (CU.average*CU.count + val)/((double)(CU.count+1));
 }
 
-//¼ÆËã¶ş½×Ô­µã¾Ø
+//è®¡ç®—äºŒé˜¶åŸç‚¹çŸ©
 void StatisticUnit::Setquadrature(long val)
 {
 	CU.quadrature = (CU.quadrature*CU.count+val*val)/((double)(CU.count+1));
 }
 
-//¼ÆËã·½²î
+//è®¡ç®—æ–¹å·®
 void StatisticUnit::SetVariance()
 {
 	CU.variance = CU.quadrature - CU.average*CU.average;
@@ -451,7 +451,7 @@ void NetworkTest::Update(const Time& time)
     {
 	    if(time != CurrentTime)
 	    {
-		    CurrentTime = time;//¸üĞÂÊ±¼ä
+		    CurrentTime = time;//æ›´æ–°æ—¶é—´
 		    int i, size = EndTimelist.size();
 		    for(i=0; i<size; i++)
 		    {

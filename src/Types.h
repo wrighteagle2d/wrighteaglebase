@@ -45,7 +45,7 @@
 #define M_E         2.71828182845904523536
 #endif
 
-#define SQRT_2       1.41421356237309504880 // ¸ùºÅ2
+#define SQRT_2       1.41421356237309504880 // æ ¹å·2
 #define FLOAT_EPS    0.000006
 #define MAX_MESSAGE  8192
 #define HUGE_VALUE   1.0e6
@@ -56,13 +56,13 @@ typedef unsigned int uint;
 #endif
 
 /**
- * Ç¿ÖÆÔì³É¶Î´íÎó£¬ÒÔ±ã±»²¶»ñ£¬ÄÜ¼ÇÂ¼ÏÂlogºÍcoredump
+ * å¼ºåˆ¶é€ æˆæ®µé”™è¯¯ï¼Œä»¥ä¾¿è¢«æ•è·ï¼Œèƒ½è®°å½•ä¸‹logå’Œcoredump
  * Create a segmentation fault for recording log and coredump file.
  */
 extern int abort_with_SIGSEGV(const char *expr = 0, const char *file = 0, int line = 0, const char *function = 0);
 
 /**
- * ÒòÎªrelease°æ±¾ÀïÃæÊÇÃ»ÓĞ¶¨ÒåAssertµÄ£¬ËùÒÔAssertÀïÃæ²»Òª·ÅÓĞĞ§µÄ±í´ïÊ½£¬·ñÔòrelease°æ±¾ÖĞ½«¶ªÊ§¡£
+ * å› ä¸ºreleaseç‰ˆæœ¬é‡Œé¢æ˜¯æ²¡æœ‰å®šä¹‰Assertçš„ï¼Œæ‰€ä»¥Asserté‡Œé¢ä¸è¦æ”¾æœ‰æ•ˆçš„è¡¨è¾¾å¼ï¼Œå¦åˆ™releaseç‰ˆæœ¬ä¸­å°†ä¸¢å¤±ã€‚
  * Because there is no release version of the definition of Assert, so do not put inside Assert effective
  * expression, or release version will be lost.
  */
@@ -83,7 +83,7 @@ extern int abort_with_SIGSEGV(const char *expr = 0, const char *file = 0, int li
 	} while(0)
 
 /**
- * ÇòÔ±µÄ¸öÊı
+ * çƒå‘˜çš„ä¸ªæ•°
  * Number of players.
  */
 #define TEAMSIZE 11
@@ -172,7 +172,7 @@ enum ServerPlayMode
 };
 
 /**
- * ´ÓServerPlayModeÖĞ½âÎö³öÀ´£¬¸ß²ãÖ±½ÓÓÃÕâ¸ö·½±ã
+ * ä»ServerPlayModeä¸­è§£æå‡ºæ¥ï¼Œé«˜å±‚ç›´æ¥ç”¨è¿™ä¸ªæ–¹ä¾¿
  * Generated from ServerPlayMode, it's better to use this one.
  */
 enum PlayMode

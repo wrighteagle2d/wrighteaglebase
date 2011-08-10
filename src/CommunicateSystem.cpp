@@ -88,7 +88,7 @@ CommunicateSystem::CommunicateSystem() {
 	mFreeFormCodecBitCount[TEAMMATE_ONLY_POS] = mCodecBitCount[FREE_FORM][POS_X] + mCodecBitCount[FREE_FORM][POS_Y] + mFreeFormFlagBitCount;
 	mFreeFormCodecBitCount[OPPONENT_ONLY_POS] = mCodecBitCount[FREE_FORM][POS_X] + mCodecBitCount[FREE_FORM][POS_Y] + mFreeFormFlagBitCount;
 
-	MAX_BITS_USED -= mCommuFlagBitCount; //Õâ¸öÊÇÒ»¶¨ÒªÓÃµÄÎ»
+	MAX_BITS_USED -= mCommuFlagBitCount; //è¿™ä¸ªæ˜¯ä¸€å®šè¦ç”¨çš„ä½
 }
 
 CommunicateSystem::~CommunicateSystem() {
@@ -436,11 +436,11 @@ void CommunicateSystem::Decision()
 		DWORD64 mask = 1;
 		mask <<= mBitsUsed;
 		mask -= 1;
-		mCommuBits += ~mask; //×ó±ß²¹1
+		mCommuBits += ~mask; //å·¦è¾¹è¡¥1
 		mask = 1;
 		mask <<= (MAX_BITS_USED + mCommuFlagBitCount);
 		mask -= 1;
-		mCommuBits &= mask; //È¥µô¸ßÈıÎ»
+		mCommuBits &= mask; //å»æ‰é«˜ä¸‰ä½
 
 		Encode(mCommuBits, msg);
 
@@ -484,7 +484,7 @@ void CommunicateSystem::RecvFreeForm(DWORD64 bits)
 	while (bit_left > 0){
 		 type = static_cast<FreeFormType>(bits & mFreeFormFlagMask);
 		 if (type >= FREE_FORM_DUMMY){
-			 break; //mCommuBits µÄ×ó¶ËÈ«ÊÇ1£¬¿ÉÒÔÓÃÀ´×÷Îª½áÊø±êÖ¾£¬ÒòÎªFREE_FORM_DUMMYÊÇ²»ÓÃµÄ
+			 break; //mCommuBits çš„å·¦ç«¯å…¨æ˜¯1ï¼Œå¯ä»¥ç”¨æ¥ä½œä¸ºç»“æŸæ ‡å¿—ï¼Œå› ä¸ºFREE_FORM_DUMMYæ˜¯ä¸ç”¨çš„
 		 }
 		 if (bit_left < mFreeFormCodecBitCount[type]){
 			 break;
@@ -544,7 +544,7 @@ void CommunicateSystem::ParseReceivedTeammateMsg(unsigned char *msg)
 	DWORD64 mask = 1;
 	mask <<= (MAX_BITS_USED + mCommuFlagBitCount);
 	mask -= 1;
-	bits += ~mask; //¸ßÈıÎ»²¹1
+	bits += ~mask; //é«˜ä¸‰ä½è¡¥1
 
 	CommuType type = static_cast<CommuType>(bits & mCommuFlagMask);
 	bits >>= mCommuFlagBitCount;
@@ -556,7 +556,7 @@ void CommunicateSystem::ParseReceivedTeammateMsg(unsigned char *msg)
 	else {
 		Logger::instance().GetTextLogger("receive") << "???" << endl;
 		PRINT_ERROR(msg);
-		//TODO: ÆäËûĞÅÏ¢
+		//TODO: å…¶ä»–ä¿¡æ¯
 	}
 }
 

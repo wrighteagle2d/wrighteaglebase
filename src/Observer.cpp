@@ -73,7 +73,7 @@ Observer::Observer()
 	mPlayerBodyDirByTurn = 0.0;
 
 	mPlayerTurnNeckTime = Time(-3, 0);
-	mPlayerNeckDirByTurnNeck = 0.0; // ²±×Ó½Ç¶È£¬¾ø¶ÔÁ¿
+	mPlayerNeckDirByTurnNeck = 0.0; // è„–å­è§’åº¦ï¼Œç»å¯¹é‡
 
 	mIsNewOppType = false;
 }
@@ -564,11 +564,11 @@ bool Observer::WaitForNewInfo()
 
 	bool flag = false;
 	if (PlayerParam::instance().isCoach()){
-		flag = WaitForNewSight(); //see_global ĞÅÏ¢
+		flag = WaitForNewSight(); //see_global ä¿¡æ¯
 		WaitForCoachNewHear();
 	}
 	else {
-		flag = WaitForNewSense(); //Ê×ÏÈµÈµ½senseĞÅÏ¢£¬È»ºóÔÚ»¨40ºÁÃëµÈÒ»ÏÂhearºÍsight
+		flag = WaitForNewSense(); //é¦–å…ˆç­‰åˆ°senseä¿¡æ¯ï¼Œç„¶ååœ¨èŠ±40æ¯«ç§’ç­‰ä¸€ä¸‹hearå’Œsight
 		WaitForNewSight();
 	}
 	return flag;
@@ -605,7 +605,7 @@ bool Observer::WaitForNewSight()
 	}
 	else
 	{
-        // TODO: rcssserver13.2.0¿ªÊ¼£¬ËùÓĞĞÅÏ¢¾ùÔÚÖÜÆÚÒ»¿ªÊ¼¾Í·¢£¬ÕâÀïÔİÊ±²»ÅĞ¶ÏÊÇ·ñÓĞÊÓ¾õ£¬ËùÓĞÖÜÆÚ¾ùµÈWaitSightBuffer
+        // TODO: rcssserver13.2.0å¼€å§‹ï¼Œæ‰€æœ‰ä¿¡æ¯å‡åœ¨å‘¨æœŸä¸€å¼€å§‹å°±å‘ï¼Œè¿™é‡Œæš‚æ—¶ä¸åˆ¤æ–­æ˜¯å¦æœ‰è§†è§‰ï¼Œæ‰€æœ‰å‘¨æœŸå‡ç­‰WaitSightBuffer
         if (true /** WillBeNewSight() */)
 		{
 			max_time = ServerParam::instance().synchSeeOffset() + PlayerParam::instance().WaitSightBuffer();
@@ -650,7 +650,7 @@ bool Observer::WaitForCommandSend()
 bool Observer::WaitForCoachNewHear()
 {
     int max_time = PlayerParam::instance().WaitHearBuffer() * ServerParam::instance().slowDownFactor();
-    mCondCoachNewHear.Wait(max_time); // ×¢Òâ£ºcoachµÄhearĞÅÏ¢Ã¿ÖÜÆÚÓĞºÜ¶à£¬ÕâÀïÖ»wait£¬²»set
+    mCondCoachNewHear.Wait(max_time); // æ³¨æ„ï¼šcoachçš„hearä¿¡æ¯æ¯å‘¨æœŸæœ‰å¾ˆå¤šï¼Œè¿™é‡Œåªwaitï¼Œä¸set
 	return true;
 }
 
@@ -659,7 +659,7 @@ void Observer::SetNewSense()
 {
 	mIsNewSense = true;
 	mSenseArrived = true;
-	mSightArrived = false; // sight²»¿ÉÄÜ±Èsense¸üÔçµ½£¬ÔÚÕâÀïÔİÊ±ĞŞÕıÒ»ÏÂ£¬rcssserver-13.0³öÀ´ºóÔÙ¸Ä
+	mSightArrived = false; // sightä¸å¯èƒ½æ¯”senseæ›´æ—©åˆ°ï¼Œåœ¨è¿™é‡Œæš‚æ—¶ä¿®æ­£ä¸€ä¸‹ï¼Œrcssserver-13.0å‡ºæ¥åå†æ”¹
 	ResetSight();
 	mCondNewSense.Set();
 }

@@ -60,7 +60,7 @@ public:
     	return -1;
     }
 
-    /** ÒÔ×î¿ìµÄ·½Ê½ÅÜµ½Ä¿±êµã
+    /** ä»¥æœ€å¿«çš„æ–¹å¼è·‘åˆ°ç›®æ ‡ç‚¹
      * Run to the destination point with the fastest method.
      * \param agent the agent itself.
      * \param pos the destination point.
@@ -73,7 +73,7 @@ public:
      */
     bool GoToPoint(Agent & agent, Vector pos, double buffer  = 0.5, double power = 100.0, bool can_inverse = true, bool turn_first = false);
 
-    /** ÒÔ×î¿ìµÄ·½Ê½ÅÜµ½Ä¿±êµã
+    /** ä»¥æœ€å¿«çš„æ–¹å¼è·‘åˆ°ç›®æ ‡ç‚¹
      * Run to the destination point with the fastest method.
      * \param agent the agent itself.
      * \param act an atomic action caculated to go to pos for this cycle.
@@ -86,7 +86,7 @@ public:
      */
     void GoToPoint(Agent & agent, AtomicAction & act, Vector pos, double buffer  = 0.5, double power = 100.0, bool can_inverse = true, bool turn_first = false);
 
-    /** ÒÔÈ·¶¨µÄ×ËÊÆ£¨Ö¸µ¹×ÅÅÜºÍÕıÅÜ£©£¬ÅÜµ½Ä¿±êµã
+    /** ä»¥ç¡®å®šçš„å§¿åŠ¿ï¼ˆæŒ‡å€’ç€è·‘å’Œæ­£è·‘ï¼‰ï¼Œè·‘åˆ°ç›®æ ‡ç‚¹
      * Run to the destination point with a certain posture, forward or backword.
      * \param agent the agent itself.
      * \param act an atomic action caculated to go to pos for this cycle.
@@ -100,7 +100,7 @@ public:
     void GoToPointWithCertainPosture(Agent & agent, AtomicAction & act, Vector pos, double buffer  = 0.5, double power = 100.0, const bool inverse = false, bool turn_first = false);
 
     /**
-     * player ÅÜµ½ target µÄËùĞèµÄ×îĞ¡ÖÜÆÚÊı
+     * player è·‘åˆ° target çš„æ‰€éœ€çš„æœ€å°å‘¨æœŸæ•°
      * This function returns the minimum cycles for a player to go to a target position.
      * @param player the player to caculate.
      * @param target the target position to go to.
@@ -111,7 +111,7 @@ public:
     int CycleNeedToPoint(const PlayerState & player, Vector target, bool can_inverse = true, double *buf = 0);
 
      /**
-     * player ÅÜµ½ target µÄËùĞèµÄ×îĞ¡ÖÜÆÚÊı, ·µ»ØÊµÊıÖÜÆÚ
+     * player è·‘åˆ° target çš„æ‰€éœ€çš„æœ€å°å‘¨æœŸæ•°, è¿”å›å®æ•°å‘¨æœŸ
      * This function returns the minimum cycles for a player to go to a target position.
      * @param player the player to caculate.
      * @param target the target position to go to.
@@ -126,7 +126,7 @@ public:
     }
 
     /**
-     * player ÒÔÈ·¶¨µÃ×ËÊÆ£¨Ö¸µ¹×ÅÅÜºÍÕıÅÜ£©£¬ÅÜµ½ target ËùĞèÒªµÄÖÜÆÚÊı
+     * player ä»¥ç¡®å®šå¾—å§¿åŠ¿ï¼ˆæŒ‡å€’ç€è·‘å’Œæ­£è·‘ï¼‰ï¼Œè·‘åˆ° target æ‰€éœ€è¦çš„å‘¨æœŸæ•°
      * This function returns the minimum cycles for a player to go to a target position with 
      * a certain posture, forward or backward.
      * @param player the player to caculate.
@@ -138,7 +138,7 @@ public:
     int CycleNeedToPointWithCertainPosture(const PlayerState & player, Vector target, const bool inverse, double *buf = 0);
 
     /**
-     * player ÒÔÈ·¶¨µÃ×ËÊÆ£¨Ö¸µ¹×ÅÅÜºÍÕıÅÜ£©£¬ÅÜµ½ target ËùĞèÒªµÄÖÜÆÚÊı, ·µ»ØÊµÊıÖÜÆÚ
+     * player ä»¥ç¡®å®šå¾—å§¿åŠ¿ï¼ˆæŒ‡å€’ç€è·‘å’Œæ­£è·‘ï¼‰ï¼Œè·‘åˆ° target æ‰€éœ€è¦çš„å‘¨æœŸæ•°, è¿”å›å®æ•°å‘¨æœŸ
      * This function returns the minimum cycles for a player to go to a target position with 
      * a certain posture, forward or backward.
      * @param player the player to caculate.
@@ -154,7 +154,7 @@ public:
     }
 
     /**
-     * ¼ÆËãÓÃÍ¬Ò»dash_powerµ½´ïÄ³µãĞèÒªµÄÊ±¼ä
+     * è®¡ç®—ç”¨åŒä¸€dash_poweråˆ°è¾¾æŸç‚¹éœ€è¦çš„æ—¶é—´
      * Caculate cycles needed to a target position with a certain dash power.
      * @param player the player to caculate.
      * @param target the target position to go to.
@@ -165,11 +165,11 @@ public:
 
 
     /**
-     * Ö÷ÒªÊÇÎªÁËµ÷ÕûpowerÓÃ£¬ÎªÁË±ÜÃâpower¹ı´ó¶øÅÜ¹ı¿É
-     * Ä¿±êµã¡£Ô­ÔòÊÓÎªÁË¸ü¸ß²ãĞ­µ÷£¬powerÖ»¿ÉÄÜ¼õĞ¡²»¿É
-     * ÄÜÔö´ó¡£ÎªÁË²»±ØÒªµ½dash£¬powerÒ²¿É¿ÉÄÜÎªÁã¡£Ò²¾Í
-     * dash²»Ö´ĞĞ
-     * power µÄÕı¸ºÓÉÍâÃæ¸ø¶¨
+     * ä¸»è¦æ˜¯ä¸ºäº†è°ƒæ•´powerç”¨ï¼Œä¸ºäº†é¿å…powerè¿‡å¤§è€Œè·‘è¿‡å¯
+     * ç›®æ ‡ç‚¹ã€‚åŸåˆ™è§†ä¸ºäº†æ›´é«˜å±‚åè°ƒï¼Œpoweråªå¯èƒ½å‡å°ä¸å¯
+     * èƒ½å¢å¤§ã€‚ä¸ºäº†ä¸å¿…è¦åˆ°dashï¼Œpowerä¹Ÿå¯å¯èƒ½ä¸ºé›¶ã€‚ä¹Ÿå°±
+     * dashä¸æ‰§è¡Œ
+     * power çš„æ­£è´Ÿç”±å¤–é¢ç»™å®š
      * This funcition is mainly used to adjust ( usually decrease ) the dash power 
      * to avoid run over the target position by using a big power. The final power 
      * could be 0 to avoid an unnecessary dash.
@@ -183,7 +183,7 @@ public:
     double AdjustPowerForDash(const PlayerState & player, Vector target, double buffer, double power);
 
     /**
-     * ¿¼ÂÇ×ªÉí»òÖ±½Ódash
+     * è€ƒè™‘è½¬èº«æˆ–ç›´æ¥dash
      * Planing to turn or to dash.
      * @param agent the agent itself.
      * @param act an atomic action to return the caculated decision.
@@ -225,12 +225,12 @@ public:
      */
     Vector CorrectTurnForDash(const PlayerState & player, const Vector & target, double fix = 0.0);
 
-// ÏÂÃæÌá¹©ÓĞ¹ØÎŞÇòagent»ù±¾ĞĞÎªµÄ½Ó¿Ú£¬Ö±½Ó·µ»ØAtomicAction£¬¹©Íâ²¿µ÷ÓÃ
+// ä¸‹é¢æä¾›æœ‰å…³æ— çƒagentåŸºæœ¬è¡Œä¸ºçš„æ¥å£ï¼Œç›´æ¥è¿”å›AtomicActionï¼Œä¾›å¤–éƒ¨è°ƒç”¨
 // The following funtions are some interfaces for agent to do some basic behaviors 
 // without ball. The return value are all AtomicAction. 
 public:
     /**
-     * ½«ÉíÌå×ªÏòÌØ¶¨·½Ïò
+     * å°†èº«ä½“è½¬å‘ç‰¹å®šæ–¹å‘
      * Turn body to a certain direction.
      * @param agent the agent itself.
      * @param ang the angle to turn to.
@@ -252,7 +252,7 @@ public:
     bool GetPowerForForwardDash(const Agent &agent, double* dash_power, Vector posRelTo, double angBody, double dEffort, int iCycles );
 
 public:
-	static double GETBALL_BUFFER; //ÄÃÇòÀïÃæÊ¹ÓÃµÄÅĞ¶ÏÊÇ·ñ¿ÉÌßµÄbuf£¬±ÈworldstateÀïµÄ´ó
+	static double GETBALL_BUFFER; //æ‹¿çƒé‡Œé¢ä½¿ç”¨çš„åˆ¤æ–­æ˜¯å¦å¯è¸¢çš„bufï¼Œæ¯”worldstateé‡Œçš„å¤§
 };
 
 #endif

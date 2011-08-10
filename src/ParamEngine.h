@@ -40,18 +40,18 @@
 #include "Utilities.h"
 
 /**
- * ²ÎÊıµÄÀàĞÍ£¬
- * ÕâÀïÎªÁË¼ò»¯Éè¼ÆÈ¥³ıÁË V_BOOL ÀàĞÍ£¬V_BOOL ±¾À´ÊÇÓÃÀ´±íÊ¾Ñ¡ÏîĞÍ²ÎÊıµÄ£¬
- * ¼´ -name ±íÊ¾ name Îª true£¬Èç -goalie, -dd,
- * ÏÖÔÚÒªÊµÏÖÍ¬ÑùµÄ¹¦ÄÜÔòÎª -goalie on, -dd on
+ * å‚æ•°çš„ç±»å‹ï¼Œ
+ * è¿™é‡Œä¸ºäº†ç®€åŒ–è®¾è®¡å»é™¤äº† V_BOOL ç±»å‹ï¼ŒV_BOOL æœ¬æ¥æ˜¯ç”¨æ¥è¡¨ç¤ºé€‰é¡¹å‹å‚æ•°çš„ï¼Œ
+ * å³ -name è¡¨ç¤º name ä¸º trueï¼Œå¦‚ -goalie, -dd,
+ * ç°åœ¨è¦å®ç°åŒæ ·çš„åŠŸèƒ½åˆ™ä¸º -goalie on, -dd on
  */
 enum ParamType {
 	V_NONE,
 
-	V_INT,		//ÕûĞÍ
-	V_DOUBLE,	//ÊµÊı
-	V_STRING,	//×Ö·û´® -- Ö»ÄÜÊÇ std::string
-	V_ONOFF		//¿ª¹Ø
+	V_INT,		//æ•´å‹
+	V_DOUBLE,	//å®æ•°
+	V_STRING,	//å­—ç¬¦ä¸² -- åªèƒ½æ˜¯ std::string
+	V_ONOFF		//å¼€å…³
 };
 
 template < typename T >
@@ -97,7 +97,7 @@ struct Param {
 };
 
 /**
- * Ö÷ÒªÓÃÀ´¸ºÔğÅúÁ¿¸³Öµ²ÎÊı£¬°üÀ¨´ÓÃüÁîĞĞ/serverÏûÏ¢/ÅäÖÃÎÄ¼şµÈÍ¾¾¶
+ * ä¸»è¦ç”¨æ¥è´Ÿè´£æ‰¹é‡èµ‹å€¼å‚æ•°ï¼ŒåŒ…æ‹¬ä»å‘½ä»¤è¡Œ/serveræ¶ˆæ¯/é…ç½®æ–‡ä»¶ç­‰é€”å¾„
  */
 class ParamEngine {
 public:
@@ -196,22 +196,22 @@ public:
 	bool SaveToConfigFile(const char *file_name);
 
 	/**
-	 * ´ÓÃüÁîĞĞÌáÈ¡²ÎÊıĞÅÏ¢£¬¸ñÊ½£º-name value ...
-	 * @param argc ²ÎÊı¸öÊı
-	 * @param argv ²ÎÊı×Ö·û´®Êı×éµÄÊ×µØÖ·
+	 * ä»å‘½ä»¤è¡Œæå–å‚æ•°ä¿¡æ¯ï¼Œæ ¼å¼ï¼š-name value ...
+	 * @param argc å‚æ•°ä¸ªæ•°
+	 * @param argv å‚æ•°å­—ç¬¦ä¸²æ•°ç»„çš„é¦–åœ°å€
 	 */
 	void ParseFromCmdLine(int argc, char **argv);
 
 	/**
-	 * ´ÓserverÏûÏ¢ÖĞÌáÈ¡²ÎÊıĞÅÏ¢£¬¸ñÊ½£º(name value) ...
-	 * @param line server·¢À´µÄÏûÏ¢Ô­ÎÄ
+	 * ä»serveræ¶ˆæ¯ä¸­æå–å‚æ•°ä¿¡æ¯ï¼Œæ ¼å¼ï¼š(name value) ...
+	 * @param line serverå‘æ¥çš„æ¶ˆæ¯åŸæ–‡
 	 */
 	void ParseFromServerMsg(const char *line);
 
 	/**
-	 * ´ÓÅäÖÃÎÄ¼şÖĞÌáÈ¡²ÎÊıĞÅÏ¢£¬¸ñÊ½£ºname = value
+	 * ä»é…ç½®æ–‡ä»¶ä¸­æå–å‚æ•°ä¿¡æ¯ï¼Œæ ¼å¼ï¼šname = value
 	 * @param file_name
-	 * @return ÊÇ·ñ³É¹¦¶ÁÈ¡
+	 * @return æ˜¯å¦æˆåŠŸè¯»å–
 	 */
 	bool ParseFromConfigFile(const char *file_name);
 };

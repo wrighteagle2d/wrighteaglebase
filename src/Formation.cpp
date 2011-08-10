@@ -116,7 +116,7 @@ bool FormationBase::SetUnumForPos(Unum player1, int index_i, int index_j)
 
 /**
  * Get the center of the formation.
- * Formation center ¾ÍÊÇ¼º·½ËùÓĞ¶ÓÔ±µÄÎ»ÖÃµÄ¼ÓÈ¨Æ½¾ù¡£
+ * Formation center å°±æ˜¯å·±æ–¹æ‰€æœ‰é˜Ÿå‘˜çš„ä½ç½®çš„åŠ æƒå¹³å‡ã€‚
  * \param world_state
  * \param is_teammate
  * \param min_conf by default is 0.6.
@@ -169,7 +169,7 @@ const Vector & FormationBase::GetFormationCenter(const WorldState & world_state,
  */
 void FormationBase::SetFormationCenter(Unum num, Vector position)
 {
-	position = mActiveField[mUnum2Index[num]].AdjustToWithin(position);//µ÷Õûµ½ÓĞĞ§·¶Î§
+	position = mActiveField[mUnum2Index[num]].AdjustToWithin(position);//è°ƒæ•´åˆ°æœ‰æ•ˆèŒƒå›´
 	mFormationCT = position + mOffsetMatrix[mUnum2Index[num]][0];
 }
 
@@ -210,17 +210,17 @@ Vector FormationBase::GetExpectedGoaliePos(const Vector & ball_pos, double run, 
 	double tmp, distg;
 	distg = ball_pos.Dist(goalie_pos);
 	AngleDeg mid;
-	mid = GetNormalizeAngleDeg(((p[1] - ball_pos).Dir()	+ (p[0] - ball_pos).Dir()) / 2);//È¡½ÇÆ½·ÖÏß
+	mid = GetNormalizeAngleDeg(((p[1] - ball_pos).Dir()	+ (p[0] - ball_pos).Dir()) / 2);//å–è§’å¹³åˆ†çº¿
 	tmp	= ball_pos.Dist(Vector(ServerParam::instance().PITCH_LENGTH / 2.0, 0.0)) - 2.0;
 	Vector tgPos, jgPos;
-	tgPos = ball_pos + Polar2Vector(distg, mid); // ¹À¼ÆÊØÃÅÔ±¿ÉÄÜµÄÎ»ÖÃ,ÊØÃÅÔ±Ïò½ÇÆ½·ÖÏßÔË¶¯
+	tgPos = ball_pos + Polar2Vector(distg, mid); // ä¼°è®¡å®ˆé—¨å‘˜å¯èƒ½çš„ä½ç½®,å®ˆé—¨å‘˜å‘è§’å¹³åˆ†çº¿è¿åŠ¨
 	if (tgPos.Dist(ball_pos) > tmp)
 	{
-		tgPos = ball_pos + (tgPos - ball_pos).SetLength(tmp); // µ÷Õûµ½Çò³¡ÄÚ
+		tgPos = ball_pos + (tgPos - ball_pos).SetLength(tmp); // è°ƒæ•´åˆ°çƒåœºå†…
 	}
 	if (goalie_pos.Dist(tgPos) < run + cycle_delay * 0.8)
 	{
-		jgPos = tgPos; // ÊØÃÅÔ±Ïòtgpos¾¡¿ÉÄÜÔË¶¯
+		jgPos = tgPos; // å®ˆé—¨å‘˜å‘tgposå°½å¯èƒ½è¿åŠ¨
 	}
 	else
 	{
@@ -327,7 +327,7 @@ void TeammateFormation::SetTeammateRole()
 	{
 		mPlayerRole[i].mLineType = LineType(mPlayerRole[i].mIndexX);
 
-		/** È·¶¨mPositionType */
+		/** ç¡®å®šmPositionType */
 		double midoffset = mPlayerRole[i].mIndexY - (mLineArrange[mPlayerRole[i].mIndexX]+1) * 0.5;
 		if (fabs(midoffset) < FLOAT_EPS)
 		{
@@ -369,21 +369,21 @@ void TeammateFormation::SetHInterval(double back_middle, double middle_front)
 	for (int i = 1; i <= TEAMSIZE; ++i)
 	{
 		role_i = mPlayerRole[i];
-		if (role_i.mIndexX == 1) /** ºóÎÀ */
+		if (role_i.mIndexX == 1) /** åå« */
 		{
 			mActiveField[i].SetLeft(-m_FORMATION_MAX_X);
 			mActiveField[i].SetRight(m_FORMATION_MAX_X - mHInterval[0] - mHInterval[1]);
 			mOffsetMatrix[0][i].SetX(-mHInterval[0]);
 			mOffsetMatrix[i][0].SetX(mHInterval[0]);
 		}
-		else if (role_i.mIndexX == 2) /** ÖĞ³¡ */
+		else if (role_i.mIndexX == 2) /** ä¸­åœº */
 		{
 			mActiveField[i].SetLeft(-m_FORMATION_MAX_X + mHInterval[0]);
 			mActiveField[i].SetRight(m_FORMATION_MAX_X - mHInterval[1]);
 			mOffsetMatrix[0][i].SetX(0.0);
 			mOffsetMatrix[i][0].SetX(0.0);
 		}
-		else if (role_i.mIndexX == 3) /** Ç°·æ */
+		else if (role_i.mIndexX == 3) /** å‰é”‹ */
 		{
 			mActiveField[i].SetLeft(-m_FORMATION_MAX_X + mHInterval[0] + mHInterval[1]);
 			mActiveField[i].SetRight(m_FORMATION_MAX_X);
@@ -499,9 +499,9 @@ void OpponentFormation::SetFormationRole()
 	mLineArrange[1] = mLineMember[0].size();
 	mLineArrange[2] = mLineMember[1].size();
 	mLineArrange[3] = mLineMember[2].size();
-	//½¨Á¢Î»ÖÃË÷Òı
-	//µÚÒ»¸öÊÇÃÅ½«£¬Ë÷Òı(0,1)
-	//ÆäËû¶ÓÔ±
+	//å»ºç«‹ä½ç½®ç´¢å¼•
+	//ç¬¬ä¸€ä¸ªæ˜¯é—¨å°†ï¼Œç´¢å¼•(0,1)
+	//å…¶ä»–é˜Ÿå‘˜
 	int xidx;
 	int yidx;
 	int n;
@@ -511,7 +511,7 @@ void OpponentFormation::SetFormationRole()
 	{
 		for (yidx = 1; yidx <= mLineArrange[xidx]; yidx++)
 		{
-			n = mLineMember[xidx - 1][yidx - 1]; // µÃµ½ºÅÂë
+			n = mLineMember[xidx - 1][yidx - 1]; // å¾—åˆ°å·ç 
 			if (n == mGoalieUnum)
 			{
 				mPos2Index[0][1] = n;
@@ -601,7 +601,7 @@ void OpponentFormation::SetOffsetMatrix()
 		}
 		mActiveField[i].SetBottom(MAXY - (mLineArrange[iRole.mIndexX] - iRole.mIndexY) * mVInterval[iRole.mIndexX]);
 		mActiveField[i].SetTop(MINY + iRole.mIndexY	* mVInterval[iRole.mIndexX]);
-		//ÓëÖĞĞÄµÄÏà»¥Æ«ÒÆ
+		//ä¸ä¸­å¿ƒçš„ç›¸äº’åç§»
 		if (iRole.mIndexX == 1)
 		{
 			mOffsetMatrix[0][i].SetX(-mHInterval[0]);
@@ -629,7 +629,7 @@ void OpponentFormation::SetOffsetMatrix()
 			jRole = mPlayerRole[j];
 			if (jRole.mLineType == LT_Null)
 				continue;
-			//ÓëÆäËû¶ÓÔ±µÄÏà»¥Æ«ÒÆ
+			//ä¸å…¶ä»–é˜Ÿå‘˜çš„ç›¸äº’åç§»
 			if (iRole.mIndexX == 1)
 			{
 				if (jRole.mIndexX == 1)
@@ -724,8 +724,8 @@ Vector Formation::GetTeammateExpectedGoaliePos(Vector bp, double run)
 	Vector gPos;
 	int Uncyc;
 	if (world_state.GetTeammateGoalieUnum() == 0 || world_state.GetTeammate(world_state.GetTeammateGoalieUnum()).GetPosConf() < FLOAT_EPS)
-	{ //È¡ÊØÃÅÔ±µÄÎ»ÖÃÒÔ¼°Ã»ÓĞ¼ûµ½µÄÖÜÆÚ
-		gPos = Vector(ServerParam::instance().PITCH_LENGTH / 2.0, 0.0); // ¹ÀÖµ¶øÒÑ
+	{ //å–å®ˆé—¨å‘˜çš„ä½ç½®ä»¥åŠæ²¡æœ‰è§åˆ°çš„å‘¨æœŸ
+		gPos = Vector(ServerParam::instance().PITCH_LENGTH / 2.0, 0.0); // ä¼°å€¼è€Œå·²
 
 		Vector p[2];
 		double dist[2];
@@ -771,7 +771,7 @@ Vector Formation::GetTeammateFormationPoint(Unum unum, Unum focusTm, Vector focu
 
 	if (focusTm == mAgent.GetWorldState().GetTeammateGoalieUnum())
 	{
-		int back_center = mpTeammateFormation->GetLineArrange(1) / 2 + 1; // ÖĞºóÎÀ
+		int back_center = mpTeammateFormation->GetLineArrange(1) / 2 + 1; // ä¸­åå«
 		focusTm = mpTeammateFormation->GetUnumFromPos(1, back_center);
 		focusPt.SetX(focusPt.X() + 9.0);
 	}
@@ -780,7 +780,7 @@ Vector Formation::GetTeammateFormationPoint(Unum unum, Unum focusTm, Vector focu
 		return GetTeammateFormationPoint(unum);
 	}
 
-	focusPt	= mpTeammateFormation->GetActiveField(focusTm).AdjustToWithin(focusPt);//µ÷Õûµ½ÓĞĞ§·¶Î§
+	focusPt	= mpTeammateFormation->GetActiveField(focusTm).AdjustToWithin(focusPt);//è°ƒæ•´åˆ°æœ‰æ•ˆèŒƒå›´
 	if (focusTm == unum)
 	{
 		return focusPt;
@@ -810,8 +810,8 @@ Vector Formation::GetOpponentExpectedGoaliePos(Vector bp, double run)
 	Vector gPos;
 	int Uncyc;
 	if (world_state.GetOpponentGoalieUnum() == 0 || world_state.GetOpponent(world_state.GetOpponentGoalieUnum()).GetPosConf() < FLOAT_EPS)
-	{ //È¡ÊØÃÅÔ±µÄÎ»ÖÃÒÔ¼°Ã»ÓĞ¼ûµ½µÄÖÜÆÚ
-		gPos = Vector(ServerParam::instance().PITCH_LENGTH / 2.0, 0.0); // ¹ÀÖµ¶øÒÑ
+	{ //å–å®ˆé—¨å‘˜çš„ä½ç½®ä»¥åŠæ²¡æœ‰è§åˆ°çš„å‘¨æœŸ
+		gPos = Vector(ServerParam::instance().PITCH_LENGTH / 2.0, 0.0); // ä¼°å€¼è€Œå·²
 
 		Vector p[2];
 		double dist[2];
@@ -888,12 +888,12 @@ void Formation::Update(UpdatePolicy policy, std::string update_name)
 			SetTeammateFormationType(FT_Defend_Back);
 		}
 
-		// TODO: ¶ÔÊÖµÄÕóĞÍ·ÖÎö£¬ÕâÀïWE2008ÓÃµÄ±È½Ï»ìÂÒ£¬¿ÉÄÜ»áÓĞbug
+		// TODO: å¯¹æ‰‹çš„é˜µå‹åˆ†æï¼Œè¿™é‡ŒWE2008ç”¨çš„æ¯”è¾ƒæ··ä¹±ï¼Œå¯èƒ½ä¼šæœ‰bug
 		if (mAgent.GetStrategy().GetSituation() != ST_Defense)
 		{
 			if (ServerParam::instance().ourPenaltyArea().IsWithin(mAgent.GetStrategy().GetBallInterPos()) && mAgent.GetStrategy().IsBallFree())
 			{
-				SetOpponentFormationType(FT_Attack_Forward); // ÈÏÎª¶ÔÊÖ»¹´¦ÓÚ½ø¹¥×´Ì¬
+				SetOpponentFormationType(FT_Attack_Forward); // è®¤ä¸ºå¯¹æ‰‹è¿˜å¤„äºè¿›æ”»çŠ¶æ€
 			}
 			else
 			{
@@ -1014,7 +1014,7 @@ void Formation::Instance::UpdateOpponentRole()
 	const FormationBase & teammate_formation = mpAgent->GetFormation().GetTeammateFormation();
 	if (opp_list.size() < TEAMSIZE || world_state.GetPlayMode() != PM_Play_On || world_state.CurrentTime() % 10 != 0)
 	{
-		return; // °´ÕÕWE2008£¬²»Âú×ãÕâĞ©Ìõ¼ş¾Í·µ»Ø
+		return; // æŒ‰ç…§WE2008ï¼Œä¸æ»¡è¶³è¿™äº›æ¡ä»¶å°±è¿”å›
 	}
 
 	int i;
@@ -1027,7 +1027,7 @@ void Formation::Instance::UpdateOpponentRole()
 	}
 	if (i == FT_Max)
 	{
-		return; // Èç¹ûËùÓĞÕóĞÍĞÅÏ¢¾ù±»½ÌÁ·µÄÏûÏ¢ÉèÖÃ¹ı£¬Ôò²»ÔÙ¿¼ÂÇ
+		return; // å¦‚æœæ‰€æœ‰é˜µå‹ä¿¡æ¯å‡è¢«æ•™ç»ƒçš„æ¶ˆæ¯è®¾ç½®è¿‡ï¼Œåˆ™ä¸å†è€ƒè™‘
 	}
 
 	const int & forward_num = teammate_formation.GetLineArrange(3);
@@ -1036,7 +1036,7 @@ void Formation::Instance::UpdateOpponentRole()
 
 	int count = 0;
 	KeyPlayerInfo kp;
-	std::vector<KeyPlayerInfo> forward, midfielder, defender; // ÊØÃÅÔ±²»¿¼ÂÇ
+	std::vector<KeyPlayerInfo> forward, midfielder, defender; // å®ˆé—¨å‘˜ä¸è€ƒè™‘
 	for (std::list<KeyPlayerInfo>::const_iterator it = opp_list.begin(); it
 			!= opp_list.end(); ++it)
 	{

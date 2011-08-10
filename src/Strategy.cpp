@@ -100,7 +100,7 @@ void Strategy::UpdateRoutine()
 void Strategy::StrategyAnalyze()
 {
     mIsLastBallFree = mIsBallFree;
-    if (mIsBallFree == false)//¼ÇÂ¼ÉÏ´Î²»freeÊ±µÄ×´Ì¬£¬²Î¿¼WE2008
+    if (mIsBallFree == false)//è®°å½•ä¸Šæ¬¡ä¸freeæ—¶çš„çŠ¶æ€ï¼Œå‚è€ƒWE2008
     {
         mLastController = mController;
 		mLastChallenger = mChallenger;
@@ -156,7 +156,7 @@ void Strategy::StrategyAnalyze()
 }
 
 /**
- * ÇòÈ¨·ÖÎö
+ * çƒæƒåˆ†æ
  */
 void Strategy::BallPossessionAnalyse()
 {
@@ -164,7 +164,7 @@ void Strategy::BallPossessionAnalyse()
 	const PlayerState & self = mAgent.GetSelf();
 	BallState & ball = mAgent.World().Ball();
 
-	//¼ÙÉèball_free£¬À¹½Ø¼ÆËã
+	//å‡è®¾ball_freeï¼Œæ‹¦æˆªè®¡ç®—
 	mIsBallFree = true;
 	if (ServerParam::instance().pitchRectanglar().IsWithin(ball.GetPos())){
 		Ray ballcourse(ball.GetPos(), ball.GetVel().Dir());
@@ -175,7 +175,7 @@ void Strategy::BallPossessionAnalyse()
 		}
         else
         {
-            mBallOutCycle = 0; // ¿ÉÄÜÃ»ÓĞ½»µã£¬±ÈÈçballÎ»ÖÃµÄx×ø±êÕıºÃÎª52.5
+            mBallOutCycle = 0; // å¯èƒ½æ²¡æœ‰äº¤ç‚¹ï¼Œæ¯”å¦‚ballä½ç½®çš„xåæ ‡æ­£å¥½ä¸º52.5
         }
 	}
 	else {
@@ -183,9 +183,9 @@ void Strategy::BallPossessionAnalyse()
 	}
 	mController = self.GetUnum();
 
-	//·ÖÎöË­ÄÃÇò
-	//ÕâÀï¶Ô³¡ÉÏËùÓĞÆäËû¶ÓÔ±¼ÆËãÀ¹½ØÊ±¶¼¿¼ÂÇÁËcyc_delay,µÃµ½µÄÀ¹½ØÖÜÆÚÊÇ×îĞ¡À¹½ØÖÜÆÚ,
-	//ÈÏÎª×Ô¼º¸ÃÈ¥ÄÃÇòµÄÇé¿öÊÇ,×î¿ìµÄ¶ÔÊÖ²»±È×Ô¼º¿ìÌ«¶à,×î¿ìµÄ¶ÓÓÑÊÇ×Ô¼º(ÔİÊ±²»¿¼ÂÇbuf)
+	//åˆ†æè°æ‹¿çƒ
+	//è¿™é‡Œå¯¹åœºä¸Šæ‰€æœ‰å…¶ä»–é˜Ÿå‘˜è®¡ç®—æ‹¦æˆªæ—¶éƒ½è€ƒè™‘äº†cyc_delay,å¾—åˆ°çš„æ‹¦æˆªå‘¨æœŸæ˜¯æœ€å°æ‹¦æˆªå‘¨æœŸ,
+	//è®¤ä¸ºè‡ªå·±è¯¥å»æ‹¿çƒçš„æƒ…å†µæ˜¯,æœ€å¿«çš„å¯¹æ‰‹ä¸æ¯”è‡ªå·±å¿«å¤ªå¤š,æœ€å¿«çš„é˜Ÿå‹æ˜¯è‡ªå·±(æš‚æ—¶ä¸è€ƒè™‘buf)
 
 	const std::vector<OrderedIT> & OIT = mInfoState.GetInterceptInfo().GetOIT();
 	std::vector<OrderedIT>::const_iterator it, itr_NULL = OIT.end(), pMyInfo = itr_NULL, pTmInfo = itr_NULL, pOppInfo = itr_NULL;
@@ -194,11 +194,11 @@ void Strategy::BallPossessionAnalyse()
 
 	for (it = OIT.begin(); it != OIT.end(); ++it){
 		if (it->mUnum < 0){
-			if (it->mUnum == -mWorldState.GetOpponentGoalieUnum()) continue; //ÕâÀïÈÏÎª¶Ô·½ÊØÃÅÔ±²»»áÈ¥ÇÀÇò£¬·ñÔò½ØÇòÀïÃæ¾Í²»È¥ÇÀ´òÉíºóµÄÇòÁË
+			if (it->mUnum == -mWorldState.GetOpponentGoalieUnum()) continue; //è¿™é‡Œè®¤ä¸ºå¯¹æ–¹å®ˆé—¨å‘˜ä¸ä¼šå»æŠ¢çƒï¼Œå¦åˆ™æˆªçƒé‡Œé¢å°±ä¸å»æŠ¢æ‰“èº«åçš„çƒäº†
 			if (it->mpInterceptInfo->mMinCycle < mMinOppInterCycle){
 				if (it->mCycleDelay < 16){
 					mMinOppInterCycle = it->mpInterceptInfo->mMinCycle;
-					mBallFreeCycleLeft = Min(mBallFreeCycleLeft, int(mMinOppInterCycle + it->mCycleDelay * 0.5)); //mOppMinInterCycle + it->cd * 0.5ÊÇ¶Ô½ØÇòÖÜÆÚµÄÒ»¸öÈ¨ºâµÄ¹À¼Æ
+					mBallFreeCycleLeft = Min(mBallFreeCycleLeft, int(mMinOppInterCycle + it->mCycleDelay * 0.5)); //mOppMinInterCycle + it->cd * 0.5æ˜¯å¯¹æˆªçƒå‘¨æœŸçš„ä¸€ä¸ªæƒè¡¡çš„ä¼°è®¡
 					mFastestOpp = -it->mUnum;
 				}
 			}
@@ -206,7 +206,7 @@ void Strategy::BallPossessionAnalyse()
 				mSureOppInterCycle = int(it->mpInterceptInfo->mMinCycle + it->mCycleDelay);
 				mSureOpp = -it->mUnum;
 				pOppInfo = it;
-				if (!mWorldState.GetOpponent(mSureOpp).IsBodyDirValid() && mWorldState.GetOpponent(mSureOpp).GetVel().Mod() < 0.26){ //ÎŞ·¨¹À¼ÆÉíÌå·½Ïò
+				if (!mWorldState.GetOpponent(mSureOpp).IsBodyDirValid() && mWorldState.GetOpponent(mSureOpp).GetVel().Mod() < 0.26){ //æ— æ³•ä¼°è®¡èº«ä½“æ–¹å‘
 					mSureOppInterCycle += 1;
 				}
 			}
@@ -227,7 +227,7 @@ void Strategy::BallPossessionAnalyse()
 					mSureTmInterCycle = int(it->mpInterceptInfo->mMinCycle + it->mCycleDelay);
 					mSureTm = it->mUnum;
 					pTmInfo = it;
-					if (!mWorldState.GetTeammate(mSureTm).IsBodyDirValid() && mWorldState.GetTeammate(mSureTm).GetVel().Mod() < 0.26){ //ÎŞ·¨¹À¼ÆÉíÌå·½Ïò
+					if (!mWorldState.GetTeammate(mSureTm).IsBodyDirValid() && mWorldState.GetTeammate(mSureTm).GetVel().Mod() < 0.26){ //æ— æ³•ä¼°è®¡èº«ä½“æ–¹å‘
 						mSureTmInterCycle += 1;
 					}
 				}
@@ -255,7 +255,7 @@ void Strategy::BallPossessionAnalyse()
 			mBallInterPos = ball.GetPredictedPos(mMyInterCycle);
 		}
 	}
-	else if( /*mMyInterCycle < mBallOutCycle + 2 &&*/ mMyInterCycle <= mSureInterCycle ){ //×Ô¼ºÊÇ×î¿ì½Øµ½ÇòµÄÈË
+	else if( /*mMyInterCycle < mBallOutCycle + 2 &&*/ mMyInterCycle <= mSureInterCycle ){ //è‡ªå·±æ˜¯æœ€å¿«æˆªåˆ°çƒçš„äºº
 		mController = self.GetUnum();
 		if(pTmInfo != itr_NULL && pTmInfo->mCycleDelay < 3){//2004_10
 			if (IsMyControl()) {
@@ -269,7 +269,7 @@ void Strategy::BallPossessionAnalyse()
 						else {
 							Vector vel = mWorldState.GetTeammate(mSureTm).GetVel();
 							double speed = vel.Mod() * Cos(vel.Dir() - (ball_int_pos - pos).Dir());
-							if (speed > mWorldState.GetTeammate(mSureTm).GetEffectiveSpeedMax() * mWorldState.GetTeammate(mSureTm).GetDecay() * 0.9) { //¶ÓÓÑÕıÔÚ½ØÇò
+							if (speed > mWorldState.GetTeammate(mSureTm).GetEffectiveSpeedMax() * mWorldState.GetTeammate(mSureTm).GetDecay() * 0.9) { //é˜Ÿå‹æ­£åœ¨æˆªçƒ
 								mController = mSureTm;
 							}
 						}
@@ -294,8 +294,8 @@ void Strategy::BallPossessionAnalyse()
 			mController = mSureTm;
 		}
 	}
-	else {//×Ô¼ºÄÃ²»µ½ÇòÁË,¿´¿´¶ÓÓÑÈçºÎ
-		if(pTmInfo != itr_NULL && mSureTmInterCycle <= mSureInterCycle){//ÓĞ¿ÉÄÜÄÃµ½
+	else {//è‡ªå·±æ‹¿ä¸åˆ°çƒäº†,çœ‹çœ‹é˜Ÿå‹å¦‚ä½•
+		if(pTmInfo != itr_NULL && mSureTmInterCycle <= mSureInterCycle){//æœ‰å¯èƒ½æ‹¿åˆ°
 			mBallInterPos = ball.GetPredictedPos(mSureTmInterCycle);
 			mController = mSureTm;
 		}
@@ -317,9 +317,9 @@ void Strategy::BallPossessionAnalyse()
 		}
 	}
 
-	int kickable_player = mInfoState.GetPositionInfo().GetTeammateWithBall(); //ÕâÀïÃ»ÓĞ¿¼ÂÇbuffer
+	int kickable_player = mInfoState.GetPositionInfo().GetTeammateWithBall(); //è¿™é‡Œæ²¡æœ‰è€ƒè™‘buffer
 	if (kickable_player == 0){
-		kickable_player = -mInfoState.GetPositionInfo().GetOpponentWithBall(); //ÕâÀïÃ»ÓĞ¿¼ÂÇbuffer
+		kickable_player = -mInfoState.GetPositionInfo().GetOpponentWithBall(); //è¿™é‡Œæ²¡æœ‰è€ƒè™‘buffer
 	}
 
 	if (kickable_player != 0) {
@@ -328,10 +328,10 @@ void Strategy::BallPossessionAnalyse()
 		mBallOutCycle = 1000;
 	}
 
-	//ÏÂÃæÅĞ¶Ï¿ÉÌßÇé¿ö
-	//ÏÈÅĞ¶ÏÄÜÌßµ½ÇòµÄ¶ÓÔ±
-	//¹ı³Ì:¿´ÄÜÌßµ½ÇòµÄ×Ô¼ºÈËÓĞ¼¸¸ö,¶àÓÚÒ»¸ö°´¹æÔò¾ö¶¨ÊÇË­Ìß,µÃµ½ÊÇ·ñ×Ô¼º¿ÉÒÔÌßÇò,´æÎª_pMem->ball_kickable
-	//¹æÔò:ÇòÀëË­»ù±¾Õ½Î»µãË­Ìß
+	//ä¸‹é¢åˆ¤æ–­å¯è¸¢æƒ…å†µ
+	//å…ˆåˆ¤æ–­èƒ½è¸¢åˆ°çƒçš„é˜Ÿå‘˜
+	//è¿‡ç¨‹:çœ‹èƒ½è¸¢åˆ°çƒçš„è‡ªå·±äººæœ‰å‡ ä¸ª,å¤šäºä¸€ä¸ªæŒ‰è§„åˆ™å†³å®šæ˜¯è°è¸¢,å¾—åˆ°æ˜¯å¦è‡ªå·±å¯ä»¥è¸¢çƒ,å­˜ä¸º_pMem->ball_kickable
+	//è§„åˆ™:çƒç¦»è°åŸºæœ¬æˆ˜ä½ç‚¹è°è¸¢
     if (self.IsKickable()){
 		mController = self.GetUnum();
 		mIsBallFree = false;
@@ -353,7 +353,7 @@ void Strategy::BallPossessionAnalyse()
 				if(unum > 0 && unum != self.GetUnum()){
 					if (mWorldState.GetPlayer(unum).IsKickable()){
 						if(mWorldState.GetPlayMode() != PM_Play_On && mWorldState.GetPlayer(unum).IsGoalie()/*&& unum == PlayerParam::instance().ourGoalieUnum()*/){
-							mAgent.Self().UpdateKickable(false); //·ÇplayonÊ±Èç¹ûÊØÃÅÔ±¿ÉÌß°Ñ×Ô¼ºÇ¿ĞĞÉèÖÃ³É²»¿ÉÌß
+							mAgent.Self().UpdateKickable(false); //éplayonæ—¶å¦‚æœå®ˆé—¨å‘˜å¯è¸¢æŠŠè‡ªå·±å¼ºè¡Œè®¾ç½®æˆä¸å¯è¸¢
 							mController = unum;
 							break;
 						}
@@ -364,21 +364,21 @@ void Strategy::BallPossessionAnalyse()
 							break;
 						}
 					}
-					else { //¿ÉÒÔÈÏÎªÆäËûÈËÌß²»µ½ÁË
+					else { //å¯ä»¥è®¤ä¸ºå…¶ä»–äººè¸¢ä¸åˆ°äº†
 						break;
 					}
 				}
 			}
 		}
 	}
-	else if (kickable_player != 0 && kickable_player != self.GetUnum()){ //×Ô¼ºÌß²»µ½Çò,µ«ÓĞÈË¿ÉÒÔ
+	else if (kickable_player != 0 && kickable_player != self.GetUnum()){ //è‡ªå·±è¸¢ä¸åˆ°çƒ,ä½†æœ‰äººå¯ä»¥
 		mIsBallFree = false;
-		if (kickable_player > 0){ //×Ô¼ºÈË¿ÉÌß
+		if (kickable_player > 0){ //è‡ªå·±äººå¯è¸¢
 			mChallenger = mInfoState.GetPositionInfo().GetOpponentWithBall();
 		}
 	}
 
-	SetPlayAnalyse(); //×îºó·ÖÎö£¬×÷ÎªĞŞÕı
+	SetPlayAnalyse(); //æœ€ååˆ†æï¼Œä½œä¸ºä¿®æ­£
 }
 
 bool Strategy::SetPlayAnalyse()
@@ -391,14 +391,14 @@ bool Strategy::SetPlayAnalyse()
 	}
 	else if (play_mode < PM_Our_Mode && play_mode > PM_Play_On){
 		mIsBallFree = true;
-		if (mBallState.GetVel().Mod() < 0.16) { //Èç¹ûÓĞÇòËÙ£¬ËµÃ÷ÒÑ¾­·¢ÇòÁË
+		if (mBallState.GetVel().Mod() < 0.16) { //å¦‚æœæœ‰çƒé€Ÿï¼Œè¯´æ˜å·²ç»å‘çƒäº†
 			mController = mInfoState.GetPositionInfo().GetClosestTeammateToBall();
 		}
 		return true;
 	}
 	else if (play_mode > PM_Opp_Mode){
 		mIsBallFree = true;
-		if (mBallState.GetVel().Mod() < 0.16) { //Èç¹ûÓĞÇòËÙ£¬ËµÃ÷ÒÑ¾­·¢ÇòÁË
+		if (mBallState.GetVel().Mod() < 0.16) { //å¦‚æœæœ‰çƒé€Ÿï¼Œè¯´æ˜å·²ç»å‘çƒäº†
 			mController = -mInfoState.GetPositionInfo().GetClosestOpponentToBall();
 		}
 		return true;
@@ -476,10 +476,10 @@ Vector Strategy::GetTeammateSBSPPosition(Unum t,const Vector& ballpos)
 
 	double x = Min(position.X(),
 			mInfoState.GetPositionInfo().GetTeammateOffsideLine() - PlayerParam::instance().AtPointBuffer());
-	if (mAgent.GetFormation().GetTeammateRoleType(t).mLineType==LT_Defender){		//ºóÎÀ²»¹ıÖĞ³¡£¬±ãÓÚ»Ø·À
+	if (mAgent.GetFormation().GetTeammateRoleType(t).mLineType==LT_Defender){		//åå«ä¸è¿‡ä¸­åœºï¼Œä¾¿äºå›é˜²
 		position.SetX(Min(0.0,x));
 	}
-	else if (mAgent.GetFormation().GetTeammateRoleType(t).mLineType== LT_Forward){		//Ç°·æ²»»Ø³¡£¬±ãÓÚ½ø¹¥¡­¡­¡­¡­
+	else if (mAgent.GetFormation().GetTeammateRoleType(t).mLineType== LT_Forward){		//å‰é”‹ä¸å›åœºï¼Œä¾¿äºè¿›æ”»â€¦â€¦â€¦â€¦
 		position.SetX(Max( - 1.0,x));
 	}
 	else position.SetX(x);

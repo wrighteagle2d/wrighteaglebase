@@ -44,16 +44,16 @@ public:
 	virtual ~DecisionTree() {}
 
 	/**
-	 * ×ö¾ö²ß
+	 * åšå†³ç­–
 	 * @param agent
 	 */
 	bool Decision(Agent & agent);
 
 private:
 	/**
-	* ËÑË÷¾ö²ßÊ÷£¬Íê³É¶Ô£¨×´Ì¬¡¢¶¯×÷£©µÄÆÀ¹À
-	* @param agent µ±Ç°½ÚµãµÄ¾Ö²ßÖ÷Ìå
-	* @param step µ±Ç°½ÚµãµØÉî¶È£¨ÕâÀïÉî¶ÈÊÇ·´¹ıÀ´¼ÆÊıµØ£¬step = 1ÊÇ×îºóÒ»²ã£¬step = max_step ÊÇµÚÒ»²ã£©
+	* æœç´¢å†³ç­–æ ‘ï¼Œå®Œæˆå¯¹ï¼ˆçŠ¶æ€ã€åŠ¨ä½œï¼‰çš„è¯„ä¼°
+	* @param agent å½“å‰èŠ‚ç‚¹çš„å±€ç­–ä¸»ä½“
+	* @param step å½“å‰èŠ‚ç‚¹åœ°æ·±åº¦ï¼ˆè¿™é‡Œæ·±åº¦æ˜¯åè¿‡æ¥è®¡æ•°åœ°ï¼Œstep = 1æ˜¯æœ€åä¸€å±‚ï¼Œstep = max_step æ˜¯ç¬¬ä¸€å±‚ï¼‰
 	* @return
 	*/
 	ActiveBehavior Search(Agent & agent, int step);

@@ -91,7 +91,7 @@ ActiveBehavior DecisionTree::Search(Agent & agent, int step)
 
 ActiveBehavior DecisionTree::GetBestActiveBehavior(Agent & agent, std::list<ActiveBehavior> & behavior_list)
 {
-	agent.GetStrategy().SaveActiveBehaviorList(behavior_list); //behavior_listÀïÃæ´æ´¢ÁË±¾ÖÜÆÚËùÓÐbehavior¾ö²ß³öµÄ×îÓÅactivebehavior£¬ÕâÀïÍ³Ò»±£´æÒ»ÏÂ£¬¹©ÌØ¶¨behaviorÏÂÖÜÆÚplanÊ±ÓÃ
+	agent.GetStrategy().SaveActiveBehaviorList(behavior_list); //behavior_listé‡Œé¢å­˜å‚¨äº†æœ¬å‘¨æœŸæ‰€æœ‰behaviorå†³ç­–å‡ºçš„æœ€ä¼˜activebehaviorï¼Œè¿™é‡Œç»Ÿä¸€ä¿å­˜ä¸€ä¸‹ï¼Œä¾›ç‰¹å®šbehaviorä¸‹å‘¨æœŸplanæ—¶ç”¨
 
 	behavior_list.sort(std::greater<ActiveBehavior>());
 

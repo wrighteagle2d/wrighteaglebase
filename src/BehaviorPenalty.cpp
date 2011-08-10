@@ -94,7 +94,7 @@ bool BehaviorPenaltyExecuter::Execute(const ActiveBehavior &beh)
                 {
                     Kicker::instance().KickBall(mAgent, beh.mAngle, beh.mKickSpeed);
                 }
-                else // Ò»°ã²»»á¸Õ¿ªÊ¼¾Í²»¿ÉÌß£¬ÒÔ·ÀÍòÒ»
+                else // ä¸€èˆ¬ä¸ä¼šåˆšå¼€å§‹å°±ä¸å¯è¸¢ï¼Œä»¥é˜²ä¸‡ä¸€
                 {
 					Dasher::instance().GoToPoint(mAgent, beh.mTarget, 0.26);
                 }
@@ -144,10 +144,10 @@ void BehaviorPenaltyPlanner::Plan(std::list<ActiveBehavior> &behaviorlist)
             case PM_Our_Penalty_Score:
             case PM_Our_Penalty_Miss:
             case PM_Opp_Penalty_Score:
-            case PM_Opp_Penalty_Miss: // ¶ÔÊÖ»ò¶ÓÓÑ¸Õ·£ÍêµãÇò£¬Ô­µØĞİÏ¢Ò»»á
+            case PM_Opp_Penalty_Miss: // å¯¹æ‰‹æˆ–é˜Ÿå‹åˆšç½šå®Œç‚¹çƒï¼ŒåŸåœ°ä¼‘æ¯ä¸€ä¼š
             case PM_Our_Penalty_Setup:
             case PM_Our_Penalty_Ready:
-	        case PM_Our_Penalty_Taken: // ¶ÓÓÑ·£µãÇò£¬ÊØÃÅÔ±ÔÚÅÔ±ßĞİÏ¢£¬ÎªÁË½ÚÊ¡ÌåÁ¦£¬²»×Ô¼ºdash»ØÈ¥£¨rcssserver-13.*ÏÂ²»¿ÉÄÜÊÇÊØÃÅÔ±×Ô¼º·££©
+	        case PM_Our_Penalty_Taken: // é˜Ÿå‹ç½šç‚¹çƒï¼Œå®ˆé—¨å‘˜åœ¨æ—è¾¹ä¼‘æ¯ï¼Œä¸ºäº†èŠ‚çœä½“åŠ›ï¼Œä¸è‡ªå·±dashå›å»ï¼ˆrcssserver-13.*ä¸‹ä¸å¯èƒ½æ˜¯å®ˆé—¨å‘˜è‡ªå·±ç½šï¼‰
                 penaltyKO.mDetailType = BDT_Setplay_Scan;
                 break;
             case PM_Opp_Penalty_Setup:
@@ -155,7 +155,7 @@ void BehaviorPenaltyPlanner::Plan(std::list<ActiveBehavior> &behaviorlist)
                 break;
             case PM_Opp_Penalty_Ready:
             case PM_Opp_Penalty_Taken:
-			    penaltyKO.mDetailType = BDT_Setplay_GetBall; // ÕıÔÚ·£µãÇò
+			    penaltyKO.mDetailType = BDT_Setplay_GetBall; // æ­£åœ¨ç½šç‚¹çƒ
 			    break;
             default:
                 return;
@@ -171,17 +171,17 @@ void BehaviorPenaltyPlanner::Plan(std::list<ActiveBehavior> &behaviorlist)
             case PM_Our_Penalty_Miss:
             case PM_Opp_Penalty_Score:
             case PM_Opp_Penalty_Miss:
-			    penaltyKO.mDetailType = BDT_Setplay_Scan; // Ô­µØĞİÏ¢
+			    penaltyKO.mDetailType = BDT_Setplay_Scan; // åŸåœ°ä¼‘æ¯
 			    break;
             case PM_Our_Penalty_Setup:
             case PM_Opp_Penalty_Setup:
-			    penaltyKO.mDetailType = BDT_Setplay_Move; // ×ßÏòÄ¿±êÎ»ÖÃ
+			    penaltyKO.mDetailType = BDT_Setplay_Move; // èµ°å‘ç›®æ ‡ä½ç½®
 			    break;
             case PM_Our_Penalty_Ready:
 		    case PM_Our_Penalty_Taken:
             case PM_Opp_Penalty_Ready:
             case PM_Opp_Penalty_Taken:
-			    penaltyKO.mDetailType = BDT_Setplay_GetBall; // ÕıÔÚ·£µãÇò
+			    penaltyKO.mDetailType = BDT_Setplay_GetBall; // æ­£åœ¨ç½šç‚¹çƒ
 			    break;
 		    default:
 			    return;
@@ -240,7 +240,7 @@ void BehaviorPenaltyPlanner::Plan(std::list<ActiveBehavior> &behaviorlist)
         }
         else if (mStrategy.IsMyPenaltyTaken() == true)
         {
-            // ÏÈËãdribble£¬shootÖĞ¸ù¾İdribbleµÄÇé¿öÀ´¾ö²ß
+            // å…ˆç®—dribbleï¼Œshootä¸­æ ¹æ®dribbleçš„æƒ…å†µæ¥å†³ç­–
             BehaviorDribblePlanner(mAgent).Plan(behaviorlist);
             BehaviorShootPlanner(mAgent).Plan(behaviorlist);
             BehaviorInterceptPlanner(mAgent).Plan(behaviorlist);

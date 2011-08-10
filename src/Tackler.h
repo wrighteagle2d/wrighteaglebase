@@ -101,7 +101,7 @@ public:
     static bool MayDangerousIfTackle(const PlayerState & tackler, const WorldState & world_state);
 
 private:
-    /** ������ʡʱ��ļ�¼�� */
+    /** 用来节省时间的记录量 */
 	AgentID mAgentID;
 
 	Array<double, 361> mTackleAngle; // -180.0 -> 180.0
@@ -111,7 +111,7 @@ private:
     bool mCanTackleStopBall;
     AngleDeg mTackleStopBallAngle;
 
-    std::map<int, std::vector<std::pair<int, int> > > mDirMap; //��¼����ĳһ�����������Ƕȵ��Ͻ���½죬��������������½������������Ƕȣ��ֲ����Թ��ƣ�
+    std::map<int, std::vector<std::pair<int, int> > > mDirMap; //记录铲到某一方向所需铲球角度的上界和下届，后面会根据这个上下界结算出所需铲球角度（局部线性估计）
 };
 
 

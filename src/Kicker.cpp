@@ -53,9 +53,9 @@ Kicker::Kicker()
 	mD2         = 0.835; /** (mDlayer[1] + mDlayer[2]) / 2.0 */
 	mDlayer[0]  = 0.46;
 	mDlayer[1]  = 0.71;
-	mDlayer[2]  = 0.96; /** ÇòÔ±µÄkick_areaÊÇ0.985µ½1.185Ö®¼ä */
+	mDlayer[2]  = 0.96; /** çƒå‘˜çš„kick_areaæ˜¯0.985åˆ°1.185ä¹‹é—´ */
 
-	/** ¼ÆËãËùÓĞµÄµã */
+	/** è®¡ç®—æ‰€æœ‰çš„ç‚¹ */
 	int k           = 0;
 	AngleDeg angle  = 0.0;
 	for (int i = 0; i < 3; ++i)
@@ -69,9 +69,9 @@ Kicker::Kicker()
 	}
 
 	mOppCurve.SetOutMinMax(0.0, 1.0);
-	mOppCurve.Interpolate(0.0, 0.0, 1.0, 0.8, 2.0, 1.0);    /** ÊäÈëÎª½üÉí¶ÔÊÖÀëÇòµÄ¾àÀë¼õÈ¥ÇòÔ±µÄkick_area */
+	mOppCurve.Interpolate(0.0, 0.0, 1.0, 0.8, 2.0, 1.0);    /** è¾“å…¥ä¸ºè¿‘èº«å¯¹æ‰‹ç¦»çƒçš„è·ç¦»å‡å»çƒå‘˜çš„kick_area */
 	mRandCurve.SetOutMinMax(0.6, 1.0);
-	mRandCurve.Interpolate(0.0, 1.0, 1.0, 0.9, 2.0, 0.6);   /** ÊäÈëÎªmax_randÖĞÊôÓÚÇòÎ»ÖÃÒòËØµÄ²¿·Ö */
+	mRandCurve.Interpolate(0.0, 1.0, 1.0, 0.9, 2.0, 0.6);   /** è¾“å…¥ä¸ºmax_randä¸­å±äºçƒä½ç½®å› ç´ çš„éƒ¨åˆ† */
 	mSpeedCurve.SetOutMinMax(0.0, 1.0);
 	mSpeedCurve.Interpolate(0.0, 0.0, 1.6, 0.8, ServerParam::instance().ballSpeedMax(), 1.0);
 
@@ -100,7 +100,7 @@ Kicker::Kicker()
 	}
 
 
-	/** ½«Òª¶ÁÈ¡»ò¼ÆËãmKickerValue±í */
+	/** å°†è¦è¯»å–æˆ–è®¡ç®—mKickerValueè¡¨ */
 	memset(mKickerValue, 0, sizeof(mKickerValue));
 
     if (PlayerParam::instance().KickerMode() == 0)
@@ -151,7 +151,7 @@ double Kicker::GetMaxRandAfterKick(const Agent & agent, double power)
  */
 double Kicker::GetOneKickPower(const Vector & ball_vel, const Vector & ball_goal_vel, const double kick_rate)
 {
-	double power = (ball_goal_vel - ball_vel).Mod() / kick_rate;//ĞèÒªµÄpower
+	double power = (ball_goal_vel - ball_vel).Mod() / kick_rate;//éœ€è¦çš„power
 	return (GetNormalizeKickPower(power));
 }
 
@@ -190,17 +190,17 @@ double Kicker::GetMaxSpeed(const Agent & agent, const Vector & kick_pos, const i
 	// absolute position of agent before the ball was kicked out
 	Vector player_pos_final = mInput.mPlayerPos + mInput.mPlayerVel.Rotate(mInput.mPlayerBodyDir) * ((1 - pow(PlayerParam::instance().HeteroPlayer(mInput.mPlayerType).playerDecay(), cycle-1)) / (1 - PlayerParam::instance().HeteroPlayer(mInput.mPlayerType).playerDecay()));
 
-	if (cycle > 3) /** 4½Å¿Ï¶¨ÄÜÌßµ½×î¿ìÇòËÙÁË */
+	if (cycle > 3) /** 4è„šè‚¯å®šèƒ½è¸¢åˆ°æœ€å¿«çƒé€Ÿäº† */
 	{
-		// ²»³öÒâÍâ£¬4½ÅÌßÇò×îºó³öÇòÎ»ÖÃÓ¦¸ÃÊÇmPoint[0]¡£ From Shi Ke.
+		// ä¸å‡ºæ„å¤–ï¼Œ4è„šè¸¢çƒæœ€åå‡ºçƒä½ç½®åº”è¯¥æ˜¯mPoint[0]ã€‚ From Shi Ke.
 		if (kick_out_pos) *kick_out_pos = mPoint[0].Rotate(mInput.mPlayerBodyDir) + player_pos_final;
-		if (last_vel) *last_vel = Vector(0.0, 0.0); //ÈÏÎªÇòÍ£ÔÚÉíÇ°£¬ËÙ¶ÈÎª0
+		if (last_vel) *last_vel = Vector(0.0, 0.0); //è®¤ä¸ºçƒåœåœ¨èº«å‰ï¼Œé€Ÿåº¦ä¸º0
 		return ServerParam::instance().ballSpeedMax();
 	}
 
 	Vector target = (kick_pos-player_pos_final).Rotate(-mInput.mPlayerBodyDir);
 
-	int idx = (int)GetNormalizeAngleDeg((target-mInput.mBallPos).Dir(), -FLOAT_EPS); /** µÃµ½0µ½359µÄÒ»¸öÕûÊı */
+	int idx = (int)GetNormalizeAngleDeg((target-mInput.mBallPos).Dir(), -FLOAT_EPS); /** å¾—åˆ°0åˆ°359çš„ä¸€ä¸ªæ•´æ•° */
 
 	if (mMaxSpeedFlag[idx][cycle - 1] != agent.GetAgentID())
 	{
@@ -221,8 +221,8 @@ double Kicker::GetMaxSpeed(const Agent & agent, const Vector & kick_pos, const i
 			{
 				if (mPointEva[k] > 0.001)
 				{
-					ball_vel = (mPoint[k]+mInput.mPlayerVel - mInput.mBallPos) * ServerParam::instance().ballDecay();//Ìßµ½kºóµÄÇòËÙ
-					if (cycle == 2) /** 2ÖÜÆÚÌßÇò£¬ÖØĞÂËãÒ»ÏÂ */
+					ball_vel = (mPoint[k]+mInput.mPlayerVel - mInput.mBallPos) * ServerParam::instance().ballDecay();//è¸¢åˆ°kåçš„çƒé€Ÿ
+					if (cycle == 2) /** 2å‘¨æœŸè¸¢çƒï¼Œé‡æ–°ç®—ä¸€ä¸‹ */
 					{
 						double speed = GetOneKickMaxSpeed(ball_vel, (target-mPoint[k]).Dir(), mMaxAccel[k]);
 						if (max_speed < speed)
@@ -233,12 +233,12 @@ double Kicker::GetMaxSpeed(const Agent & agent, const Vector & kick_pos, const i
 							max_speed_last_vel = ball_vel;
 						}
 					}
-					else // Ç°ÏòËÑË÷2²½
+					else // å‰å‘æœç´¢2æ­¥
 					{
 						Vector ball_next = mPoint[k] + ball_vel;
-						for (int l = 0; l < POINTS_NUM; ++l) // ´ÓjÌßµ½k£¬ÔÙÌßµ½l
+						for (int l = 0; l < POINTS_NUM; ++l) // ä»jè¸¢åˆ°kï¼Œå†è¸¢åˆ°l
 						{
-							if (mPoint[l].Dist(ball_next) < mMaxAccel[k]) // ±£Ö¤ÀíÂÛÉÏ¿ÉÒÔ´ÓkÌßµ½l
+							if (mPoint[l].Dist(ball_next) < mMaxAccel[k]) // ä¿è¯ç†è®ºä¸Šå¯ä»¥ä»kè¸¢åˆ°l
 							{
 								Vector ball_vel_next = (mPoint[l]+mInput.mPlayerVel*PlayerParam::instance().HeteroPlayer(mInput.mPlayerType).playerDecay() - mPoint[k]) * ServerParam::instance().ballDecay();
 								double speed = GetOneKickMaxSpeed(ball_vel_next, (target-mPoint[l]).Dir(), mMaxAccel[l]);
@@ -303,7 +303,7 @@ bool Kicker::KickBall(Agent & agent, const Vector & target, double speed_out, in
 		break;
 	}
 
-	if (p.mSucceed == false) // ºó±¸´¦Àí
+	if (p.mSucceed == false) // åå¤‡å¤„ç†
 	{
 		p.mActionQueue.clear();
 		AtomicAction a;
@@ -325,7 +325,7 @@ bool Kicker::KickBall(Agent & agent, const Vector & target, double speed_out, in
 				a = GetKickOutAction(agent, mInput.mBallPos, mInput.mBallVel);
 			}
 		}
-		if(a.mSucceed == false) // ÊµÔÚ²»ĞĞÏÈÍ£Çò
+		if(a.mSucceed == false) // å®åœ¨ä¸è¡Œå…ˆåœçƒ
 		{
 			a = GetStopBallAction(agent);
 		}
@@ -335,7 +335,7 @@ bool Kicker::KickBall(Agent & agent, const Vector & target, double speed_out, in
 
 	if (p.mActionQueue.size() > 0)
 	{
-		Execute(agent, p); // Ö´ĞĞ¶¯×÷
+		Execute(agent, p); // æ‰§è¡ŒåŠ¨ä½œ
 	}
 	return p.mSucceed;
 }
@@ -381,7 +381,7 @@ bool Kicker::KickBall(Agent & agent, const Vector & target, double speed_out, Ki
 		speed_buf = 0.04;
 		break;
 	case KM_Quick:
-		speed_buf = 0.08; // Òª¿ìËÙÌß³öÈ¥£¬ËÙ¶ÈĞ¡Ò»µãÒ²Ã»¹ØÏµ
+		speed_buf = 0.08; // è¦å¿«é€Ÿè¸¢å‡ºå»ï¼Œé€Ÿåº¦å°ä¸€ç‚¹ä¹Ÿæ²¡å…³ç³»
 		break;
 	default:
 		speed_buf = 0.06;
@@ -396,7 +396,7 @@ bool Kicker::KickBall(Agent & agent, const Vector & target, double speed_out, Ki
 	{
 		speed[i] = GetMaxSpeed(agent, target, i);
 
-		if (speed[i] < 0.01) // ÄÜ²úÉúµÄËÙ¶ÈÌ«Ğ¡£¬²»¿¼ÂÇ
+		if (speed[i] < 0.01) // èƒ½äº§ç”Ÿçš„é€Ÿåº¦å¤ªå°ï¼Œä¸è€ƒè™‘
 		{
 			continue;
 		}
@@ -413,7 +413,7 @@ bool Kicker::KickBall(Agent & agent, const Vector & target, double speed_out, Ki
 		*cycle_left = kick_cycle - 1;
 	}
 
-	bool rt = KickBall(agent, target, kick_speed, kick_cycle, is_shoot); // »¨kick_cycleÖÜÆÚÌßÇò£¬Ä¿±êµãÎªtarget£¬³öÇòËÙ¶ÈÎªSpeedOut
+	bool rt = KickBall(agent, target, kick_speed, kick_cycle, is_shoot); // èŠ±kick_cycleå‘¨æœŸè¸¢çƒï¼Œç›®æ ‡ç‚¹ä¸ºtargetï¼Œå‡ºçƒé€Ÿåº¦ä¸ºSpeedOut
 	return rt;
 }
 
@@ -430,7 +430,7 @@ void Kicker::Execute(Agent &agent, const ActionPlan &plan)
 }
 
 /**
- * ¶ÁÈ¡mKickerValue±í
+ * è¯»å–mKickerValueè¡¨
  */
 void Kicker::ReadUtilityTable()
 {
@@ -452,42 +452,42 @@ void Kicker::ComputeUtilityTable()
 {
 	Assert(Parser::IsPlayerTypesReady());
 
-    mInput.mPlayerType = 0;//ÀëÏß¼ÆËãÖ»¿¼ÂÇ0ºÅÀàĞÍ
+    mInput.mPlayerType = 0;//ç¦»çº¿è®¡ç®—åªè€ƒè™‘0å·ç±»å‹
     for (int k = 0; k < POINTS_NUM; ++k)
     {
         mKickRate[k] = GetKickRate(mPoint[k], mInput.mPlayerType);
         mMaxAccel[k] = ServerParam::instance().maxPower() * mKickRate[k];
     }
 
-	AngleDeg kick_angle = 0.0;//ÌßÇò½Ç¶È
+	AngleDeg kick_angle = 0.0;//è¸¢çƒè§’åº¦
 	Vector ball_vel     = Vector(0.0, 0.0);
 	Vector ball_next    = Vector(0.0, 0.0);
 	double max_speed    = 0.0;
 
-	for (int v = 0; v < 3; ++v)//3´Îµü´ú£¬·Ö±ğËãv[0], v[1], v[2]
+	for (int v = 0; v < 3; ++v)//3æ¬¡è¿­ä»£ï¼Œåˆ†åˆ«ç®—v[0], v[1], v[2]
 	{
-		for (int i = 0; i < 36; ++i)//ÌßÇò½Ç¶È
+		for (int i = 0; i < 36; ++i)//è¸¢çƒè§’åº¦
 		{
 			kick_angle = STEP_KICK_ANGLE * i;
 
-			for (int j = 0; j < POINTS_NUM; ++j)//³õÊ¼Î»ÖÃ£¬¼´µÚ1½ÅkickÇ°µÄÎ»ÖÃ
+			for (int j = 0; j < POINTS_NUM; ++j)//åˆå§‹ä½ç½®ï¼Œå³ç¬¬1è„škickå‰çš„ä½ç½®
 			{
-				for (int k = 0; k < POINTS_NUM; ++k)//µÚ1½ÅkickºóµÄÎ»ÖÃ
+				for (int k = 0; k < POINTS_NUM; ++k)//ç¬¬1è„škickåçš„ä½ç½®
 				{
 					ball_vel = (mPoint[k] - mPoint[j]) * ServerParam::instance().ballDecay();
 
-					if (v == 0)//v[0]Ö±½ÓËã¼´¿É
+					if (v == 0)//v[0]ç›´æ¥ç®—å³å¯
 					{
 						mKickerValue[v][i][j][k] = (float)GetOneKickMaxSpeed(ball_vel, kick_angle, mMaxAccel[k]);
 					}
-					else//v[1]ºÍv[2]Òªµü´ú
+					else//v[1]å’Œv[2]è¦è¿­ä»£
 					{
 						max_speed   = 0.0;
 						ball_next   = mPoint[k] + ball_vel;
 
-						for (int l = 0; l < POINTS_NUM; ++l)//´ÓjÌßµ½k£¬ÔÙÌßµ½l
+						for (int l = 0; l < POINTS_NUM; ++l)//ä»jè¸¢åˆ°kï¼Œå†è¸¢åˆ°l
 						{
-							if (mPoint[l].Dist(ball_next) < mMaxAccel[k])//±£Ö¤ÀíÂÛÉÏ¿ÉÒÔ´ÓkÌßµ½l
+							if (mPoint[l].Dist(ball_next) < mMaxAccel[k])//ä¿è¯ç†è®ºä¸Šå¯ä»¥ä»kè¸¢åˆ°l
 							{
 								max_speed = Max(max_speed, (double)mKickerValue[v - 1][i][k][l]);
 							}
@@ -500,7 +500,7 @@ void Kicker::ComputeUtilityTable()
 		}
 	}
 
-	//Ğ´ÎÄ¼ş
+	//å†™æ–‡ä»¶
 	std::ofstream out_file("kicker_value", std::ios::binary);
 	if (!out_file)
 	{
@@ -549,10 +549,10 @@ void Kicker::UpdateKickData(const Agent & agent)
 		for(int k = 0; k < POINTS_NUM; ++k)
 		{
             mKickRate[k] = GetKickRate(mPoint[k], mInput.mPlayerType);
-            mMaxAccel[k] = ServerParam::instance().maxPower() * mKickRate[k];//¼ÆËã³ö¶ÔÓ¦¸Ãµã×î´óµÄeff_power
+            mMaxAccel[k] = ServerParam::instance().maxPower() * mKickRate[k];//è®¡ç®—å‡ºå¯¹åº”è¯¥ç‚¹æœ€å¤§çš„eff_power
 		}
 
-		for (int i = 0; i < POINTS_NUM; ++i)//¿¼ÂÇkick_rand
+		for (int i = 0; i < POINTS_NUM; ++i)//è€ƒè™‘kick_rand
 		{
 			AngleDeg angle_diff     = mPoint[i].Dir();
 			angle_diff              = GetNormalizeAngleDeg(angle_diff);
@@ -571,9 +571,9 @@ void Kicker::UpdateKickData(const Agent & agent)
 		mPointEva[i] = mRandEva[i];
 	}
 
-	/** ÅÅ³ıµôÒ»¶¨²»ÄÜÌßµÄµã */
+	/** æ’é™¤æ‰ä¸€å®šä¸èƒ½è¸¢çš„ç‚¹ */
 	Vector ball_next_pos    = mInput.mBallPos + mInput.mBallVel - mInput.mPlayerVel;
-    double eff_power        = ServerParam::instance().maxPower() * agent.GetSelf().GetKickRate(); //ÇòÔÚµ±Ç°Î»ÖÃÏÂµÄÊµ¼Ê¿ÉÒÔÌßµ½µÄ×î´ó¼ÓËÙ¶È
+    double eff_power        = ServerParam::instance().maxPower() * agent.GetSelf().GetKickRate(); //çƒåœ¨å½“å‰ä½ç½®ä¸‹çš„å®é™…å¯ä»¥è¸¢åˆ°çš„æœ€å¤§åŠ é€Ÿåº¦
 	double outside_buf      = 0.3;
 	Vector temp_pos         = Vector(0.0, 0.0);
 
@@ -584,16 +584,16 @@ void Kicker::UpdateKickData(const Agent & agent)
 
 	for (int i = 0; i < POINTS_NUM; i++)
 	{
-		temp_pos = (mInput.mPlayerVel + mPoint[i]).Rotate(mInput.mPlayerBodyDir); /** °ÑxÕı·½Ïò±äÎªºÍÇò³¡Ò»Ñù */
-		if (ball_next_pos.Dist(mPoint[i]) > eff_power /** Ìß²»µ½¸Ãµã */
-				|| temp_pos.X() > x_max || temp_pos.X() < x_min || temp_pos.Y() > y_max || temp_pos.Y() < y_min) /** »á³ö½ç */
+		temp_pos = (mInput.mPlayerVel + mPoint[i]).Rotate(mInput.mPlayerBodyDir); /** æŠŠxæ­£æ–¹å‘å˜ä¸ºå’Œçƒåœºä¸€æ · */
+		if (ball_next_pos.Dist(mPoint[i]) > eff_power /** è¸¢ä¸åˆ°è¯¥ç‚¹ */
+				|| temp_pos.X() > x_max || temp_pos.X() < x_min || temp_pos.Y() > y_max || temp_pos.Y() < y_min) /** ä¼šå‡ºç•Œ */
 		{
 			mPointEva[i] = 0.0;
 			continue;
 		}
 	}
 
-	/** ¿¼ÂÇ½üÉí¶ÔÊÖ£¬²»ÓÃInfoStateµÄ¶«Î÷£¬½Ó¿Ú¸ü¼òµ¥ */
+	/** è€ƒè™‘è¿‘èº«å¯¹æ‰‹ï¼Œä¸ç”¨InfoStateçš„ä¸œè¥¿ï¼Œæ¥å£æ›´ç®€å• */
 	int min_unum    = 0;
 	double min_dist = 100.0;
 	for (int i = 1; i <= TEAMSIZE; ++i)
@@ -687,7 +687,7 @@ AtomicAction Kicker::GetKickOutAction(const Agent & agent, Vector & ball_pos, Ve
 
 	AtomicAction a;
 	a.mType       = CT_Kick;
-	a.mKickVel    = (mKickTarget-ball_pos).SetLength(mKickSpeed) - ball_vel; /** Ï£Íûkicker²úÉúµÄÇòËÙ */
+	a.mKickVel    = (mKickTarget-ball_pos).SetLength(mKickSpeed) - ball_vel; /** å¸Œæœ›kickeräº§ç”Ÿçš„çƒé€Ÿ */
     a.mKickVel    = a.mKickVel / (is_self ? agent.GetSelf().GetKickRate() : GetKickRate(ball_pos, mInput.mPlayerType));
 	a.mSucceed    = (a.mKickVel.Mod() < ServerParam::instance().maxPower());
 	return a;
@@ -780,17 +780,17 @@ AtomicAction Kicker::GetTurnAction(const Agent & agent)
 			max_turn_angle = (ball_pos.Dir() > 0) ? max_turn_angle : -max_turn_angle;
 		}
 
-		/** turnÖ®ºóµÄ×´Ì¬ */
+		/** turnä¹‹åçš„çŠ¶æ€ */
 		ball_pos = ball_pos.Rotate(-max_turn_angle);
 		ball_vel = ball_vel.Rotate(-max_turn_angle);
 		target   = target.Rotate(-max_turn_angle);
 
         double kick_angle = (target-ball_pos).Dir();
-        if (fabs(kick_angle) < 90.0) // ¾¡Á¿×ªÉíÒÔºóÒªÃæ¶ÔÒªÌßµÄ·½Ïò
+        if (fabs(kick_angle) < 90.0) // å°½é‡è½¬èº«ä»¥åè¦é¢å¯¹è¦è¸¢çš„æ–¹å‘
         {
 		    double max_speed = GetOneKickMaxSpeed(ball_vel, kick_angle,
                 GetKickRate(ball_pos, mInput.mPlayerType) * ServerParam::instance().maxPower());
-		    if (max_speed > mKickSpeed + 0.16) /** ÕâÀïÒª¿Á¿ÌÒ»µã£¬·ñÔò¿ÉÄÜÓÉÓÚÎó²îµ¼ÖÂ×ªÉí¹ıºó´ï²»µ½ËùĞèËÙ¶È */
+		    if (max_speed > mKickSpeed + 0.16) /** è¿™é‡Œè¦è‹›åˆ»ä¸€ç‚¹ï¼Œå¦åˆ™å¯èƒ½ç”±äºè¯¯å·®å¯¼è‡´è½¬èº«è¿‡åè¾¾ä¸åˆ°æ‰€éœ€é€Ÿåº¦ */
 		    {
 			    a.mType         = CT_Turn;
 			    a.mSucceed      = true;
@@ -819,7 +819,7 @@ ActionPlan Kicker::OneCycleKick(const Agent & agent, bool is_shoot)
 	p.mCycle     = 1;
 	p.mSucceed   = a.mSucceed;
 
-	if (p.mSucceed == false) /** mKickSpeedÌ«´ó»òÕßÌ«Ğ¡£¬Ò»½Å²»ÄÜ´ïµ½¸ÃËÙ¶È£¬Èç¹ûÊÇÉäÃÅÔòÒÔ×î´óËÙ¶ÈÉä£¬·ñÔòÏÈÍ£Çò */
+	if (p.mSucceed == false) /** mKickSpeedå¤ªå¤§æˆ–è€…å¤ªå°ï¼Œä¸€è„šä¸èƒ½è¾¾åˆ°è¯¥é€Ÿåº¦ï¼Œå¦‚æœæ˜¯å°„é—¨åˆ™ä»¥æœ€å¤§é€Ÿåº¦å°„ï¼Œå¦åˆ™å…ˆåœçƒ */
 	{
 		if (is_shoot)
 		{
@@ -856,7 +856,7 @@ ActionPlan Kicker::MultiCycleKick(const Agent & agent, int cycle)
 	ActionPlan plan;
 	AtomicAction act;
 
-	/** Ê×ÏÈ¿¼ÂÇÄÜ·ñÏÈ×ªÉíÔÙÌß£¬¿ÉÒÔ¾Í²»½øĞĞºóÃæµÄËÑË÷ÁË */
+	/** é¦–å…ˆè€ƒè™‘èƒ½å¦å…ˆè½¬èº«å†è¸¢ï¼Œå¯ä»¥å°±ä¸è¿›è¡Œåé¢çš„æœç´¢äº† */
 	act = GetTurnAction(agent);
 	if (act.mSucceed == true)
 	{
@@ -867,7 +867,7 @@ ActionPlan Kicker::MultiCycleKick(const Agent & agent, int cycle)
 		return plan;
 	}
 
-	/** Æä´Î¿¼ÂÇÄÜ·ñÏÈÍ£ÔÙ×ªÉí£¬ÔÙÌß */
+	/** å…¶æ¬¡è€ƒè™‘èƒ½å¦å…ˆåœå†è½¬èº«ï¼Œå†è¸¢ */
 	double speed_buf = 0.1;
 	int index = -1;
 	double turn_max_speed = 0.0;
@@ -878,19 +878,19 @@ ActionPlan Kicker::MultiCycleKick(const Agent & agent, int cycle)
 		if (act.mSucceed == true && index >= 0 && turn_max_speed > mKickSpeed + 0.1)
 		{
 			turn_poss = mPointEva[index] * mSpeedCurve.GetOutput(turn_max_speed - mKickSpeed + speed_buf);
-			turn_poss *= 1.2; /** ÕâÀïÒª×ĞÏ¸µ÷ÏÂ */
+			turn_poss *= 1.2; /** è¿™é‡Œè¦ä»”ç»†è°ƒä¸‹ */
 		}
 	}
 
-	/** ÏÂÃæ½øĞĞ¶à½ÅÌßÇòµÄ¹æ»® */
-	//target¼°mPoint¶¼ÊÇÔÚÌßÇòµÄ×îºóÒ»¸öÖÜÆÚµÄ×ø±êÏµÖĞ
+	/** ä¸‹é¢è¿›è¡Œå¤šè„šè¸¢çƒçš„è§„åˆ’ */
+	//targetåŠmPointéƒ½æ˜¯åœ¨è¸¢çƒçš„æœ€åä¸€ä¸ªå‘¨æœŸçš„åæ ‡ç³»ä¸­
 	Vector target    = mKickTarget
 	                   - mInput.mPlayerVel * ((1 - pow(PlayerParam::instance().HeteroPlayer(mInput.mPlayerType).playerDecay(), cycle-1)) / (1 - PlayerParam::instance().HeteroPlayer(mInput.mPlayerType).playerDecay()));
 	int best         = -1;
 	double poss      = 0.0;
 	double max_poss  = 0.0;
 
-	int idx = (int)GetNormalizeAngleDeg((target-mInput.mBallPos).Dir(), -FLOAT_EPS); /** µÃµ½0µ½359µÄÒ»¸öÕûÊı */
+	int idx = (int)GetNormalizeAngleDeg((target-mInput.mBallPos).Dir(), -FLOAT_EPS); /** å¾—åˆ°0åˆ°359çš„ä¸€ä¸ªæ•´æ•° */
 
 	if (cycle < 4 && mMaxSpeedFlag[idx][cycle-1] == mAgentID) {
 		best = NearestPoint(mMaxSpeedOutFirstPos[idx][cycle-1]);
@@ -908,30 +908,30 @@ ActionPlan Kicker::MultiCycleKick(const Agent & agent, int cycle)
 		for (int k = 0, v = cycle - 2, j = NearestPoint(mInput.mBallPos); k < POINTS_NUM; ++k)
 		{
 			int i = (int)(GetNormalizeAngleDeg((target-mPoint[k]).Dir(), -FLOAT_EPS) / STEP_KICK_ANGLE);
-			if (mPointEva[k] > 0.001 && (double)mKickerValue[v][i][j][k] > mKickSpeed - speed_buf) // Òª´óÓÚÆÚÍûµÄ³öÇòËÙ¶È
+			if (mPointEva[k] > 0.001 && (double)mKickerValue[v][i][j][k] > mKickSpeed - speed_buf) // è¦å¤§äºæœŸæœ›çš„å‡ºçƒé€Ÿåº¦
 			{
-				//mPoint[k]+mInput.mPlayerVelÊÇmPoint[k]ÔÚÌßÇòµÄµÚÒ»¸öÖÜÆÚµÄ×ø±êÏµÖĞµÄÎ»ÖÃ
-				Vector ball_vel = (mPoint[k]+mInput.mPlayerVel - mInput.mBallPos) * ServerParam::instance().ballDecay(); // Ìßµ½kºóµÄÇòËÙ
+				//mPoint[k]+mInput.mPlayerVelæ˜¯mPoint[k]åœ¨è¸¢çƒçš„ç¬¬ä¸€ä¸ªå‘¨æœŸçš„åæ ‡ç³»ä¸­çš„ä½ç½®
+				Vector ball_vel = (mPoint[k]+mInput.mPlayerVel - mInput.mBallPos) * ServerParam::instance().ballDecay(); // è¸¢åˆ°kåçš„çƒé€Ÿ
 				double speed = 0.0;
 
-				if (cycle == 2) // Ç°ÏòËÑË÷1²½
+				if (cycle == 2) // å‰å‘æœç´¢1æ­¥
 				{
 					speed = GetOneKickMaxSpeed(ball_vel, (target-mPoint[k]).Dir(), mMaxAccel[k]);
 				}
-				else // Ç°ÏòËÑË÷2²½
+				else // å‰å‘æœç´¢2æ­¥
 				{
 					Vector ball_next = mPoint[k] + ball_vel;
-					for (int l = 0; l < POINTS_NUM; ++l) // ´ÓjÌßµ½k£¬ÔÙÌßµ½l
+					for (int l = 0; l < POINTS_NUM; ++l) // ä»jè¸¢åˆ°kï¼Œå†è¸¢åˆ°l
 					{
-						if (mPoint[l].Dist(ball_next) < mMaxAccel[k]) // ±£Ö¤ÀíÂÛÉÏ¿ÉÒÔ´ÓkÌßµ½l
+						if (mPoint[l].Dist(ball_next) < mMaxAccel[k]) // ä¿è¯ç†è®ºä¸Šå¯ä»¥ä»kè¸¢åˆ°l
 						{
-							//mPoint[l]+PlayerVel*DecayÊÇmPoint[l]ÔÚÌßÇòµÄµÚ¶ş¸öÖÜÆÚµÄ×ø±êÏµÖĞµÄÎ»ÖÃ
+							//mPoint[l]+PlayerVel*Decayæ˜¯mPoint[l]åœ¨è¸¢çƒçš„ç¬¬äºŒä¸ªå‘¨æœŸçš„åæ ‡ç³»ä¸­çš„ä½ç½®
 							Vector ball_vel_next = (mPoint[l]+mInput.mPlayerVel*PlayerParam::instance().HeteroPlayer(mInput.mPlayerType).playerDecay() - mPoint[k]) * ServerParam::instance().ballDecay();
 							if (cycle == 3)
 							{
 								speed = Max(speed, GetOneKickMaxSpeed(ball_vel_next, (target-mPoint[l]).Dir(), mMaxAccel[l]));
 							}
-							else if (cycle == 4) // ÀûÓÃmKickerValue[1]µÄĞÅÏ¢£¬Ã»±ØÒªÔÙÇ°ÏòÁË
+							else if (cycle == 4) // åˆ©ç”¨mKickerValue[1]çš„ä¿¡æ¯ï¼Œæ²¡å¿…è¦å†å‰å‘äº†
 							{
 								int t = (int)(GetNormalizeAngleDeg((target-mPoint[l]).Dir(), -FLOAT_EPS) / STEP_KICK_ANGLE);
 								speed = Max(speed, (double)mKickerValue[1][t][k][l]);
@@ -949,7 +949,7 @@ ActionPlan Kicker::MultiCycleKick(const Agent & agent, int cycle)
 					poss = 0.0;
 				}
 
-				if (poss > max_poss) // ÕÒµ½poss×î´óµÄµã
+				if (poss > max_poss) // æ‰¾åˆ°possæœ€å¤§çš„ç‚¹
 				{
 					best        = k;
 					max_poss    = poss;
@@ -959,7 +959,7 @@ ActionPlan Kicker::MultiCycleKick(const Agent & agent, int cycle)
 		}
 	}
 
-	if (turn_poss > max_poss) // ×ªÉí¹æ»®µÄÊÕÒæ½Ï¸ß
+	if (turn_poss > max_poss) // è½¬èº«è§„åˆ’çš„æ”¶ç›Šè¾ƒé«˜
 	{
 		plan.mCycle = 3;
 		plan.mSucceed = true;
@@ -968,7 +968,7 @@ ActionPlan Kicker::MultiCycleKick(const Agent & agent, int cycle)
 		return plan;
 	}
 
-	// ²»½øĞĞ×ªÉíµÄ¹æ»®£¬½øĞĞ¶à½ÅÌßÇò
+	// ä¸è¿›è¡Œè½¬èº«çš„è§„åˆ’ï¼Œè¿›è¡Œå¤šè„šè¸¢çƒ
 	plan.mCycle     = cycle;
 	plan.mSucceed   = false;
 	if (best >= 0)
@@ -1003,19 +1003,19 @@ AtomicAction Kicker::TurnPlan(const Agent & agent, int index, double turn_max_sp
 		return a;
 	}
 
-	// kickÖ®ºóµÄ¸÷¸öÁ¿
+	// kickä¹‹åçš„å„ä¸ªé‡
 	Vector ball_vel     = mInput.mBallVel + a.mKickVel;
 	Vector ball_pos     = mInput.mBallPos + ball_vel - mInput.mPlayerVel;
 	ball_vel            = ball_vel * ServerParam::instance().ballDecay();
 	Vector target       = mKickTarget - mInput.mPlayerVel;
 	Vector player_vel   = mInput.mPlayerVel * PlayerParam::instance().HeteroPlayer(mInput.mPlayerType).playerDecay();
 
-	// turn-×ª×ø±êÖáÖ®Ç°µÄ×´Ì¬
+	// turn-è½¬åæ ‡è½´ä¹‹å‰çš„çŠ¶æ€
 	ball_pos += ball_vel - player_vel;
 	ball_vel *= ServerParam::instance().ballDecay();
 	target   -= player_vel;
-	if (ball_pos.Mod() > PlayerParam::instance().HeteroPlayer(mInput.mPlayerType).kickableArea() - 0.05 || //±£Ö¤ÏÂÖÜÆÚÇò¿ÉÌß
-			ball_pos.Mod() < PlayerParam::instance().HeteroPlayer(mInput.mPlayerType).playerSize() + ServerParam::instance().ballSize() + 0.01) //±£Ö¤²»Åö×²
+	if (ball_pos.Mod() > PlayerParam::instance().HeteroPlayer(mInput.mPlayerType).kickableArea() - 0.05 || //ä¿è¯ä¸‹å‘¨æœŸçƒå¯è¸¢
+			ball_pos.Mod() < PlayerParam::instance().HeteroPlayer(mInput.mPlayerType).playerSize() + ServerParam::instance().ballSize() + 0.01) //ä¿è¯ä¸ç¢°æ’
 	{
 		a.mSucceed = false;
 		return a;
@@ -1031,13 +1031,13 @@ AtomicAction Kicker::TurnPlan(const Agent & agent, int index, double turn_max_sp
 		max_turn_angle = ball_pos.Dir() > 0 ? max_turn_angle : -max_turn_angle;
 	}
 
-	// turn-×ª×ø±êÖáÖ®ºóµÄ×´Ì¬
+	// turn-è½¬åæ ‡è½´ä¹‹åçš„çŠ¶æ€
 	ball_pos = ball_pos.Rotate(-max_turn_angle);
 	ball_vel = ball_vel.Rotate(-max_turn_angle);
 	target   = target.Rotate(-max_turn_angle);
 
 	Vector kicked_ball_pos = mInput.mBallPos + mInput.mBallVel + a.mKickVel - mInput.mPlayerVel;
-	index = NearestPoint(kicked_ball_pos); // ÕâÀïÒªÓÃkickºóµÄµãËã
+	index = NearestPoint(kicked_ball_pos); // è¿™é‡Œè¦ç”¨kickåçš„ç‚¹ç®—
 	turn_max_speed = GetOneKickMaxSpeed(ball_vel, (target-ball_pos).Dir(),
         GetKickRate(ball_pos, mInput.mPlayerType) * ServerParam::instance().maxPower());
 	return a;
@@ -1064,7 +1064,7 @@ AtomicAction Kicker::GetStopBallAction(const Agent & agent, bool forceStop)
 		if (mPointEva[i] > FLOAT_EPS)
 		{
 			speed = (mInput.mPlayerVel + mPoint[i]- mInput.mBallPos).Mod();
-			if (speed < min_speed) /** ÕÒ³öÌßÍêºóÇòËÙ×îĞ¡µÄµã */
+			if (speed < min_speed) /** æ‰¾å‡ºè¸¢å®Œåçƒé€Ÿæœ€å°çš„ç‚¹ */
 			{
 				best = i;
 				min_speed = speed;

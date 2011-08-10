@@ -41,7 +41,7 @@
 #include <fstream>
 
 /**
-* ÏòÁ¿Àà
+* å‘é‡ç±»
 */
 class Vector
 {
@@ -157,7 +157,7 @@ inline Vector Polar2Vector(const double & mod, const AngleDeg & ang)
 }
 
 /**
-* ÉäÏßÀà
+* å°„çº¿ç±»
 */
 class Line;
 
@@ -193,7 +193,7 @@ public:
 	bool Intersection(const Ray & r, double & intersection_dist) const;
 	double Intersection(const Line & l) const;
 
-	/*µÃµ½Ò»ÌõÉäÏßÉÏÀëÕâ¸öµã×î½üµÄµã*/
+	/*å¾—åˆ°ä¸€æ¡å°„çº¿ä¸Šç¦»è¿™ä¸ªç‚¹æœ€è¿‘çš„ç‚¹*/
 	Vector GetClosestPoint(const Vector& point) const;// add by wang yu hang -09.1.14
 
 	inline double GetDistanceFromOrigin(const Vector& point) const
@@ -208,7 +208,7 @@ private:
 
 
 /**
-* Ö±ÏßÀà
+* ç›´çº¿ç±»
 */
 class Line
 {
@@ -260,13 +260,13 @@ public:
 		}
 	}
 
-	/** ÊÇ·ñÔÚÖ±ÏßÉÏ */
+	/** æ˜¯å¦åœ¨ç›´çº¿ä¸Š */
 	bool IsOnLine(const Vector & point, const double & buffer = FLOAT_EPS) const
 	{
 		return fabs(mA * point.X() + mB * point.Y() + mC) < buffer;
 	}
 
-	/** ÊÇ·ñÔÚÖ±ÏßÉÏ·½ */
+	/** æ˜¯å¦åœ¨ç›´çº¿ä¸Šæ–¹ */
 	bool IsUpLine(const Vector & point) const
 	{
 		return !IsOnLine(point) && (mA * point.X() + mB * point.Y() + mC > 0);
@@ -280,31 +280,31 @@ public:
 		return pt.X() < -mC / mA;
 	}
 
-	/** Ğ±ÂÊÊÇ·ñÏàµÈ */
+	/** æ–œç‡æ˜¯å¦ç›¸ç­‰ */
 	bool IsSameSlope(const Line & l, const double & buffer = FLOAT_EPS) const
 	{
 		return (fabs(mB) < buffer && fabs(l.mB) < buffer) || fabs(mA / mB - l.mA / l.mB) < buffer;
 	}
 
 	/**
-	* ÅĞ¶ÏÒ»µãµÄ´¹×ãÊÇ·ñÔÚÁ½µãÖ®¼ä
+	* åˆ¤æ–­ä¸€ç‚¹çš„å‚è¶³æ˜¯å¦åœ¨ä¸¤ç‚¹ä¹‹é—´
 	*/
 	bool IsInBetween(const Vector & pt, const Vector & end1, const Vector & end2) const;
 
-	/** Çó½»µã */
+	/** æ±‚äº¤ç‚¹ */
 	bool Intersection(const Line &l, Vector &point) const;
 	Vector Intersection(const Line &l) const;
 
-	/** ÇóÓëÉäÏßµÄ½»µã */
+	/** æ±‚ä¸å°„çº¿çš„äº¤ç‚¹ */
 	bool Intersection(const Ray &r, Vector &point) const;
 
-	/** µãµ½Ö±ÏßµÄ¾àÀë */
+	/** ç‚¹åˆ°ç›´çº¿çš„è·ç¦» */
 	double Dist(const Vector& point) const
 	{
 		return fabs(mA * point.X() + mB * point.Y() + mC) / Sqrt(mA * mA + mB * mB);
 	}
 
-	/** Á½µãÊÇ·ñÔÚÖ±ÏßÍ¬²à */
+	/** ä¸¤ç‚¹æ˜¯å¦åœ¨ç›´çº¿åŒä¾§ */
 	bool IsPointInSameSide(const Vector & pt1, const Vector & pt2) const
 	{
 		Line tl(pt1, pt2);
@@ -316,7 +316,7 @@ public:
 		return (inter_point.X() - pt1.X()) * (pt2.X() - inter_point.X()) <= 0;
 	}
 
-	/** ¹ıptµãµÄ´¹Ïß **/
+	/** è¿‡ptç‚¹çš„å‚çº¿ **/
 	Line GetPerpendicular(const Vector & pt) const
 	{
 		return Line(mB, -mA, mA * pt.Y() - mB * pt.X());
@@ -334,7 +334,7 @@ public:
 		mC = pos1.X() * pos1.X() - pos2.X() * pos2.X() + pos1.Y() * pos1.Y() - pos2.Y() * pos2.Y();
 	}
 
-	/** µÃµ½Í¶Ó°µã */
+	/** å¾—åˆ°æŠ•å½±ç‚¹ */
 	Vector GetProjectPoint(const Vector & pt) const
 	{
 		Vector joint_pt;
@@ -342,14 +342,14 @@ public:
 		return joint_pt;
 	}
 
-	//µÃµ½¶Ô³Æµã
+	//å¾—åˆ°å¯¹ç§°ç‚¹
 	inline Vector MirrorPoint(const Vector & pt)
 	{
 		return GetProjectPoint(pt) * 2.0 - pt;
 	}
 
 	/**
-	* µÃµ½Ö±ÏßÉÏÁ½µã¼ä¾àÀëÕâ¸öµã×î½üµÄµã
+	* å¾—åˆ°ç›´çº¿ä¸Šä¸¤ç‚¹é—´è·ç¦»è¿™ä¸ªç‚¹æœ€è¿‘çš„ç‚¹
 	*/
 	Vector GetClosestPointInBetween(const Vector & pt, const Vector & end1, const Vector & end2) const;
 
@@ -375,7 +375,7 @@ private:
 
 
 /**
-* ¾ØĞÎÀà
+* çŸ©å½¢ç±»
 */
 class Rectangular
 {
@@ -445,15 +445,15 @@ public:
 	}
 
 private:
-	double mLeft; // ¾ØĞÎ×ó±ß
-	double mRight; // ¾ØĞÎÓÒ±ß
-	double mTop; // ¾ØĞÎÉÏ±ß
-	double mBottom; // ¾ØĞÎÏÂ±ß
+	double mLeft; // çŸ©å½¢å·¦è¾¹
+	double mRight; // çŸ©å½¢å³è¾¹
+	double mTop; // çŸ©å½¢ä¸Šè¾¹
+	double mBottom; // çŸ©å½¢ä¸‹è¾¹
 };
 
 
 /**
-* ÇúÏßÀà
+* æ›²çº¿ç±»
 */
 class ReciprocalCurve
 {
@@ -533,7 +533,7 @@ inline Line GetCentralPerpendicularLine(const Vector &pos1, const Vector &pos2)
 }
 
 /**
-* Ô²Àà
+* åœ†ç±»
 */
 class Circle
 {

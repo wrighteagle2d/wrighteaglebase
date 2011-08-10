@@ -116,7 +116,7 @@ void BehaviorInterceptPlanner::Plan(std::list<ActiveBehavior> & behavior_list)
 		behavior_list.push_back(intercept);
 	}
 	else if ((mWorldState.GetTeammate(mPositionInfo.GetClosestTeammateToBall()).GetPos()-mWorldState.GetOpponent(mPositionInfo.GetClosestOpponentToBall()).GetPos()).Mod() <= 1 &&
-			mSelfState.GetUnum() == mPositionInfo.GetCloseTeammateToBall().at(1))//0.4ÊÜPlayerSizeÓ°Ïì£¬ÕâÀïÖ±½ÓÊ¹ÓÃ0.3
+			mSelfState.GetUnum() == mPositionInfo.GetCloseTeammateToBall().at(1))//0.4å—PlayerSizeå½±å“ï¼Œè¿™é‡Œç›´æŽ¥ä½¿ç”¨0.3
 	{
 		ActiveBehavior intercept(mAgent, BT_Intercept, BDT_Intercept_Normal);
 		intercept.mTarget = mStrategy.GetMyInterPos();

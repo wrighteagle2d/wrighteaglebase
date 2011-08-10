@@ -43,7 +43,7 @@
 class WorldState;
 
 /**
- * ÓĞ¹Ø³¡ÉÏÇòºÍÇòÔ±Î»ÖÃµÄInfo
+ * æœ‰å…³åœºä¸Šçƒå’Œçƒå‘˜ä½ç½®çš„Info
  */
 class PositionInfo: public InfoStateBase
 {
@@ -109,7 +109,7 @@ public:
 	const double & GetOpponentOffsideLineSpeed() const  { return mOpponentOffsideLineSpeed; }
 	AngleDeg GetShootAngle(AngleDeg left,AngleDeg right , const PlayerState & state  , AngleDeg & interval);
 
-	/** µÃµ½µ±Ç°¿ÉÒÔÌßµ½ÇòµÄÇòÔ±ÁĞ±í */
+	/** å¾—åˆ°å½“å‰å¯ä»¥è¸¢åˆ°çƒçš„çƒå‘˜åˆ—è¡¨ */
 	const std::vector<Unum> & GetPlayerWithBallList();
 
 	Unum GetPlayerWithBall() { return GetPlayerWithBallList().empty()? 0: GetPlayerWithBallList()[0]; }
@@ -143,10 +143,10 @@ public:
     Unum GetOpponentWithBall(const double buffer);
 
 private:
-	/** ¸üĞÂº¯Êı */
+	/** æ›´æ–°å‡½æ•° */
 	void UpdateRoutine();
 
-	/** Êı×éÏÂ±êºÍÇòÔ±ºÅÂëÖ®¼äµÄÏà»¥×ª»¯£¬ÇòÔ±ºÅÂëÕı±íÊ¾¶ÓÓÑ£¬¸º±íÊ¾¶ÔÊÖ */
+	/** æ•°ç»„ä¸‹æ ‡å’Œçƒå‘˜å·ç ä¹‹é—´çš„ç›¸äº’è½¬åŒ–ï¼Œçƒå‘˜å·ç æ­£è¡¨ç¤ºé˜Ÿå‹ï¼Œè´Ÿè¡¨ç¤ºå¯¹æ‰‹ */
 	int Unum2Index(Unum unum) const {
 		return unum > 0? unum: TEAMSIZE - unum;
 	}
@@ -157,10 +157,10 @@ private:
 
 	void UpdateDistMatrix();
 	void UpdateOffsideLine();
-    void UpdateOppGoalInfo(); /** ÔİÊ±ÕâÑùÃüÃû£¬ÒÔºóÓĞĞèÒªÔÙ¸Ä */
+    void UpdateOppGoalInfo(); /** æš‚æ—¶è¿™æ ·å‘½åï¼Œä»¥åæœ‰éœ€è¦å†æ”¹ */
 
 private:
-	Array<Array<double, 1 + 2 * TEAMSIZE>, 1 + 2 * TEAMSIZE > mDistMatrix; // 22ÃûÇòÔ±ºÍÇòÏà»¥Ö®¼äµÄ¾àÀë£¬0ÎªÇò£¬1-11Îª¶ÓÓÑ£¬12µ½22Îª¶ÔÊÖ
+	Array<Array<double, 1 + 2 * TEAMSIZE>, 1 + 2 * TEAMSIZE > mDistMatrix; // 22åçƒå‘˜å’Œçƒç›¸äº’ä¹‹é—´çš„è·ç¦»ï¼Œ0ä¸ºçƒï¼Œ1-11ä¸ºé˜Ÿå‹ï¼Œ12åˆ°22ä¸ºå¯¹æ‰‹
 
     std::list<KeyPlayerInfo> mXSortTeammateList;
     std::list<KeyPlayerInfo> mXSortOpponentList;
@@ -183,7 +183,7 @@ private:
 	double mOpponentOffsideLineConf;
 	double mOpponentOffsideLineSpeed;
 
-	std::vector<Unum> mPlayerWithBallList; //µ±Ç°¿ÉÒÔÌßÇòµÄ¶ÓÔ±¼¯ºÏ -- ²»¼ÓbufferµÄÅĞ¶Ï
+	std::vector<Unum> mPlayerWithBallList; //å½“å‰å¯ä»¥è¸¢çƒçš„é˜Ÿå‘˜é›†åˆ -- ä¸åŠ bufferçš„åˆ¤æ–­
 	Time mPlayerWithBallList_UpdateTime;
 
 private:
@@ -214,8 +214,8 @@ public:
     }
 
 private:
-    Array<AngleDeg, TEAMSIZE> mTeammateDir2Ball; // ¶ÓÓÑÏà¶ÔÇòµÄ½Ç¶È
-    Array<AngleDeg, TEAMSIZE> mOpponentDir2Ball; // ¶ÔÊÖÏà¶ÔÇòµÄ½Ç¶È
+    Array<AngleDeg, TEAMSIZE> mTeammateDir2Ball; // é˜Ÿå‹ç›¸å¯¹çƒçš„è§’åº¦
+    Array<AngleDeg, TEAMSIZE> mOpponentDir2Ball; // å¯¹æ‰‹ç›¸å¯¹çƒçš„è§’åº¦
 
 public:
     const Vector & GetOppGoal2Ball() const      { return mOppGoal2Ball; }
@@ -226,9 +226,9 @@ public:
     const AngleDeg & GetOppRightPost2BallAngle() const  { return mOppRightPost2BallAngle; }
 
 private:
-    Vector mOppGoal2Ball;       // ÇòÃÅÖĞĞÄ
-    Vector mOppLeftPost2Ball;   // ×óÃÅÖù
-	Vector mOppRightPost2Ball;  // ÓÒÃÅÖù
+    Vector mOppGoal2Ball;       // çƒé—¨ä¸­å¿ƒ
+    Vector mOppLeftPost2Ball;   // å·¦é—¨æŸ±
+	Vector mOppRightPost2Ball;  // å³é—¨æŸ±
 	AngleDeg mOppGoal2BallAngle;
     AngleDeg mOppLeftPost2BallAngle;
 	AngleDeg mOppRightPost2BallAngle;

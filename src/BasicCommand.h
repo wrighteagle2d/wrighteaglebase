@@ -116,12 +116,12 @@ public:
 
 protected:
 	const Agent     & mAgent;
-	CommandInfo mCommandInfo; // ÔÚPlan()ÖĞ¸³Öµ£¬ÔÚExecute()ÖĞÑ¹Èë¶ÓÁĞ
+	CommandInfo mCommandInfo; // åœ¨Plan()ä¸­èµ‹å€¼ï¼Œåœ¨Execute()ä¸­å‹å…¥é˜Ÿåˆ—
 };
 
 
 /**
-* ÏÂÃæÊÇserver¿ÉÒÔ½ÓÊÕµÄÔ­×ÓÃüÁîµÄÀà£¬¶¨ÒåµÄË³ĞòÓëSoccerServer - Player::parseCommand()ÖĞµÄË³ĞòÒ»ÖÂ
+* ä¸‹é¢æ˜¯serverå¯ä»¥æ¥æ”¶çš„åŸå­å‘½ä»¤çš„ç±»ï¼Œå®šä¹‰çš„é¡ºåºä¸SoccerServer - Player::parseCommand()ä¸­çš„é¡ºåºä¸€è‡´
 */
 
 class Turn : public BasicCommand

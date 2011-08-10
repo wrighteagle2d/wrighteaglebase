@@ -42,13 +42,13 @@ class CommandSender: public Thread
 {
 public:
     /**
-     * ¹¹Ôìº¯ÊıºÍÎö¹¹º¯Êı
+     * æ„é€ å‡½æ•°å’Œææ„å‡½æ•°
      */
     CommandSender(Observer *pObserver);
     ~CommandSender();
 
     /**
-     * Ö÷Ñ­»·º¯Êı
+     * ä¸»å¾ªç¯å‡½æ•°
      */
     void StartRoutine();
     void Run(char *msg = 0);

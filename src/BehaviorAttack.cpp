@@ -63,7 +63,7 @@ void BehaviorAttackPlanner::Plan(std::list<ActiveBehavior> & behavior_list)
 		mActiveBehaviorList.sort(std::greater<ActiveBehavior>());
 		behavior_list.push_back(mActiveBehaviorList.front());
 
-		if (mActiveBehaviorList.size() > 1) { //ÔÊĞí·Ç×îÓÅĞĞÎªÌá½»ÊÓ¾õÇëÇó
+		if (mActiveBehaviorList.size() > 1) { //å…è®¸éæœ€ä¼˜è¡Œä¸ºæäº¤è§†è§‰è¯·æ±‚
 			double plus = 1.0;
 			ActiveBehaviorPtr it = mActiveBehaviorList.begin();
 			for (++it; it != mActiveBehaviorList.end(); ++it) {

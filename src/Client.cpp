@@ -63,7 +63,7 @@ Client::Client() {
 	mpParser        = new Parser(mpObserver);
 	mpCommandSender = new CommandSender(mpObserver);
 
-    // instance·ÅÔÚÕâÀï´´½¨ÒÔ½ÚÊ¡ºóÃæµÄÔËĞĞĞ§ÂÊ£¬²¿·Öinstance²»ÄÜ·ÅÔÚÕâÀï£¬ĞèÒªÊ±´´½¨
+    // instanceæ”¾åœ¨è¿™é‡Œåˆ›å»ºä»¥èŠ‚çœåé¢çš„è¿è¡Œæ•ˆç‡ï¼Œéƒ¨åˆ†instanceä¸èƒ½æ”¾åœ¨è¿™é‡Œï¼Œéœ€è¦æ—¶åˆ›å»º
 
     /** Assistant instance */
 	TimeTest::instance();
@@ -104,9 +104,9 @@ Client::~Client()
 void Client::RunDynamicDebug()
 {
 	static char msg[MAX_MESSAGE];
-	DynamicDebug::instance().Initial(mpObserver); // ¶¯Ì¬µ÷ÊÔµÄ³õÊ¼»¯£¬×¢ÒâÎ»ÖÃ²»ÄÜÒÆ¶¯
+	DynamicDebug::instance().Initial(mpObserver); // åŠ¨æ€è°ƒè¯•çš„åˆå§‹åŒ–ï¼Œæ³¨æ„ä½ç½®ä¸èƒ½ç§»åŠ¨
 
-	DynamicDebug::instance().Run(msg); // ³õÊ¼»¯ĞÅÏ¢
+	DynamicDebug::instance().Run(msg); // åˆå§‹åŒ–ä¿¡æ¯
 	mpParser->ParseInitializeMsg(msg);
 
 	ConstructAgent();
@@ -145,9 +145,9 @@ void Client::RunDynamicDebug()
 
 void Client::RunNormal()
 {
-	mpParser->Start(); //·ÖÎöÏß³Ì£¬½ÓÊÜserver·¢À´µÄĞÅÏ¢
-	mpCommandSender->Start(); //·¢ËÍÃüÁîÏß³Ì£¬Ïòserver·¢ËÍĞÅÏ¢
-	Logger::instance().Start(); //logÏß³Ì
+	mpParser->Start(); //åˆ†æçº¿ç¨‹ï¼Œæ¥å—serverå‘æ¥çš„ä¿¡æ¯
+	mpCommandSender->Start(); //å‘é€å‘½ä»¤çº¿ç¨‹ï¼Œå‘serverå‘é€ä¿¡æ¯
+	Logger::instance().Start(); //logçº¿ç¨‹
 
 	int past_cycle = 0;
 	do
@@ -180,7 +180,7 @@ void Client::RunNormal()
 void Client::ConstructAgent()
 {
 	Assert(mpAgent == 0);
-	mpAgent = new Agent(mpObserver->MyUnum(), mpWorldModel, false); //ÒªÖªµÀºÅÂë²ÅÄÜ³õÊ¼»¯
+	mpAgent = new Agent(mpObserver->MyUnum(), mpWorldModel, false); //è¦çŸ¥é“å·ç æ‰èƒ½åˆå§‹åŒ–
 
 	Formation::instance.AssignWith(mpAgent);
 	mpCommandSender->RegisterAgent(mpAgent);
@@ -190,11 +190,11 @@ void Client::ConstructAgent()
 
 void Client::MainLoop()
 {
-	while (mpObserver->WaitForNewInfo()) // µÈ´ıĞÂÊÓ¾õ
+	while (mpObserver->WaitForNewInfo()) // ç­‰å¾…æ–°è§†è§‰
 	{
         NetworkTest::instance().AddDecisionBegin();
 
-        // ±ÈÈü½áÊø£¬bye ...
+        // æ¯”èµ›ç»“æŸï¼Œbye ...
         if (mpObserver->GetPlayMode() == PM_Time_Over)
         {
             mpAgent->CheckCommands(mpObserver);
@@ -207,11 +207,11 @@ void Client::MainLoop()
             break;
         }
 
-        DynamicDebug::instance().AddMessage("\0", MT_Run); // ¶¯Ì¬µ÷ÊÔ¼ÇÂ¼RunĞÅÏ¢
+        DynamicDebug::instance().AddMessage("\0", MT_Run); // åŠ¨æ€è°ƒè¯•è®°å½•Runä¿¡æ¯
         Run();
 
 		mpObserver->SetPlanned();
-		mpObserver->SetCommandSend(); //»½ĞÑ·¢ËÍÃüÁîµÄÏß³Ì
+		mpObserver->SetCommandSend(); //å”¤é†’å‘é€å‘½ä»¤çš„çº¿ç¨‹
 		Logger::instance().SetFlushCond(); // set flush cond and let the logger thread flush the logs to file.
 
         NetworkTest::instance().AddDecisionEnd(mpObserver->CurrentTime());

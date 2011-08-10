@@ -54,7 +54,7 @@ WorldState::WorldState(HistoryState* history_state):
 	mOpponentScore( 0),
 	mIsCycleStopped( false)
 {
-	//Îª¸÷¸öÇòÔ±·ÖÅäºÅÂë
+	//ä¸ºå„ä¸ªçƒå‘˜åˆ†é…å·ç 
 	for ( Unum i = 1; i <= TEAMSIZE; i++) {
 		mTeammate[i].UpdateUnum(i);
 		mOpponent[i].UpdateUnum(-i);
@@ -237,7 +237,7 @@ void WorldStateUpdater::UpdateActionInfo()
 		player.UpdateMaxTurnAngle(GetMaxTurnAngle(player.GetPlayerType(), player.GetVel().Mod()));
 	}
 
-	for (unsigned i = 0; i < mpWorldState->GetPlayerList().size(); ++i) { //ÕâÀïÒªµÈµ½¿ÉÌßĞÅÏ¢¸üĞÂÍê²ÅÄÜ¸üĞÂ
+	for (unsigned i = 0; i < mpWorldState->GetPlayerList().size(); ++i) { //è¿™é‡Œè¦ç­‰åˆ°å¯è¸¢ä¿¡æ¯æ›´æ–°å®Œæ‰èƒ½æ›´æ–°
 		PlayerState & player = const_cast<PlayerState &>(*mpWorldState->GetPlayerList()[i]);
 		if (!player.IsAlive()) continue;
 
@@ -251,15 +251,15 @@ void WorldStateUpdater::UpdateActionInfo()
 }
 
 /**
- * ´ÓobserverÀïÃæ¸üĞÂÊÀ½ç×´Ì¬
+ * ä»observeré‡Œé¢æ›´æ–°ä¸–ç•ŒçŠ¶æ€
  */
 void WorldStateUpdater::UpdateWorldState()
 {
-	/**¸üĞÂ³¡ÉÏµÄ×´Ì¬*/
+	/**æ›´æ–°åœºä¸Šçš„çŠ¶æ€*/
 	UpdateFieldInfo();
 
 	if (PlayerParam::instance().isCoach()){
-		if (mpObserver->OurSide() == 'l'){ //server·¢¹ıÀ´µÄĞÅÏ¢×ø±êÓë×Ô¼ºÒ»ÖÂ
+		if (mpObserver->OurSide() == 'l'){ //serverå‘è¿‡æ¥çš„ä¿¡æ¯åæ ‡ä¸è‡ªå·±ä¸€è‡´
 			Ball().UpdatePos(mpObserver->Ball_Coach().GetPos(), 0, 1.0);
 			Ball().UpdateVel(mpObserver->Ball_Coach().GetVel(), 0, 1.0);
 
@@ -272,7 +272,7 @@ void WorldStateUpdater::UpdateWorldState()
 				Teammate(i).UpdateBodyDir(mpObserver->Teammate_Coach(i).GetBodyDir(), 0, 1.0);
 				Teammate(i).UpdateNeckDir(mpObserver->Teammate_Coach(i).GetNeckDir(), 0, 1.0);
 				Teammate(i).UpdateCardType(mpObserver->Teammate_Coach(i).GetCardType());
-				//TODO: arm, tackle lyingµÈ£¬ÔİÊ±²»ÓÃ -- TODO
+				//TODO: arm, tackle lyingç­‰ï¼Œæš‚æ—¶ä¸ç”¨ -- TODO
 
 				Opponent(i).SetIsAlive(mpObserver->Opponent_Coach(i).IsAlive());
 				Opponent(i).UpdatePos(mpObserver->Opponent_Coach(i).GetPos(), 0, 1.0);
@@ -282,7 +282,7 @@ void WorldStateUpdater::UpdateWorldState()
 				Opponent(i).UpdateCardType(mpObserver->Opponent_Coach(i).GetCardType());
 			}
 		}
-		else {//server·¢¹ıÀ´µÄĞÅÏ¢×ø±êÓë×Ô¼ºÏà·´£¬ÒòÎª´úÂëÀï×ÜÊÇ¼ÙÉè×Ô¼ºÔÚ×ó±ß
+		else {//serverå‘è¿‡æ¥çš„ä¿¡æ¯åæ ‡ä¸è‡ªå·±ç›¸åï¼Œå› ä¸ºä»£ç é‡Œæ€»æ˜¯å‡è®¾è‡ªå·±åœ¨å·¦è¾¹
 			Ball().UpdatePos(mpObserver->Ball_Coach().GetPos() * -1.0, 0, 1.0);
 			Ball().UpdateVel(mpObserver->Ball_Coach().GetVel() * -1.0, 0, 1.0);
 
@@ -295,7 +295,7 @@ void WorldStateUpdater::UpdateWorldState()
 				Teammate(i).UpdateBodyDir(GetNormalizeAngleDeg(mpObserver->Teammate_Coach(i).GetBodyDir() + 180.0), 0, 1.0);
 				Teammate(i).UpdateNeckDir(GetNormalizeAngleDeg(mpObserver->Teammate_Coach(i).GetNeckDir() + 180.0), 0, 1.0);
 				Teammate(i).UpdateCardType(mpObserver->Teammate_Coach(i).GetCardType());
-				//TODO: arm, tackle µÈ£¬ÔİÊ±²»ÓÃ
+				//TODO: arm, tackle ç­‰ï¼Œæš‚æ—¶ä¸ç”¨
 
 				Opponent(i).SetIsAlive(mpObserver->Opponent_Coach(i).IsAlive());
 
@@ -354,14 +354,14 @@ void WorldStateUpdater::UpdateWorldState()
 			}
 		}
 
-		//¸üĞÂËùÓĞµÄdelay delay¼ÓÉÏ1 conf³ËÒÔ1
+		//æ›´æ–°æ‰€æœ‰çš„delay delayåŠ ä¸Š1 confä¹˜ä»¥1
 		AutoDelay(1);
 
-		//¸üĞÂËùÓĞÈËµÄplayer_typeºÍis_goalie
+		//æ›´æ–°æ‰€æœ‰äººçš„player_typeå’Œis_goalie
 		for (int i = 1;i <= TEAMSIZE;i++)
 		{
 			Teammate(i).UpdatePlayerType(mpObserver->GetTeammateType(i));
-//			Opponent(i).UpdatePlayerType(mpObserver->GetOpponentType(i)); // ÔÚUpdateFromAudioÖĞ¸üĞÂ,ÔÚ´Ë²»¸üĞÂ
+//			Opponent(i).UpdatePlayerType(mpObserver->GetOpponentType(i)); // åœ¨UpdateFromAudioä¸­æ›´æ–°,åœ¨æ­¤ä¸æ›´æ–°
 
 			Teammate(i).UpdateIsGoalie(false);
 			Opponent(i).UpdateIsGoalie(false);
@@ -370,10 +370,10 @@ void WorldStateUpdater::UpdateWorldState()
 		if (mpWorldState->GetTeammateGoalieUnum() > 0) Teammate(mpWorldState->GetTeammateGoalieUnum()).UpdateIsGoalie(true);
 		if (mpWorldState->GetOpponentGoalieUnum() > 0) Opponent(mpWorldState->GetOpponentGoalieUnum()).UpdateIsGoalie(true);
 //	int id =	TimeTest::instance().Begin("before");
-		//¸üĞÂ×Ô¼ºµÄÌı¾õĞÅÏ¢
+		//æ›´æ–°è‡ªå·±çš„å¬è§‰ä¿¡æ¯
 		UpdateFromAudio();
 
-		//Ô¤²âÒ»ÖÜÆÚ
+		//é¢„æµ‹ä¸€å‘¨æœŸ
 		EstimateWorld();
 
 		if (mpObserver->IsNewSight())
@@ -384,18 +384,18 @@ void WorldStateUpdater::UpdateWorldState()
 	id = TimeTest::instance().Begin("test");
 	TimeTest::instance().End(id);
 	id = TimeTest::instance().Begin("middle");*/
-		//¸üĞÂ×Ô¼ºµÄĞÅÏ¢
+		//æ›´æ–°è‡ªå·±çš„ä¿¡æ¯
 		UpdateSelfInfo();
 
 		if (mpObserver->IsNewSight())
 		{
-			//¸üĞÂËùÓĞ¿É¼ûµÄ¶ÓÔ±µÄĞÅÏ¢
+			//æ›´æ–°æ‰€æœ‰å¯è§çš„é˜Ÿå‘˜çš„ä¿¡æ¯
 			UpdateKnownPlayers();
 
-			//¸üĞÂËùÓĞÎ´ÖªºÅÂëµÄÇòÔ±
+			//æ›´æ–°æ‰€æœ‰æœªçŸ¥å·ç çš„çƒå‘˜
 			UpdateUnknownPlayers();
 
-			//¸üĞÂÇòµÄĞÅÏ¢
+			//æ›´æ–°çƒçš„ä¿¡æ¯
 			UpdateBallInfo();
 
 			EstimateToNow();
@@ -403,16 +403,16 @@ void WorldStateUpdater::UpdateWorldState()
 /*	TimeTest::instance().End(id);
 
 	id = TimeTest::instance().Begin("end");*/
-		/**´¦ÀíÅö×²*/
+		/**å¤„ç†ç¢°æ’*/
 		UpdateInfoWhenCollided();
 
-		//¸ù¾İplaymode¸üĞÂÈ·¶¨µÄÎ»ÖÃ
+		//æ ¹æ®playmodeæ›´æ–°ç¡®å®šçš„ä½ç½®
 		UpdateInfoFromPlayMode();
 
-		//ÖØĞÂÆÀ¹À¸÷ÇòÔ±µÄÖÃĞÅ¶È ¼°ÖÃÇòÔ±µÄÉúËÀ
+		//é‡æ–°è¯„ä¼°å„çƒå‘˜çš„ç½®ä¿¡åº¦ åŠç½®çƒå‘˜çš„ç”Ÿæ­»
 		EvaluateConf();
 
-		//¸üĞÂActionµÄĞÅÏ¢
+		//æ›´æ–°Actionçš„ä¿¡æ¯
 		UpdateActionInfo();
 
 		MaintainPlayerStamina();
@@ -450,7 +450,7 @@ void WorldStateUpdater::UpdateFromAudio()
     // update by our coach say
     if (mpObserver->Audio().IsOurCoachSayValid())
     {
-        mpObserver->ResetOurCoachSayValid(); // »Ö¸´
+        mpObserver->ResetOurCoachSayValid(); // æ¢å¤
         if(mpObserver->IsNewOppType())
         {
 			for (int i = 1; i <= TEAMSIZE; ++i)
@@ -512,7 +512,7 @@ void WorldStateUpdater::UpdateFromAudio()
 		int type = mpObserver->Audio().GetHearInfoType();
 		Unum sender = mpObserver->Audio().GetHearUnum();
 
-		//¸üĞÂÌıµ½ÇòµÄĞÅÏ¢
+		//æ›´æ–°å¬åˆ°çƒçš„ä¿¡æ¯
 		int cmp = type &  AudioObserver::HearInfo_Ball;
 		if (cmp != 0)
 		{
@@ -521,7 +521,7 @@ void WorldStateUpdater::UpdateFromAudio()
 				{
 					Ball().UpdatePos(mpObserver->Audio().GetBallPos().value(), 1, PlayerParam::instance().ballConfDecay() - FLOAT_EPS);
 					Ball().UpdateGuessedTimes(0);
-					//0.3Îª¾­ÑéÖµ 0.75 * 4
+					//0.3ä¸ºç»éªŒå€¼ 0.75 * 4
 					double eps = 1.5 + PlayerParam::instance().GetEpsInSight((Ball().GetPos() - Teammate(sender).GetPos()).Mod());
 					Ball().UpdatePosEps(eps);
 				}
@@ -530,13 +530,13 @@ void WorldStateUpdater::UpdateFromAudio()
 				{
 					Ball().UpdateVel(mpObserver->Audio().GetBallVel().value(), 1, PlayerParam::instance().ballConfDecay() - FLOAT_EPS);
 
-					//Í³¼ÆµÃµ½¿´¼ûµÄËÙ¶ÈÒ»°ãÎó²î²»´óÓÚ1
+					//ç»Ÿè®¡å¾—åˆ°çœ‹è§çš„é€Ÿåº¦ä¸€èˆ¬è¯¯å·®ä¸å¤§äº1
 					Ball().UpdateVelEps(3);
 				}
 			}
 		}
 
-		//¸üĞÂÌıµ½¶ÓÓÑµÄĞÅÏ¢
+		//æ›´æ–°å¬åˆ°é˜Ÿå‹çš„ä¿¡æ¯
 		cmp = type & AudioObserver::HearInfo_Teammate;
 		if (cmp != 0)
 		{
@@ -560,7 +560,7 @@ void WorldStateUpdater::UpdateFromAudio()
 			}
 		}
 
-		//¸üĞÂÌıµ½µÄ¶ÔÊÖµÄĞÅÏ¢
+		//æ›´æ–°å¬åˆ°çš„å¯¹æ‰‹çš„ä¿¡æ¯
 		cmp = type & AudioObserver::HearInfo_Opponent;
 		if (cmp != 0)
 		{
@@ -599,7 +599,7 @@ void WorldStateUpdater::UpdateFieldInfo()
         mpWorldState->mPlayModeTime = mpObserver->CurrentTime();
     }
 
-    Formation::instance.SetOpponentGoalieUnum(mpObserver->OppGoalieUnum()); // ÉèÖÃOpponentFormationµÄÊØÃÅÔ±ºÅÂë
+    Formation::instance.SetOpponentGoalieUnum(mpObserver->OppGoalieUnum()); // è®¾ç½®OpponentFormationçš„å®ˆé—¨å‘˜å·ç 
     mpWorldState->mTeammateGoalieUnum = PlayerParam::instance().ourGoalieUnum();
 	mpWorldState->mOpponentGoalieUnum = mpObserver->OppGoalieUnum();
 
@@ -630,9 +630,9 @@ void WorldStateUpdater::UpdateSelfInfo()
 {
 
 	SelfState().SetIsAlive(true);
-    SelfState().UpdateIsSensed(true); // ¡°ÕæÕı¡±µÄ×Ô¼º
+    SelfState().UpdateIsSensed(true); // â€œçœŸæ­£â€çš„è‡ªå·±
 
-	//=============================¸üĞÂ×Ô¼ºµÄsense========================
+	//=============================æ›´æ–°è‡ªå·±çš„sense========================
 	UpdateSelfSense();
 /*
 	//==========================according to speed of this cycle estimate position of this cycle=======================
@@ -651,13 +651,13 @@ void WorldStateUpdater::UpdateSelfInfo()
 	}
 */
 
-	//µ½´ËÎªÖ¹×Ô¼ºµÄÉíÌå½Ç¶ÈºÍ²±×Ó½Ç¶È¸üĞÂ¶ÔÁË
-	//¼ÆËã¹«Ê½¼ûUSTC_Material µÚÆßÕÂ
+	//åˆ°æ­¤ä¸ºæ­¢è‡ªå·±çš„èº«ä½“è§’åº¦å’Œè„–å­è§’åº¦æ›´æ–°å¯¹äº†
+	//è®¡ç®—å…¬å¼è§USTC_Material ç¬¬ä¸ƒç« 
 	//playerVel = polar2vector(speedValue, neckGlobalAngle + speedAngle)
 	Vector vec = Polar2Vector(mpObserver->Sense().GetSpeed(), mpObserver->Sense().GetSpeedDir() + GetSelf().GetNeckGlobalDir());
 	SelfState().UpdateVel(vec);
 
-	//ÓÃ×Ô¼º¸üĞÂºóµÄËÙ¶ÈÔ¤²â×Ô¼ºµÄÎ»ÖÃ,±ÈÖ®Ç°µÄÔ¤²â×¼.¼û08
+	//ç”¨è‡ªå·±æ›´æ–°åçš„é€Ÿåº¦é¢„æµ‹è‡ªå·±çš„ä½ç½®,æ¯”ä¹‹å‰çš„é¢„æµ‹å‡†.è§08
 	if (!mpObserver->Sense().IsCollideWithBall() && !mpObserver->Sense().IsCollideWithPlayer() && mpObserver->GetPlayerMoveTime() != mpObserver->CurrentTime())
 	{
 		const Vector & pre_pos = mpWorldState->GetHistory(1)->GetTeammate(mSelfUnum).GetPos();
@@ -672,23 +672,23 @@ void WorldStateUpdater::UpdateSelfInfo()
 	}
 
 
-	//ÆÀ¹À×Ô¼ºÎ»ÖÃÎó²î ,Ä¿Ç°×î´óÎÊÌâÊÇserverÒÆÈË,¶øÈË²»Öª.Ä¿Ç°´¦ÀíÊÇÈç¹ûdropballÒÔ¼°playmodeÄ£Ê½¸Ä±äÊÇ½«Î»ÖÃeps¼Óµ½¼«´ó
+	//è¯„ä¼°è‡ªå·±ä½ç½®è¯¯å·® ,ç›®å‰æœ€å¤§é—®é¢˜æ˜¯serverç§»äºº,è€Œäººä¸çŸ¥.ç›®å‰å¤„ç†æ˜¯å¦‚æœdropballä»¥åŠplaymodeæ¨¡å¼æ”¹å˜æ˜¯å°†ä½ç½®epsåŠ åˆ°æå¤§
 	if (mpWorldState->GetPlayModeTime() == mpWorldState->CurrentTime() || mpWorldState->IsBallDropped())
 	{
 		SelfState().UpdatePosEps(10000);
 	}
 
-	//===============================¸üĞÂ×Ô¼ºµÄÊÓ¾õ======================
+	//===============================æ›´æ–°è‡ªå·±çš„è§†è§‰======================
 	if (mpObserver->IsNewSight())
 	{
-		//¸üĞÂ×Ô¼ºµÄÍ·²¿ºÍÉíÌå½Ç¶È
+		//æ›´æ–°è‡ªå·±çš„å¤´éƒ¨å’Œèº«ä½“è§’åº¦
 		double neck_globe_angle = 0.0;
 
 
 		if (ComputeSelfDir(neck_globe_angle))
 		{
-			//¼ÆËã¹«Ê½¼ûUSTC_Material µÚÆßÕÂ
-			//bodyGlobalAngle = neckGlobalAngle ¨C head_angle
+			//è®¡ç®—å…¬å¼è§USTC_Material ç¬¬ä¸ƒç« 
+			//bodyGlobalAngle = neckGlobalAngle â€“ head_angle
 			if (mSightDelay <= HistoryState::HISTORY_SIZE)
 			{
 				const PlayerState& player = mpWorldState->GetHistory(mSightDelay)->GetTeammate(mSelfUnum);
@@ -703,19 +703,19 @@ void WorldStateUpdater::UpdateSelfInfo()
 
 		if (mSightDelay == 0)
 		{
-			//ĞŞÕı×Ô¼ºµÄËÙ¶È µ±ÇÒ½öµ±²»³öÏÖÊÓ¾õÑÓ³ÙÊ±.
+			//ä¿®æ­£è‡ªå·±çš„é€Ÿåº¦ å½“ä¸”ä»…å½“ä¸å‡ºç°è§†è§‰å»¶è¿Ÿæ—¶.
 			Vector vec = Polar2Vector(mpObserver->Sense().GetSpeed(), mpObserver->Sense().GetSpeedDir() + GetSelf().GetNeckGlobalDir());
 			SelfState().UpdateVel(vec);
 		}
 
-		//¸üĞÂ×Ô¼ºµÄÎ»ÖÃ
+		//æ›´æ–°è‡ªå·±çš„ä½ç½®
 		Vector pos;
 		double eps = 0;
 		if (ComputeSelfPos(pos , eps))
 		{
 			if (eps > SelfState().GetPosEps())
 			{
-				//¸ù¾İÍ³¼ÆÖµ,x,yµ¥¸ö·ÖÁ¿²îÖµ´óÓÚ1»ù±¾²»´æÔÚ Òò´ËÈ¡1
+				//æ ¹æ®ç»Ÿè®¡å€¼,x,yå•ä¸ªåˆ†é‡å·®å€¼å¤§äº1åŸºæœ¬ä¸å­˜åœ¨ å› æ­¤å–1
 				if (pos.Dist2(SelfState().GetPos()) < 1)
 				{
 					pos = SelfState().GetPos();
@@ -740,15 +740,15 @@ void WorldStateUpdater::UpdateSelfInfo()
 
 void WorldStateUpdater::UpdateSelfSense()
 {
-	SelfState().UpdateNeckDir(PlayerParam::instance().ConvertAngle(mpObserver->Sense().GetNeckDir())); //Õâ¸ö¼´Ê¹Ã»ÓĞÊÓ¾õÒ²Òª¸üĞÂ
+	SelfState().UpdateNeckDir(PlayerParam::instance().ConvertAngle(mpObserver->Sense().GetNeckDir())); //è¿™ä¸ªå³ä½¿æ²¡æœ‰è§†è§‰ä¹Ÿè¦æ›´æ–°
 
-	SelfState().UpdateStamina(mpObserver->Sense().GetStamina()); //¸üĞÂÌåÁ¦
-	SelfState().UpdateEffort(mpObserver->Sense().GetEffort()); //¸üĞÂeffort
-	SelfState().UpdateCapacity(mpObserver->Sense().GetCapacity()); //¸üĞÂ¾ÍÌåÁ¦ÈİÁ¿
+	SelfState().UpdateStamina(mpObserver->Sense().GetStamina()); //æ›´æ–°ä½“åŠ›
+	SelfState().UpdateEffort(mpObserver->Sense().GetEffort()); //æ›´æ–°effort
+	SelfState().UpdateCapacity(mpObserver->Sense().GetCapacity()); //æ›´æ–°å°±ä½“åŠ›å®¹é‡
 
 	//update recovery
 	double buff = Min(SelfState().GetRecovery() * SelfState().GetStaminaIncMax() , SelfState().GetCapacity());
-	buff = ((int)(buff * 100)) / 100.0; //¾«¶ÈÉèÖÃÎª0.01 Ì«¾«È·ÁË»áÓ°Ïì¼ÆËã
+	buff = ((int)(buff * 100)) / 100.0; //ç²¾åº¦è®¾ç½®ä¸º0.01 å¤ªç²¾ç¡®äº†ä¼šå½±å“è®¡ç®—
 	if (mpObserver->CurrentTime().T() > 0 && mpObserver->Sense().GetStamina() - buff  < ServerParam::instance().staminaMax() * ServerParam::instance().recoverDecThr())
 	{
 		double recovery = SelfState().GetRecovery() - ServerParam::instance().recoverDec();
@@ -765,13 +765,13 @@ void WorldStateUpdater::UpdateSelfSense()
 		SelfState().UpdateRecovery(recovery);
 	}
 
-	//¸üĞÂ×Ô¼ºµÄtackleban
+	//æ›´æ–°è‡ªå·±çš„tackleban
 	SelfState().UpdateTackleBan(mpObserver->Sense().GetTackleExpires());
 	SelfState().UpdateFoulChargedCycle(mpObserver->Sense().GetFoulChargedCycle());
 
-	//¸üĞÂ×Ô¼ºµÄcatchban ÔİÊ±Ã»ÓĞ
+	//æ›´æ–°è‡ªå·±çš„catchban æš‚æ—¶æ²¡æœ‰
 
-	//¸üĞÂ×Ô¼ºµÄarmpoint
+	//æ›´æ–°è‡ªå·±çš„armpoint
 	if (mpObserver->Sense().GetArmMovableBan() > 0)
 	{
 		SelfState().UpdateArmPoint(mpObserver->Sense().GetArmTargetDir(),0,1,mpObserver->Sense().GetArmTargetDist(),mpObserver->Sense().GetArmMovableBan(),mpObserver->Sense().GetArmExpires());
@@ -782,10 +782,10 @@ void WorldStateUpdater::UpdateSelfSense()
 	}
 
 
-	//¸üĞÂ×Ô¼ºµÄFocusOn
+	//æ›´æ–°è‡ªå·±çš„FocusOn
 	SelfState().UpdateFocusOn(mpObserver->Sense().GetFocusSide(), mpObserver->Sense().GetFocusUnum());
 
-	//¸üĞÂ×Ô¼ºµÄÊÓ½Ç
+	//æ›´æ–°è‡ªå·±çš„è§†è§’
 	SelfState().UpdateViewWidth(mpObserver->Sense().GetViewWidth());
 
 	SelfState().UpdateCardType( mpObserver->Sense().GetCardType() );
@@ -794,9 +794,9 @@ void WorldStateUpdater::UpdateSelfSense()
 
 void WorldStateUpdater::UpdateKnownPlayers()
 {
-	//ÔİÊ±¶¨¶ÓÓÑµÄÎ»ÖÃÎª×îĞÂµÄÊ±¼ä±íÊ¾¿´µ½
+	//æš‚æ—¶å®šé˜Ÿå‹çš„ä½ç½®ä¸ºæœ€æ–°çš„æ—¶é—´è¡¨ç¤ºçœ‹åˆ°
 
-	//¸üĞÂ¿´µ½µÄ¶ÓÓÑ
+	//æ›´æ–°çœ‹åˆ°çš„é˜Ÿå‹
 	for (int i = 1;i <= TEAMSIZE;i++)
 	{
 		if (i == mSelfUnum)
@@ -810,7 +810,7 @@ void WorldStateUpdater::UpdateKnownPlayers()
 		}
 	}
 
-	//¸üĞÂ¿´µ½µÄ¶ÔÊÖ
+	//æ›´æ–°çœ‹åˆ°çš„å¯¹æ‰‹
 	for (int i = 1;i <= TEAMSIZE;i++)
 	{
 		if (mpObserver->Opponent(i).GetDir().time() == mpObserver->LatestSightTime())
@@ -822,14 +822,14 @@ void WorldStateUpdater::UpdateKnownPlayers()
 
 void WorldStateUpdater::UpdateSpecificPlayer(const PlayerObserver &player, Unum unum, bool is_teammate)
 {
-	//¸ù¾İµ×²ãµÄparserÀàµÄĞÅÏ¢ ¸üĞÂµÄÓĞ£ºÎ»ÖÃ£¬ËÙ¶È£¬ÉíÌå½Ç¶È£¬Í·²¿½Ç¶È£¬ÊÖÖ¸Ïò£¬ÊÇ·ñ²ùÇò
-	//Ô­ÔòÊÇ£ºÖ»ÓĞ½á¹ûÊÇ×îĞÂÊ±²Å¸üĞÂ
+	//æ ¹æ®åº•å±‚çš„parserç±»çš„ä¿¡æ¯ æ›´æ–°çš„æœ‰ï¼šä½ç½®ï¼Œé€Ÿåº¦ï¼Œèº«ä½“è§’åº¦ï¼Œå¤´éƒ¨è§’åº¦ï¼Œæ‰‹æŒ‡å‘ï¼Œæ˜¯å¦é“²çƒ
+	//åŸåˆ™æ˜¯ï¼šåªæœ‰ç»“æœæ˜¯æœ€æ–°æ—¶æ‰æ›´æ–°
 
 	if (is_teammate)
 	{
 		Teammate(unum).SetIsAlive(true);
 		Teammate(unum).UpdateGuessedTimes(0);
-		//Î»ÖÃ¸üĞÂ
+		//ä½ç½®æ›´æ–°
 		if (player.GetDir().time() == mpObserver->LatestSightTime())
 		{
 			Vector vec = Polar2Vector(PlayerParam::instance().ConvertSightDist(player.Dist()) , GetNeckGlobalDirFromSightDelay(mSightDelay) + player.Dir());
@@ -840,22 +840,22 @@ void WorldStateUpdater::UpdateSpecificPlayer(const PlayerObserver &player, Unum 
 			Teammate(unum).UpdatePosEps(eps);
 		}
 
-		//ËÙ¶È¸üĞÂ
+		//é€Ÿåº¦æ›´æ–°
 		if (player.GetDirChg().time() == mpObserver->LatestSightTime())
 		{
-			//¹«Ê½£ºrelPos = polar2vector(1.0, ballAngle)
+			//å…¬å¼ï¼šrelPos = polar2vector(1.0, ballAngle)
 			Vector vec = Polar2Vector(1.0 , player.Dir());
 			double distChg = player.DistChg();
 			double dirChg  = player.DirChg();
 			double dist    = player.Dist();
-			//¼ÆËã¹«Ê½¼ûUSTC_Material µÚÆßÕÂ
-			//¹«Ê½£ºrelVel = (distChg * relPos.x() - (dirChg * PI / 180 * ballDist * relPos.y()),distChg * rpos.y() + (dirChg * PI / 180 * ballDist * relPos.x())
+			//è®¡ç®—å…¬å¼è§USTC_Material ç¬¬ä¸ƒç« 
+			//å…¬å¼ï¼šrelVel = (distChg * relPos.x() - (dirChg * PI / 180 * ballDist * relPos.y()),distChg * rpos.y() + (dirChg * PI / 180 * ballDist * relPos.x())
 			Vector relvel = Vector(distChg * vec.X() - (dirChg * M_PI / 180 * dist * vec.Y()) , distChg * vec.Y() + (dirChg * M_PI / 180 * dist * vec.X()));
-			//¹«Ê½£ºballVel = playerVel() + relVel.rotate(neckGlobalAngle)
+			//å…¬å¼ï¼šballVel = playerVel() + relVel.rotate(neckGlobalAngle)
 			relvel = GetSelfVelFromSightDelay(mSightDelay) + relvel.Rotate(GetNeckGlobalDirFromSightDelay(mSightDelay));
 			Teammate(unum).UpdateVel(relvel , mSightDelay , mPlayerConf);
 		}
-		else if(player.GetDir().time() == mpObserver->LatestSightTime()) //Ö»¿´µ½Î»ÖÃµ«ÊÇ¿´²»µ½ËÙ¶ÈµÄÇé¿ö
+		else if(player.GetDir().time() == mpObserver->LatestSightTime()) //åªçœ‹åˆ°ä½ç½®ä½†æ˜¯çœ‹ä¸åˆ°é€Ÿåº¦çš„æƒ…å†µ
 		{
 		//	if (player.Dist() < ServerParam::instance().visibleDistance() * 2)
 
@@ -877,7 +877,7 @@ void WorldStateUpdater::UpdateSpecificPlayer(const PlayerObserver &player, Unum 
 					vel += self_vel - self_vel_pos;
 
 					double max_speed = PlayerParam::instance().HeteroPlayer(mpObserver->GetTeammateType(unum)).effectiveSpeedMax();
-					//¸ù¾İËÙ¶È´óÖÂ²Â²â³¯Ïò ÓĞÊÓ¾õÊ±»á¸²¸Ç
+					//æ ¹æ®é€Ÿåº¦å¤§è‡´çŒœæµ‹æœå‘ æœ‰è§†è§‰æ—¶ä¼šè¦†ç›–
 					if (vel.Mod() > max_speed * mpWorldState->GetTeammate(unum).GetPlayerDecay() * 0.8 && GetTeammate(unum).IsBodyDirMayChanged())
 					{
 						//					Logger::instance().GetTextLogger("bodydir") << mpWorldState->CurrentTime().T() << "\t" << mpWorldState->CurrentTime().S() << "\t" << unum << "\t" << vel.Dir() << "\t" << Teammate(unum).GetBodyDir() << "\n";
@@ -905,7 +905,7 @@ void WorldStateUpdater::UpdateSpecificPlayer(const PlayerObserver &player, Unum 
 		}
 
 
-		//ÉíÌå½Ç¶È
+		//èº«ä½“è§’åº¦
 		if (player.GetBodyDir().time() == mpObserver->LatestSightTime())
 		{
 			AngleDeg angle = player.BodyDir();
@@ -914,14 +914,14 @@ void WorldStateUpdater::UpdateSpecificPlayer(const PlayerObserver &player, Unum 
 			Teammate(unum).UpdateBodyDirMayChanged(false);
 		}
 
-		//Í·²¿½Ç¶È
+		//å¤´éƒ¨è§’åº¦
 		if (player.GetHeadDir().time() == mpObserver->LatestSightTime())
 		{
 			AngleDeg angle = player.HeadDir() - player.BodyDir();
 			Teammate(unum).UpdateNeckDir(angle , mSightDelay , mPlayerConf);
 		}
 
-		//ÊÖÖ¸Ïò
+		//æ‰‹æŒ‡å‘
 		if (player.GetIsPointing().time() == mpObserver->LatestSightTime())
 		{
 			if (player.IsPointing())
@@ -935,14 +935,14 @@ void WorldStateUpdater::UpdateSpecificPlayer(const PlayerObserver &player, Unum 
 			}
 		}
 
-		//ÊÇ·ñ²ùÇò
+		//æ˜¯å¦é“²çƒ
 		if (player.GetIsTackling().time() == mpObserver->LatestSightTime())
 		{
 			if (player.IsTackling()) {
 				if (Teammate(unum).GetTackleBan() == 0) {
 					Teammate(unum).UpdateTackleBan(ServerParam::instance().tackleCycles() - 1);
 				}
-				//tacleËÙ¶ÈÒ»¶¨ÎªÁã
+				//tacleé€Ÿåº¦ä¸€å®šä¸ºé›¶
 				Teammate(unum).UpdateVel(Vector(0,0) , mSightDelay , mPlayerConf);
 			}
 			else {
@@ -950,7 +950,7 @@ void WorldStateUpdater::UpdateSpecificPlayer(const PlayerObserver &player, Unum 
 			}
 		}
 
-		//ÊÇ·ñ±»²ùµ¹
+		//æ˜¯å¦è¢«é“²å€’
 		if ( player.GetIsLying().time() == mpObserver->LatestSightTime() )
 		{
 			if ( player.IsLying() )
@@ -969,7 +969,7 @@ void WorldStateUpdater::UpdateSpecificPlayer(const PlayerObserver &player, Unum 
 
 		Teammate( unum ).UpdateCardType( mpObserver->GetTeammateCardType( unum ) );
 
-		//ÊÇ·ñÉÏÖÜÆÚÌß¹ıÇò
+		//æ˜¯å¦ä¸Šå‘¨æœŸè¸¢è¿‡çƒ
 		if (player.GetIsKicked().time() == mpObserver->LatestSightTime())
 		{
 			Teammate(unum).UpdateKicked(player.IsKicked());
@@ -979,7 +979,7 @@ void WorldStateUpdater::UpdateSpecificPlayer(const PlayerObserver &player, Unum 
 	{
 		Opponent(unum).SetIsAlive(true);
 		Opponent(unum).UpdateGuessedTimes(0);
-		//Î»ÖÃ¸üĞÂ
+		//ä½ç½®æ›´æ–°
 		if (player.GetDir().time() == mpObserver->LatestSightTime())
 		{
 			Vector vec = Polar2Vector(PlayerParam::instance().ConvertSightDist(player.Dist()) , GetNeckGlobalDirFromSightDelay(mSightDelay) + player.Dir());
@@ -990,23 +990,23 @@ void WorldStateUpdater::UpdateSpecificPlayer(const PlayerObserver &player, Unum 
 			Opponent(unum).UpdatePosEps(eps);
 		}
 
-		//ËÙ¶È¸üĞÂ
+		//é€Ÿåº¦æ›´æ–°
 		if (player.GetDirChg().time() == mpObserver->LatestSightTime())
 		{
-			//¹«Ê½£ºrelPos = polar2vector(1.0, ballAngle)
+			//å…¬å¼ï¼šrelPos = polar2vector(1.0, ballAngle)
 			Vector vec = Polar2Vector(1.0 , player.Dir());
 			double distChg = player.DistChg();
 			double dirChg  = player.DirChg();
 			double dist    = player.Dist();
-			//¼ÆËã¹«Ê½¼ûUSTC_Material µÚÆßÕÂ
-			//¹«Ê½£ºrelVel = (distChg * relPos.x() - (dirChg * PI / 180 * ballDist * relPos.y()),distChg * rpos.y() + (dirChg * PI / 180 * ballDist * relPos.x())
+			//è®¡ç®—å…¬å¼è§USTC_Material ç¬¬ä¸ƒç« 
+			//å…¬å¼ï¼šrelVel = (distChg * relPos.x() - (dirChg * PI / 180 * ballDist * relPos.y()),distChg * rpos.y() + (dirChg * PI / 180 * ballDist * relPos.x())
 			Vector relvel = Vector(distChg * vec.X() - (dirChg * M_PI / 180 * dist * vec.Y()) , distChg * vec.Y() + (dirChg * M_PI / 180 * dist * vec.X()));
 
-			//¹«Ê½£ºballVel = playerVel() + relVel.rotate(neckGlobalAngle)
+			//å…¬å¼ï¼šballVel = playerVel() + relVel.rotate(neckGlobalAngle)
 			relvel = GetSelfVelFromSightDelay(mSightDelay) + relvel.Rotate(GetNeckGlobalDirFromSightDelay(mSightDelay));
 			Opponent(unum).UpdateVel(relvel , mSightDelay , mPlayerConf);
 		}
-		else if(player.GetDir().time() == mpObserver->LatestSightTime()) //Ö»¿´µ½ÇòµÄÎ»ÖÃµ«ÊÇ¿´²»µ½ËÙ¶ÈµÄÇé¿ö
+		else if(player.GetDir().time() == mpObserver->LatestSightTime()) //åªçœ‹åˆ°çƒçš„ä½ç½®ä½†æ˜¯çœ‹ä¸åˆ°é€Ÿåº¦çš„æƒ…å†µ
 		{
 			if (mpWorldState->GetHistory(1 + mSightDelay)) {
 				int delay = mpWorldState->GetHistory(1 + mSightDelay)->Opponent(unum).GetPosDelay();
@@ -1028,7 +1028,7 @@ void WorldStateUpdater::UpdateSpecificPlayer(const PlayerObserver &player, Unum 
 
 					double max_speed = GetOpponent(unum).GetEffectiveSpeedMax();
 
-					//¸ù¾İËÙ¶ÈÔ¤²â¶ÔÊÖÉíÌå³¯Ïò
+					//æ ¹æ®é€Ÿåº¦é¢„æµ‹å¯¹æ‰‹èº«ä½“æœå‘
 					if (vel.Mod() > max_speed * GetOpponent(unum).GetPlayerDecay()  * 0.8 && GetOpponent(unum).IsBodyDirMayChanged())
 					{
 						//					Logger::instance().GetTextLogger("bodydir") << mpWorldState->CurrentTime().T() << "\t" << mpWorldState->CurrentTime().S() << "\t" << unum + TEAMSIZE << "\t" << vel.Dir() << "\t" << Opponent(unum).GetBodyDir() << "\n";
@@ -1053,7 +1053,7 @@ void WorldStateUpdater::UpdateSpecificPlayer(const PlayerObserver &player, Unum 
 		}
 
 
-		//ÉíÌå½Ç¶È
+		//èº«ä½“è§’åº¦
 		if (player.GetBodyDir().time() == mpObserver->LatestSightTime())
 		{
 			AngleDeg angle = player.BodyDir();
@@ -1062,14 +1062,14 @@ void WorldStateUpdater::UpdateSpecificPlayer(const PlayerObserver &player, Unum 
 			Opponent(unum).UpdateBodyDirMayChanged(false);
 		}
 
-		//Í·²¿½Ç¶È
+		//å¤´éƒ¨è§’åº¦
 		if (player.GetHeadDir().time() == mpObserver->LatestSightTime())
 		{
 			AngleDeg angle = player.HeadDir() - player.BodyDir();
 			Opponent(unum).UpdateNeckDir(angle , mSightDelay , mPlayerConf);
 		}
 
-		//ÊÖÖ¸Ïò
+		//æ‰‹æŒ‡å‘
 		if (player.GetIsPointing().time() == mpObserver->LatestSightTime())
 		{
 			if (player.IsPointing())
@@ -1078,7 +1078,7 @@ void WorldStateUpdater::UpdateSpecificPlayer(const PlayerObserver &player, Unum 
 			}
 		}
 
-		//ÊÇ·ñ²ùÇò
+		//æ˜¯å¦é“²çƒ
 		if (player.GetIsTackling().time() == mpObserver->LatestSightTime())
 		{
 			if (player.IsTackling())
@@ -1087,7 +1087,7 @@ void WorldStateUpdater::UpdateSpecificPlayer(const PlayerObserver &player, Unum 
 				{
 					Opponent(unum).UpdateTackleBan(ServerParam::instance().tackleCycles() - 1);
 				}
-				//tackleËÙ¶ÈÒ»¶¨ÎªÁã
+				//tackleé€Ÿåº¦ä¸€å®šä¸ºé›¶
 				Opponent(unum).UpdateVel(Vector(0,0) , mSightDelay , mPlayerConf);
 			}
 			else {
@@ -1095,7 +1095,7 @@ void WorldStateUpdater::UpdateSpecificPlayer(const PlayerObserver &player, Unum 
 			}
 		}
 
-		//ÊÇ·ñ±»²ùµ¹
+		//æ˜¯å¦è¢«é“²å€’
 		if ( player.GetIsLying().time() == mpObserver->LatestSightTime() )
 		{
 			if ( player.IsLying() )
@@ -1114,7 +1114,7 @@ void WorldStateUpdater::UpdateSpecificPlayer(const PlayerObserver &player, Unum 
 
 		Opponent( unum ).UpdateCardType( mpObserver->GetOpponentCardType( unum ) );
 
-		//ÊÇ·ñÉÏÖÜÆÚÌß¹ıÇò
+		//æ˜¯å¦ä¸Šå‘¨æœŸè¸¢è¿‡çƒ
 		if (player.GetIsKicked().time() == mpObserver->LatestSightTime())
 		{
 			Opponent(unum).UpdateKicked(player.IsKicked());
@@ -1205,13 +1205,13 @@ namespace {
 
 void WorldStateUpdater::UpdateBallInfo()
 {
-	//¸üĞÂ±ğÈËÊÇ·ñ¿ÉÌß.
+	//æ›´æ–°åˆ«äººæ˜¯å¦å¯è¸¢.
 	UpdateOtherKick();
 
 
-	//¸üĞÂÎ»ÖÃ
-	//¼ÆËã¹«Ê½¼ûUSTC_Material µÚÆßÕÂ
-	//¹«Ê½£ºballPos = playerPos + polar2vector(ballDist , neckGlobalAngle + ballAngle)
+	//æ›´æ–°ä½ç½®
+	//è®¡ç®—å…¬å¼è§USTC_Material ç¬¬ä¸ƒç« 
+	//å…¬å¼ï¼šballPos = playerPos + polar2vector(ballDist , neckGlobalAngle + ballAngle)
 	if (mpObserver->Ball().GetDist().time() == mpObserver->LatestSightTime())
 	{
 		double dist = PlayerParam::instance().ConvertSightDist(mpObserver->Ball().Dist());
@@ -1224,18 +1224,18 @@ void WorldStateUpdater::UpdateBallInfo()
 				|| mpObserver->GetPlayMode() == PM_Opp_Free_Kick_Fault_Kick
 			)
 		{
-			//¶Ô·½¿ªÇòÊÇ,¼º·½ÇòÔ±¾àÀëÇò×î¶ÌÎªfreekickBuffer ,ÔİÊ±²»ÖªµÀÕâÑù×öµÄ×÷ÓÃ .
+			//å¯¹æ–¹å¼€çƒæ˜¯,å·±æ–¹çƒå‘˜è·ç¦»çƒæœ€çŸ­ä¸ºfreekickBuffer ,æš‚æ—¶ä¸çŸ¥é“è¿™æ ·åšçš„ä½œç”¨ .
             dist = Max(dist, ServerParam::instance().offsideKickMargin() + FLOAT_EPS);
 		}
 
-		//·¢ÉúÅö×²Ê±¹Ì¶¨½«ÇòÓëÈËÒÆ¿ªÈç´Ë¾àÀë
+		//å‘ç”Ÿç¢°æ’æ—¶å›ºå®šå°†çƒä¸äººç§»å¼€å¦‚æ­¤è·ç¦»
 		if (mpObserver->Sense().IsCollideWithBall())
 		{
 			dist = GetSelf().GetPlayerSize() + ServerParam::instance().ballSize();
 		}
 		Vector pos = GetSelf().GetPos() + Polar2Vector(dist , GetNeckGlobalDirFromSightDelay(mSightDelay) + mpObserver->Ball().Dir());
 
-		//¸üĞÂeps ÇòÏà¶ÔÎó²îÖØÒª Çò½üÉíÊÇ²»Ê¹ÓÃ, ÒòÎª»áÓ°Ïìµ½½üÉíÇòËÙ¼ÆËã
+		//æ›´æ–°eps çƒç›¸å¯¹è¯¯å·®é‡è¦ çƒè¿‘èº«æ˜¯ä¸ä½¿ç”¨, å› ä¸ºä¼šå½±å“åˆ°è¿‘èº«çƒé€Ÿè®¡ç®—
 		double eps = PlayerParam::instance().GetEpsInSight(mpObserver->Ball().Dist());
 		eps = calcEps(dist , dist + eps , 0.1) + SelfState().GetPosEps();
 		if (dist >  ServerParam::instance().visibleDistance() * 2 && !(mSightDelay == 0 && mIsOtherKick && !mIsHearBallPos))
@@ -1269,7 +1269,7 @@ void WorldStateUpdater::UpdateBallInfo()
 			}
 		}
 
-		// limited to field ½öµ±Î»ÓÚ3Ã×ÒÔÍâ£¬·ñÔòÇòµÄÏà¶ÔÎ»ÖÃ²»×¼
+		// limited to field ä»…å½“ä½äº3ç±³ä»¥å¤–ï¼Œå¦åˆ™çƒçš„ç›¸å¯¹ä½ç½®ä¸å‡†
 		if (dist > ServerParam::instance().visibleDistance())
 		{
 			pos = LimitToField(pos);
@@ -1280,10 +1280,10 @@ void WorldStateUpdater::UpdateBallInfo()
 		Ball().UpdateGuessedTimes(0);
 	}
 
-	//¸üĞÂËÙ¶È
+	//æ›´æ–°é€Ÿåº¦
 	if (mpObserver->Ball().GetDistChg().time() == mpObserver->LatestSightTime())
 	{
-		//¹«Ê½£ºrelPos = polar2vector(1.0, ballAngle)
+		//å…¬å¼ï¼šrelPos = polar2vector(1.0, ballAngle)
 		Vector relPos = Polar2Vector(1.0, mpObserver->Ball().Dir());
 
 		double distChg = mpObserver->Ball().DistChg();
@@ -1292,7 +1292,7 @@ void WorldStateUpdater::UpdateBallInfo()
 
         ballDist = Max(ballDist, FLOAT_EPS);
 
-		//¹«Ê½£ºrelVel = (distChg * relPos.x() - (dirChg * PI / 180 * ballDist * relPos.y()),distChg * rpos.y() + (dirChg * PI / 180 * ballDist * relPos.x())
+		//å…¬å¼ï¼šrelVel = (distChg * relPos.x() - (dirChg * PI / 180 * ballDist * relPos.y()),distChg * rpos.y() + (dirChg * PI / 180 * ballDist * relPos.x())
 		Vector relVel = Vector(distChg * relPos.X() - (dirChg * M_PI / 180 * ballDist * relPos.Y()) , distChg * relPos.Y() + (dirChg * M_PI / 180 * ballDist * relPos.X()));
 
 		relVel = GetSelfVelFromSightDelay(mSightDelay) + relVel.Rotate(GetNeckGlobalDirFromSightDelay(mSightDelay));
@@ -1312,7 +1312,7 @@ void WorldStateUpdater::UpdateBallInfo()
 				relVel = (relVel + vel_estimate) / 2;
 			}
 		}
-		//¹«Ê½£ºballVel = playerVel() + relVel.rotate(neckGlobalAngle)
+		//å…¬å¼ï¼šballVel = playerVel() + relVel.rotate(neckGlobalAngle)
 		//Ball().UpdateVel(GetSelf().GetVel() + relVel.Rotate(GetSelf().GetNeckGlobalDir()));
 		//
 		if (!(mSightDelay == 0 && mIsOtherKick && !mIsHearBallVel))
@@ -1341,22 +1341,22 @@ void WorldStateUpdater::UpdateBallInfo()
 		Ball().UpdateVel(relVel , mSightDelay , mBallConf);
 	}
 
-	//ÀûÓÃÎ»ÖÃÏà¼õĞŞÕı.
-	if (mpObserver->Ball().GetDist().time() == mpObserver->LatestSightTime()) //¿´µ½ÇòµÄÎ»ÖÃÇé¿ö
+	//åˆ©ç”¨ä½ç½®ç›¸å‡ä¿®æ­£.
+	if (mpObserver->Ball().GetDist().time() == mpObserver->LatestSightTime()) //çœ‹åˆ°çƒçš„ä½ç½®æƒ…å†µ
 	{
 	/*		if (//mpObserver->Ball().Dist() < ServerParam::instance().visibleDistance() * 2 &&
 				(mpWorldState->GetHistory(1 + mSightDelay)->GetBall().GetPosDelay() == 0 ||
 				 (mpWorldState->GetHistory(1 + mSightDelay)->GetBall().GetPos().Dist(SelfState().GetPos()) < ServerParam::instance().visibleDistance() - 0.15 && mpWorldState->GetHistory(1 + mSightDelay)->GetBall().GetPosDelay() < 2)))*/
 
 		if (mpWorldState->GetHistory(1 + mSightDelay)) {
-			if (mpWorldState->GetHistory(1 + mSightDelay)->GetBall().GetPosDelay() < 2)//¾àÀë½üµ½Ò»¶¨³Ì¶È²Å¿ÉÒÔÓÃ
+			if (mpWorldState->GetHistory(1 + mSightDelay)->GetBall().GetPosDelay() < 2)//è·ç¦»è¿‘åˆ°ä¸€å®šç¨‹åº¦æ‰å¯ä»¥ç”¨
 			{
 				Vector vel = GetBall().GetPos() - mpWorldState->GetHistory(1 + mSightDelay)->Ball().GetPos() ;
 
 				//use  speed of self sense instead of pos of self sight to reduce the error
 				if (GetBall().GetPosEps() > ServerParam::instance().playerSize()  ||( !mpObserver->Sense().IsCollideWithBall() && !mpObserver->Sense().IsCollideWithPlayer() && !mpObserver->Sense().IsCollideWithPost()))
 				{
-					//Åö×²Ê±serverÇ¿ÖÆÒÆ¶¯ÈË,Èç¹ûÓÃÎ»ÖÃÏà¼õĞŞÕı,»áÒıÈë×î´ó0.3(player size)µÄÎó²î,08Ò²Ó¦¸ÃÓĞÕâ¸öbug
+					//ç¢°æ’æ—¶serverå¼ºåˆ¶ç§»åŠ¨äºº,å¦‚æœç”¨ä½ç½®ç›¸å‡ä¿®æ­£,ä¼šå¼•å…¥æœ€å¤§0.3(player size)çš„è¯¯å·®,08ä¹Ÿåº”è¯¥æœ‰è¿™ä¸ªbug
 					Vector self_vel = GetSelfVelFromSightDelay(mSightDelay);
 
 					if (mpObserver->Sense().IsCollideWithBall() || mpObserver->Sense().IsCollideWithPlayer() || mpObserver->Sense().IsCollideWithPost())
@@ -1421,7 +1421,7 @@ void WorldStateUpdater::UpdateBallInfo()
 					eps += ServerParam::instance().playerSize() * ServerParam::instance().ballDecay() * 0.1;
 				}
 
-				//Ã»ÓĞÊÓ¾õÊÂÒ»¶¨¸üĞÂ, ÓĞ½Ç¶ÈÊÓ¾õÊÇ×÷ÎªĞŞÕı
+				//æ²¡æœ‰è§†è§‰äº‹ä¸€å®šæ›´æ–°, æœ‰è§’åº¦è§†è§‰æ˜¯ä½œä¸ºä¿®æ­£
 				if (mpObserver->Ball().Dist() < 2 * ServerParam::instance().visibleDistance())
 				{
 					if ( mpWorldState->GetHistory(1 + mSightDelay)->GetBall().GetPosDelay() == 0 || (mpWorldState->GetHistory(1 + mSightDelay)->GetBall().GetPos().Dist(SelfState().GetPos()) < ServerParam::instance().visibleDistance() - 0.15 && mpWorldState->GetHistory(1 + mSightDelay)->GetBall().GetPosDelay() == 1) || (!mIsHearBallVel && mIsOtherKick))
@@ -1441,7 +1441,7 @@ void WorldStateUpdater::UpdateBallInfo()
 						}
 					}
 				}
-				//²âÊÔ½á¹û·Ç³£²»ºÃ ÏÈ×¢ÊÍµô
+				//æµ‹è¯•ç»“æœéå¸¸ä¸å¥½ å…ˆæ³¨é‡Šæ‰
 				else
 				{
 					if (Ball().GetVelDelay() > mSightDelay && !mIsHearBallVel && mIsOtherKick)
@@ -1482,7 +1482,7 @@ void WorldStateUpdater::UpdateInfoWhenCollided()
 		}
 	}
 
-	//Èç¹û·¢ÉúÅö×²£¬ËÙ¶ÈĞèÒª´¦Àí ½öÔÚÎ´¸üĞÂ¿´µ½ËÙ¶ÈÊ±Ê¹ÓÃ
+	//å¦‚æœå‘ç”Ÿç¢°æ’ï¼Œé€Ÿåº¦éœ€è¦å¤„ç† ä»…åœ¨æœªæ›´æ–°çœ‹åˆ°é€Ÿåº¦æ—¶ä½¿ç”¨
 	if (mpObserver->Sense().IsCollideWithBall() && Ball().GetVelDelay() != 0)
 	{
 		Ball().UpdateVel(GetBall().GetVel() * -0.1 ,  GetBall().GetVelDelay() , GetBall().GetVelConf());
@@ -1491,10 +1491,10 @@ void WorldStateUpdater::UpdateInfoWhenCollided()
 
 	if (mpObserver->Sense().IsCollideWithPlayer())
 	{
-		//ÕÒµ½×î½üµÄÇòÔ±
+		//æ‰¾åˆ°æœ€è¿‘çš„çƒå‘˜
 		bool is_teammate = false;
-		Unum tmmt = GetSeenClosestTeammate(); //ÎŞÔò·µ»Ø0
-		Unum oppn = GetSeenClosestOpponent(); //ÎŞÔò·µ»Ø0
+		Unum tmmt = GetSeenClosestTeammate(); //æ— åˆ™è¿”å›0
+		Unum oppn = GetSeenClosestOpponent(); //æ— åˆ™è¿”å›0
 
 		if (tmmt * oppn == 0)
 		{
@@ -1545,15 +1545,15 @@ void WorldStateUpdater::UpdateInfoWhenCollided()
 
 bool WorldStateUpdater::ComputeSelfDir(double& angle)
 {
-	//¼ÆËã¿ÉÒÔ¿´µ½µÄÏß£¬Èç¹ûÓĞÁ½¸öÔò±íÊ¾ÔÚÇò³¡Íâ
+	//è®¡ç®—å¯ä»¥çœ‹åˆ°çš„çº¿ï¼Œå¦‚æœæœ‰ä¸¤ä¸ªåˆ™è¡¨ç¤ºåœ¨çƒåœºå¤–
 	int sample_line = SL_NONE; //mark
 	int num = 0;
-	double min = 10000; //³õÊ¼Öµ
+	double min = 10000; //åˆå§‹å€¼
 	for (int i = 0;i <  SL_MAX;i++)
 	{
 		if (mpObserver->SideLine((SideLineType)i).GetDir().time() == mpObserver->LatestSightTime())
 		{
-			//±ØĞëÊ¹ÓÃ×î½üµÄÒ»ÌõÏß
+			//å¿…é¡»ä½¿ç”¨æœ€è¿‘çš„ä¸€æ¡çº¿
 			if (mpObserver->SideLine((SideLineType)i).Dist() < min)
 			{
 				sample_line = i;
@@ -1563,29 +1563,29 @@ bool WorldStateUpdater::ComputeSelfDir(double& angle)
 		}
 	}
 
-	//¿´²»µ½
+	//çœ‹ä¸åˆ°
 	if (num == 0)
 	{
 		return false;
 	}
 
-	//¼ÆËã¹«Ê½¼ûUSTC_Material µÚÆßÕÂ
+	//è®¡ç®—å…¬å¼è§USTC_Material ç¬¬ä¸ƒç« 
 
-	//lineRelativeAngle = (line_dir < 0 ) ? (90 + line_dir ) : (line_dir ¨C 90)
+	//lineRelativeAngle = (line_dir < 0 ) ? (90 + line_dir ) : (line_dir â€“ 90)
 	angle = mpObserver->SideLine((SideLineType)sample_line).Dir();
 
 	angle = angle < 0 ? 90 + angle : angle - 90 ;
 
-	//neckGlobalAngle = lineGlobalAngle ¨C lineRelativeAngle
+	//neckGlobalAngle = lineGlobalAngle â€“ lineRelativeAngle
 	angle = (mpObserver->SideLine((SideLineType)sample_line)).GlobalPosition().Dir() - angle;
 
-	//Èç¹ûÍ¬Ê±¿´µ½Á½ÌõÏß¾Í±íÊ¾ÔÚ³¡Íâ ¼ÓÉÏ180 ¾ßÌå¿É²Î¼ÓÔ´ÂëMemPosition.cµÄUpdate_self_seenº¯Êı´¦Àí
+	//å¦‚æœåŒæ—¶çœ‹åˆ°ä¸¤æ¡çº¿å°±è¡¨ç¤ºåœ¨åœºå¤– åŠ ä¸Š180 å…·ä½“å¯å‚åŠ æºç MemPosition.cçš„Update_self_seenå‡½æ•°å¤„ç†
 	if (num >= 2)
 	{
 		angle = 180 + angle;
 	}
 
-	//±£Ö¤½Ç¶ÈÔÚ180 µ½ -180 Ö®¼ä
+	//ä¿è¯è§’åº¦åœ¨180 åˆ° -180 ä¹‹é—´
 	if (angle > 180)
 	{
 		angle -= 360;
@@ -1600,9 +1600,9 @@ bool WorldStateUpdater::ComputeSelfDir(double& angle)
 
 bool WorldStateUpdater::ComputeSelfPos(Vector &vec ,double& eps)
 {
-	//Ñ°ÕÒ×î½üµÄ±êÖ¾
-	int sample = FLAG_NONE; //×î½ü±êÖ¾µÄ±êÊ¾
-	double min = 2000.0;      //×î½ü±êÖ¾µÄ¾àÀë ³õÊ¼ÖµÓ¦¸Ã²»ÄÜ±ÈÕâ¸ö¸üĞ¡ÁË°É£¡
+	//å¯»æ‰¾æœ€è¿‘çš„æ ‡å¿—
+	int sample = FLAG_NONE; //æœ€è¿‘æ ‡å¿—çš„æ ‡ç¤º
+	double min = 2000.0;      //æœ€è¿‘æ ‡å¿—çš„è·ç¦» åˆå§‹å€¼åº”è¯¥ä¸èƒ½æ¯”è¿™ä¸ªæ›´å°äº†å§ï¼
 
 	for (int i = 0;i < FLAG_MAX;i++)
 	{
@@ -1616,13 +1616,13 @@ bool WorldStateUpdater::ComputeSelfPos(Vector &vec ,double& eps)
 		}
 	}
 
-	//Ã»ÓĞ¿´µ½µÄ Ôò·µ»Øfalse
+	//æ²¡æœ‰çœ‹åˆ°çš„ åˆ™è¿”å›false
 	if (sample == FLAG_NONE)
 	{
 		return false;
 	}
 
-	//ĞŞÕı¼°¼ÆËãeps
+	//ä¿®æ­£åŠè®¡ç®—eps
 	min = PlayerParam::instance().ConvertMarkDist(min);
 	eps = PlayerParam::instance().GetEpsInMark(min);
 
@@ -1630,12 +1630,12 @@ bool WorldStateUpdater::ComputeSelfPos(Vector &vec ,double& eps)
 
 	if (GetSelf().GetBodyDirDelay() != mSightDelay)
 	{
-		//²»È¥¼ÆËãÉíÌå½Ç¶ÈÎó²î£¬Ã»ÓĞ¸üĞÂÈÏÎªÆä¼«²»×¼
+		//ä¸å»è®¡ç®—èº«ä½“è§’åº¦è¯¯å·®ï¼Œæ²¡æœ‰æ›´æ–°è®¤ä¸ºå…¶æä¸å‡†
 		eps = 10000;
 	}
 
-	//¼ÆËã¹«Ê½¼ûUSTC_Material µÚÆßÕÂ
-	//playerPos = flagPos ¨C polar2vector(flagDist, neckGlobalAngle + flagDir)
+	//è®¡ç®—å…¬å¼è§USTC_Material ç¬¬ä¸ƒç« 
+	//playerPos = flagPos â€“ polar2vector(flagDist, neckGlobalAngle + flagDir)
 	vec = mpObserver->Marker((MarkerType)sample).GlobalPosition() - Polar2Vector(min , GetNeckGlobalDirFromSightDelay(mSightDelay) + mpObserver->Marker((MarkerType)sample).Dir());
 
 	return true;
@@ -1717,9 +1717,9 @@ void WorldStateUpdater::UpdateUnknownPlayers()
 	bool is_special_mode = mpWorldState->GetPlayMode() == PM_Before_Kick_Off || mpWorldState->GetPlayMode() == PM_Goal_Ours || mpWorldState->GetPlayMode() == PM_Goal_Opps;
 
 
-	////============================================¸üĞÂ²»ÖªµÀÇòÔ±ºÅÂëµÄ==========================================================
-	bool Unknown[TEAMSIZE * 2][TEAMSIZE * 2 + 1]; //ÓëÎ´ÖªÇòÔ±½Ó½üµÄÒÑÖªÇòÔ±µÄ¶ÓÁĞ.ÀıÈçÈç¹û¼º·½ÇòÔ±iÓëµÚj¸öÎ´ÖªÇòÔ±¿ÉÄÜÏàÍ¬ ÔòUnknown[j][i] = true;  ¶ÔÃ¿Ò»ĞĞ 0~TEAMSIZE-1Îª¼º·½ÇòÔ± ÆäËüÎª¶Ô·½ÇòÔ±
-	int UnknownCount[TEAMSIZE * 2];               //±ê¼ÇÎ´ÖªÇòÔ±¿ÉÄÜµÄÊôÓÚÇòÔ±µÄ¸öÊı
+	////============================================æ›´æ–°ä¸çŸ¥é“çƒå‘˜å·ç çš„==========================================================
+	bool Unknown[TEAMSIZE * 2][TEAMSIZE * 2 + 1]; //ä¸æœªçŸ¥çƒå‘˜æ¥è¿‘çš„å·²çŸ¥çƒå‘˜çš„é˜Ÿåˆ—.ä¾‹å¦‚å¦‚æœå·±æ–¹çƒå‘˜iä¸ç¬¬jä¸ªæœªçŸ¥çƒå‘˜å¯èƒ½ç›¸åŒ åˆ™Unknown[j][i] = true;  å¯¹æ¯ä¸€è¡Œ 0~TEAMSIZE-1ä¸ºå·±æ–¹çƒå‘˜ å…¶å®ƒä¸ºå¯¹æ–¹çƒå‘˜
+	int UnknownCount[TEAMSIZE * 2];               //æ ‡è®°æœªçŸ¥çƒå‘˜å¯èƒ½çš„å±äºçƒå‘˜çš„ä¸ªæ•°
 
 	bool UnknownUpdate[TEAMSIZE*2];
 
@@ -1731,11 +1731,11 @@ void WorldStateUpdater::UpdateUnknownPlayers()
 		}
 	}
 
-	//²»Í¬µÄÁ½¸öÁ¿
+	//ä¸åŒçš„ä¸¤ä¸ªé‡
 	int player_num = mpObserver->GetUnknownPlayerCount();
 	char self_side = mpObserver->OurInitSide();
 
-	//1.¶ÔËùÓĞpi,oj£¬µ±Âú×ãraidus_max(pi) > distance(pi,oj)Ê±£¬½«pi Óëoj »¥Ïà¼ÓÈë¶Ô·½µÄÆ¥ÅäÁĞ±í¡£
+	//1.å¯¹æ‰€æœ‰pi,ojï¼Œå½“æ»¡è¶³raidus_max(pi) > distance(pi,oj)æ—¶ï¼Œå°†pi ä¸oj äº’ç›¸åŠ å…¥å¯¹æ–¹çš„åŒ¹é…åˆ—è¡¨ã€‚
 	for (int i = 0;i < player_num;i++)
 	{
 		Vector pos = Polar2Vector(PlayerParam::instance().ConvertSightDist(mpObserver->UnknownPlayer(i).Dist()) , GetNeckGlobalDirFromSightDelay(mSightDelay) + mpObserver->UnknownPlayer(i).Dir());
@@ -1768,7 +1768,7 @@ void WorldStateUpdater::UpdateUnknownPlayers()
 					double dist = (is_special_mode ? 0 : ComputePlayerMaxDist(player)) + disbuf;
 					if (player.GetPosDelay() != 0&& ComputePlayerMaySeeOrNot(player) && (pos - player.GetPos()).Mod() <= dist)
 					{
-						//¿ÉÄÜ³ÉÎªµÄ¶ÓÔ±
+						//å¯èƒ½æˆä¸ºçš„é˜Ÿå‘˜
 						UnknownCount[i]++;
 						int index = mpObserver->UnknownPlayerBugInfo(i).mSide == self_side ? j : j + TEAMSIZE;
 						Unknown[i][index] = true;
@@ -1792,7 +1792,7 @@ void WorldStateUpdater::UpdateUnknownPlayers()
 					double dist = (is_special_mode ? 0 :ComputePlayerMaxDist(player) )+ disbuf;
 					if (player.GetPosDelay() != 0&& ComputePlayerMaySeeOrNot(player) && (pos - player.GetPos()).Mod() <= dist)
 					{
-						//¿ÉÄÜ³ÉÎªµÄ¶ÓÔ±
+						//å¯èƒ½æˆä¸ºçš„é˜Ÿå‘˜
 						UnknownCount[i]++;
 						int index = mpObserver->UnknownPlayerBugInfo(i).mSide == self_side ? j : j + TEAMSIZE;
 						Unknown[i][index] = true;
@@ -1809,7 +1809,7 @@ void WorldStateUpdater::UpdateUnknownPlayers()
 					double dist = (is_special_mode ? 0 : ComputePlayerMaxDist(player) )+ disbuf;
 					if (player.GetPosDelay() != 0&& ComputePlayerMaySeeOrNot(player) && (pos - player.GetPos()).Mod() <= dist)
 					{
-						//¿ÉÄÜ³ÉÎªµÄ¶ÓÔ±
+						//å¯èƒ½æˆä¸ºçš„é˜Ÿå‘˜
 						UnknownCount[i]++;
 						int index = mpObserver->UnknownPlayerBugInfo(i).mSide == self_side ? j + TEAMSIZE : j;
 						Unknown[i][index] = true;
@@ -1818,26 +1818,26 @@ void WorldStateUpdater::UpdateUnknownPlayers()
 		}
 	}
 
-	//2.¶ÔËùÓĞÎ´ÖªÇòÔ±oj£¬µ±oj µÄÆ¥ÅäÁĞ±íÖ»ÓĞ1 ¸öÔªËØÊ±£¬°Ñ¸ÃÔªËØ¶ÔÓ¦µÄÀÏÇòÔ±pi Óëoj Æ¥Åä£¬´ÓO ¼¯ºÏÒÆ³ıoj£¬²¢Í¨¹ıpi Æ¥ÅäÁĞ±í²éÑ¯µ½
-	//ÆäËü¿ÉÄÜÓëÆäÆ¥ÅäµÄÎ´ÖªÇòÔ±£¬½«pi ´ÓËüÃÇµÄÆ¥ÅäÁĞ±íÖĞÒÆ³ı¡£
+	//2.å¯¹æ‰€æœ‰æœªçŸ¥çƒå‘˜ojï¼Œå½“oj çš„åŒ¹é…åˆ—è¡¨åªæœ‰1 ä¸ªå…ƒç´ æ—¶ï¼ŒæŠŠè¯¥å…ƒç´ å¯¹åº”çš„è€çƒå‘˜pi ä¸oj åŒ¹é…ï¼Œä»O é›†åˆç§»é™¤ojï¼Œå¹¶é€šè¿‡pi åŒ¹é…åˆ—è¡¨æŸ¥è¯¢åˆ°
+	//å…¶å®ƒå¯èƒ½ä¸å…¶åŒ¹é…çš„æœªçŸ¥çƒå‘˜ï¼Œå°†pi ä»å®ƒä»¬çš„åŒ¹é…åˆ—è¡¨ä¸­ç§»é™¤ã€‚
 	for (int i = 0;i < player_num;i++)
 	{
-		bool is_update = false; //ÅĞ¶ÏÓĞÃ»ÓĞ¸üĞÂ
+		bool is_update = false; //åˆ¤æ–­æœ‰æ²¡æœ‰æ›´æ–°
 		for (int j = 0;j < player_num;j++)
 		{
 			if (UnknownCount[j] == 1)
 			{
-				//¸üĞÂ
+				//æ›´æ–°
 				int k = 0;
 				for (k = 1;k <= 2*TEAMSIZE;k++)
 				{
-					//ÅĞ¶ÏÊÇ·ñÔÚÒÑÖª
+					//åˆ¤æ–­æ˜¯å¦åœ¨å·²çŸ¥
 					if (Unknown[j][k])
 					{
 						if (k <= TEAMSIZE)
 						{
 #ifdef __UNKNOWN_TEST
-test_num++;					//¸üĞÂ¶ÓÓÑ
+test_num++;					//æ›´æ–°é˜Ÿå‹
 file << mpObserver->LatestSightTime() << "unknown guess teammate: " << k << std::endl;
 #endif
 							UpdateSpecificUnknownPlayer(mpObserver->UnknownPlayer(j) , k , true);
@@ -1845,7 +1845,7 @@ file << mpObserver->LatestSightTime() << "unknown guess teammate: " << k << std:
 						else
 						{
 #ifdef __UNKNOWN_TEST
-test_num++;							//¸üĞÂ¶ÔÊÖ
+test_num++;							//æ›´æ–°å¯¹æ‰‹
 file << mpObserver->LatestSightTime() << "unknown guess opponent: " << k - TEAMSIZE << std::endl;
 #endif
 							UpdateSpecificUnknownPlayer(mpObserver->UnknownPlayer(j) , k - TEAMSIZE , false);
@@ -1855,15 +1855,15 @@ file << mpObserver->LatestSightTime() << "unknown guess opponent: " << k - TEAMS
 					}
 				}
 
-				//Ã»ÓĞÔò¼ÌĞø
+				//æ²¡æœ‰åˆ™ç»§ç»­
 				if (k > 2*TEAMSIZE )
 				{
 					UnknownCount[j] = 0;
-					std::cout << " error : Êı×éÓëÖµ²»Ïà·û!" << std::endl;
+					std::cout << " error : æ•°ç»„ä¸å€¼ä¸ç›¸ç¬¦!" << std::endl;
 					continue;
 				}
 
-				//´ÓÔ­ÓĞµÄÊı×éÖĞÈ¥³ı¸ÃÅä¶Ô
+				//ä»åŸæœ‰çš„æ•°ç»„ä¸­å»é™¤è¯¥é…å¯¹
 				for (int m = 0;m < player_num;m++)
 				{
 					if (Unknown[m][k])
@@ -1872,7 +1872,7 @@ file << mpObserver->LatestSightTime() << "unknown guess opponent: " << k - TEAMS
 						UnknownCount[m]--;
 					}
 /*
-					//ÀûÓÃserverµÄbug£¬·¢»ØµÄºÅÂëÊÇ´Ó´óµ½Ğ¡µÄË³ĞòµÄ
+					//åˆ©ç”¨serverçš„bugï¼Œå‘å›çš„å·ç æ˜¯ä»å¤§åˆ°å°çš„é¡ºåºçš„
 					if (m < j)
 					{
 						int bound = TEAMSIZE;
@@ -1913,7 +1913,7 @@ file << mpObserver->LatestSightTime() << "unknown guess opponent: " << k - TEAMS
 			}
 		}
 
-		//±¾ÖÜÆÚÃ»ÓĞ¸üĞÂ Ê¹ÓÃdistance(pi,oj)×îĞ¡µÄÔ­Ôò ±£Ö¤¸üĞÂÒ»¸ö ¾õµÃ²»ÊÇÌ«ºÃ ¸Ä½øÒ»ÏÂ£º¸öÊı×îÉÙÖĞÑ¡×î½üµÄ
+		//æœ¬å‘¨æœŸæ²¡æœ‰æ›´æ–° ä½¿ç”¨distance(pi,oj)æœ€å°çš„åŸåˆ™ ä¿è¯æ›´æ–°ä¸€ä¸ª è§‰å¾—ä¸æ˜¯å¤ªå¥½ æ”¹è¿›ä¸€ä¸‹ï¼šä¸ªæ•°æœ€å°‘ä¸­é€‰æœ€è¿‘çš„
 		if (!is_update)
 		{
 			int min = 200 * TEAMSIZE;
@@ -1933,16 +1933,16 @@ file << mpObserver->LatestSightTime() << "unknown guess opponent: " << k - TEAMS
 				}
 			}
 
-			//È«ÎªÁã±íÊ¾¸üĞÂÍê±Ï
+			//å…¨ä¸ºé›¶è¡¨ç¤ºæ›´æ–°å®Œæ¯•
 			if (is_all_zero)
 			{
 				break;
 			}
 
-			//Ñ°ÕÒ×î½üµÄ¸üĞÂ
+			//å¯»æ‰¾æœ€è¿‘çš„æ›´æ–°
 			if (index != -1)
 			{
-				//Ñ°ÕÒ×î½üµÄÇòÔ±
+				//å¯»æ‰¾æœ€è¿‘çš„çƒå‘˜
 				Vector pos = Polar2Vector(PlayerParam::instance().ConvertSightDist(mpObserver->UnknownPlayer(index).Dist()) , GetNeckGlobalDirFromSightDelay(mSightDelay) + mpObserver->UnknownPlayer(index).Dir()) + GetSelf().GetPos();
 				double min_dist = 200000;
 				int min_index = -1;
@@ -1971,7 +1971,7 @@ file << mpObserver->LatestSightTime() << "unknown guess opponent: " << k - TEAMS
 				if (min_index <= TEAMSIZE && min_index > 0)
 				{
 #ifdef __UNKNOWN_TEST
-test_num++;					//¸üĞÂ¶ÓÓÑ
+test_num++;					//æ›´æ–°é˜Ÿå‹
 file << mpObserver->LatestSightTime() << "unknown guess teammate: " << min_index << std::endl;
 #endif
 					UpdateSpecificUnknownPlayer(mpObserver->UnknownPlayer(index) , min_index , true);
@@ -1980,22 +1980,22 @@ file << mpObserver->LatestSightTime() << "unknown guess teammate: " << min_index
 				else if (min_index > TEAMSIZE && min_index <= TEAMSIZE * 2)
 				{
 #ifdef __UNKNOWN_TEST
-test_num++;					//¸üĞÂ¶ÔÊÖ
+test_num++;					//æ›´æ–°å¯¹æ‰‹
 file << mpObserver->LatestSightTime() << "unknown guess opponent: " << min_index - TEAMSIZE << std::endl;
 #endif
 					UpdateSpecificUnknownPlayer(mpObserver->UnknownPlayer(index) , min_index - TEAMSIZE , false);
 					UnknownUpdate[index] = true;
 				}
-				else if (min_index == -1) //´ËÊ±Ó¦¸ÃÃ»ÓĞ¶ÓÔ±ÁË
+				else if (min_index == -1) //æ­¤æ—¶åº”è¯¥æ²¡æœ‰é˜Ÿå‘˜äº†
 				{
 					UnknownCount[index] = 0;
 					continue;
 				}
 
-				//Éú³ÉµÄcountÖÃÎªÁã
+				//ç”Ÿæˆçš„countç½®ä¸ºé›¶
 				UnknownCount[index] = 0;
 
-				//´ÓÔ­ÓĞµÄÊı×éÖĞÈ¥³ı¸ÃÅä¶Ô
+				//ä»åŸæœ‰çš„æ•°ç»„ä¸­å»é™¤è¯¥é…å¯¹
 				for (int m = 0;m < player_num;m++)
 				{
 					if (Unknown[m][min_index])
@@ -2004,7 +2004,7 @@ file << mpObserver->LatestSightTime() << "unknown guess opponent: " << min_index
 						UnknownCount[m]--;
 					}
 /*
-					//ÀûÓÃserverµÄbug£¬·¢»ØµÄºÅÂëÊÇ´Ó´óµ½Ğ¡µÄË³ĞòµÄ
+					//åˆ©ç”¨serverçš„bugï¼Œå‘å›çš„å·ç æ˜¯ä»å¤§åˆ°å°çš„é¡ºåºçš„
 					if (m < index)
 					{
 						int bound = TEAMSIZE;
@@ -2066,7 +2066,7 @@ file << mpObserver->LatestSightTime() << "unknown guess opponent: " << min_index
 				continue;
 			}
 
-			//³õÊ¼Ê¶±ğÊ±×îÉÙĞèÒª6ÖÜÆÚ²ÅÄÜ¿´È«ËùÓĞ³¡¾°
+			//åˆå§‹è¯†åˆ«æ—¶æœ€å°‘éœ€è¦6å‘¨æœŸæ‰èƒ½çœ‹å…¨æ‰€æœ‰åœºæ™¯
 			if (mpObserver->UnknownPlayerBugInfo(i).mSide == mpObserver->UnknownPlayerBugInfo(i).mSupSide)
 			{
 				for (int j = mpObserver->UnknownPlayerBugInfo(i).mLeastNum;j <= mpObserver->UnknownPlayerBugInfo(i).mSupNum;j++)
@@ -2197,7 +2197,7 @@ bool  WorldStateUpdater::UpdateMostSimilarPlayer(const Vector & pos ,int index)
 
 double WorldStateUpdater::ComputePlayerMaxDist(const PlayerState &state)
 {
-	//¼ÆËã×î´óµÄËÙ¶È
+	//è®¡ç®—æœ€å¤§çš„é€Ÿåº¦
 	double max_speed = PlayerParam::instance().HeteroPlayer(state.GetPlayerType()).effectiveSpeedMax();
 
 	return max_speed * state.GetPosDelay();
@@ -2209,7 +2209,7 @@ void WorldStateUpdater::UpdateSpecificUnknownPlayer(const UnknownPlayerObserver 
 	{
 		Teammate(unum).SetIsAlive(true);
 		Teammate(unum).UpdateGuessedTimes(0);
-		//Î»ÖÃ¸üĞÂ
+		//ä½ç½®æ›´æ–°
 		if (player.GetDir().time() == mpObserver->LatestSightTime())
 		{
 			Vector vec = Polar2Vector(PlayerParam::instance().ConvertSightDist(player.Dist()) , GetNeckGlobalDirFromSightDelay(mSightDelay) + player.Dir());
@@ -2221,7 +2221,7 @@ void WorldStateUpdater::UpdateSpecificUnknownPlayer(const UnknownPlayerObserver 
 		}
 
 		if (mpWorldState->GetHistory(1 + mSightDelay)) {
-			//¸üĞÂ½ü¾àÀëÎ»ÖÃ
+			//æ›´æ–°è¿‘è·ç¦»ä½ç½®
 			int delay = mpWorldState->GetHistory(1 + mSightDelay)->Teammate(unum).GetPosDelay();
 			if (delay < HistoryState::HISTORY_SIZE - 1 - mSightDelay)
 			{
@@ -2239,7 +2239,7 @@ void WorldStateUpdater::UpdateSpecificUnknownPlayer(const UnknownPlayerObserver 
 				vel += self_vel - self_vel_pos;
 
 				double max_speed = PlayerParam::instance().HeteroPlayer(mpObserver->GetTeammateType(unum)).effectiveSpeedMax();
-				//¸ù¾İËÙ¶È´óÖÂ²Â²â³¯Ïò ÓĞÊÓ¾õÊ±»á¸²¸Ç
+				//æ ¹æ®é€Ÿåº¦å¤§è‡´çŒœæµ‹æœå‘ æœ‰è§†è§‰æ—¶ä¼šè¦†ç›–
 				if (vel.Mod()  > max_speed * mpWorldState->GetTeammate(unum).GetPlayerDecay() * 0.8 &&  GetTeammate(unum).IsBodyDirMayChanged())
 				{
 					//				Logger::instance().GetTextLogger("bodydir") << mpWorldState->CurrentTime().T() << "\t" << mpWorldState->CurrentTime().S() << "\t" << unum<< "\t" << vel.Dir() << "\t" << GetTeammate(unum).GetBodyDir() << "\n";
@@ -2265,10 +2265,10 @@ void WorldStateUpdater::UpdateSpecificUnknownPlayer(const UnknownPlayerObserver 
 			}
 		}
 
-		//¼ÈÈ»²»ÖªµÀÕâ¸ö¶ÓÔ±,Ö±½ÓÖÃ£°
+		//æ—¢ç„¶ä¸çŸ¥é“è¿™ä¸ªé˜Ÿå‘˜,ç›´æ¥ç½®ï¼
 		Teammate( unum ).UpdateFoulChargedCycle( 0 );
 
-		//ÊÇ·ñ²ùÇò
+		//æ˜¯å¦é“²çƒ
 		if (player.IsKnownSide())
 		{
 			if (player.GetIsTackling().time() == mpObserver->LatestSightTime())
@@ -2279,7 +2279,7 @@ void WorldStateUpdater::UpdateSpecificUnknownPlayer(const UnknownPlayerObserver 
 					{
 						Teammate(unum).UpdateTackleBan(ServerParam::instance().tackleCycles() - 1);
 					}
-					//tackle ËÙ¶ÈÒ»¶¨Îª0
+					//tackle é€Ÿåº¦ä¸€å®šä¸º0
 					Teammate(unum).UpdateVel(Vector(0,0), mSightDelay , mPlayerConf);
 				}
 				else {
@@ -2301,7 +2301,7 @@ void WorldStateUpdater::UpdateSpecificUnknownPlayer(const UnknownPlayerObserver 
 					Teammate(unum).UpdateFoulChargedCycle(0);
 				}
 			}
-			//ÊÇ·ñÉÏÖÜÆÚÌß¹ıÇò
+			//æ˜¯å¦ä¸Šå‘¨æœŸè¸¢è¿‡çƒ
 			if (player.GetIsKicked().time() == mpObserver->LatestSightTime())
 			{
 				Teammate(unum).UpdateKicked(player.IsKicked());
@@ -2315,7 +2315,7 @@ void WorldStateUpdater::UpdateSpecificUnknownPlayer(const UnknownPlayerObserver 
 	{
 		Opponent(unum).SetIsAlive(true);
 		Opponent(unum).UpdateGuessedTimes(0);
-		//Î»ÖÃ¸üĞÂ
+		//ä½ç½®æ›´æ–°
 		if (player.GetDir().time() == mpObserver->LatestSightTime())
 		{
 			Vector vec = Polar2Vector(PlayerParam::instance().ConvertSightDist(player.Dist()) , GetNeckGlobalDirFromSightDelay(mSightDelay) + player.Dir());
@@ -2327,7 +2327,7 @@ void WorldStateUpdater::UpdateSpecificUnknownPlayer(const UnknownPlayerObserver 
 		}
 
 		if (mpWorldState->GetHistory(1 + mSightDelay)) {
-			//½ü¾àÀëËÙ¶È¸üĞÂ
+			//è¿‘è·ç¦»é€Ÿåº¦æ›´æ–°
 			int delay = mpWorldState->GetHistory(1 + mSightDelay)->Opponent(unum).GetPosDelay();
 			if (delay < HistoryState::HISTORY_SIZE - 1 - mSightDelay)
 			{
@@ -2347,7 +2347,7 @@ void WorldStateUpdater::UpdateSpecificUnknownPlayer(const UnknownPlayerObserver 
 
 				double max_speed = GetOpponent(unum).GetEffectiveSpeedMax();
 
-				//¸ù¾İËÙ¶ÈÔ¤²â¶ÔÊÖÉíÌå³¯Ïò
+				//æ ¹æ®é€Ÿåº¦é¢„æµ‹å¯¹æ‰‹èº«ä½“æœå‘
 				if (vel.Mod()  > max_speed * GetOpponent(unum).GetPlayerDecay() * 0.8 &&  GetOpponent(unum).IsBodyDirMayChanged())
 				{
 					//				Logger::instance().GetTextLogger("bodydir") << mpWorldState->CurrentTime().T() << "\t" << mpWorldState->CurrentTime().S() << "\t" << unum + TEAMSIZE<< "\t" << vel.Dir() << "\t" << GetOpponent(unum).GetBodyDir() << "\n";
@@ -2370,10 +2370,10 @@ void WorldStateUpdater::UpdateSpecificUnknownPlayer(const UnknownPlayerObserver 
 			}
 		}
 
-		//¼ÈÈ»²»ÖªµÀÕâ¸ö¶ÓÔ±,ÖÃ£°
+		//æ—¢ç„¶ä¸çŸ¥é“è¿™ä¸ªé˜Ÿå‘˜,ç½®ï¼
 		Opponent( unum ).UpdateFoulChargedCycle( 0 );
 
-		//ÊÇ·ñ²ùÇò
+		//æ˜¯å¦é“²çƒ
 		if (player.IsKnownSide())
 		{
 			if (player.GetIsTackling().time() == mpObserver->LatestSightTime())
@@ -2406,7 +2406,7 @@ void WorldStateUpdater::UpdateSpecificUnknownPlayer(const UnknownPlayerObserver 
 					Opponent(unum).UpdateFoulChargedCycle(0);
 				}
 			}
-			//ÊÇ·ñÉÏÖÜÆÚÌß¹ıÇò
+			//æ˜¯å¦ä¸Šå‘¨æœŸè¸¢è¿‡çƒ
 			if (player.GetIsKicked().time() == mpObserver->LatestSightTime())
 			{
 				Opponent(unum).UpdateKicked(player.IsKicked());
@@ -2420,26 +2420,26 @@ void WorldStateUpdater::UpdateSpecificUnknownPlayer(const UnknownPlayerObserver 
 
 void WorldStateUpdater::AutoDelay(int delay_add)
 {
-	//team¾ùdelayÒ»ÖÜÆÚ
+	//teamå‡delayä¸€å‘¨æœŸ
 	for (Unum i = 1; i <= TEAMSIZE; i++)
 	{
 		mpWorldState->mTeammate[i].AutoUpdate(delay_add , PlayerParam::instance().playerConfDecay());
 		mpWorldState->mOpponent[i].AutoUpdate(delay_add , PlayerParam::instance().playerConfDecay());
 	}
 
-	//ÇòdelayÒ»ÖÜÆÚ
+	//çƒdelayä¸€å‘¨æœŸ
 	Ball().AutoUpdate(delay_add , PlayerParam::instance().ballConfDecay());
 
-	//ÌØÊâ´¦Àí
-	SelfState().UpdateBodyDir(SelfState().GetBodyDir(), SelfState().GetBodyDirDelay(), 1.0); //ÈÏÎª×Ô¼ºµÄÉíÌå·½Ïò¿Ï¶¨ÊÇÇå³şµÄ
-	SelfState().UpdateVel(SelfState().GetVel(), SelfState().GetVelDelay(), 1.0);             //ÈÏÎª×Ô¼ºµÄËÙ¶È¿Ï¶¨ÊÇÇå³şµÄ
+	//ç‰¹æ®Šå¤„ç†
+	SelfState().UpdateBodyDir(SelfState().GetBodyDir(), SelfState().GetBodyDirDelay(), 1.0); //è®¤ä¸ºè‡ªå·±çš„èº«ä½“æ–¹å‘è‚¯å®šæ˜¯æ¸…æ¥šçš„
+	SelfState().UpdateVel(SelfState().GetVel(), SelfState().GetVelDelay(), 1.0);             //è®¤ä¸ºè‡ªå·±çš„é€Ÿåº¦è‚¯å®šæ˜¯æ¸…æ¥šçš„
 }
 
 void WorldStateUpdater::EstimateToNow()
 {
 	if (mSightDelay > 0 && mSightDelay <= HistoryState::HISTORY_SIZE)
 	{
-		//±£´æÓësenseÏà¹ØµÄĞÅÏ¢ Ö÷ÒªÓĞ mSelfVel mNeckDir
+		//ä¿å­˜ä¸senseç›¸å…³çš„ä¿¡æ¯ ä¸»è¦æœ‰ mSelfVel mNeckDir
 		const Vector & vel = SelfState().GetVel();
 
 		SelfState().UpdateVel(mpWorldState->GetHistory(mSightDelay)->mTeammate[mSelfUnum].GetVel());
@@ -2449,19 +2449,19 @@ void WorldStateUpdater::EstimateToNow()
 			EstimateWorld(true , cycle - i);
 		}
 
-		//»Ö¸´ÏÖ³¡ ´ËÊ±Ó¦¸Ã¿´¼ûÁË delay¿ÉÉèÖÃÎª0
+		//æ¢å¤ç°åœº æ­¤æ—¶åº”è¯¥çœ‹è§äº† delayå¯è®¾ç½®ä¸º0
 		SelfState().UpdateVel(vel);
 	}
 }
 void WorldStateUpdater::EstimateWorld(bool is_estimate_to_now ,int cycle)
 {
-	/**Ô¤¹À×Ô¼ºµÄĞÅÏ¢*/
+	/**é¢„ä¼°è‡ªå·±çš„ä¿¡æ¯*/
 	EstimateSelf(is_estimate_to_now , cycle);
 
-	/**Ô¤¹ÀÇòµÄĞÅÏ¢*/
+	/**é¢„ä¼°çƒçš„ä¿¡æ¯*/
 	EstimateBall(is_estimate_to_now , cycle);
 
-	/**Ô¤¹ÀÇòÔ±µÄĞÅÏ¢*/
+	/**é¢„ä¼°çƒå‘˜çš„ä¿¡æ¯*/
 	EstimatePlayers();
 }
 
@@ -2473,7 +2473,7 @@ void WorldStateUpdater::EstimateSelf(bool is_estimate_to_now ,int cycle)
 	{
 		if (is_collided)
 		{
-			//Åö×²ÓÉÓÚÄÚ²¿´¦ÀíÌ«¸´ÔÓ,Ö±½ÓÈÏÎª²»×¼.
+			//ç¢°æ’ç”±äºå†…éƒ¨å¤„ç†å¤ªå¤æ‚,ç›´æ¥è®¤ä¸ºä¸å‡†.
 			SelfState().UpdatePosEps(10000);
 		}
 
@@ -2481,7 +2481,7 @@ void WorldStateUpdater::EstimateSelf(bool is_estimate_to_now ,int cycle)
 		{
 			if (!is_collided)
 			{
-				//serverÄÚ²¿×î´óµÄrandpÎªVel.Mod()*playerRand()
+				//serverå†…éƒ¨æœ€å¤§çš„randpä¸ºVel.Mod()*playerRand()
 				double eps = (SelfState().GetPos() - mpObserver->GetPlayerPosByDash()).Mod() * ServerParam::instance().playerRand();
 				SelfState().UpdatePosEps(SelfState().GetPosEps() + eps);
 			}
@@ -2510,7 +2510,7 @@ void WorldStateUpdater::EstimateSelf(bool is_estimate_to_now ,int cycle)
 	{
 		if (is_collided)
 		{
-			//Åö×²ÓÉÓÚÄÚ²¿´¦ÀíÌ«¸´ÔÓ,Ö±½ÓÈÏÎª²»×¼.
+			//ç¢°æ’ç”±äºå†…éƒ¨å¤„ç†å¤ªå¤æ‚,ç›´æ¥è®¤ä¸ºä¸å‡†.
 			SelfState().UpdatePosEps(10000);
 		}
 		else
@@ -2526,7 +2526,7 @@ void WorldStateUpdater::EstimateSelf(bool is_estimate_to_now ,int cycle)
 		SelfState().UpdateVel(mpObserver->GetPlayerVelByMove() , GetSelf().GetVelDelay() , GetSelf().GetVelConf());
 	}
 
-	//Ô¤²âÉíÌå½Ç¶È
+	//é¢„æµ‹èº«ä½“è§’åº¦
 	if (mpObserver->GetPlayerTurnTime() == mpObserver->CurrentTime())
 	{
 		if (!is_estimate_to_now)
@@ -2542,7 +2542,7 @@ void WorldStateUpdater::EstimateSelf(bool is_estimate_to_now ,int cycle)
 		}
 	}
 
-	//Ô¤²âÍ·²¿½Ç¶È
+	//é¢„æµ‹å¤´éƒ¨è§’åº¦
 	if (!is_estimate_to_now && mpObserver->GetPlayerTurnNeckTime() == mpObserver->CurrentTime())
 	{
 		SelfState().UpdateNeckDir(mpObserver->GetPlayerNeckDirByTurnNeck() , GetSelf().GetNeckDirDelay() , GetSelf().GetNeckDirConf());
@@ -2586,7 +2586,7 @@ void WorldStateUpdater::EstimateBall(bool is_estimate_to_now , int cycle)
 
 void WorldStateUpdater::EstimatePlayers()
 {
-	//¿´µ½ËÙ¶ÈµÄÏÂÒ»ÖÜÆÚÔ¤²â¶ÓÔ±½«°´ÕÕÇ°Ò»ÖÜÆÚµÄËÙ¶È¼ÌĞøÔËĞĞ
+	//çœ‹åˆ°é€Ÿåº¦çš„ä¸‹ä¸€å‘¨æœŸé¢„æµ‹é˜Ÿå‘˜å°†æŒ‰ç…§å‰ä¸€å‘¨æœŸçš„é€Ÿåº¦ç»§ç»­è¿è¡Œ
 	for (Unum i = 1;i <= TEAMSIZE;i++)
 	{
 		if (i != mSelfUnum){
@@ -2665,7 +2665,7 @@ void WorldStateUpdater::EvaluateConf()
 		EvaluatePlayer(Opponent(i));
 	}
 
-	//¸ù¾İdelayÖÃÇòÔ±ÉúËÀ
+	//æ ¹æ®delayç½®çƒå‘˜ç”Ÿæ­»
 	int dead_level = 100;
 	for (int i = 1;i <= TEAMSIZE;i++)
 	{
@@ -2819,7 +2819,7 @@ void WorldStateUpdater::EvaluatePlayer(PlayerState& player)
 						pos,
 						player.GetPosDelay(),
 						player.GetPosConf()
-				); //delayºÍconfÔÚÇ°Ãæ¸üĞÂ¹ı
+				); //delayå’Œconfåœ¨å‰é¢æ›´æ–°è¿‡
 
 				Logger::instance().GetTextLogger("guess") << mpWorldState->CurrentTime() << ": guess player " << player_unum << " out of view" << std::endl;
 			}
@@ -2912,21 +2912,21 @@ bool WorldStateUpdater::ComputeShouldSeeOrNot(Vector pos)
 		view_angle = 120;
 	}
 
-	//»ñµÃÎ»ÖÃÏà¶Ô×Ô¼ºµÄ¼Ğ½Ç
+	//è·å¾—ä½ç½®ç›¸å¯¹è‡ªå·±çš„å¤¹è§’
 	Vector dist_vec = pos - GetSelf().GetPos();
 	double angle = GetNormalizeAngleDeg(dist_vec.Dir());
 	angle = ::fabs(::GetNormalizeAngleDeg(angle - GetSelf().GetNeckGlobalDir()));
 	double anglebuf = ASin((1 * 0.6 + 0.05 * dist_vec.Mod() ) / dist_vec.Mod());
 	angle += anglebuf; //different from ComputePlayerMaySeeOrNot
 
-	//ÍêÈ«ÊÓ½ÇÄÚ¿É¼û
+	//å®Œå…¨è§†è§’å†…å¯è§
 	double distbuf = 0.05 * ServerParam::instance().visibleDistance();
 	if (dist_vec.Mod() <= ServerParam::instance().visibleDistance() - distbuf)
 	{
 		return true;
 	}
 
-	//½Ç¶ÈÔÚÊÓ½ÇÄÚ
+	//è§’åº¦åœ¨è§†è§’å†…
 	if (angle > view_angle / 2)
 	{
 		return false;
@@ -2992,7 +2992,7 @@ void WorldStateUpdater::UpdateInfoFromPlayMode()
 		break;
 	}
 
-	//ÒÔÏÂĞÅÏ¢Ö»ÔÚplayMode¸Ä±äÊ±¸üĞÂ
+	//ä»¥ä¸‹ä¿¡æ¯åªåœ¨playModeæ”¹å˜æ—¶æ›´æ–°
 	if (mpWorldState->GetPlayModeTime() == mpWorldState->CurrentTime())
 	{
 		switch(mpWorldState->GetPlayMode())
@@ -3018,7 +3018,7 @@ void WorldStateUpdater::UpdateInfoFromPlayMode()
 		case PM_Opp_Back_Pass_Kick:
         case PM_Our_Foul_Charge_Kick: 
         case PM_Opp_Foul_Charge_Kick: 
-			//TODO:we2008Ëã·¨Ê¹ÓÃµ½ÁË½ØÇòµã,µ«ÊÇWE2009ÖĞ´Ë½á¹û²»Ö§³ÖÊ¹ÓÃ½ØÇòĞÅÏ¢,Òò´Ë¶Ô´Ë×öÁË¼ò»¯.
+			//TODO:we2008ç®—æ³•ä½¿ç”¨åˆ°äº†æˆªçƒç‚¹,ä½†æ˜¯WE2009ä¸­æ­¤ç»“æœä¸æ”¯æŒä½¿ç”¨æˆªçƒä¿¡æ¯,å› æ­¤å¯¹æ­¤åšäº†ç®€åŒ–.
 			Ball().UpdateVel(Vector(0, 0));
 			break;
 		case PM_Our_Offside_Kick:
@@ -3036,14 +3036,14 @@ void WorldStateUpdater::MaintainPlayerStamina()
 	for (unsigned int i = 0; i < mpWorldState->GetPlayerList().size(); ++i) {
 		PlayerState * player = mpWorldState->GetPlayerList()[i];
 
-        // ¸üĞÂËùÓĞÇòÔ±µÄmMinStamina
+        // æ›´æ–°æ‰€æœ‰çƒå‘˜çš„mMinStamina
         player->UpdateMinStamina(PlayerParam::instance().MinStamina());
-        if (player->GetUnum() == mSelfUnum && // ÔİÊ±Ö»¿¼ÂÇ×Ô¼º
-            mpWorldState->CurrentTime().T() <= ServerParam::instance().halfTime() * ServerParam::instance().nrNormalHalfs()) // ³£¹æÊ±¼ä
+        if (player->GetUnum() == mSelfUnum && // æš‚æ—¶åªè€ƒè™‘è‡ªå·±
+            mpWorldState->CurrentTime().T() <= ServerParam::instance().halfTime() * ServerParam::instance().nrNormalHalfs()) // å¸¸è§„æ—¶é—´
         {
-            const int reserve_cycle = ServerParam::instance().halfTime() - mpWorldState->CurrentTime().T() % ServerParam::instance().halfTime(); // Õâ¸ö°ë³¡»¹Ê£¶àÉÙÖÜÆÚ
+            const int reserve_cycle = ServerParam::instance().halfTime() - mpWorldState->CurrentTime().T() % ServerParam::instance().halfTime(); // è¿™ä¸ªåŠåœºè¿˜å‰©å¤šå°‘å‘¨æœŸ
             const int cycle_buffer = (int)((player->GetStamina() + player->GetExtraStamina()) / ServerParam::instance().maxPower());
-            if (reserve_cycle <= cycle_buffer) // ½üËÆÈÏÎªÃ¿¸ö°ë³¡µÄ×îºóÈô¸ÉÖÜÆÚ¿ÉÒÔ²»¿¼ÂÇÌåÁ¦
+            if (reserve_cycle <= cycle_buffer) // è¿‘ä¼¼è®¤ä¸ºæ¯ä¸ªåŠåœºçš„æœ€åè‹¥å¹²å‘¨æœŸå¯ä»¥ä¸è€ƒè™‘ä½“åŠ›
             {
                 player->UpdateMinStamina(0.0);
             }
@@ -3052,9 +3052,9 @@ void WorldStateUpdater::MaintainPlayerStamina()
 		const PlayerState * last_cycle_player = & mpWorldState->GetHistory(1)->GetPlayer(player->GetUnum());
 		if (player->GetUnum() == mSelfUnum) continue;
 		if (player->IsAlive() && last_cycle_player->IsAlive()) {
-			double power = 0.0; //ÈÏÎªÃ»ÓĞdash
+			double power = 0.0; //è®¤ä¸ºæ²¡æœ‰dash
 
-			if (player->GetVelDelay() == 0 && last_cycle_player->GetVelDelay() == 0) { //Ò»´ÎÈ·¶¨µÄdash -- ÔİÊ±²»¿¼ÂÇ²àdash
+			if (player->GetVelDelay() == 0 && last_cycle_player->GetVelDelay() == 0) { //ä¸€æ¬¡ç¡®å®šçš„dash -- æš‚æ—¶ä¸è€ƒè™‘ä¾§dash
 				double acc = (player->GetVel() - last_cycle_player->GetVel() * player->GetDecay()).Mod();
 				power = acc / (player->GetDashPowerRate() * last_cycle_player->GetEffort());
 			}
@@ -3094,7 +3094,7 @@ void WorldStateUpdater::MaintainPlayerStamina()
 		}
 
 		if (player->GetUnum() > 0) {
-			if (player->GetArmPointDelay() == 0 && fabs(player->GetArmPointDir()) > MAX_POINT_DIR + 30.0) { //¶ÓÓÑÒòÎªÃ»ÌåÁ¦point
+			if (player->GetArmPointDelay() == 0 && fabs(player->GetArmPointDir()) > MAX_POINT_DIR + 30.0) { //é˜Ÿå‹å› ä¸ºæ²¡ä½“åŠ›point
 //				std::cout << "#" << SelfState().GetUnum() << " see @" << mpWorldState->CurrentTime() << ": teammate " << player->GetUnum() << " point dir 180" << std::endl;
 			//	if(mIsZeroStamina[player->GetUnum()])
 			//		player->UpdateStamina(0.0);
@@ -3193,7 +3193,7 @@ double WorldStateUpdater::ComputeTackleProb(const Unum & unum, bool foul)
     if (foul) {
     	foul = false;
     	if (PlayerParam::instance().playerVersion() > 14.0) {
-    		for (unsigned i = 0; i < mpWorldState->GetPlayerList().size(); ++i) { //Èç¶ÔÊÖÎŞÈË¿ÉÌß£¬ÔòÍË»¯ÎªÕı³£²ùÇò
+    		for (unsigned i = 0; i < mpWorldState->GetPlayerList().size(); ++i) { //å¦‚å¯¹æ‰‹æ— äººå¯è¸¢ï¼Œåˆ™é€€åŒ–ä¸ºæ­£å¸¸é“²çƒ
     			const PlayerState & opp = *mpWorldState->GetPlayerList()[i];
 
     			if (!opp.IsAlive()) continue; //dead

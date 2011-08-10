@@ -83,7 +83,7 @@ void VisualSystem::ResetVisualRequest()
 	mCanTurn = false;
 	mSenseBallCycle = 0;
 
-	if (mpAgent->IsNewSight()) { //ÓĞĞÂÊÓ¾õ²ÅÖØÖÃ£¬·ñÔòÎ¬³ÖÉÏÖÜÆÚµÄ½á¹û
+	if (mpAgent->IsNewSight()) { //æœ‰æ–°è§†è§‰æ‰é‡ç½®ï¼Œå¦åˆ™ç»´æŒä¸Šå‘¨æœŸçš„ç»“æœ
 		mCanForceChangeViewWidth = false;
 		mIsSearching = false;
 		mIsCritical = false;
@@ -110,7 +110,7 @@ void VisualSystem::ResetVisualRequest()
 
 void VisualSystem::Decision()
 {
-	if (mpAgent->GetActionEffector().IsTurnNeck()) return; //ÆäËûµØ·½ÒÑ¾­²úÉúÁË×ª²±×Ó¶¯×÷
+	if (mpAgent->GetActionEffector().IsTurnNeck()) return; //å…¶ä»–åœ°æ–¹å·²ç»äº§ç”Ÿäº†è½¬è„–å­åŠ¨ä½œ
 	if (mForbidden) return;
 
 	if (!DealWithSetPlayMode()) {
@@ -241,7 +241,7 @@ void VisualSystem::DoInfoGather()
 	}
 
 	if (mpWorldState->GetPlayMode() > PM_Opp_Mode && mpInfoState->GetPositionInfo().GetClosestOpponentDistToBall() < 3.0 && mpBallState->GetPos().Dist(mpSelfState->GetPos()) < 20.0 && mpBallState->GetPosDelay() > 1){
-		SetForceSeeBall(); //¹Ø×¢¶ÔÊÖ·¢Çò
+		SetForceSeeBall(); //å…³æ³¨å¯¹æ‰‹å‘çƒ
 	}
 
 	if(mpSelfState->GetPos().X() - mpInfoState->GetPositionInfo().GetTeammateOffsideLine() > -5.0 && mpInfoState->GetPositionInfo().GetTeammateOffsideLineOpp() != Unum_Unknown){//offside look
@@ -288,8 +288,8 @@ void VisualSystem::DoInfoGatherForBallFree()
 {
 	const Strategy & strategy = mpAgent->GetStrategy();
 
-	double ball_free_cyc_left; //ball free cycle left,ÕâÀïÊÇ¾­¹ıµ÷ÕûµÄÓĞ¸ÅÂÊÒâÒåµÄfreecyc,²»Í¬ÓÚStrategyInfoÀïµÄÄÇ¸öÖµ
-	const double rate = 0.6; //¿ÉÒÔÈÏÎªÊÇµ÷ÕûÖµ·ûºÏÕæÊµÖµµÄ³É¹¦ÂÊ
+	double ball_free_cyc_left; //ball free cycle left,è¿™é‡Œæ˜¯ç»è¿‡è°ƒæ•´çš„æœ‰æ¦‚ç‡æ„ä¹‰çš„freecyc,ä¸åŒäºStrategyInfoé‡Œçš„é‚£ä¸ªå€¼
+	const double rate = 0.6; //å¯ä»¥è®¤ä¸ºæ˜¯è°ƒæ•´å€¼ç¬¦åˆçœŸå®å€¼çš„æˆåŠŸç‡
 	double my_int_cycle, tm_int_cycle, opp_int_cycle;
 
 	my_int_cycle = strategy.GetMyInterCycle();
@@ -313,14 +313,14 @@ void VisualSystem::DoInfoGatherForBallFree()
 		RaiseBall();
 	}
 
-	if(!strategy.IsMyControl()){//×Ô¼º²»ÓÃÄÃÇò
+	if(!strategy.IsMyControl()){//è‡ªå·±ä¸ç”¨æ‹¿çƒ
 		int eva = 3;
 		for (it = OIT.begin(); it != OIT.end(); ++it){
 			if(it->mpInterceptInfo->mMinCycle > 50) break;
 			RaisePlayer(it->mUnum, eva++);
 		}
 	}
-	else {//×Ô¼ºĞèÒªÄÃÇò
+	else {//è‡ªå·±éœ€è¦æ‹¿çƒ
 		RaiseBall(2.0);
 		int eva = 3;
 		for (it = OIT.begin(); it != OIT.end(); ++it){
@@ -512,7 +512,7 @@ void VisualSystem::DoInfoGatherForPenaltyAttack()
 		break;
 	}
 
-	//ÌØÊâÊÓ¾õÇëÇó
+	//ç‰¹æ®Šè§†è§‰è¯·æ±‚
 	if(ServerParam::instance().oppPenaltyArea().IsWithin(mPreSelfPos)
 			&& (strategy.IsMyControl()
 					|| (strategy.IsTmControl() && mpInfoState->GetPositionInfo().GetBallDistToTeammate(mpSelfState->GetUnum()) < 20.0))){
@@ -614,7 +614,7 @@ void VisualSystem::DoInfoGatherForGoalie()
 		RaisePlayer(-i, 50);
 	}
 
-	//ÌØÊâÊÓ¾õÇëÇó
+	//ç‰¹æ®Šè§†è§‰è¯·æ±‚
 	if(mpInfoState->GetPositionInfo().GetBallDistToTeammate(mpSelfState->GetUnum()) < 26.0){
 		SetForceSeeBall();
 		if (strategy.IsOppControl()){
@@ -627,7 +627,7 @@ void VisualSystem::DoVisualExecute()
 {
 	mBestVisualAction.mDir = GetNormalizeAngleDeg(mBestVisualAction.mDir);
 
-	AngleDeg finalnec = GetNormalizeAngleDeg(mBestVisualAction.mDir - mPreBodyDir); //×îºóÒª¿´µÄ·½ÏòÓëµ±Ç°£¨»òÕßËµÖ´ĞĞ¹ı±¾ÖÜÆÚ¶¯×÷ºó£¬Èçturn£©ÉíÌåÕı¶Ô·½ÏòµÄ¼Ğ½Ç£¬¼´×îºóµÄneckrelangle¡£
+	AngleDeg finalnec = GetNormalizeAngleDeg(mBestVisualAction.mDir - mPreBodyDir); //æœ€åè¦çœ‹çš„æ–¹å‘ä¸å½“å‰ï¼ˆæˆ–è€…è¯´æ‰§è¡Œè¿‡æœ¬å‘¨æœŸåŠ¨ä½œåï¼Œå¦‚turnï¼‰èº«ä½“æ­£å¯¹æ–¹å‘çš„å¤¹è§’ï¼Œå³æœ€åçš„neckrelangleã€‚
 
 	if (fabs(finalnec) > ServerParam::instance().maxNeckAngle()) {
 		if (mCanTurn) {
@@ -660,8 +660,8 @@ void VisualSystem::DoVisualExecute()
 }
 
 /**
-* Ìá³öÇòµÄÊÓ¾õÇëÇó
-* @param eva ÊÓ¾õÇëÇóµÄÇ¿¶È£¬Àí½â³ÉÃ¿evaÖÜÆÚ¿´Ò»´ÎÇò
+* æå‡ºçƒçš„è§†è§‰è¯·æ±‚
+* @param eva è§†è§‰è¯·æ±‚çš„å¼ºåº¦ï¼Œç†è§£æˆæ¯evaå‘¨æœŸçœ‹ä¸€æ¬¡çƒ
 */
 void VisualSystem::RaiseBall(double eva)
 {
@@ -673,11 +673,11 @@ void VisualSystem::RaiseBall(double eva)
 
 	if (eva < FLOAT_EPS ){
 		if(strategy.IsBallFree() && mpWorldState->GetPlayMode() == PM_Play_On){
-			if(mpBallState->GetVelDelay() <= mpWorldState->CurrentTime() - strategy.GetLastBallFreeTime()){//ÇòfreeºóÔø¿´µ½¹ıÇòËÙ
-				//ÔÚÇò¼´½«²»ÔÙfreeÊ±Òª¿´Çò,ÆäËû¿ÉÒÔ²»¿´,µ«ÉÏÏŞÊÇ3¸öÖÜÆÚ,Æä¼ä¿ÉÒÔÊÕ¼¯Ğ©±ğµÄĞÅÏ¢
+			if(mpBallState->GetVelDelay() <= mpWorldState->CurrentTime() - strategy.GetLastBallFreeTime()){//çƒfreeåæ›¾çœ‹åˆ°è¿‡çƒé€Ÿ
+				//åœ¨çƒå³å°†ä¸å†freeæ—¶è¦çœ‹çƒ,å…¶ä»–å¯ä»¥ä¸çœ‹,ä½†ä¸Šé™æ˜¯3ä¸ªå‘¨æœŸ,å…¶é—´å¯ä»¥æ”¶é›†äº›åˆ«çš„ä¿¡æ¯
 				eva = Max(Min(strategy.IsMyControl()? double(strategy.GetMyInterCycle()): strategy.GetBallFreeCycleLeft(), 3.0), 1.0);
 			}
-			else{ //Çòfreeºó»¹Î´¿´µ½¹ıÇòËÙ
+			else{ //çƒfreeåè¿˜æœªçœ‹åˆ°è¿‡çƒé€Ÿ
 				eva = 1.0;
 				SetForceSeeBall();
 			}
@@ -698,9 +698,9 @@ void VisualSystem::RaiseBall(double eva)
 }
 
 /**
-* Ìá³öÇòÔ±µÄÊÓ¾õÇëÇó
-* @param num ÇòÔ±ºÅÂë£¬+ ¶ÓÓÑ£¬- ¶ÔÊÖ
-* @param eva ÊÓ¾õÇëÇóµÄÇ¿¶È£¬Àí½â³ÉÃ¿evaÖÜÆÚ¿´Ò»´ÎÕâ¸öÈË
+* æå‡ºçƒå‘˜çš„è§†è§‰è¯·æ±‚
+* @param num çƒå‘˜å·ç ï¼Œ+ é˜Ÿå‹ï¼Œ- å¯¹æ‰‹
+* @param eva è§†è§‰è¯·æ±‚çš„å¼ºåº¦ï¼Œç†è§£æˆæ¯evaå‘¨æœŸçœ‹ä¸€æ¬¡è¿™ä¸ªäºº
 */
 void VisualSystem::RaisePlayer(ObjectIndex unum, double eva)
 {
@@ -771,7 +771,7 @@ inline void VisualSystem::UpdatePredictInfo()
 
 VisualSystem::VisualAction VisualSystem::VisualRing::GetBestVisualAction(const AngleDeg left_most, const AngleDeg right_most, const AngleDeg interval_length)
 {
-	//Çø¼ä¶¨Òå³É£º [left, right]
+	//åŒºé—´å®šä¹‰æˆï¼š [left, right]
 	AngleDeg left = left_most;
 	AngleDeg right = left;
 
@@ -822,8 +822,8 @@ bool VisualSystem::DealWithSetPlayMode()
 			&& last_play_mode != PM_Our_Kick_Off
 			&& last_play_mode != PM_Opp_Kick_Off
 	){
-		//ÌØÊâÄ£Ê½ÏÂÒªÇ¿ÖÆ¿´¿´È«³¡£¬ ·ÀÖ¹ÒÅÂ©
-		if (mpWorldState->CurrentTime() < mpWorldState->GetPlayModeTime() + 3){ //Ç°Èı¸öÖÜÆÚµÈÊÓ¾õĞÅÏ¢µ½À´
+		//ç‰¹æ®Šæ¨¡å¼ä¸‹è¦å¼ºåˆ¶çœ‹çœ‹å…¨åœºï¼Œ é˜²æ­¢é—æ¼
+		if (mpWorldState->CurrentTime() < mpWorldState->GetPlayModeTime() + 3){ //å‰ä¸‰ä¸ªå‘¨æœŸç­‰è§†è§‰ä¿¡æ¯åˆ°æ¥
 			check_both_side = false;
 			check_one_side = false;
 		}
@@ -834,7 +834,7 @@ bool VisualSystem::DealWithSetPlayMode()
 				if (!check_one_side){
 					int diff = mpWorldState->CurrentTime() - mpWorldState->GetPlayModeTime();
 					int flag = diff % 6;
-					int base = mpSelfState->GetUnum() % 6; //²»Òª´ó¼Ò¶¼Ò»Æğ¸Ä±äÊÓ½Ç£¬ÕâÑù¿ÉÄÜÒ»Æğ´í¹ı¶Ô·½·¢ÇòµÄË²¼ä
+					int base = mpSelfState->GetUnum() % 6; //ä¸è¦å¤§å®¶éƒ½ä¸€èµ·æ”¹å˜è§†è§’ï¼Œè¿™æ ·å¯èƒ½ä¸€èµ·é”™è¿‡å¯¹æ–¹å‘çƒçš„ç¬é—´
 
 					if (flag == base) {
 						mPreBodyDir = mpAgent->GetSelfBodyDirWithQueuedActions();
@@ -939,7 +939,7 @@ void VisualSystem::GetBestVisualAction()
 
 			Array<VisualAction, 3> best_visual_action;
 
-			//ÇòÔÚ3.0Ã×ÒÔÄÚ£¬¾¡Á¿±£Ö¤Ã¿ÖÜÆÚ¶¼ÄÜ¸ĞÖªµ½Çò£¬³ı·Ç¶ÔÇòµÄÏÂÖÜÆÚ×´Ì¬Ô¤²âºÜÓĞ°ÑÎÕ
+			//çƒåœ¨3.0ç±³ä»¥å†…ï¼Œå°½é‡ä¿è¯æ¯å‘¨æœŸéƒ½èƒ½æ„ŸçŸ¥åˆ°çƒï¼Œé™¤éå¯¹çƒçš„ä¸‹å‘¨æœŸçŠ¶æ€é¢„æµ‹å¾ˆæœ‰æŠŠæ¡
 			const bool force =
 					mpWorldState->GetPlayMode() != PM_Our_Penalty_Taken
 					&& mpWorldState->GetBall().GetPosDelay() == 0 && mpWorldState->GetHistory(1)->GetBall().GetPosDelay() == 0
@@ -999,7 +999,7 @@ VisualSystem::VisualAction VisualSystem::GetBestVisualActionWithViewWidth(ViewWi
 	if (force || GetSenseBallCycle() >= NewSightComeCycle(view_width)) {
 		AngleDeg max_turn_ang = mCanTurn? mpSelfState->GetMaxTurnAngle(): 0.0;
 		AngleDeg half_view_angle = sight::ViewAngle(view_width) * 0.5;
-		AngleDeg neck_left_most = ServerParam::instance().minNeckAngle() - max_turn_ang; //²±×Ó¿ÉÒÔµ½´ïµÄ¼«ÏŞ½Ç¶È£¨Ïà¶ÔÓÚµ±Ç°ÉíÌåÕıÇ°·½¶øÑÔ£©
+		AngleDeg neck_left_most = ServerParam::instance().minNeckAngle() - max_turn_ang; //è„–å­å¯ä»¥åˆ°è¾¾çš„æé™è§’åº¦ï¼ˆç›¸å¯¹äºå½“å‰èº«ä½“æ­£å‰æ–¹è€Œè¨€ï¼‰
 		AngleDeg neck_right_most = ServerParam::instance().maxNeckAngle() + max_turn_ang;
 		AngleDeg left_most = neck_left_most - half_view_angle;
 		AngleDeg right_most = neck_right_most + half_view_angle;
@@ -1043,25 +1043,25 @@ void VisualSystem::DoDecision()
 {
 	if (!mpAgent->IsNewSight()){
 		if (mCanForceChangeViewWidth) {
-			mViewWidth = VW_Narrow; //ÖØÖÃÎªÕ­ÊÓ½Ç
+			mViewWidth = VW_Narrow; //é‡ç½®ä¸ºçª„è§†è§’
 		}
 		else {
 			mViewWidth = mpSelfState->GetViewWidth();
 		}
 	}
 
-	DoInfoGather(); //ÌáÇëÇó
-	EvaluateVisualRequest(); //ÆÀ¼Û
+	DoInfoGather(); //æè¯·æ±‚
+	EvaluateVisualRequest(); //è¯„ä»·
 
 	if (!ForceSearchBall()) {
-		DealVisualRequest(); //´¦ÀíÇëÇó
-		DoVisualExecute(); //ÊÓ¾õÖ´ĞĞ
+		DealVisualRequest(); //å¤„ç†è¯·æ±‚
+		DoVisualExecute(); //è§†è§‰æ‰§è¡Œ
 	}
 }
 
 int VisualSystem::GetSenseBallCycle()
 {
-	if (mSenseBallCycle == 0) { //ÓÃÀ¹½ØÄ£ĞÍÀ´ËãÊ²Ã´Ê±ºò¿ÉÒÔ¸ĞÖªµ½Çò
+	if (mSenseBallCycle == 0) { //ç”¨æ‹¦æˆªæ¨¡å‹æ¥ç®—ä»€ä¹ˆæ—¶å€™å¯ä»¥æ„ŸçŸ¥åˆ°çƒ
 		if (mVisualRequest[0].mValid) {
 			if (mVisualRequest[0].PreDistance() < ServerParam::instance().visibleDistance()) {
 				mSenseBallCycle = 1;
@@ -1070,7 +1070,7 @@ int VisualSystem::GetSenseBallCycle()
 				PlayerInterceptInfo int_info;
 				VirtualSelf virtual_self(*mpSelfState);
 
-				virtual_self.UpdateIsGoalie(false); //·ñÔò»áÓÃ¿ÉÆË·¶Î§´úÌæ¸ĞÖª·¶Î§¼ÆËã½ØÇò
+				virtual_self.UpdateIsGoalie(false); //å¦åˆ™ä¼šç”¨å¯æ‰‘èŒƒå›´ä»£æ›¿æ„ŸçŸ¥èŒƒå›´è®¡ç®—æˆªçƒ
 
 				int_info.mRes = IR_None;
 				int_info.mpPlayer = & virtual_self;

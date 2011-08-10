@@ -53,7 +53,7 @@ class WorldState;
 class InfoState;
 
 /**
-* ¸÷¸ö¸ù½áµãµÄĞĞÎª¿ÉÒÔÏòÊÓ¾õÏµÍ³Ìá³öÊÓ¾õÇëÇó£¬ÓÉÊÓ¾õÏµÍ³×îÖÕ×ö³öÊÓ¾õ¾ö²ß
+* å„ä¸ªæ ¹ç»“ç‚¹çš„è¡Œä¸ºå¯ä»¥å‘è§†è§‰ç³»ç»Ÿæå‡ºè§†è§‰è¯·æ±‚ï¼Œç”±è§†è§‰ç³»ç»Ÿæœ€ç»ˆåšå‡ºè§†è§‰å†³ç­–
 */
 class VisualSystem {
 	VisualSystem();
@@ -81,9 +81,9 @@ class VisualSystem {
 		bool mValid;
 		int  mCycleDelay;
 
-		double mFreq;    //ÊÓ¾õÇëÇóÒªÇóµÄÊÓ¾õÆµ¶È
-		double mConf;    //Æµ¶ÈÖÜÆÚÄÚµÄÖÃĞÅ¶È
-		double mScore;   //Âú×ãÇëÇóµÄĞÅÏ¢ÔöÒæ
+		double mFreq;    //è§†è§‰è¯·æ±‚è¦æ±‚çš„è§†è§‰é¢‘åº¦
+		double mConf;    //é¢‘åº¦å‘¨æœŸå†…çš„ç½®ä¿¡åº¦
+		double mScore;   //æ»¡è¶³è¯·æ±‚çš„ä¿¡æ¯å¢ç›Š
 
 		const MobileState *mpObject;
 
@@ -99,7 +99,7 @@ class VisualSystem {
 
 		class PointerGreater {
 		public:
-			bool operator()(VisualRequest *p, VisualRequest *q){ //¶¨Òå£ºp < q if *p > *q;
+			bool operator()(VisualRequest *p, VisualRequest *q){ //å®šä¹‰ï¼šp < q if *p > *q;
 				return *p > *q;
 			}
 		};
@@ -125,7 +125,7 @@ class VisualSystem {
 	};
 
 	/**
-	* ÊÓ¾õÖÜÎ§Ò»ÖÜµÄÆÀ¼Û·Ö²¼ -- ¾«È·µ½Ò»¶È
+	* è§†è§‰å‘¨å›´ä¸€å‘¨çš„è¯„ä»·åˆ†å¸ƒ -- ç²¾ç¡®åˆ°ä¸€åº¦
 	*/
 	class VisualRing {
 	public:
@@ -212,7 +212,7 @@ private:
 	void SetCanTurn(bool can_turn) { mCanTurn = can_turn; }
 
 	/**
-	* ÆÀ¼ÛÊÓ¾õÇëÇó£¬¼ÆËãscore
+	* è¯„ä»·è§†è§‰è¯·æ±‚ï¼Œè®¡ç®—score
 	*/
 	void EvaluateVisualRequest();
 
@@ -224,11 +224,11 @@ private:
 
 	bool DealWithSetPlayMode();
 
-	int NewSightComeCycle(ViewWidth view_width) { //ĞÂÊÓ¾õµ½´ïµÄÖÜÆÚ
+	int NewSightComeCycle(ViewWidth view_width) { //æ–°è§†è§‰åˆ°è¾¾çš„å‘¨æœŸ
 		return Max(sight::SightDelay(view_width) - mpSelfState->GetPosDelay(), 1);
 	}
 
-	int NewSightWaitCycle(ViewWidth view_width) { //ÊÓ¾õµ½´ïÊ±µÈ´ıµÄÖÜÆÚÊı
+	int NewSightWaitCycle(ViewWidth view_width) { //è§†è§‰åˆ°è¾¾æ—¶ç­‰å¾…çš„å‘¨æœŸæ•°
 		return NewSightComeCycle(view_width) + mpSelfState->GetPosDelay();
 	}
 
@@ -254,14 +254,14 @@ private:
 	bool mForbidden;
 
 	bool mCanTurn;
-	ViewWidth mViewWidth;			//µ±Ç°ÊÓ¾õ¿í¶È
-	AngleDeg  mPreBodyDir;		//µ±Ç°ÖÜÆÚ¶¯×÷Ö´ĞĞÍêºóµÄÉíÌå½Ç¶È£¨±ÈÈçÓĞturn¶¯×÷£©
-	Vector    mPreBallPos;				//µ±Ç°ÖÜÆÚ¶¯×÷Ö´ĞĞÍêºóµÄÇòµÄÎ»ÖÃ£¨±ÈÈçÓĞkick¶¯×÷£©
-	Vector    mPreSelfPos;          //µ±Ç°ÖÜÆÚ¶¯×÷Ö´ĞĞÍêºóµÄÇòµÄÎ»ÖÃ£¨±ÈÈçÓĞdash¶¯×÷£©
+	ViewWidth mViewWidth;			//å½“å‰è§†è§‰å®½åº¦
+	AngleDeg  mPreBodyDir;		//å½“å‰å‘¨æœŸåŠ¨ä½œæ‰§è¡Œå®Œåçš„èº«ä½“è§’åº¦ï¼ˆæ¯”å¦‚æœ‰turnåŠ¨ä½œï¼‰
+	Vector    mPreBallPos;				//å½“å‰å‘¨æœŸåŠ¨ä½œæ‰§è¡Œå®Œåçš„çƒçš„ä½ç½®ï¼ˆæ¯”å¦‚æœ‰kickåŠ¨ä½œï¼‰
+	Vector    mPreSelfPos;          //å½“å‰å‘¨æœŸåŠ¨ä½œæ‰§è¡Œå®Œåçš„çƒçš„ä½ç½®ï¼ˆæ¯”å¦‚æœ‰dashåŠ¨ä½œï¼‰
 
 	VisualAction mBestVisualAction;
 	VisualRing mVisualRing;
-	int mSenseBallCycle; //¼¸¸öÖÜÆÚºóÇòÔÚ3m·¶Î§ÄÚ
+	int mSenseBallCycle; //å‡ ä¸ªå‘¨æœŸåçƒåœ¨3mèŒƒå›´å†…
 
 private:
 	int GetSenseBallCycle();

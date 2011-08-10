@@ -66,7 +66,7 @@ private:
 	Agent* mpAgent;
 
 #ifndef WIN32
-	typedef int64_t DWORD64; //×¢ÒâÕâÀïÊÇÓĞ·ûºÅµÄ£¬ÓÒÒÆÊÇ×ó±ß²¹1
+	typedef int64_t DWORD64; //æ³¨æ„è¿™é‡Œæ˜¯æœ‰ç¬¦å·çš„ï¼Œå³ç§»æ˜¯å·¦è¾¹è¡¥1
 	typedef uint64_t UDWORD64;
 #else
     typedef __int64 DWORD64;
@@ -82,9 +82,9 @@ public:
 		DIR,
 		CODEC_MAX
 	};
-	//CommuTypeÅÅÁĞË³Ğò´ú±íÓÅÏÈ¼¶ĞòÁĞ	²»¿É³¬¹ıËÄ¸ö×Ö½Ú ¼´16ÖÖ
+	//CommuTypeæ’åˆ—é¡ºåºä»£è¡¨ä¼˜å…ˆçº§åºåˆ—	ä¸å¯è¶…è¿‡å››ä¸ªå­—èŠ‚ å³16ç§
 	enum CommuType {
-		FREE_FORM, //×ÔÓÉ·¢ËÍÈô¸ÉÇòºÍÇòÔ±µÄ×éºÏĞÅÏ¢
+		FREE_FORM, //è‡ªç”±å‘é€è‹¥å¹²çƒå’Œçƒå‘˜çš„ç»„åˆä¿¡æ¯
 		//...
 		COMMU_MAX
 	};
@@ -130,13 +130,13 @@ public:
 	void PrintBits(DWORD64 bits);
 
 	/**
-	 * ¾ö¶¨Ê¹ÓÃ¶àÉÙ¶ş½øÖÆÎ»±íÊ¾Êı¾İ
-	 * @param ÆÚÍûµÄ¾«¶È
+	 * å†³å®šä½¿ç”¨å¤šå°‘äºŒè¿›åˆ¶ä½è¡¨ç¤ºæ•°æ®
+	 * @param æœŸæœ›çš„ç²¾åº¦
 	 */
 	int BitCountOfEps(double eps, CodecType type);
 
 	DWORD64 mCommuBits;
-	int mBitsUsed; ///×î¶àÄÜÓÃ61Î»£¨10Î»73½øÖÆ ==> 61Î»2½øÖÆ£©
+	int mBitsUsed; ///æœ€å¤šèƒ½ç”¨61ä½ï¼ˆ10ä½73è¿›åˆ¶ ==> 61ä½2è¿›åˆ¶ï¼‰
 	bool mBallSended;
 	PlayerArray<bool> mTeammateSended;
 	PlayerArray<bool> mOpponentSended;
@@ -192,7 +192,7 @@ public:
 	int ExtractUnumFromBits(DWORD64 &bits, int &bit_left);
 
 	/**
-	 * ´¦Àí free_form ĞÅÏ¢
+	 * å¤„ç† free_form ä¿¡æ¯
 	 * @param bits
 	 */
 	void RecvFreeForm(DWORD64 bits);
@@ -206,7 +206,7 @@ private:
 	CommunicateSystem();
 
 	/**
-	 * Ä¬ÈÏµÄÍ¨ĞÅÄÚÈİ
+	 * é»˜è®¤çš„é€šä¿¡å†…å®¹
 	 */
 	void DoCommunication();
 

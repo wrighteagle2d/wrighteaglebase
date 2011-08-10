@@ -31,17 +31,17 @@
  ************************************************************************************/
 
 /**
- * 1. Õâ¸öÎÄ¼şÖ÷ÒªµÄ¹¦ÄÜÊÇÍ¨¹ıÔÚsenceĞÅÏ¢µ½À´Ê±¼ÇÂ¼Ò»¸öÊ±¼ä£¬ÔÚÊÓ¾õĞÅÏ¢µ½À´Ê±
- *    ¼ÇÂ¼Ò»¸öÊ±¼ä£¬ÓÃÁ½¸öÊ±¼ä²îÏà¼õ¡£Çó³ösenseĞÅÏ¢µ½À´ºó£¬sightĞÅÏ¢µ½À´µÄ
- *    Ê±¼ä¼ä¸ô£¬Çó³ö×î´óÊ±¼ä¼ä¸ô£¬×îĞ¡Ê±¼ä¼ä¸ô£¬Æ½¾ùÖµ£¬·½²î¡£Í³¼Æ²îÊı£¬ÎªÎÒ
- *    ¶¨µÈ´ıÊÓ¾õĞÅÏ¢µÄµ½À´µÄBuffer×ö²Î¿¼¡£Í¬Ê±¿ÉÒÔÔÚ±ÈÈüµÄÊ±ºò²â³öÍøÂç»·¾³µÄ
- *   £¨¼°ÍøÂçÑÓ³Ù£©¡£Èç¹ûÌ«´óÎÒÃÇÍêÈ«¿ÉÒÔÌá³öÏàÓ¦µÄÒªÇó¡£
- * 2. Í¨¹ıÔÚBasicAction.cpp ÄÚ¼ÇÂ¼ÎÒÃÇÃ¿¸öÖÜÆÚµÄ·¢ËÍµÄÃüÁî£¬ÔÚsense Ê±ĞÅÏ¢µÄ
- *    ½âÎöµ½Server·µ»ØµÄ²îÊı£¬ÕâÁ½ÖµµÄ±È½Ï¿ÉÒÔ²â³öÎÒÃÇ¸÷¸öÃüÁîÊÇ·ñÂ©·¢ÃüÁî¡£
- *    ÖØÁíÍâÒ»¸ö·½Ãæ·´Ó¦ÁËÍøÂçµÄĞÔÄÜ¡£
- * 3. Õâ¸öÀà»¹¿ÉÒÔÀ©Õ¹ÏàÓ¦µÄ¹¦ÄÜ£¬±ÈÈç¿ÉÒÔ²â³öSense µ½Sense µÄÊ±¼ä¼ä¸ô£¬´ÓÁí
- *    Ò»·½ÃæµÄ·´Ó¦ÍøÂç»·¾³¡£¿ÉÒÔ²â³öSense ĞÅÏ¢ÊÇ·ñ¶ªÊ§¡£²â³öÊÇ·ñ¶ª°ü¡£ÒÔ¼°¶ª°üÂÊ
- *    ´Ó¸÷¸ö·½Ãæ·´Ó¦³öÍøÂç»·¾³¡££¨¿ÉÒÔ½øÒ»²½ÊµÏÖ£©¡£
+ * 1. è¿™ä¸ªæ–‡ä»¶ä¸»è¦çš„åŠŸèƒ½æ˜¯é€šè¿‡åœ¨senceä¿¡æ¯åˆ°æ¥æ—¶è®°å½•ä¸€ä¸ªæ—¶é—´ï¼Œåœ¨è§†è§‰ä¿¡æ¯åˆ°æ¥æ—¶
+ *    è®°å½•ä¸€ä¸ªæ—¶é—´ï¼Œç”¨ä¸¤ä¸ªæ—¶é—´å·®ç›¸å‡ã€‚æ±‚å‡ºsenseä¿¡æ¯åˆ°æ¥åï¼Œsightä¿¡æ¯åˆ°æ¥çš„
+ *    æ—¶é—´é—´éš”ï¼Œæ±‚å‡ºæœ€å¤§æ—¶é—´é—´éš”ï¼Œæœ€å°æ—¶é—´é—´éš”ï¼Œå¹³å‡å€¼ï¼Œæ–¹å·®ã€‚ç»Ÿè®¡å·®æ•°ï¼Œä¸ºæˆ‘
+ *    å®šç­‰å¾…è§†è§‰ä¿¡æ¯çš„åˆ°æ¥çš„Bufferåšå‚è€ƒã€‚åŒæ—¶å¯ä»¥åœ¨æ¯”èµ›çš„æ—¶å€™æµ‹å‡ºç½‘ç»œç¯å¢ƒçš„
+ *   ï¼ˆåŠç½‘ç»œå»¶è¿Ÿï¼‰ã€‚å¦‚æœå¤ªå¤§æˆ‘ä»¬å®Œå…¨å¯ä»¥æå‡ºç›¸åº”çš„è¦æ±‚ã€‚
+ * 2. é€šè¿‡åœ¨BasicAction.cpp å†…è®°å½•æˆ‘ä»¬æ¯ä¸ªå‘¨æœŸçš„å‘é€çš„å‘½ä»¤ï¼Œåœ¨sense æ—¶ä¿¡æ¯çš„
+ *    è§£æåˆ°Serverè¿”å›çš„å·®æ•°ï¼Œè¿™ä¸¤å€¼çš„æ¯”è¾ƒå¯ä»¥æµ‹å‡ºæˆ‘ä»¬å„ä¸ªå‘½ä»¤æ˜¯å¦æ¼å‘å‘½ä»¤ã€‚
+ *    é‡å¦å¤–ä¸€ä¸ªæ–¹é¢ååº”äº†ç½‘ç»œçš„æ€§èƒ½ã€‚
+ * 3. è¿™ä¸ªç±»è¿˜å¯ä»¥æ‰©å±•ç›¸åº”çš„åŠŸèƒ½ï¼Œæ¯”å¦‚å¯ä»¥æµ‹å‡ºSense åˆ°Sense çš„æ—¶é—´é—´éš”ï¼Œä»å¦
+ *    ä¸€æ–¹é¢çš„ååº”ç½‘ç»œç¯å¢ƒã€‚å¯ä»¥æµ‹å‡ºSense ä¿¡æ¯æ˜¯å¦ä¸¢å¤±ã€‚æµ‹å‡ºæ˜¯å¦ä¸¢åŒ…ã€‚ä»¥åŠä¸¢åŒ…ç‡
+ *    ä»å„ä¸ªæ–¹é¢ååº”å‡ºç½‘ç»œç¯å¢ƒã€‚ï¼ˆå¯ä»¥è¿›ä¸€æ­¥å®ç°ï¼‰ã€‚
  */
 /**
  * 1. This paper's main function is to sence information coming through a time when the record, when the arrival of visual information in
@@ -74,18 +74,18 @@ typedef struct{
 }TIMEDATA;
 
 typedef struct{
-	TIMEDATA 	MinDelay;		//×î´óÖµ°üÀ¨Ê±¼ä
-	TIMEDATA 	MaxDelay;		//×îĞ¡Öµ°üÀ¨Ê±¼ä
-	double 		average;         //Æ½¾ùÖµ
-	long 		count;				//Í³¼Æ´ÎÊı
-	double 		variance;		//·½²î
-	double		quadrature;		//¶ş¼ÛÔ­µã¾Ø
+	TIMEDATA 	MinDelay;		//æœ€å¤§å€¼åŒ…æ‹¬æ—¶é—´
+	TIMEDATA 	MaxDelay;		//æœ€å°å€¼åŒ…æ‹¬æ—¶é—´
+	double 		average;         //å¹³å‡å€¼
+	long 		count;				//ç»Ÿè®¡æ¬¡æ•°
+	double 		variance;		//æ–¹å·®
+	double		quadrature;		//äºŒä»·åŸç‚¹çŸ©
 }COUNTUNIT;
 
 typedef struct{
-    std::string Name;		//ÏµÍ³Ê±¼äµÄ¼ÇÂ¼µÄÃû×Ö
-	RealTime RT;		//ÏµÍ³Ê±¼ä£¬Ã»ÖÜÆÚµÄ¶¼¸üĞÂ
-	bool	IsRecord;	//ÊÇ·ñÒÑ¾­¼ÇÂ¼
+    std::string Name;		//ç³»ç»Ÿæ—¶é—´çš„è®°å½•çš„åå­—
+	RealTime RT;		//ç³»ç»Ÿæ—¶é—´ï¼Œæ²¡å‘¨æœŸçš„éƒ½æ›´æ–°
+	bool	IsRecord;	//æ˜¯å¦å·²ç»è®°å½•
 }TIMEUNIT;
 
 
@@ -114,10 +114,10 @@ typedef struct
 
 struct RealTimeRecord
 {
-    RealTime    mBeginTime; // ¿ªÊ¼µÄÏµÍ³Ê±¼ä
-    RealTime    mEndTime;   // ½áÊøµÄÏµÍ³Ê±¼ä
-    int         mCostTime;   // »¨·ÑµÄÊ±¼ä
-    Time        mTime;      // µ±Ç°ÖÜÆÚ
+    RealTime    mBeginTime; // å¼€å§‹çš„ç³»ç»Ÿæ—¶é—´
+    RealTime    mEndTime;   // ç»“æŸçš„ç³»ç»Ÿæ—¶é—´
+    int         mCostTime;   // èŠ±è´¹çš„æ—¶é—´
+    Time        mTime;      // å½“å‰å‘¨æœŸ
 };
 
 
@@ -172,11 +172,11 @@ private:
 	long Increment;
 	int MyID;
 	int MissBegin;
-	CMDCOUNT CMDSend;	//ÃüÁî·¢ËÍ¼ÆÊıÆ÷
-	CMDCOUNT CMDExecute; //ÃüÁîÖ´ĞĞ¼ÆÊıÆ÷
+	CMDCOUNT CMDSend;	//å‘½ä»¤å‘é€è®¡æ•°å™¨
+	CMDCOUNT CMDExecute; //å‘½ä»¤æ‰§è¡Œè®¡æ•°å™¨
 	std::string	 BeginName;
 	std::string	 EndName;
-	INTERVAL Interval[9];//<=30,<=40,<=50,<=60,<=70,<=80,<=90,<=100,ÆäËû£¬¹²¾ÅÇé¿ö
+	INTERVAL Interval[9];//<=30,<=40,<=50,<=60,<=70,<=80,<=90,<=100,å…¶ä»–ï¼Œå…±ä¹æƒ…å†µ
 };
 
 
@@ -195,12 +195,12 @@ public:
 	void End(const std::string BeginName, const std::string EndName);
 
 private:
-	std::vector<TIMEUNIT>BeginTimelist;		//¿ªÊ¼¼ÆÊ±µãµÄÃû×ÖÓëÏµÍ³Ê±¼ä¼¯ºÏÌå;
-	std::vector<TIMEUNIT>EndTimelist;		//½áÊø¼ÆÊ±µãµÄÃû×ÖÓëÏµÍ³Ê±¼ä¼¯ºÏÌå;
-	std::vector<StatisticUnit>StatUnit;		//Í³¼Æµ¥Î»
+	std::vector<TIMEUNIT>BeginTimelist;		//å¼€å§‹è®¡æ—¶ç‚¹çš„åå­—ä¸ç³»ç»Ÿæ—¶é—´é›†åˆä½“;
+	std::vector<TIMEUNIT>EndTimelist;		//ç»“æŸè®¡æ—¶ç‚¹çš„åå­—ä¸ç³»ç»Ÿæ—¶é—´é›†åˆä½“;
+	std::vector<StatisticUnit>StatUnit;		//ç»Ÿè®¡å•ä½
 	std::map<std::string,std::string>EndtoBegin;
 	int getNameID(std::string Name, bool tag);
-	long getInterval(const std::string BeginName, const std::string EndName);  //Ê±¼ä¼ä¸ô
+	long getInterval(const std::string BeginName, const std::string EndName);  //æ—¶é—´é—´éš”
 	void Setstatistic(const std::string BeginName, const std::string EndName);
 
 private:
@@ -208,8 +208,8 @@ private:
 	int mUnum;
 	double Probility;
 	long INTV;
-	CMDCOUNT CMDSend;	//ÃüÁî·¢ËÍ¼ÆÊıÆ÷
-	CMDCOUNT CMDExecute; //ÃüÁîÖ´ĞĞ¼ÆÊıÆ÷
+	CMDCOUNT CMDSend;	//å‘½ä»¤å‘é€è®¡æ•°å™¨
+	CMDCOUNT CMDExecute; //å‘½ä»¤æ‰§è¡Œè®¡æ•°å™¨
 
 public:
     void AddParserBegin();

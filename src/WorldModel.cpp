@@ -37,10 +37,10 @@
 
 WorldModel::WorldModel() {
 	mpHistoryState[0] = new HistoryState;
-	mpWorldState[0] = new WorldState(mpHistoryState[0]); //¶ÓÓÑµÄÊÀ½ç×´Ì¬
+	mpWorldState[0] = new WorldState(mpHistoryState[0]); //é˜Ÿå‹çš„ä¸–ç•ŒçŠ¶æ€
 
 	mpHistoryState[1] = new HistoryState;
-	mpWorldState[1] = new WorldState(mpHistoryState[1]); //¹©·´ËãÊ±ÓÃµÄ£¬¶ÔÊÖµÄÊÀ½ç×´Ì¬
+	mpWorldState[1] = new WorldState(mpHistoryState[1]); //ä¾›åç®—æ—¶ç”¨çš„ï¼Œå¯¹æ‰‹çš„ä¸–ç•ŒçŠ¶æ€
 }
 
 WorldModel::~WorldModel() {
@@ -53,12 +53,12 @@ WorldModel::~WorldModel() {
 
 void WorldModel::Update(Observer *observer)
 {
-	//´æ´¢Ò»ÏÂµ±Ç°µÄÊÀ½ç
+	//å­˜å‚¨ä¸€ä¸‹å½“å‰çš„ä¸–ç•Œ
 	mpHistoryState[0]->UpdateHistory(*mpWorldState[0]);
 	mpHistoryState[1]->UpdateHistory(*mpWorldState[1]);
 
-	mpWorldState[0]->UpdateFromObserver(observer); //×Ô¼º·½¾ö²ßÊ¹ÓÃµÄÊÀ½ç×´Ì¬
-	mpWorldState[1]->GetReverseFrom(mpWorldState[0]); //¿É¹©·´Ëã¶ÔÊÖÊ±Ê¹ÓÃµÄÊÀ½ç×´Ì¬
+	mpWorldState[0]->UpdateFromObserver(observer); //è‡ªå·±æ–¹å†³ç­–ä½¿ç”¨çš„ä¸–ç•ŒçŠ¶æ€
+	mpWorldState[1]->GetReverseFrom(mpWorldState[0]); //å¯ä¾›åç®—å¯¹æ‰‹æ—¶ä½¿ç”¨çš„ä¸–ç•ŒçŠ¶æ€
 }
 
 const WorldState & WorldModel::GetWorldState(bool reverse) const

@@ -41,7 +41,7 @@ class PositionInfo;
 
 
 /**
- * ÕâĞ©ÊÇÓÉ WorldState ¼ÆËã³öÀ´µÃĞÅÏ¢×´Ì¬
+ * è¿™äº›æ˜¯ç”± WorldState è®¡ç®—å‡ºæ¥å¾—ä¿¡æ¯çŠ¶æ€
  */
 class InfoStateBase: public Updatable {
 public:

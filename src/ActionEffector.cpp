@@ -42,7 +42,7 @@ ThreadMutex ActionEffector::CMD_QUEUE_MUTEX;
 
 bool AtomicAction::Execute(Agent & agent) const
 {
-	if (mSucceed || !mSucceed){ //ÏÈ²»¹ÜsucceedÎªfalseµÄÇé¿ö
+	if (mSucceed || !mSucceed){ //å…ˆä¸ç®¡succeedä¸ºfalseçš„æƒ…å†µ
 		switch (mType){
 		case CT_Turn: return agent.Turn(mTurnAngle);
 		case CT_Dash: return agent.Dash(mDashPower, mDashDir);
@@ -162,7 +162,7 @@ bool ActionEffector::SetDashAction(double power, AngleDeg dir)
 	power = GetNormalizeDashPower(power);
     dir = GetNormalizeDashAngle(dir);
 
-    // ×¢Òâ£¬ÔÚrcssserver13.1.0°æ±¾ÏÂ£¬dashÖ»ĞèÒª¿¼ÂÇÏÂÃæËÄÖÖÇé¿ö¼´¿É£º
+    // æ³¨æ„ï¼Œåœ¨rcssserver13.1.0ç‰ˆæœ¬ä¸‹ï¼Œdashåªéœ€è¦è€ƒè™‘ä¸‹é¢å››ç§æƒ…å†µå³å¯ï¼š
     // @ -power 0.0
     // @ +power 0.0
     // @ +power 90.0
@@ -170,7 +170,7 @@ bool ActionEffector::SetDashAction(double power, AngleDeg dir)
     //
     // from rcssserver13.1.0
 
-    // ×¢Òâ£¬ÔÚrcssserver v14 ÏÂ£¬dashĞèÒª¿¼ÂÇµÄÇé¿ö°üÀ¨£º
+    // æ³¨æ„ï¼Œåœ¨rcssserver v14 ä¸‹ï¼Œdashéœ€è¦è€ƒè™‘çš„æƒ…å†µåŒ…æ‹¬ï¼š
     // @ +power, 0
     // @ +power, 45
     // @ +power, 90
@@ -208,7 +208,7 @@ bool ActionEffector::SetDashAction(double power, AngleDeg dir)
 	}
 
 	if (!mAgent.GetSelf().IsOutOfStamina()) {
-		power = mAgent.GetSelf().CorrectDashPowerForStamina(power); // ±£Ö¤²»½µµ½×îµÍÌåÁ¦ÒÔÏÂ
+		power = mAgent.GetSelf().CorrectDashPowerForStamina(power); // ä¿è¯ä¸é™åˆ°æœ€ä½ä½“åŠ›ä»¥ä¸‹
 	}
 
     if (std::fabs(power) < FLOAT_EPS) return false;
@@ -285,7 +285,7 @@ bool ActionEffector::SetAttentiontoAction(Unum num)
 
     if (mAgent.GetSelf().GetFocusOnUnum() == num)
     {
-        mIsAttentionto = true; // ±¾ÖÜÆÚ²»ÔÙattentionto
+        mIsAttentionto = true; // æœ¬å‘¨æœŸä¸å†attentionto
         return false;
     }
 
@@ -305,7 +305,7 @@ bool ActionEffector::SetAttentiontoOffAction()
 
     if (mAgent.GetSelf().GetFocusOnUnum() == 0)
     {
-        mIsAttentionto = true; // ±¾ÖÜÆÚ²»ÔÙattentionto
+        mIsAttentionto = true; // æœ¬å‘¨æœŸä¸å†attentionto
         return false;
     }
 
@@ -349,7 +349,7 @@ bool ActionEffector::SetKickAction(double power, AngleDeg angle)
 		return false;
 	}
 
-    if (power < 1.0) // ±ÜÃâ²»±ØÒªµÄkick
+    if (power < 1.0) // é¿å…ä¸å¿…è¦çš„kick
     {
         return false;
     }
@@ -386,7 +386,7 @@ bool ActionEffector::SetTackleAction(AngleDeg angle, const bool foul)
 
 	double tackle_prob = mSelfState.GetTackleProb(foul);
 	if (tackle_prob < FLOAT_EPS && 
-        mWorldState.GetPlayMode() != PM_Opp_Penalty_Taken) // ÊØÃÅÔ±·ÀµãÇòÊ±ÄÜtackle¾Ítackle
+        mWorldState.GetPlayMode() != PM_Opp_Penalty_Taken) // å®ˆé—¨å‘˜é˜²ç‚¹çƒæ—¶èƒ½tackleå°±tackle
 	{
 		return false;
 	}
@@ -531,7 +531,7 @@ bool ActionEffector::SetChangeViewAction(ViewWidth view_width)
 		return false;
 	}
 
-	VisualSystem::instance().ChangeViewWidth(mAgent, view_width); //ÓëÊÓ¾õÏµÍ³Í¬²½
+	VisualSystem::instance().ChangeViewWidth(mAgent, view_width); //ä¸è§†è§‰ç³»ç»ŸåŒæ­¥
 
 	if (view_width == mSelfState.GetViewWidth())
 	{
@@ -636,7 +636,7 @@ bool ActionEffector::SetClangAction(int min_ver, int max_ver)
 
 bool ActionEffector::SetEarOnAction(bool our_side, EarMode ear_mode)
 {
-	// earÃüÁîÒ»¸öÖÜÆÚ¿ÉÒÔ·¢¶à¸ö
+	// earå‘½ä»¤ä¸€ä¸ªå‘¨æœŸå¯ä»¥å‘å¤šä¸ª
 	if (ear_mode != EM_Partial && ear_mode != EM_Complete)
 	{
 		return false;
@@ -651,7 +651,7 @@ bool ActionEffector::SetEarOnAction(bool our_side, EarMode ear_mode)
 
 bool ActionEffector::SetEarOffAction(bool our_side, EarMode ear_mode)
 {
-	// earÃüÁîÒ»¸öÖÜÆÚ¿ÉÒÔ·¢¶à¸ö
+	// earå‘½ä»¤ä¸€ä¸ªå‘¨æœŸå¯ä»¥å‘å¤šä¸ª
 	if (ear_mode != EM_Partial && ear_mode != EM_Complete && ear_mode != EM_All)
 	{
 		return false;
@@ -688,7 +688,7 @@ bool ActionEffector::SetChangePlayerTypeAction(Unum num, int player_type)
 }
 
 /**
- * Í¨¹ı´«ÈëkickµÄ²ÎÊı£¬¼ÆËãkickºóÇòµÄÎ»ÖÃºÍËÙ¶È
+ * é€šè¿‡ä¼ å…¥kickçš„å‚æ•°ï¼Œè®¡ç®—kickåçƒçš„ä½ç½®å’Œé€Ÿåº¦
  * Calculate ball position and velocity after a kick action.
  * \param kick_power.
  * \param kick_angle.
@@ -715,7 +715,7 @@ void ActionEffector::ComputeInfoAfterKick(const double kick_power, const double 
 }
 
 /**
- * Í¨¹ı´«ÈëdashµÄ²ÎÊı£¬¼ÆËãdashºóÇòÔ±µÄÎ»ÖÃºÍËÙ¶È
+ * é€šè¿‡ä¼ å…¥dashçš„å‚æ•°ï¼Œè®¡ç®—dashåçƒå‘˜çš„ä½ç½®å’Œé€Ÿåº¦
  * Calculate player position and velocity after a dash action. Conflicts or forbidden areas are not
  * considered.
  * \param dash_power.
@@ -742,7 +742,7 @@ void ActionEffector::ComputeInfoAfterDash(const double dash_power, double dash_d
 }
 
 /**
- * Í¨¹ı´«ÈëmoveµÄ²ÎÊı£¬¼ÆËãmoveºóÇòÔ±µÄÎ»ÖÃºÍËÙ¶È
+ * é€šè¿‡ä¼ å…¥moveçš„å‚æ•°ï¼Œè®¡ç®—moveåçƒå‘˜çš„ä½ç½®å’Œé€Ÿåº¦
  * Calculate player position and velocity after a move action.
  * \param move_pos.
  * \param player_pos will be set to player position after move.
@@ -755,7 +755,7 @@ void ActionEffector::ComputeInfoAfterMove(const Vector & move_pos, Vector &playe
 }
 
 /**
- * Í¨¹ı´«ÈëturnµÄ²ÎÊı£¬¼ÆËãturnºóÇòÔ±µÄÉíÌå³¯ÏòºÍ²±×Ó³¯Ïò
+ * é€šè¿‡ä¼ å…¥turnçš„å‚æ•°ï¼Œè®¡ç®—turnåçƒå‘˜çš„èº«ä½“æœå‘å’Œè„–å­æœå‘
  * Calculate player body direction after a turn action.
  * \param turn_angle.
  * \param player_state state of the player who is turning.
@@ -769,7 +769,7 @@ void ActionEffector::ComputeInfoAfterTurn(const AngleDeg moment,
 }
 
 /**
- * Í¨¹ı´«Èëturn_neckµÄ²ÎÊı£¬¼ÆËãturn_neckºóÇòÔ±µÄ²±×Ó³¯Ïò
+ * é€šè¿‡ä¼ å…¥turn_neckçš„å‚æ•°ï¼Œè®¡ç®—turn_neckåçƒå‘˜çš„è„–å­æœå‘
  * Calculate player neck direction after a turn_neck action.
  * \param turn_neck_angle.
  * \param player_state state of the player who is turning.
@@ -783,7 +783,7 @@ void ActionEffector::ComputeInfoAfterTurnNeck(const AngleDeg turn_neck_angle,
 }
 
 /**
- * ¼ì²éÉÏÖÜÆÚ·¢¸øserverµÄÃüÁî£¬ÓÃÀ´¸¨ÖúWorldStateµÄ¸üĞÂ
+ * æ£€æŸ¥ä¸Šå‘¨æœŸå‘ç»™serverçš„å‘½ä»¤ï¼Œç”¨æ¥è¾…åŠ©WorldStateçš„æ›´æ–°
  * Check commands sent to server in last cycle. Help to update WorldState.
  * It predicts information by doing actions in commands queue,, assuming only this one agent influences
  * world state. And it will flush the commands queue.
@@ -867,13 +867,13 @@ void ActionEffector::CheckCommandQueue(Observer *observer)
 			}
 		}
 
-		mCommandQueue.clear(); // Çå¿ÕÃüÁî¶ÓÁĞ
+		mCommandQueue.clear(); // æ¸…ç©ºå‘½ä»¤é˜Ÿåˆ—
 	}
 	ActionEffector::CMD_QUEUE_MUTEX.UnLock();
 }
 
 /**
- * ¼ì²éÉÏÖÜÆÚµÄÃüÁîÊÇ·ñÂ©·¢£¬Ã¿ÖÜÆÚ»ñµÃĞÅÏ¢ºó±»µ÷ÓÃ
+ * æ£€æŸ¥ä¸Šå‘¨æœŸçš„å‘½ä»¤æ˜¯å¦æ¼å‘ï¼Œæ¯å‘¨æœŸè·å¾—ä¿¡æ¯åè¢«è°ƒç”¨
  * Check commands sent to server in last cycle, see if there are any commands were lost, and print
  * "miss xxx" if there is one.
  * Called after all information has been fetched in every cycle.
@@ -884,8 +884,8 @@ void ActionEffector::CheckCommands(Observer *observer)
 	Reset();
 
 	/**
-	* ÏÂÃæÍ¨¹ısenseÖĞserver·¢À´µÄÃüÁîÊı¾İºÍ×Ô¼ºµÄ¼ÍÂ¼Êı¾İ½øĞĞ±È½Ï£¬ÅĞ¶ÏÊÇ·ñÂ©·¢ÃüÁî
-	* °´ÕÕsenseÖĞµÄË³ĞòÅÅÁĞ
+	* ä¸‹é¢é€šè¿‡senseä¸­serverå‘æ¥çš„å‘½ä»¤æ•°æ®å’Œè‡ªå·±çš„çºªå½•æ•°æ®è¿›è¡Œæ¯”è¾ƒï¼Œåˆ¤æ–­æ˜¯å¦æ¼å‘å‘½ä»¤
+	* æŒ‰ç…§senseä¸­çš„é¡ºåºæ’åˆ—
 	*/
 	if (observer->Sense().GetKickCount() != mKickCount)
 	{
@@ -1033,8 +1033,8 @@ void ActionEffector::Reset()
 
 void ActionEffector::ResetForScan()
 {
-	//Çå¿Õ»¥³âÃüÁî
-	//Çå³ıturn neckÃüÁî
+	//æ¸…ç©ºäº’æ–¥å‘½ä»¤
+	//æ¸…é™¤turn neckå‘½ä»¤
 	ActionEffector::CMD_QUEUE_MUTEX.Lock();
 	if (!mCommandQueue.empty())
 	{
@@ -1159,7 +1159,7 @@ Vector ActionEffector::GetBallVelWithQueuedActions()
 }
 
 /**
- * Ïòserver·¢ËÍÃüÁî¶ÓÁĞÖĞµÄÃüÁî
+ * å‘serverå‘é€å‘½ä»¤é˜Ÿåˆ—ä¸­çš„å‘½ä»¤
  * Send commands in queue to server.
  * \param msg if save_server_msg is on and a c-style string is passed to this method, it will record
  *            this string to msg-log as well.
@@ -1168,7 +1168,7 @@ void ActionEffector::SendCommands(char *msg)
 {
 	if (PlayerParam::instance().isCoach())
 	{
-		//Coach·ÖÌõ·¢ËÍÃüÁî
+		//Coachåˆ†æ¡å‘é€å‘½ä»¤
 		ActionEffector::CMD_QUEUE_MUTEX.Lock();
 		for (std::list<CommandInfo>::iterator it = mCommandQueue.begin(); it != mCommandQueue.end(); ++it)
 		{
@@ -1180,14 +1180,14 @@ void ActionEffector::SendCommands(char *msg)
 			{
 				if (PlayerParam::instance().DynamicDebugMode())
 				{
-					std::cerr << std::endl << it->mString.c_str(); // ¶¯Ì¬µ÷ÊÔÄ£Ê½£¬Ö±½ÓÊä³öÃüÁî¼´¿É
+					std::cerr << std::endl << it->mString.c_str(); // åŠ¨æ€è°ƒè¯•æ¨¡å¼ï¼Œç›´æ¥è¾“å‡ºå‘½ä»¤å³å¯
 				}
-				else if (UDPSocket::instance().Send(it->mString.c_str()) < 0) // ·¢ËÍÃüÁî
+				else if (UDPSocket::instance().Send(it->mString.c_str()) < 0) // å‘é€å‘½ä»¤
 				{
 					PRINT_ERROR("UDPSocket error!");
 				}
 			}
-			if (PlayerParam::instance().SaveServerMessage() && msg != 0) //ËµÃ÷Òª¼ÇÂ¼ÃüÁîĞÅÏ¢
+			if (PlayerParam::instance().SaveServerMessage() && msg != 0) //è¯´æ˜è¦è®°å½•å‘½ä»¤ä¿¡æ¯
 			{
 				strcat(msg, it->mString.c_str());
 			}
@@ -1196,7 +1196,7 @@ void ActionEffector::SendCommands(char *msg)
 	}
 	else
 	{
-		//ÇòÔ±°ÑÃüÁî·ÅÔÚÒ»Æğ·¢
+		//çƒå‘˜æŠŠå‘½ä»¤æ”¾åœ¨ä¸€èµ·å‘
 		static char command_msg[MAX_MESSAGE];
 
 		command_msg[0] = '\0';
@@ -1215,14 +1215,14 @@ void ActionEffector::SendCommands(char *msg)
 		{
 			if (PlayerParam::instance().DynamicDebugMode())
 			{
-				std::cerr << std::endl << command_msg; // ¶¯Ì¬µ÷ÊÔÄ£Ê½£¬Ö±½ÓÊä³öÃüÁî¼´¿É
+				std::cerr << std::endl << command_msg; // åŠ¨æ€è°ƒè¯•æ¨¡å¼ï¼Œç›´æ¥è¾“å‡ºå‘½ä»¤å³å¯
 			}
-			else if (UDPSocket::instance().Send(command_msg) < 0) // ·¢ËÍÃüÁî
+			else if (UDPSocket::instance().Send(command_msg) < 0) // å‘é€å‘½ä»¤
 			{
 				PRINT_ERROR("UDPSocket error!");
 			}
 		}
-		if (PlayerParam::instance().SaveServerMessage() && msg != 0) //ËµÃ÷Òª¼ÇÂ¼ÃüÁîĞÅÏ¢
+		if (PlayerParam::instance().SaveServerMessage() && msg != 0) //è¯´æ˜è¦è®°å½•å‘½ä»¤ä¿¡æ¯
 		{
 			strcat(msg, command_msg);
 		}

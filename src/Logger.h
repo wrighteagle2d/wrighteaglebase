@@ -110,12 +110,12 @@ private:
 	std::string mPlayerParamMsg;
 	std::string mPlayerTypeMsg;
 	int mLoggedPlayerTypeCount;
-	bool mHeaderReady; //ÊÇ·ñ¿ÉÒÔ¼ÇÂ¼ÊÓ¾õĞÅÏ¢£¨ÒªÏÈ¼ÇÂ¼ºÃserver_paramµÈ£©
+	bool mHeaderReady; //æ˜¯å¦å¯ä»¥è®°å½•è§†è§‰ä¿¡æ¯ï¼ˆè¦å…ˆè®°å½•å¥½server_paramç­‰ï¼‰
 	bool mHeaderLogged;
 	ServerPlayMode mServerPlayMode;
 	bool mServerPlayMode_dirty;
 	Time mTime;
-	int mLeftScore; //×Ô¼º×ÜÊÇ×ó±ßµÄ
+	int mLeftScore; //è‡ªå·±æ€»æ˜¯å·¦è¾¹çš„
 	int mRightScore;
 	int mLeftPenTaken;
 	int mRightPenTaken;
@@ -280,14 +280,14 @@ public:
 	static Logger& instance();
 
     /**
-     * initº¯ÊıºÍÎö¹¹º¯Êı
+     * initå‡½æ•°å’Œææ„å‡½æ•°
      * Initialize.
      */
     void Initial(Observer *observer, WorldState *world_state );
     ~Logger();
 
     /**
-     * Ö÷Ñ­»·º¯Êı
+     * ä¸»å¾ªç¯å‡½æ•°
      * Mainloop.
      */
     void StartRoutine();

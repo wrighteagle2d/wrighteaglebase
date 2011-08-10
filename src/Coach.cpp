@@ -65,7 +65,7 @@ void Coach::SendOptionToServer()
 		WaitFor(200);
 	}
 	vector<pair<int , double> > a ;
-	for (int i=0 ;i <= 17 ; ++i){  //ÕâÀïµÄ18²»ÖªµÀÈçºÎÈ¥ÒýÓÃPlayerParam::DEFAULT_PLAYER_TYPES
+	for (int i=0 ;i <= 17 ; ++i){  //è¿™é‡Œçš„18ä¸çŸ¥é“å¦‚ä½•åŽ»å¼•ç”¨PlayerParam::DEFAULT_PLAYER_TYPES
 		a.push_back(pair<int , double>(i,PlayerParam::instance().HeteroPlayer(i).effectiveSpeedMax()));
 	}
 	sort(a.begin(),a.end(),PlayerCompare());
@@ -141,7 +141,7 @@ void Coach::SendOptionToServer()
 	}
 	*/
 /*	a.clear();
-	for (int i=1 ;i <= 18 ; ++i){  //ÕâÀïµÄ18²»ÖªµÀÈçºÎÈ¥ÒýÓÃPlayerParam::DEFAULT_PLAYER_TYPES
+	for (int i=1 ;i <= 18 ; ++i){  //è¿™é‡Œçš„18ä¸çŸ¥é“å¦‚ä½•åŽ»å¼•ç”¨PlayerParam::DEFAULT_PLAYER_TYPES
 		a.push_back(pair<int , double>(i,PlayerParam::instance().HeteroPlayer(i).kickRand()));
 	}
 	for (int i = 1; i <= TEAMSIZE; ++i)
@@ -186,9 +186,9 @@ void Coach::Run()
 {
 	mpObserver->Lock();
 
-	/** ÏÂÃæ¼¸¸ö¸üÐÂË³Ðò²»ÄÜ±ä */
+	/** ä¸‹é¢å‡ ä¸ªæ›´æ–°é¡ºåºä¸èƒ½å˜ */
 	Formation::instance.SetTeammateFormations();
-	mpAgent->CheckCommands(mpObserver); // ¼ì²éÉÏÖÜÆÚ·¢ËÍÃüÁîÇé¿ö
+	mpAgent->CheckCommands(mpObserver); // æ£€æŸ¥ä¸Šå‘¨æœŸå‘é€å‘½ä»¤æƒ…å†µ
 	mpWorldModel->Update(mpObserver);
 
 	mpObserver->UnLock();

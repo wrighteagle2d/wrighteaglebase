@@ -46,13 +46,13 @@ class ThreadCondition
 {
 public:
     /**
-     * ¹¹Ôìº¯ÊıºÍÎö¹¹º¯Êı
+     * æ„é€ å‡½æ•°å’Œææ„å‡½æ•°
      */
     ThreadCondition();
     ~ThreadCondition();
 
     /**
-     * ×èÈûºÍ»½ĞÑº¯Êı
+     * é˜»å¡å’Œå”¤é†’å‡½æ•°
      */
     bool Wait(int ms);
     void Set();
@@ -65,13 +65,13 @@ class ThreadMutex
 {
 public:
     /**
-     * ¹¹Ôìº¯ÊıºÍÎö¹¹º¯Êı
+     * æ„é€ å‡½æ•°å’Œææ„å‡½æ•°
      */
     ThreadMutex();
     ~ThreadMutex();
 
     /**
-     * ¼ÓËøºÍ½âËøº¯Êı
+     * åŠ é”å’Œè§£é”å‡½æ•°
      */
     void Lock();
     void UnLock();
@@ -97,13 +97,13 @@ class ThreadCondition
 {
 public:
     /**
-     * ¹¹Ôìº¯ÊıºÍÎö¹¹º¯Êı
+     * æ„é€ å‡½æ•°å’Œææ„å‡½æ•°
      */
     ThreadCondition();
     ~ThreadCondition();
 
     /**
-     * ×èÈûºÍ»½ĞÑº¯Êı
+     * é˜»å¡å’Œå”¤é†’å‡½æ•°
      */
     bool Wait(int ms);
     void Set();
@@ -117,13 +117,13 @@ class ThreadMutex
 {
 public:
     /**
-     * ¹¹Ôìº¯ÊıºÍÎö¹¹º¯Êı
+     * æ„é€ å‡½æ•°å’Œææ„å‡½æ•°
      */
     ThreadMutex();
     ~ThreadMutex();
 
     /**
-     * ¼ÓËøºÍ½âËøº¯Êı
+     * åŠ é”å’Œè§£é”å‡½æ•°
      */
     void Lock();
     void UnLock();

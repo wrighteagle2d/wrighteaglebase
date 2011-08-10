@@ -44,7 +44,7 @@ class Player: public Client
 
 public:
     /**
-     * 构造函数和析构函数
+     * 鏋勯�犲嚱鏁板拰鏋愭瀯鍑芥暟
      */
     Player();
     ~Player();

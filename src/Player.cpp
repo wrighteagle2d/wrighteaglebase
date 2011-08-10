@@ -88,9 +88,9 @@ void Player::Run()
 
 	mpObserver->Lock();
 
-	/** ÏÂÃæ¼¸¸ö¸üÐÂË³Ðò²»ÄÜ±ä */
+	/** ä¸‹é¢å‡ ä¸ªæ›´æ–°é¡ºåºä¸èƒ½å˜ */
 	Formation::instance.SetTeammateFormations();
-	CommunicateSystem::instance().Update(); //ÔÚÕâÀï½âÎöhearÐÅÏ¢£¬±ØÐëÊ×ÏÈ¸üÐÂ
+	CommunicateSystem::instance().Update(); //åœ¨è¿™é‡Œè§£æžhearä¿¡æ¯ï¼Œå¿…é¡»é¦–å…ˆæ›´æ–°
 	mpAgent->CheckCommands(mpObserver);
 	mpWorldModel->Update(mpObserver);
 
@@ -101,14 +101,14 @@ void Player::Run()
 	if (last_time.T() >= 0) {
 		if (time != Time(last_time.T() + 1, 0) && time != Time(last_time.T(), last_time.S() + 1)) {
 			if (time == last_time) {
-				mpAgent->World().SetCurrentTime(Time(last_time.T(), last_time.S() + 1)); //·ñÔò¾ö²ßÊý¾Ý¸üÐÂ»á³öÎÊÌâ
+				mpAgent->World().SetCurrentTime(Time(last_time.T(), last_time.S() + 1)); //å¦åˆ™å†³ç­–æ•°æ®æ›´æ–°ä¼šå‡ºé—®é¢˜
 			}
 		}
 	}
 
 	last_time = time;
 
-	Formation::instance.UpdateOpponentRole(); //TODO: ÔÝÊ±·ÅÔÚÕâÀï£¬½ÌÁ·Î´·¢À´¶ÔÊÖÕóÐÍÐÅÏ¢Ê±×Ô¼ºÏÈ¼ÆËã
+	Formation::instance.UpdateOpponentRole(); //TODO: æš‚æ—¶æ”¾åœ¨è¿™é‡Œï¼Œæ•™ç»ƒæœªå‘æ¥å¯¹æ‰‹é˜µåž‹ä¿¡æ¯æ—¶è‡ªå·±å…ˆè®¡ç®—
 
 	VisualSystem::instance().ResetVisualRequest();
 	mpDecisionTree->Decision(*mpAgent);

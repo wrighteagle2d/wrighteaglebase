@@ -49,7 +49,7 @@ class Agent;
 
 
 /**
- * Í¨¹ıÊµ¼Ê×ªÉí½Ç¶È¼ÆËãĞèÒªÏòserver·¢ËÍµÄturnÃüÁîµÄ²ÎÊı£¬¼´ĞéÄâ×ªÉí½Ç¶È
+ * é€šè¿‡å®é™…è½¬èº«è§’åº¦è®¡ç®—éœ€è¦å‘serverå‘é€çš„turnå‘½ä»¤çš„å‚æ•°ï¼Œå³è™šæ‹Ÿè½¬èº«è§’åº¦
  * Calculate angle which should be sent so server as parameter when doing turn action.
  * \param actual_turn_angle angle the player what to turn.
  * \param player_type hetero type of the player.
@@ -63,7 +63,7 @@ inline AngleDeg GetTurnMoment(const AngleDeg actual_turn_angle, const int player
 }
 
 /**
- * Í¨¹ıÊµ¼Ê×ªÉí½Ç¶È¼ÆËãĞèÒªÏòserver·¢ËÍµÄturnÃüÁîµÄ²ÎÊı£¬¼´ĞéÄâ×ªÉí½Ç¶È
+ * é€šè¿‡å®é™…è½¬èº«è§’åº¦è®¡ç®—éœ€è¦å‘serverå‘é€çš„turnå‘½ä»¤çš„å‚æ•°ï¼Œå³è™šæ‹Ÿè½¬èº«è§’åº¦
  * Calculate angle the player actually turns from the angle parameter sent to server.
  * \param virtual_turn_angle the angle parameter sent to server.
  * \param player_type hetero type of the player.
@@ -77,7 +77,7 @@ inline AngleDeg GetTurnAngle(const AngleDeg moment, const int player_type, const
 }
 
 /**
- * µÃµ½µ±Ç°×´Ì¬ÏÂ¿ÉÒÔ×ªÉíµÄ×î´ó½Ç¶È
+ * å¾—åˆ°å½“å‰çŠ¶æ€ä¸‹å¯ä»¥è½¬èº«çš„æœ€å¤§è§’åº¦
  * Get maximum angle the player can turn with certain state.
  * \param player_type hetero type of the player.
  * \param player_speed current speed of the player.
@@ -90,7 +90,7 @@ inline AngleDeg GetMaxTurnAngle(const int player_type, const double player_speed
 }
 
 /**
- * µÃµ½Ë³Ê±Õë×ª²±×ÓµÄ×î´ó½Ç¶È£¬¿Ï¶¨ÎªÕıÖµ£¬²ÎÊıµÄ²±×Ó½Ç¶ÈÊÇÏà¶ÔÁ¿
+ * å¾—åˆ°é¡ºæ—¶é’ˆè½¬è„–å­çš„æœ€å¤§è§’åº¦ï¼Œè‚¯å®šä¸ºæ­£å€¼ï¼Œå‚æ•°çš„è„–å­è§’åº¦æ˜¯ç›¸å¯¹é‡
  * Get maximum angle the player can turn neck by clockwise.
  * \param player_head_angle current neck angle of the player, relative to body angle.
  * \return maximum angle the player can turn neck by.
@@ -101,7 +101,7 @@ inline AngleDeg GetMaxTurnNeckAngle(const AngleDeg player_head_angle)
 }
 
 /**
- * µÃµ½Ë³Ê±Õë×ª²±×ÓµÄ×î´ó½Ç¶È£¬¿Ï¶¨ÎªÕıÖµ£¬²ÎÊıµÄ²±×Ó½Ç¶ÈÊÇÏà¶ÔÁ¿
+ * å¾—åˆ°é¡ºæ—¶é’ˆè½¬è„–å­çš„æœ€å¤§è§’åº¦ï¼Œè‚¯å®šä¸ºæ­£å€¼ï¼Œå‚æ•°çš„è„–å­è§’åº¦æ˜¯ç›¸å¯¹é‡
  * Get maximum angle the player can turn neck by counter-clockwise.
  * \param player_head_angle current neck angle of the player, relative to body angle.
  * \return maximum angle the player can turn neck by.
@@ -112,7 +112,7 @@ inline AngleDeg GetMinTurnNeckAngle(const AngleDeg player_head_angle)
 }
 
 /**
- * µÃµ½kick_rate£¬×¢ÒâÕâÀïµÄball_2_playerÊÇÇòÏà¶ÔÓÚÇòÔ±µÄÏà¶Ô×ø±ê£¬ÒÔÇòÔ±ÉíÌå·½ÏòÎªxÕı·½Ïò
+ * å¾—åˆ°kick_rateï¼Œæ³¨æ„è¿™é‡Œçš„ball_2_playeræ˜¯çƒç›¸å¯¹äºçƒå‘˜çš„ç›¸å¯¹åæ ‡ï¼Œä»¥çƒå‘˜èº«ä½“æ–¹å‘ä¸ºxæ­£æ–¹å‘
  * Get kick_rate by relative position of the ball.
  * \param ball_2_player ball position in the player's coordinate system.
  * \param player_type hetero type of the player.
@@ -128,7 +128,7 @@ inline double GetKickRate(const Vector & ball_2_player, const int player_type)
 }
 
 /**
- * µÃµ½kickµÄ×î´óÎó²î£¬ball_2_playerºÍÉÏÃæº¯ÊıÒ»ÑùÎªÏà¶Ô£¬ball_velÎªÇòµÄ¾ø¶ÔËÙ¶È
+ * å¾—åˆ°kickçš„æœ€å¤§è¯¯å·®ï¼Œball_2_playerå’Œä¸Šé¢å‡½æ•°ä¸€æ ·ä¸ºç›¸å¯¹ï¼Œball_velä¸ºçƒçš„ç»å¯¹é€Ÿåº¦
  * Get maximum random error by relative position and absolute velocity.
  * \param ball_2_player ball position in the player's coordinate system.
  * \param ball_vel velocity of the ball in field coordinate system.
@@ -153,7 +153,7 @@ inline double GetMaxKickRand(const Vector & ball_2_player, const Vector & ball_v
 }
 
 /**
- * µÃµ½tackleµÄ¸ÅÂÊ£¬×¢ÒâÕâÀïµÄball_2_playerÊÇÇòÏà¶ÔÓÚÇòÔ±µÄÏà¶Ô×ø±ê£¬ÒÔÇòÔ±ÉíÌå·½ÏòÎªxÕı·½Ïò
+ * å¾—åˆ°tackleçš„æ¦‚ç‡ï¼Œæ³¨æ„è¿™é‡Œçš„ball_2_playeræ˜¯çƒç›¸å¯¹äºçƒå‘˜çš„ç›¸å¯¹åæ ‡ï¼Œä»¥çƒå‘˜èº«ä½“æ–¹å‘ä¸ºxæ­£æ–¹å‘
  * Get tackle success probability.
  * \param ball_2_player ball position in the player's coordinate system.
  * \return tackle success probability.
@@ -197,10 +197,10 @@ inline double GetMaxTackleRand(const Vector & ball_2_player, const Vector & ball
 }
 
 /**
- * ²ùÇò max_rand
- * @param prob ²ùÇò³É¹¦ÂÊ
- * @param ball_vel ÇòµÄµ±Ç°ËÙ¶È
- * @param player_type ÇòÔ±Òì¹¹
+ * é“²çƒ max_rand
+ * @param prob é“²çƒæˆåŠŸç‡
+ * @param ball_vel çƒçš„å½“å‰é€Ÿåº¦
+ * @param player_type çƒå‘˜å¼‚æ„
  * @return
  */
 inline double GetMaxTackleRand(const double & prob, const Vector & ball_vel, const int player_type)
@@ -216,7 +216,7 @@ inline double GetMaxTackleRand(const double & prob, const Vector & ball_vel, con
 }
 
 /**
- * µÃµ½tackleµÄ¸ÅÂÊ£¬²ÎÊı¾ùÎª¾ø¶Ô×ø±ê
+ * å¾—åˆ°tackleçš„æ¦‚ç‡ï¼Œå‚æ•°å‡ä¸ºç»å¯¹åæ ‡
  * Get tackle success probability with all parameters are absolute values.
  * \param ball_pos.
  * \prram player_pos.
@@ -254,7 +254,7 @@ inline double GetDashDirRate(double dir)
 }
 
 /**
- * »»ÓÃ¸üÊ¡ÌåÁ¦µÄµÈĞ§µÄdash·½Ê½
+ * æ¢ç”¨æ›´çœä½“åŠ›çš„ç­‰æ•ˆçš„dashæ–¹å¼
  * @param dash_power
  * @param dash_dir
  */
@@ -270,7 +270,7 @@ inline void TransformDash(double & dash_power, AngleDeg & dash_dir)
 }
 
 /**
- * ActionµÄÊäÈë
+ * Actionçš„è¾“å…¥
  * Input of an Action.
  */
 struct ActionInput
@@ -284,7 +284,7 @@ struct ActionInput
 };
 
 /**
- * ÃèÊöÔ­×Ó¶¯×÷
+ * æè¿°åŸå­åŠ¨ä½œ
  * Describes an atomic action.
  */
 struct AtomicAction
@@ -329,7 +329,7 @@ struct AtomicAction
 };
 
 /**
- * ¼Æ»®Ö´ĞĞµÄActionµÄĞÅÏ¢
+ * è®¡åˆ’æ‰§è¡Œçš„Actionçš„ä¿¡æ¯
  * Stores a queue of atomic actions planed to be executed.
  */
 struct ActionPlan
@@ -353,20 +353,20 @@ public:
 	virtual ~ActionEffector() {}
 
 	/**
-	 * ¼ì²éÉÏÖÜÆÚ·¢¸øserverµÄÃüÁî£¬ÓÃÀ´¸¨ÖúWorldStateµÄ¸üĞÂ
+	 * æ£€æŸ¥ä¸Šå‘¨æœŸå‘ç»™serverçš„å‘½ä»¤ï¼Œç”¨æ¥è¾…åŠ©WorldStateçš„æ›´æ–°
 	 * Check commands sent to server in last cycle. Help to update WorldState.
 	 */
 	void CheckCommandQueue(Observer *observer);
 
 	/**
-	 * ¼ì²éÉÏÖÜÆÚµÄÃüÁîÊÇ·ñÂ©·¢£¬Ã¿ÖÜÆÚ»ñµÃĞÅÏ¢ºó±»µ÷ÓÃ
+	 * æ£€æŸ¥ä¸Šå‘¨æœŸçš„å‘½ä»¤æ˜¯å¦æ¼å‘ï¼Œæ¯å‘¨æœŸè·å¾—ä¿¡æ¯åè¢«è°ƒç”¨
 	 * Check commands sent to server in last cycle, and see if there are any commands were lost.
 	 * Called after sense information was fetched.
 	 */
 	void CheckCommands(Observer *observer);
 
 	/**
-	 * Ïòserver·¢ËÍÃüÁî¶ÓÁĞÖĞµÄÃüÁî
+	 * å‘serverå‘é€å‘½ä»¤é˜Ÿåˆ—ä¸­çš„å‘½ä»¤
 	 * Send commands in queue to server.
 	 */
 	void SendCommands(char *msg = 0);
@@ -375,17 +375,17 @@ public:
 	void ResetForScan();
 
 	/**
-	 * ÏÂÃæÕâĞ©½Ó¿ÚÊÇserverÌá¹©µÄËùÓĞÃüÁîµÄ½Ó¿Ú£¬¸ß²ãÀ´µ÷ÓÃ
-	 * ÕâĞ©½Ó¿ÚÖĞÑÏ¸ñ°´ÕÕserverÊÇ·ñ»áÖ´ĞĞÀ´ÅĞ¶Ï£¬server¿Ï¶¨¿ÉÒÔÖ´ĞĞµÄ²Å·µ»Øtrue
+	 * ä¸‹é¢è¿™äº›æ¥å£æ˜¯serveræä¾›çš„æ‰€æœ‰å‘½ä»¤çš„æ¥å£ï¼Œé«˜å±‚æ¥è°ƒç”¨
+	 * è¿™äº›æ¥å£ä¸­ä¸¥æ ¼æŒ‰ç…§serveræ˜¯å¦ä¼šæ‰§è¡Œæ¥åˆ¤æ–­ï¼Œserverè‚¯å®šå¯ä»¥æ‰§è¡Œçš„æ‰è¿”å›true
 	 * Each of the following methods provides an interface of a server command for high level decisions.
 	 * Will return true if and only if command can be executed absolutely by server.
 	 */
-	bool SetTurnAction(AngleDeg angle); ///ÕâÀïµÄ angle ÊÇÆÚÍû×ªÉíµÄ½Ç¶È£¬²»ÊÇ·¢¸ø server µÄ½Ç¶È
+	bool SetTurnAction(AngleDeg angle); ///è¿™é‡Œçš„ angle æ˜¯æœŸæœ›è½¬èº«çš„è§’åº¦ï¼Œä¸æ˜¯å‘ç»™ server çš„è§’åº¦
 	bool SetDashAction(double power, AngleDeg dir);
 	bool SetTurnNeckAction(AngleDeg angle);
 	bool SetSayAction(std::string msg);
-	bool SetAttentiontoAction(Unum num); //ÕâÀïµÄÊµÏÖ³É»¥³â¶¯×÷
-	bool SetAttentiontoOffAction();      //ÕâÀïµÄÊµÏÖ³É»¥³â¶¯×÷
+	bool SetAttentiontoAction(Unum num); //è¿™é‡Œçš„å®ç°æˆäº’æ–¥åŠ¨ä½œ
+	bool SetAttentiontoOffAction();      //è¿™é‡Œçš„å®ç°æˆäº’æ–¥åŠ¨ä½œ
 	bool SetKickAction(double power, AngleDeg angle);
 	bool SetTackleAction(AngleDeg angle, const bool foul);
 	bool SetPointtoAction(double dist, AngleDeg angle);
@@ -460,9 +460,9 @@ public:
 	bool IsSayMissed() const { return mIsSayMissed; }
     CommandType GetLastCommandType() const { return mLastCommandType; }
 	
-    /** ¸ù¾İµ±Ç°ÃüÁî¶ÓÁĞÀïµÄÄÚÈİ£¬Ô¤²âĞÅÏ¢*/
+    /** æ ¹æ®å½“å‰å‘½ä»¤é˜Ÿåˆ—é‡Œçš„å†…å®¹ï¼Œé¢„æµ‹ä¿¡æ¯*/
 	/**
-	 * µÃµ½¶¯×÷Ö´ĞĞºóµÄÊÓ½Ç¿í¶È
+	 * å¾—åˆ°åŠ¨ä½œæ‰§è¡Œåçš„è§†è§’å®½åº¦
 	 * Get view width after queued actions.
 	 */
 	ViewWidth GetSelfViewWidthWithQueuedActions();
@@ -495,35 +495,35 @@ public:
 
 public:
 	/**
-	 * Í¨¹ı´«ÈëkickµÄ²ÎÊı£¬¼ÆËãkickºóÇòµÄÎ»ÖÃºÍËÙ¶È
+	 * é€šè¿‡ä¼ å…¥kickçš„å‚æ•°ï¼Œè®¡ç®—kickåçƒçš„ä½ç½®å’Œé€Ÿåº¦
 	 * Calculate ball position and velocity after a kick action.
 	 */
 	static void ComputeInfoAfterKick(const double kick_power, const double kick_angle,
 			const PlayerState &player_state, const BallState &ball_state, Vector &ball_pos, Vector &ball_vel, bool is_self = true);
 
 	/**
-	 * Í¨¹ı´«ÈëdashµÄ²ÎÊı£¬¼ÆËãdashºóÇòÔ±µÄÎ»ÖÃºÍËÙ¶È
+	 * é€šè¿‡ä¼ å…¥dashçš„å‚æ•°ï¼Œè®¡ç®—dashåçƒå‘˜çš„ä½ç½®å’Œé€Ÿåº¦
 	 * Calculate player position and velocity after a dash action.
 	 */
 	static void ComputeInfoAfterDash(const double dash_power, double dash_dir,
 			const PlayerState &player_state, Vector &player_pos, Vector &player_vel);
 
 	/**
-	 * Í¨¹ı´«ÈëmoveµÄ²ÎÊı£¬¼ÆËãmoveºóÇòÔ±µÄÎ»ÖÃºÍËÙ¶È
+	 * é€šè¿‡ä¼ å…¥moveçš„å‚æ•°ï¼Œè®¡ç®—moveåçƒå‘˜çš„ä½ç½®å’Œé€Ÿåº¦
 	 * Calculate player position and velocity after a move action.
 	 */
 	static void ComputeInfoAfterMove(const Vector & move_pos,
 			Vector &player_pos, Vector &player_vel);
 
 	/**
-	 * Í¨¹ı´«ÈëturnµÄ²ÎÊı£¬¼ÆËãturnºóÇòÔ±µÄÉíÌå³¯ÏòºÍ²±×Ó³¯Ïò
+	 * é€šè¿‡ä¼ å…¥turnçš„å‚æ•°ï¼Œè®¡ç®—turnåçƒå‘˜çš„èº«ä½“æœå‘å’Œè„–å­æœå‘
 	 * Calculate player body direction after a turn action.
 	 */
 	static void ComputeInfoAfterTurn(const AngleDeg turn_angle,
 			const PlayerState &player_state, AngleDeg &body_dir);
 
 	/**
-	 * Í¨¹ı´«Èëturn_neckµÄ²ÎÊı£¬¼ÆËãturn_neckºóÇòÔ±µÄ²±×Ó³¯Ïò
+	 * é€šè¿‡ä¼ å…¥turn_neckçš„å‚æ•°ï¼Œè®¡ç®—turn_neckåçƒå‘˜çš„è„–å­æœå‘
 	 * Calculate player neck direction after a turn_neck action.
 	 */
 	static void ComputeInfoAfterTurnNeck(const AngleDeg turn_neck_angle,
@@ -607,7 +607,7 @@ public:
 	bool        mIsChangePlayerType;
 
 	bool		mIsSayMissed;
-    CommandType mLastCommandType; // ÉÏÖÜÆÚÖ´ĞĞµÄ»¥³âÔ­×Ó¶¯×÷ÀàĞÍ£¬ÔİÊ±Ö»¿¼ÂÇkick, dash, move, turn
+    CommandType mLastCommandType; // ä¸Šå‘¨æœŸæ‰§è¡Œçš„äº’æ–¥åŸå­åŠ¨ä½œç±»å‹ï¼Œæš‚æ—¶åªè€ƒè™‘kick, dash, move, turn
 };
 
 #endif /* ACTIONEFFECTOR_H_ */

@@ -96,9 +96,9 @@ void Parser::StartRoutine()
 		{
 			NetworkTest::instance().AddParserBegin();
 
-			DynamicDebug::instance().AddMessage(mBuf, MT_Parse); // ¶¯Ì¬µ÷ÊÔ¼ÇÂ¼ParserĞÅÏ¢
+			DynamicDebug::instance().AddMessage(mBuf, MT_Parse); // åŠ¨æ€è°ƒè¯•è®°å½•Parserä¿¡æ¯
 
-			mpObserver->Lock(); //parseÊ±½ûÖ¹WorldState¸üĞÂ
+			mpObserver->Lock(); //parseæ—¶ç¦æ­¢WorldStateæ›´æ–°
 			Parse(mBuf);
 			mpObserver->UnLock();
 
@@ -122,8 +122,8 @@ void Parser::ConnectToServer()
 	mConnectServerOk = true;
 	mOkMutex.UnLock();
 
-	DynamicDebug::instance().Initial(mpObserver); // ¶¯Ì¬µ÷ÊÔµÄ³õÊ¼»¯£¬ÖªµÀ×Ô¼ºÊÇÄÄ±ßÁË²ÅÄÜ³õÊ¼»¯£¬Î»ÖÃ²»ÄÜ¶¯
-	DynamicDebug::instance().AddMessage(mBuf, MT_Parse); // ¶¯Ì¬µ÷ÊÔ¼ÇÂ¼ParseĞÅÏ¢
+	DynamicDebug::instance().Initial(mpObserver); // åŠ¨æ€è°ƒè¯•çš„åˆå§‹åŒ–ï¼ŒçŸ¥é“è‡ªå·±æ˜¯å“ªè¾¹äº†æ‰èƒ½åˆå§‹åŒ–ï¼Œä½ç½®ä¸èƒ½åŠ¨
+	DynamicDebug::instance().AddMessage(mBuf, MT_Parse); // åŠ¨æ€è°ƒè¯•è®°å½•Parseä¿¡æ¯
 
 	//Logger::instance().GetTextLogger("msg-text") << mBuf << std::endl;
 }
@@ -190,9 +190,9 @@ bool Parser::ParseInitializeMsg(char *msg)
 		mpObserver->SetServerPlayMode(SPM_PlayOn);
 	}
 
-	mpObserver->Initialize(); //±ØĞëÖªµÀ×Ô¼ºÊÇÄÄ±ßµÄ²ÅÄÜ³õÊ¼»¯
+	mpObserver->Initialize(); //å¿…é¡»çŸ¥é“è‡ªå·±æ˜¯å“ªè¾¹çš„æ‰èƒ½åˆå§‹åŒ–
 
-	TimeTest::instance().SetUnum(my_unum); // TimeTestµÄ¼ÇÂ¼ÎÄ¼şÃû»áÓÃµ½
+	TimeTest::instance().SetUnum(my_unum); // TimeTestçš„è®°å½•æ–‡ä»¶åä¼šç”¨åˆ°
 	NetworkTest::instance().SetUnum(my_unum);
 
 	return true;
@@ -269,7 +269,7 @@ void Parser::ParseTime(char *msg, char **end_ptr, bool is_new_cycle)
 
 	RealTime real_time = GetRealTimeParser();
 
-	if (mpObserver->IsPlanned()) { // -- ¾ö²ßÍêÁË£¬²ÅÊÕµ½ĞÅÏ¢
+	if (mpObserver->IsPlanned()) { // -- å†³ç­–å®Œäº†ï¼Œæ‰æ”¶åˆ°ä¿¡æ¯
 		std::cerr << "# " << mpObserver->MyUnum() << " @ " << mpObserver->CurrentTime() << " got a deprecated message" << std::endl;
 	}
 
@@ -313,7 +313,7 @@ void Parser::ParsePlayerParam(char *msg)
 {
 	Logger::instance().InitSightLogger(PlayerParam_Msg, msg);
 
-	msg += 13; // È¥µô"(player_param"
+	msg += 13; // å»æ‰"(player_param"
 	PlayerParam::instance().ParseFromServerMsg(msg);
 	PlayerParam::instance().MaintainConsistency();
 }
@@ -322,7 +322,7 @@ void Parser::ParseServerParam(char *msg)
 {
 	Logger::instance().InitSightLogger(ServerParam_Msg, msg);
 
-	msg += 13; // È¥µô"(server_param"
+	msg += 13; // å»æ‰"(server_param"
 	ServerParam::instance().ParseFromServerMsg(msg);
 	ServerParam::instance().MaintainConsistency();
 }
@@ -364,11 +364,11 @@ void Parser::ParseSight(char *msg)
 	mpObserver->SetLatestSightTime(mpObserver->CurrentTime());
 
 	msg = strstr(msg,"((");
-	while ( msg != 0 ){ // Ö±µ½Ã»ÓĞobjectÎªÖ¹
-		msg += 2; // Ìø¹ı ((
-		ObjType obj = ParseObjType(msg); // »ñµÃobjectµÄÀàĞÍ
+	while ( msg != 0 ){ // ç›´åˆ°æ²¡æœ‰objectä¸ºæ­¢
+		msg += 2; // è·³è¿‡ ((
+		ObjType obj = ParseObjType(msg); // è·å¾—objectçš„ç±»å‹
 		msg = strchr(msg,')');
-		ObjProperty prop = ParseObjProperty(msg + 1);  // »ñµÃobjectµÄÊôĞÔ
+		ObjProperty prop = ParseObjProperty(msg + 1);  // è·å¾—objectçš„å±æ€§
 
 		switch ( obj.type ) {
 		case OBJ_Marker:
@@ -406,7 +406,7 @@ void Parser::ParseSight(char *msg)
 					PARSE_ERROR("Shouldn't know dirChng when the player's far");
 				}
 			}
-			else{ // ÖªµÀÊÇÄÄ±ßµÄ
+			else{ // çŸ¥é“æ˜¯å“ªè¾¹çš„
 				if ( obj.num == 0 ){                  /* Too far for number     */
 					if (InvalidValue(prop.dir_chg)) {   /* high quality  */
 						mpObserver->SeePlayer(obj.side, prop.dist, prop.dir, prop.tackling, prop.kicked, prop.lying, prop.card_type);
@@ -427,7 +427,7 @@ void Parser::ParseSight(char *msg)
 		default:
 			break;
 		}
-		msg = strstr(msg,"(("); // ÏÂÒ»¸öobject
+		msg = strstr(msg,"(("); // ä¸‹ä¸€ä¸ªobject
 	}
 }
 
@@ -650,7 +650,7 @@ Parser::ObjType Parser::ParsePlayer(char* msg)
 	if ( *msg == ' ' ){              /* there's a team */
 		msg += 2; // skip space and "
 		if (msg[team_name_len] == '"' && !strncmp(msg, team_name, team_name_len)) {
-			/* Ò»¶¨Òª±È½Ïµ½Ë«ÒıºÅ("),·ÀÖ¹³öÏÖÒ»¸ö¶ÓÃû°üº¬ÁíÒ»¸öµÄÎÊÌâ */
+			/* ä¸€å®šè¦æ¯”è¾ƒåˆ°åŒå¼•å·("),é˜²æ­¢å‡ºç°ä¸€ä¸ªé˜ŸååŒ…å«å¦ä¸€ä¸ªçš„é—®é¢˜ */
 			result.side = mpObserver->OurSide();
 		}
 		else {
@@ -724,9 +724,9 @@ Parser::ObjProperty Parser::ParseObjProperty(char* msg)
 		}
 	}
 	if ( *msg != ')' ){
-		result.dist_chg = parser::get_double(&msg);	// Ò²¿ÉÄÜÊÇpointdir
-		if ( *msg == ' ' ) { // ºóÃæ»¹ÓĞ
-			msg++; // Ìø¹ı¿Õ¸ñ
+		result.dist_chg = parser::get_double(&msg);	// ä¹Ÿå¯èƒ½æ˜¯pointdir
+		if ( *msg == ' ' ) { // åé¢è¿˜æœ‰
+			msg++; // è·³è¿‡ç©ºæ ¼
 			if ( *msg == 't' || *msg == 'k' || *msg == 'f') {
 				if (*msg == 't'){
 					result.tackling = true;
@@ -754,9 +754,9 @@ Parser::ObjProperty Parser::ParseObjProperty(char* msg)
 	if ( *msg != ')' ) {
 		result.body_dir = parser::get_double(&msg);
 		result.head_dir = parser::get_double(&msg);
-		if ( *msg == ' ' ) { // ºóÃæ»¹ÓĞ pointdir and/or tackling/kicked flag
+		if ( *msg == ' ' ) { // åé¢è¿˜æœ‰ pointdir and/or tackling/kicked flag
 			msg ++;
-			if( *msg == 't' || *msg == 'k' || *msg == 'f' ) { // Ö»ÓĞtackling/kicked flag
+			if( *msg == 't' || *msg == 'k' || *msg == 'f' ) { // åªæœ‰tackling/kicked flag
 				if (*msg == 't'){
 					result.tackling = true;
 				}
@@ -766,7 +766,7 @@ Parser::ObjProperty Parser::ParseObjProperty(char* msg)
 				else result.lying = true;
 				msg++;
 			}
-			else { // ÊÇÊı×Ö
+			else { // æ˜¯æ•°å­—
 				result.pointing = true;
 				result.point_dir = parser::get_double(&msg);
 				if( *msg == ' ' ) {
@@ -809,7 +809,7 @@ Parser::ObjProperty Parser::ParseObjProperty(char* msg)
 		PARSE_ERROR("Should be done with object info here");
 	}
 
-	Assert(result.card_type == CR_None); //TODO: server ²»»á·¢card_typeºÍfoul_charged
+	Assert(result.card_type == CR_None); //TODO: server ä¸ä¼šå‘card_typeå’Œfoul_charged
 	Assert(result.lying == false);
 
 	return result;
@@ -907,7 +907,7 @@ void Parser::ParseSense(char *msg)
 {
 	if (!PlayerParam::instance().isCoach())
 	{
-		TimeTest::instance().Update(mpObserver->CurrentTime()); // playerÃ¿ÖÜÆÚ¶¼ÓĞsense
+		TimeTest::instance().Update(mpObserver->CurrentTime()); // playeræ¯å‘¨æœŸéƒ½æœ‰sense
 	}
 
 	NetworkTest::instance().Update(mpObserver->CurrentTime());
@@ -943,10 +943,10 @@ void Parser::ParseSense(char *msg)
 	int moves  = parser::get_int(&msg);
 	int change_views = parser::get_int(&msg);
 
-	int arm_movable_ban = parser::get_int(&msg); // Ö±µ½ÏÂ´ÎÊÖ±ÛÄÜ¶¯µÄÊ£ÓàÖÜÆÚÊı
-	int arm_expires = parser::get_int(&msg); // Ö±µ½ÊÖ±Û¶¯×÷Ê§Ğ§Ê£ÓàµÄÖÜÆÚÊı
-	double arm_target_dist = parser::get_double(&msg); // Ö¸ÏòµÄÄ¿±êµÄ¾àÀë
-	AngleDeg arm_target_dir = parser::get_double(&msg); // Ö¸ÏòµÄÄ¿±êµÄ·½Ïò
+	int arm_movable_ban = parser::get_int(&msg); // ç›´åˆ°ä¸‹æ¬¡æ‰‹è‡‚èƒ½åŠ¨çš„å‰©ä½™å‘¨æœŸæ•°
+	int arm_expires = parser::get_int(&msg); // ç›´åˆ°æ‰‹è‡‚åŠ¨ä½œå¤±æ•ˆå‰©ä½™çš„å‘¨æœŸæ•°
+	double arm_target_dist = parser::get_double(&msg); // æŒ‡å‘çš„ç›®æ ‡çš„è·ç¦»
+	AngleDeg arm_target_dir = parser::get_double(&msg); // æŒ‡å‘çš„ç›®æ ‡çš„æ–¹å‘
 	int points = parser::get_int(&msg); // point count
 	parser::get_next_word(&msg); // focus
 	parser::get_next_word(&msg); // target
@@ -954,16 +954,16 @@ void Parser::ParseSense(char *msg)
 	char focus_side = msg[0];
 
 	Unum focus_unum = 0;
-	if( focus_side != 'l' && focus_side != 'r' ){ // Ã»ÓĞÌØ±ğ×¢ÒâµÄ¶ÓÔ±
+	if( focus_side != 'l' && focus_side != 'r' ){ // æ²¡æœ‰ç‰¹åˆ«æ³¨æ„çš„é˜Ÿå‘˜
 		focus_side = '?';
-	} else { // ÌØ±ğ×¢ÒâµÄ¶ÓÔ±ºÅÂë
+	} else { // ç‰¹åˆ«æ³¨æ„çš„é˜Ÿå‘˜å·ç 
 		focus_unum = parser::get_int(&msg);
 	}
 	int focuses = parser::get_int(&msg);
 	int tackle_expires = parser::get_int(&msg);
 	int tackles = parser::get_int(&msg);
 
-	//ÒÔÏÂÊÇÅö×²ºÍ·¸¹æĞÅÏ¢
+	//ä»¥ä¸‹æ˜¯ç¢°æ’å’ŒçŠ¯è§„ä¿¡æ¯
 	mpObserver->ClearCollisionState();
 
 	parser::get_word(&msg); // (collision {none|[(ball)][(player)][(post)]})
@@ -1072,7 +1072,7 @@ void Parser::ParseSound(char *msg)
 			++msg;
 
 			end = msg;
-			//  while (*end != ')' || *(end + 1) != ')') end++; // ¶ÔÊÖÕóĞÍĞÅÏ¢ÖĞÓĞ¿ÉÄÜ°üº¬ÓÒÀ¨ºÅ
+			//  while (*end != ')' || *(end + 1) != ')') end++; // å¯¹æ‰‹é˜µå‹ä¿¡æ¯ä¸­æœ‰å¯èƒ½åŒ…å«å³æ‹¬å·
 			n = strlen(msg);
 			strncpy(buffer, msg, n * sizeof(char));
 			buffer[n] = '\0';
@@ -1442,7 +1442,7 @@ void Parser::ParseSight_Coach(char *msg)
 {
 	if (PlayerParam::instance().isCoach())
 	{
-		TimeTest::instance().Update(mpObserver->CurrentTime()); // coachÃ¿ÖÜÆÚ¶¼ÓĞsight
+		TimeTest::instance().Update(mpObserver->CurrentTime()); // coachæ¯å‘¨æœŸéƒ½æœ‰sight
 	}
 
 	for (int i = 1; i <= TEAMSIZE; ++i){
@@ -1452,11 +1452,11 @@ void Parser::ParseSight_Coach(char *msg)
 
 	msg = strstr(msg,"((");
 
-	while ( msg != 0 ){ // Ö±µ½Ã»ÓĞobjectÎªÖ¹
-		msg += 2; // Ìø¹ı ((
-		ObjType obj = ParseObjType(msg); // »ñµÃobjectµÄÀàĞÍ
+	while ( msg != 0 ){ // ç›´åˆ°æ²¡æœ‰objectä¸ºæ­¢
+		msg += 2; // è·³è¿‡ ((
+		ObjType obj = ParseObjType(msg); // è·å¾—objectçš„ç±»å‹
 		msg = strchr(msg,')');
-		ObjProperty_Coach prop = ParseObjProperty_Coach(msg + 1);  // »ñµÃobjectµÄÊôĞÔ
+		ObjProperty_Coach prop = ParseObjProperty_Coach(msg + 1);  // è·å¾—objectçš„å±æ€§
 
 		switch ( obj.type ) {
 		case OBJ_Ball:
@@ -1473,7 +1473,7 @@ void Parser::ParseSight_Coach(char *msg)
 				mpObserver->Teammate_Coach(obj.num).UpdateCardType(prop.card_type);
 				if (prop.pointing){
 					mpObserver->Teammate_Coach(obj.num).UpdateArmPoint(prop.point_dir, 0, 1.0, 0.0, 0, 0);
-					//TODO: Õâ¸ö½Ó¿Ú²»ºÃ£¬ÒòÎªÊÇ¿´²»µ½dist£¬banµÈĞÅÏ¢µÄ£¬ÕâĞ©Òª×Ô¼ºËãÈ»ºóÎ¬»¤
+					//TODO: è¿™ä¸ªæ¥å£ä¸å¥½ï¼Œå› ä¸ºæ˜¯çœ‹ä¸åˆ°distï¼Œbanç­‰ä¿¡æ¯çš„ï¼Œè¿™äº›è¦è‡ªå·±ç®—ç„¶åç»´æŠ¤
 				}
 				if (prop.tackling){
 					if (mpObserver->Teammate_Coach(obj.num).GetTackleBan() == 0) {
@@ -1503,7 +1503,7 @@ void Parser::ParseSight_Coach(char *msg)
 				mpObserver->Opponent_Coach(obj.num).UpdateCardType(prop.card_type);
 				if (prop.pointing){
 					mpObserver->Opponent_Coach(obj.num).UpdateArmPoint(prop.point_dir, 0, 1.0, 0.0, 0, 0);
-					//TODO: Õâ¸ö½Ó¿Ú²»ºÃ£¬ÒòÎªÊÇ¿´²»µ½dist£¬banµÈĞÅÏ¢µÄ£¬ÕâĞ©Òª×Ô¼ºËãÈ»ºóÎ¬»¤
+					//TODO: è¿™ä¸ªæ¥å£ä¸å¥½ï¼Œå› ä¸ºæ˜¯çœ‹ä¸åˆ°distï¼Œbanç­‰ä¿¡æ¯çš„ï¼Œè¿™äº›è¦è‡ªå·±ç®—ç„¶åç»´æŠ¤
 				}
 				if (prop.tackling){
 					if (mpObserver->Opponent_Coach(obj.num).GetTackleBan() == 0) {
@@ -1527,7 +1527,7 @@ void Parser::ParseSight_Coach(char *msg)
 		default:
 			break;
 		}
-		msg = strstr(msg,"(("); // ÏÂÒ»¸öobject
+		msg = strstr(msg,"(("); // ä¸‹ä¸€ä¸ªobject
 	}
 }
 

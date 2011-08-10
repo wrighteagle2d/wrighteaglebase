@@ -150,7 +150,7 @@ double PlayerState::CorrectDashPowerForStamina(double dash_power) const
 	double stamina = GetStamina();
 
 	if (IsOutOfStamina()) {
-		return dash_power; //ÒÑ¾­Ã»ÓĞÈİÁ¿ÁË£¬²»ĞèÒªÔÚ¿ØÖÆÁË
+		return dash_power; //å·²ç»æ²¡æœ‰å®¹é‡äº†ï¼Œä¸éœ€è¦åœ¨æ§åˆ¶äº†
 	}
 
 	double new_power;
@@ -205,7 +205,7 @@ double PlayerState::GetControlBallProb(const Vector & ball_pos) const
 	const double dist = GetPos().Dist(ball_pos);
 
 	if (dist < GetKickableArea()) {
-		return 1.0; //ÒÑ¾­¿ÉÌßÁË
+		return 1.0; //å·²ç»å¯è¸¢äº†
 	}
 
 	if (IsGoalie()) {

@@ -165,7 +165,7 @@ int Time::operator-(const Time &a) const {
 	if (mT == a.T()) {
 		return mS - a.S();
 	} else {
-		return mT - a.T() + mS; //Êµ¼Ê¿ÉÄÜ²î¸ü¶à,²»×¼
+		return mT - a.T() + mS; //å®é™…å¯èƒ½å·®æ›´å¤š,ä¸å‡†
 	}
 }
 
@@ -251,7 +251,7 @@ void ServerPlayModeMap::Bind(const std::string & str, ServerPlayMode spm) {
 }
 
 ServerPlayMode ServerPlayModeMap::GetServerPlayMode(const std::string & str) {
-	//special case: server ·¢¹ıÀ´µÄÊÇ goal_[lr]_[[:digit:]]
+	//special case: server å‘è¿‡æ¥çš„æ˜¯ goal_[lr]_[[:digit:]]
 	if (strncmp(str.c_str(), "goal_l", strlen("goal_l")) == 0) {
 		return mString2Enum["goal_l"];
 	}

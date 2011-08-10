@@ -420,11 +420,11 @@ void ServerParam::AddParams()
 void ServerParam::init(int argc, char **argv)
 {
     //std::cout << "Parsing Server Param From Cmd Line 1st Time..." << std::endl;
-    ParseFromCmdLine(argc, argv);                       //Ê×ÏÈ·ÖÎöÃüÁîÐÐ£¬ÒòÎªÓÐ¿ÉÄÜÃüÁîÐÐÀïÃæ¸ÄÁËÅäÖÃÎÄ¼þµÄÂ·¾¶
+    ParseFromCmdLine(argc, argv);                       //é¦–å…ˆåˆ†æžå‘½ä»¤è¡Œï¼Œå› ä¸ºæœ‰å¯èƒ½å‘½ä»¤è¡Œé‡Œé¢æ”¹äº†é…ç½®æ–‡ä»¶çš„è·¯å¾„
     //std::cout << "Parsing Server Param From Config File " << M_server_conf_file.c_str() << "..." << std::endl;
-    ParseFromConfigFile(M_server_conf_file.c_str());    //·ÖÎöÅäÖÃÎÄ¼þ
+    ParseFromConfigFile(M_server_conf_file.c_str());    //åˆ†æžé…ç½®æ–‡ä»¶
     //std::cout << "Parsing Server Param From Cmd Line 2nd Time..." << std::endl;
-    ParseFromCmdLine(argc, argv);                       //ÔÙ´Î·ÖÎöÃüÁîÐÐ£¬ÒòÎªÃüÁîÐÐÓÐÈ¨¸ü¸ÄÅäÖÃÎÄ¼þÀïÃæµÄÄ¬ÈÏÉèÖÃ
+    ParseFromCmdLine(argc, argv);                       //å†æ¬¡åˆ†æžå‘½ä»¤è¡Œï¼Œå› ä¸ºå‘½ä»¤è¡Œæœ‰æƒæ›´æ”¹é…ç½®æ–‡ä»¶é‡Œé¢çš„é»˜è®¤è®¾ç½®
     MaintainConsistency();
 }
 

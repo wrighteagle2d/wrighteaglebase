@@ -43,7 +43,7 @@
 class Agent;
 
 /**
- * Ö÷ÒªÊÇ·ÀÊØĞèÒªÊ¹ÓÃµÄÒ»Ğ©Êı¾İ
+ * ä¸»è¦æ˜¯é˜²å®ˆéœ€è¦ä½¿ç”¨çš„ä¸€äº›æ•°æ®
  * */
 class Analyser: public DecisionData {
 public:

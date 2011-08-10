@@ -69,10 +69,10 @@ Agent::~Agent()
  * \return an agent created by "new" operator, which should be manually deleted when there will be no
  *         use any more.
  */
-Agent * Agent::CreateTeammateAgent(Unum unum) ///·´Ëã¶ÓÓÑ
+Agent * Agent::CreateTeammateAgent(Unum unum) ///åç®—é˜Ÿå‹
 {
     Assert(unum != 0);
-    return new Agent(unum, mpWorldModel, mReverse); //reverseÊôĞÔ²»±ä
+    return new Agent(unum, mpWorldModel, mReverse); //reverseå±æ€§ä¸å˜
 }
 
 /**
@@ -81,8 +81,8 @@ Agent * Agent::CreateTeammateAgent(Unum unum) ///·´Ëã¶ÓÓÑ
  * \return an agent created by "new" operator, which should be manually deleted when there will be no
  *         use any more.
  */
-Agent * Agent::CreateOpponentAgent(Unum unum) ///·´Ëã¶ÔÊÖ
+Agent * Agent::CreateOpponentAgent(Unum unum) ///åç®—å¯¹æ‰‹
 {
-	return new Agent(unum, mpWorldModel, !mReverse); //reverseÊôĞÔÏà·´
+	return new Agent(unum, mpWorldModel, !mReverse); //reverseå±æ€§ç›¸å
 }
 

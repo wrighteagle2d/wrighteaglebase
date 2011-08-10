@@ -102,7 +102,7 @@ public:
 	static BehaviorFactory & instance();
 
 	/**
-	* ´´½¨ĞĞÎª
+	* åˆ›å»ºè¡Œä¸º
 	* @param agent
 	* @param type
 	* @return
@@ -110,9 +110,9 @@ public:
 	BehaviorExecutable * CreateBehavior(Agent & agent, BehaviorType type);
 
 	/**
-	* ×¢²áĞĞÎª´´½¨º¯Êı£¬Ö»ÓĞ¾ßÓĞÖ´ĞĞĞ§¹ûµÄĞĞÎªĞèÒª×¢²á£¬±ÈÈç BehaviorAttackPlanner, BehaviorDefensePlanner ²»ĞèÒª×¢²á
-	* @param type ĞĞÎªÀàĞÍ
-	* @param creator ´´½¨º¯Êı
+	* æ³¨å†Œè¡Œä¸ºåˆ›å»ºå‡½æ•°ï¼Œåªæœ‰å…·æœ‰æ‰§è¡Œæ•ˆæœçš„è¡Œä¸ºéœ€è¦æ³¨å†Œï¼Œæ¯”å¦‚ BehaviorAttackPlanner, BehaviorDefensePlanner ä¸éœ€è¦æ³¨å†Œ
+	* @param type è¡Œä¸ºç±»å‹
+	* @param creator åˆ›å»ºå‡½æ•°
 	* @return
 	*/
 	bool RegisterBehavior(BehaviorType type, BehaviorCreator creator, const char *behavior_name);
@@ -159,7 +159,7 @@ public:
 		return *mpAgent;
 	}
 
-	bool Execute(); //²»ÒÀÀµÓÚÖ¸Ïò behavior µÄÖ¸Õë£¬µ«ÒªÇó BehaviorType ÎŞÎó
+	bool Execute(); //ä¸ä¾èµ–äºæŒ‡å‘ behavior çš„æŒ‡é’ˆï¼Œä½†è¦æ±‚ BehaviorType æ— è¯¯
 	void SubmitVisualRequest(double plus);
 
 	bool operator>(const ActiveBehavior & ab) const {
@@ -175,21 +175,21 @@ public:
 	double mEvaluation;
 
 	//behavior detail
-	int mKickCycle; // ÌßÇòµÄÖÜÆÚ£¬¿ÉÄÜ¶à½ÅÌßÇò
-	AngleDeg mAngle; // ½Ç¶È
-	Vector mTarget; // Ä¿±êµãµØÎ»ÖÃ£¬¿ÉÒÔÊÇ°ÑÇòÌßµ½¸ÃµãºÍ×Ô¼ºÅÜµ½¸ÃµãµÈ
-	double mPower; // dashµÄpower
-	double mDistance; // Ä¿±êµãµ½×Ô¼ºµÄ¾àÀë
-	double mKickSpeed; // kickµÄÇòËÙ
-	bool mFoul; //ÊÇ·ñÒª¹ÊÒâ·¸¹æ²ùÇò
+	int mKickCycle; // è¸¢çƒçš„å‘¨æœŸï¼Œå¯èƒ½å¤šè„šè¸¢çƒ
+	AngleDeg mAngle; // è§’åº¦
+	Vector mTarget; // ç›®æ ‡ç‚¹åœ°ä½ç½®ï¼Œå¯ä»¥æ˜¯æŠŠçƒè¸¢åˆ°è¯¥ç‚¹å’Œè‡ªå·±è·‘åˆ°è¯¥ç‚¹ç­‰
+	double mPower; // dashçš„power
+	double mDistance; // ç›®æ ‡ç‚¹åˆ°è‡ªå·±çš„è·ç¦»
+	double mKickSpeed; // kickçš„çƒé€Ÿ
+	bool mFoul; //æ˜¯å¦è¦æ•…æ„çŠ¯è§„é“²çƒ
 
 	KeyPlayerInfo mKeyTm; // teammate
 	KeyPlayerInfo mKeyOpp; // opponent
 	KeyPlayerInfo mKeyOppGB; // opponent to get ball
 	KeyPlayerInfo mKeyOppGT; // opponent to go through
 
-	BehaviorDetailType mDetailType; //Ï¸½ÚÀàĞÍ
-	double mBuffer; //ÓĞĞ©ĞĞÎªÖ´ĞĞÊ±µÄbufferÊÇÔÚplanÊ±ËãºÃµÄ£¬ÒªÏÈ´æµ½Õâ¸ö±äÁ¿Àï
+	BehaviorDetailType mDetailType; //ç»†èŠ‚ç±»å‹
+	double mBuffer; //æœ‰äº›è¡Œä¸ºæ‰§è¡Œæ—¶çš„bufferæ˜¯åœ¨planæ—¶ç®—å¥½çš„ï¼Œè¦å…ˆå­˜åˆ°è¿™ä¸ªå˜é‡é‡Œ
 };
 
 class BehaviorAttackData {
@@ -229,7 +229,7 @@ public:
 	virtual ~BehaviorPlannerBase() {}
 
 	/**
-	* ×ö¾ö²ß£¬²úÉú×îºÃµÄActiveBehavior£¬´æµ½behavior_listÀïÃæ
+	* åšå†³ç­–ï¼Œäº§ç”Ÿæœ€å¥½çš„ActiveBehaviorï¼Œå­˜åˆ°behavior_listé‡Œé¢
 	*/
 	virtual void Plan(std::list<ActiveBehavior> & behavior_list) = 0;
 
@@ -250,12 +250,12 @@ public:
 	virtual ~BehaviorExecutable() {}
 
 	/**
-	* Ö´ĞĞ ActiveBehavior
+	* æ‰§è¡Œ ActiveBehavior
 	* @param act ActiveBehavior
 	* @return
 	*/
-	virtual bool Execute(const ActiveBehavior & act_bhv) = 0; //Ã¿ÖÜÆÚÖ»ÓĞÒ»¸öĞĞÎª±»Ö´ĞĞ
-	virtual void SubmitVisualRequest(const ActiveBehavior & act_bhv, double plus = 0.0) { //µ«¿ÉÒÔÓĞ¶à¸öĞĞÎªÌá½»ÊÓ¾õÇëÇó
+	virtual bool Execute(const ActiveBehavior & act_bhv) = 0; //æ¯å‘¨æœŸåªæœ‰ä¸€ä¸ªè¡Œä¸ºè¢«æ‰§è¡Œ
+	virtual void SubmitVisualRequest(const ActiveBehavior & act_bhv, double plus = 0.0) { //ä½†å¯ä»¥æœ‰å¤šä¸ªè¡Œä¸ºæäº¤è§†è§‰è¯·æ±‚
 		(void) act_bhv;
 		(void) plus;
 	}

@@ -229,7 +229,7 @@ private:
     static const double MAX_DASH_POWER;
     static const double MIN_DASH_POWER;
 
-	//ÊÓ¾õ¾àÀë
+	//è§†è§‰è·ç¦»
 	static const double UNUM_FAR_LENGTH;
 	static const double UNUM_TOO_FAR_LENGTH;
 	static const double TEAM_FAR_LENGTH;
@@ -596,7 +596,7 @@ public:
     unsigned int hearDecay() const { return static_cast< unsigned int >( M_hear_decay ); }
 
     const double & tackleDist() const { return M_tackle_dist; }
-    const double & maxTackleArea() const { return M_max_tackle_area; } //×î´óµÄ¿É²ùÇøÓò°ë¾¶
+    const double & maxTackleArea() const { return M_max_tackle_area; } //æœ€å¤§çš„å¯é“²åŒºåŸŸåŠå¾„
     const double & tackleBackDist() const { return M_tackle_back_dist; }
     const double & tackleWidth() const { return M_tackle_width; }
     const double & tackleExponent() const { return M_tackle_exponent; }
@@ -644,7 +644,7 @@ public:
 	const int & foulCycles() const { return M_foul_cycles; }
 
     /**
-     *  Ò»Ğ©ÓĞÒÀÀµ¹ØÏµµÄ±äÁ¿µÄ³õÊ¼»¯ºÍ¸³Öµ
+     *  ä¸€äº›æœ‰ä¾èµ–å…³ç³»çš„å˜é‡çš„åˆå§‹åŒ–å’Œèµ‹å€¼
      */
     void MaintainConsistency();
 
@@ -666,7 +666,7 @@ public:
     const Rectangular & ourGoalArea() const         { return M_our_goal_area; }
     const Rectangular & oppGoalArea() const         { return M_opp_goal_area; }
 
-    /** ÒÔÏÂ×óÓÒ¶¨ÒåÊÇ»ùÓÚ×Ô¼ºÔÚ×ó±ßÉÏ³¡Ê±µÄ·½Ïò */
+    /** ä»¥ä¸‹å·¦å³å®šä¹‰æ˜¯åŸºäºè‡ªå·±åœ¨å·¦è¾¹ä¸Šåœºæ—¶çš„æ–¹å‘ */
     const Vector & ourLeftGoalKickPoint() const     { return M_our_left_goal_kick_point; }
     const Vector & ourRightGoalKickPoint() const    { return M_our_right_goal_kick_point; }
     const Vector & oppLeftGoalKickPoint() const     { return M_opp_left_goal_kick_point; }
@@ -709,7 +709,7 @@ private:
     Rectangular M_our_goal_area;
     Rectangular M_opp_goal_area;
 
-    Vector      M_our_goal; //ÇòÃÅÖĞĞÄ
+    Vector      M_our_goal; //çƒé—¨ä¸­å¿ƒ
     Vector      M_opp_goal;
 
     Vector      M_our_left_goal_kick_point;

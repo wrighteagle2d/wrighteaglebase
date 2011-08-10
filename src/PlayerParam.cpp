@@ -98,9 +98,9 @@ const bool PlayerParam::USE_PLOTTER = false;
 const bool PlayerParam::USE_TEAM_GRAPHIC = true;
 const bool PlayerParam::TIME_TEST = false;
 const bool PlayerParam::NETWORK_TEST = false;
-const int PlayerParam::WAIT_SIGHT_BUFFER = 40; // Ã¿ÖÜÆÚ×î¶àµÈÊÓ¾õ40ºÁÃë
-const int PlayerParam::WAIT_HEAR_BUFFER = 40; // Ã¿ÖÜÆÚ×î¶àµÈÌı¾õ40ºÁÃë
-const int PlayerParam::WAIT_TIME_OUT = 10; // Ã¿³¡±ÈÈü×î¶àµÈserver10Ãë
+const int PlayerParam::WAIT_SIGHT_BUFFER = 40; // æ¯å‘¨æœŸæœ€å¤šç­‰è§†è§‰40æ¯«ç§’
+const int PlayerParam::WAIT_HEAR_BUFFER = 40; // æ¯å‘¨æœŸæœ€å¤šç­‰å¬è§‰40æ¯«ç§’
+const int PlayerParam::WAIT_TIME_OUT = 10; // æ¯åœºæ¯”èµ›æœ€å¤šç­‰server10ç§’
 const double PlayerParam::ROUTE_ANGLE_DIFF = 1.0;
 const double PlayerParam::OPP_TACKLE_THRESHOLD_FORWARD = 0.69;
 const double PlayerParam::OPP_TACKLE_THRESHOLD_MID = 0.75;
@@ -123,7 +123,7 @@ const int PlayerParam::A_STAR_GO_TO_POINT_MAX_DEPTH = 128;
 const int PlayerParam::A_STAR_GO_TO_POINT_MAX_NODES = 1024;
 const int PlayerParam::VELOCITY_RANDOMIZED_DIRS = 8;
 const int PlayerParam::VELOCITY_RANDOMIZED_SAMPLES = 1;
-const double PlayerParam::LOW_STAMINA_POINT_THR = 2600.0;//Õâ¸öÒÔÏÂdashÊ±¾Í»á¿ØÖÆÁË
+const double PlayerParam::LOW_STAMINA_POINT_THR = 2600.0;//è¿™ä¸ªä»¥ä¸‹dashæ—¶å°±ä¼šæ§åˆ¶äº†
 const int PlayerParam::COACH_SEND_HETERO_INFO_CONTROL = 6;
 const double PlayerParam::SETPLAY_REINFORCE_DIST = 8.0;
 const int PlayerParam::SETPLAY_REINFORCE_PLAYERS = 2;
@@ -176,7 +176,7 @@ void HeteroParam::MaintainConsistency()
 {
 	kickable_area = player_size + ServerParam::instance().ballSize() + kickable_margin;
 
-    effective_speed_max = ServerParam::instance().maxDashPower() * effort_max * dash_power_rate / (1 - player_decay); // Êµ¼Ê¿ÉÄÜ´ïµ½µÄ×î´óËÙ¶È -- ¶ÔdashÄ£ĞÍÇó½â¿ÉµÃ
+    effective_speed_max = ServerParam::instance().maxDashPower() * effort_max * dash_power_rate / (1 - player_decay); // å®é™…å¯èƒ½è¾¾åˆ°çš„æœ€å¤§é€Ÿåº¦ -- å¯¹dashæ¨¡å‹æ±‚è§£å¯å¾—
     acceleration_front_rate = effort_max * dash_power_rate;
     acceleration_side_rate = acceleration_front_rate * ServerParam::instance().sideDashRate();
     for (int i = 0; i <= DASH_POWER_NUM; ++i)
@@ -293,9 +293,9 @@ void PlayerParam::AddParams()
 
 void PlayerParam::init(int argc, char **argv)
 {
-	ParseFromCmdLine(argc, argv);                       //Ê×ÏÈ·ÖÎöÃüÁîĞĞ£¬ÒòÎªÓĞ¿ÉÄÜÃüÁîĞĞÀïÃæ¸ÄÁËÅäÖÃÎÄ¼şµÄÂ·¾¶
-	ParseFromConfigFile(M_player_conf_file.c_str());    //·ÖÎöÅäÖÃÎÄ¼ş
-	ParseFromCmdLine(argc, argv);                       //ÔÙ´Î·ÖÎöÃüÁîĞĞ£¬ÒòÎªÃüÁîĞĞÓĞÈ¨¸ü¸ÄÅäÖÃÎÄ¼şÀïÃæµÄÄ¬ÈÏÉèÖÃ
+	ParseFromCmdLine(argc, argv);                       //é¦–å…ˆåˆ†æå‘½ä»¤è¡Œï¼Œå› ä¸ºæœ‰å¯èƒ½å‘½ä»¤è¡Œé‡Œé¢æ”¹äº†é…ç½®æ–‡ä»¶çš„è·¯å¾„
+	ParseFromConfigFile(M_player_conf_file.c_str());    //åˆ†æé…ç½®æ–‡ä»¶
+	ParseFromCmdLine(argc, argv);                       //å†æ¬¡åˆ†æå‘½ä»¤è¡Œï¼Œå› ä¸ºå‘½ä»¤è¡Œæœ‰æƒæ›´æ”¹é…ç½®æ–‡ä»¶é‡Œé¢çš„é»˜è®¤è®¾ç½®
 	MaintainConsistency();
 
     std::ifstream file("data/eps0.1");

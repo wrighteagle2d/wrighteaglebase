@@ -65,7 +65,7 @@ void signal_catcher(int sig)
 
 	std::cerr << "catch signal " << sig << std::endl;
 
-	create_dump(); //ÏÈ²úÉúcoredump
+	create_dump(); //å…ˆäº§ç”Ÿcoredump
 
 	std::cerr << "exiting safely now" << std::endl;
 
@@ -75,7 +75,7 @@ void signal_catcher(int sig)
 
 	WaitFor(100); // wait logger thread to finish flushing
 
-	exit(0); //ÕâÀï»áµ÷ÓÃ¾²Ì¬¶ÔÏóµÄÎö¹¹º¯Êı
+	exit(0); //è¿™é‡Œä¼šè°ƒç”¨é™æ€å¯¹è±¡çš„ææ„å‡½æ•°
 #endif
 }
 }
@@ -100,10 +100,10 @@ int main(int argc, char* argv[])
 	}
 
 	if (PlayerParam::instance().DynamicDebugMode()) {
-		client->RunDynamicDebug(); // ½øÈë¶¯Ì¬µ÷ÊÔÄ£Ê½
+		client->RunDynamicDebug(); // è¿›å…¥åŠ¨æ€è°ƒè¯•æ¨¡å¼
 	}
 	else {
-		client->RunNormal(); // ½øÈëÕı³£±ÈÈüÄ£Ê½
+		client->RunNormal(); // è¿›å…¥æ­£å¸¸æ¯”èµ›æ¨¡å¼
 	}
 
 	delete client;
@@ -115,17 +115,17 @@ int main(int argc, char* argv[])
 void RegisterSignalHandler()
 {
 #ifndef WIN32
-	if(signal(SIGINT, signal_catcher) == SIG_ERR) //ÖĞ¶Ï
+	if(signal(SIGINT, signal_catcher) == SIG_ERR) //ä¸­æ–­
 		perror("SIGINT"), exit(1);
-	if(signal(SIGQUIT, signal_catcher) == SIG_ERR) //ÍË³ö
+	if(signal(SIGQUIT, signal_catcher) == SIG_ERR) //é€€å‡º
 		perror("SIGQUIT"), exit(1);
-//	if(signal(SIGABRT, signal_catcher) == SIG_ERR) //²»ÄÜ×¢²áSIGABRT£¬·ñÔòµ÷ÓÃ abort Ê±£¬»á²úÉúËÀÑ­»·
+//	if(signal(SIGABRT, signal_catcher) == SIG_ERR) //ä¸èƒ½æ³¨å†ŒSIGABRTï¼Œå¦åˆ™è°ƒç”¨ abort æ—¶ï¼Œä¼šäº§ç”Ÿæ­»å¾ªç¯
 //		perror("SIGABRT"), exit(1);
-	if(signal(SIGSEGV, signal_catcher) == SIG_ERR) //¶Î´íÎó
+	if(signal(SIGSEGV, signal_catcher) == SIG_ERR) //æ®µé”™è¯¯
 		perror("SIGSEGV"), exit(1);
-	if(signal(SIGILL, signal_catcher) == SIG_ERR) //·Ç·¨Ö¸Áî
+	if(signal(SIGILL, signal_catcher) == SIG_ERR) //éæ³•æŒ‡ä»¤
 		perror("SIGILL"), exit(1);
-	if(signal(SIGFPE, signal_catcher) == SIG_ERR) //¸¡µãÒì³£
+	if(signal(SIGFPE, signal_catcher) == SIG_ERR) //æµ®ç‚¹å¼‚å¸¸
 		perror("SIGFPE"), exit(1);
 #endif
 }

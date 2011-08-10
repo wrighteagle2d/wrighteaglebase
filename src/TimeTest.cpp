@@ -100,7 +100,7 @@ TimeTest::~TimeTest()
 
 
 /**
- * ´´½¨ÊµÀı
+ * åˆ›å»ºå®ä¾‹
  * Instacne.
  */
 TimeTest & TimeTest::instance()
@@ -111,7 +111,7 @@ TimeTest & TimeTest::instance()
 
 
 /**
- * ĞÂµÄÖÜÆÚµ½À´ºó½øĞĞ¸üĞÂ£¬´«ÈëµÄcurrent_timeÎª¸üĞÂÇ°µÄÄÇ¸öÖÜÆÚ
+ * æ–°çš„å‘¨æœŸåˆ°æ¥åè¿›è¡Œæ›´æ–°ï¼Œä¼ å…¥çš„current_timeä¸ºæ›´æ–°å‰çš„é‚£ä¸ªå‘¨æœŸ
  * Update when each cycle begins.
  * \param current_time the time just before update.
  */
@@ -161,7 +161,7 @@ void TimeTest::Update(Time current_time)
 
 
 /**
- * Ã¿´Î²âÊÔµÄ¿ªÊ¼
+ * æ¯æ¬¡æµ‹è¯•çš„å¼€å§‹
  * Begin of each test.
  * \param func_name name of the function which will be tested.
  * \return event ID.
@@ -203,7 +203,7 @@ int TimeTest::Begin(std::string func_name)
 
 
 /**
- * Ã¿´Î²âÊÔµÄ½áÊø
+ * æ¯æ¬¡æµ‹è¯•çš„ç»“æŸ
  * End of each test.
  * \param event_id.
  */
