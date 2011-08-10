@@ -30,42 +30,37 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 # THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.               
 
-echo ""
-echo "#######################################################################"
-echo "#      WrightEagle 2D Soccer Simulation Team -- based on WE2010       #"
-echo "#                                                                     #"
-echo "#                       Multi-Agent Systems Lab.                      #"
-echo "#              School of Computer Science and Technology              #"
-echo "#            University of Science and Technology of China            #"
-echo "#                     Hefei, Anhui Province, China                    #"
-echo "#                                                                     #"
-echo "#                   Supervisor: Prof. Xiaoping Chen                   #"
-echo "#       Team members: Aijun Bai, Guanghui Lu, Haochong Zhang,         #"
-echo "#                     Yuhang Wang, Miao Jiang                         #"
-echo "#                                                                     #"
-echo "#                 Homepage: http://wrighteagle.org/2D/                #"
-echo "#######################################################################"
-echo ""
-
 HOST="localhost"
+PORT="6000"
 VERSION="Release"
+BINARY="WrightEagleBASE"
+TEAM_NAME="WrightEagleBASE"
 
-#$1:host $2:version
-if [ ! -z $1 ]; then
-	HOST=$1
-	if [ ! -z $2 ]; then
-		VERSION=$2
-	fi
+while getopts  "h:p:v:b:t:" flag; do
+    case "$flag" in
+        h) HOST=$OPTARG;;
+        p) PORT=$OPTARG;;
+        v) VERSION=$OPTARG;;
+        b) BINARY=$OPTARG;;
+        t) TEAM_NAME=$OPTARG;;
+    esac
+done
+
+if [ $VERSION = "Debug" ]; then
+    ulimit -c unlimited
+    make debug
+else
+    make release
 fi
 
-BINARY="WrightEagleBASE"
 CLIENT="./$VERSION/$BINARY"
-TEAM_NAME="WrightEagleBASE"
 LOG_DIR="Logfiles"
 mkdir $LOG_DIR 2>/dev/null
 SLEEP_TIME=0.1
 
-N_PARAM="-team_name $TEAM_NAME -host $HOST -log_dir $LOG_DIR"
+COACH_PORT=`expr $PORT + 1`
+OLCOACH_PORT=`expr $PORT + 2`
+N_PARAM="-team_name $TEAM_NAME -host $HOST -port $PORT -coach_port $COACH_PORT -olcoach_port $OLCOACH_PORT -log_dir $LOG_DIR"
 G_PARAM="$N_PARAM -goalie on"
 C_PARAM="$N_PARAM -coach on"
 
@@ -84,3 +79,6 @@ sleep 3
 
 echo ">>>>>>>>>>>>>>>>>>>>>> $TEAM_NAME Coach"
 $CLIENT $C_PARAM &
+
+wait
+
