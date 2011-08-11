@@ -19,8 +19,6 @@
 # along with this program; if not, write to the Free Software                      
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-EXEC	 = WE2010
-
 DEBUG    = Debug
 RELEASE  = Release
 
@@ -35,7 +33,6 @@ release:
 	cd ${RELEASE}; make -j3 all
 
 clean:
-	rm -f ${EXEC}
 	cd ${DEBUG}; make clean
 	cd ${RELEASE}; make clean
 	rm -f core*
