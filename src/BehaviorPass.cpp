@@ -173,6 +173,7 @@ void BehaviorPassPlanner::Plan(std::list<ActiveBehavior> & behavior_list)
 					if(fabs((mWorldState.GetTeammate(i).GetPos() - mSelfState.GetPos()).Dir() - dir) > 45 ){
 						continue;
 					}
+					if(!mWorldState.GetPlayer(i).IsAlive()){continue;}
 					PlayerInterceptInfo* a = mInterceptInfo.GetPlayerInterceptInfo(i);
 					mInterceptInfo.CalcTightInterception(SimBall,a,true);
 					if(MinTmInter > (*a).mMinCycle){
