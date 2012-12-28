@@ -1,7 +1,7 @@
 /************************************************************************************
  * WrightEagle (Soccer Simulation League 2D)                                        *
- * BASE SOURCE CODE RELEASE 2010                                                    *
- * Copyright (c) 1998-2010 WrightEagle 2D Soccer Simulation Team,                   *
+ * BASE SOURCE CODE RELEASE 2013                                                    *
+ * Copyright (c) 1998-2013 WrightEagle 2D Soccer Simulation Team,                   *
  *                         Multi-Agent Systems Lab.,                                *
  *                         School of Computer Science and Technology,               *
  *                         University of Science and Technology of China            *
@@ -258,7 +258,7 @@ void WorldStateUpdater::UpdateWorldState()
 	/**更新场上的状态*/
 	UpdateFieldInfo();
 
-	if (PlayerParam::instance().isCoach()){
+	if (PlayerParam::instance().isCoach() || PlayerParam::instance().isTrainer()){
 		if (mpObserver->OurSide() == 'l'){ //server发过来的信息坐标与自己一致
 			Ball().UpdatePos(mpObserver->Ball_Coach().GetPos(), 0, 1.0);
 			Ball().UpdateVel(mpObserver->Ball_Coach().GetVel(), 0, 1.0);

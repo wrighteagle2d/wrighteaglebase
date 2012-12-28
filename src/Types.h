@@ -1,7 +1,7 @@
 /************************************************************************************
  * WrightEagle (Soccer Simulation League 2D)                                        *
- * BASE SOURCE CODE RELEASE 2010                                                    *
- * Copyright (c) 1998-2010 WrightEagle 2D Soccer Simulation Team,                   *
+ * BASE SOURCE CODE RELEASE 2013                                                    *
+ * Copyright (c) 1998-2013 WrightEagle 2D Soccer Simulation Team,                   *
  *                         Multi-Agent Systems Lab.,                                *
  *                         School of Computer Science and Technology,               *
  *                         University of Science and Technology of China            *
@@ -36,6 +36,7 @@
 #include <algorithm>
 #include <iostream>
 #include <cmath>
+#include <cstring>
 
 #ifndef M_PI
 #define M_PI        3.14159265358979323846
@@ -47,9 +48,7 @@
 
 #define SQRT_2       1.41421356237309504880 // 根号2
 #define FLOAT_EPS    0.000006
-#define MAX_MESSAGE  8192
 #define HUGE_VALUE   1.0e6
-#define Unum_Unknown 0
 
 #ifdef WIN32
 typedef unsigned int uint;
@@ -82,16 +81,13 @@ extern int abort_with_SIGSEGV(const char *expr = 0, const char *file = 0, int li
 		std::cerr << __FILE__ << ":" << __LINE__ << " : " << error << std::endl; \
 	} while(0)
 
-/**
- * 球员的个数
- * Number of players.
- */
-#define TEAMSIZE 11
-
-/**
- * Number of hetero player types.
- */
-#define MAX_PLAYER_TYPES 18
+enum {
+	Unum_Unknown = 0,
+	TEAMSIZE = 11, //Number of players.
+	TRAINER_UNUM = 12, //Unum of trainer, it is used to record message log.
+	MAX_PLAYER_TYPES = 18, //Number of hetero player types.
+	MAX_MESSAGE = 8192
+};
 
 typedef double AngleRad;
 typedef double AngleDeg;

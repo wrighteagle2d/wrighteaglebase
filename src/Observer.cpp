@@ -1,7 +1,7 @@
 /************************************************************************************
  * WrightEagle (Soccer Simulation League 2D)                                        *
- * BASE SOURCE CODE RELEASE 2010                                                    *
- * Copyright (c) 1998-2010 WrightEagle 2D Soccer Simulation Team,                   *
+ * BASE SOURCE CODE RELEASE 2013                                                    *
+ * Copyright (c) 1998-2013 WrightEagle 2D Soccer Simulation Team,                   *
  *                         Multi-Agent Systems Lab.,                                *
  *                         School of Computer Science and Technology,               *
  *                         University of Science and Technology of China            *
@@ -41,7 +41,7 @@ Observer::Observer()
     mOurInitSide = '?';
 	mOurSide = '?';
 	mOppSide = '?';
-	mMyUnum = 0;
+	mSelfUnum = 0;
 	mOppGoalieUnum = 0;
 	mOurScore = 0;
 	mOppScore = 0;
@@ -563,7 +563,7 @@ bool Observer::WaitForNewInfo()
 	Reset();
 
 	bool flag = false;
-	if (PlayerParam::instance().isCoach()){
+	if (PlayerParam::instance().isCoach() || PlayerParam::instance().isTrainer()){
 		flag = WaitForNewSight(); //see_global 信息
 		WaitForCoachNewHear();
 	}
@@ -599,7 +599,7 @@ bool Observer::WaitForNewSight()
 {
 	int max_time;
 
-	if (PlayerParam::instance().isCoach())
+	if (PlayerParam::instance().isCoach() || PlayerParam::instance().isTrainer())
 	{
 		max_time = PlayerParam::instance().WaitTimeOut() * 1000 * ServerParam::instance().slowDownFactor();
 	}
@@ -683,25 +683,25 @@ void Observer::SetCommandSend()
 
 void Observer::HearBall(const Vector & pos, const Vector & vel)
 {
-	//std::cerr << mCurrentTime << " " << mMyUnum << " hear ball " << pos << " " << vel << std::endl;
+	//std::cerr << mCurrentTime << " " << mSelfUnum << " hear ball " << pos << " " << vel << std::endl;
 	mAudioObserver.SetBall(pos, vel, mCurrentTime);
 }
 
 void Observer::HearBall(const Vector & pos)
 {
-	//std::cerr << mCurrentTime << " " << mMyUnum << " hear ball " << pos << " " << std::endl;
+	//std::cerr << mCurrentTime << " " << mSelfUnum << " hear ball " << pos << " " << std::endl;
 	mAudioObserver.SetBall(pos, mCurrentTime);
 }
 
 void Observer::HearTeammate(Unum num, const Vector & pos)
 {
-	//std::cerr << mCurrentTime << " " << mMyUnum << " hear teammate " << num << " " << pos << std::endl;
+	//std::cerr << mCurrentTime << " " << mSelfUnum << " hear teammate " << num << " " << pos << std::endl;
 	mAudioObserver.SetTeammate(num, pos, mCurrentTime);
 }
 
 void Observer::HearOpponent(Unum num, const Vector & pos)
 {
-	//std::cerr << mCurrentTime << " " << mMyUnum << " hear opponent " << num << " " << pos << std::endl;
+	//std::cerr << mCurrentTime << " " << mSelfUnum << " hear opponent " << num << " " << pos << std::endl;
 	mAudioObserver.SetOpponent(num, pos, mCurrentTime);
 }
 

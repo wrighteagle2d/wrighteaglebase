@@ -1,7 +1,7 @@
 /************************************************************************************
  * WrightEagle (Soccer Simulation League 2D)                                        *
- * BASE SOURCE CODE RELEASE 2010                                                    *
- * Copyright (c) 1998-2010 WrightEagle 2D Soccer Simulation Team,                   *
+ * BASE SOURCE CODE RELEASE 2013                                                    *
+ * Copyright (c) 1998-2013 WrightEagle 2D Soccer Simulation Team,                   *
  *                         Multi-Agent Systems Lab.,                                *
  *                         School of Computer Science and Technology,               *
  *                         University of Science and Technology of China            *
@@ -87,9 +87,9 @@ bool BehaviorPassExecuter::Execute(const ActiveBehavior & pass)
 
 }
 BehaviorPassPlanner::BehaviorPassPlanner(Agent & agent):
-			BehaviorPlannerBase<BehaviorAttackData>(agent)
-			{
-			}
+	BehaviorPlannerBase<BehaviorAttackData>(agent)
+{
+}
 
 BehaviorPassPlanner::~BehaviorPassPlanner(void)
 {
@@ -102,46 +102,45 @@ void BehaviorPassPlanner::Plan(std::list<ActiveBehavior> & behavior_list)
 	const std::vector<Unum> & tm2ball = mPositionInfo.GetCloseTeammateToTeammate(mSelfState.GetUnum());
 
 	Unum _opp = mStrategy.GetFastestOpp();
-
     if (!_opp) return;
 
-    PlayerState oppState = mWorldState.GetOpponent( _opp );
-    bool oppClose = oppState.IsKickable()|| oppState.GetTackleProb(true) > 0.65 ;
-    for (uint i = 0; i < tm2ball.size(); ++i) {
-        ActiveBehavior pass(mAgent, BT_Pass);
+	PlayerState oppState = mWorldState.GetOpponent( _opp );
+	bool oppClose = oppState.IsKickable()|| oppState.GetTackleProb(true) > 0.65 ;
+	for (uint i = 0; i < tm2ball.size(); ++i) {
+		ActiveBehavior pass(mAgent, BT_Pass);
 
-        pass.mTarget = mWorldState.GetTeammate(tm2ball[i]).GetPredictedPos();
+		pass.mTarget = mWorldState.GetTeammate(tm2ball[i]).GetPredictedPos();
 
-        if(mWorldState.GetTeammate(tm2ball[i]).IsGoalie()){
-            continue;
-        }
-        Vector rel_target = pass.mTarget - mBallState.GetPos();
-        const std::vector<Unum> & opp2tm = mPositionInfo.GetCloseOpponentToTeammate(tm2ball[i]);
-        AngleDeg min_differ = HUGE_VALUE;
+		if(mWorldState.GetTeammate(tm2ball[i]).IsGoalie()){
+			continue;
+		}
+		Vector rel_target = pass.mTarget - mBallState.GetPos();
+		const std::vector<Unum> & opp2tm = mPositionInfo.GetCloseOpponentToTeammate(tm2ball[i]);
+		AngleDeg min_differ = HUGE_VALUE;
 
-        for (uint j = 0; j < opp2tm.size(); ++j) {
-            Vector rel_pos = mWorldState.GetOpponent(opp2tm[j]).GetPos() - mBallState.GetPos();
-            if (rel_pos.Mod() > rel_target.Mod() + 3.0) continue;
+		for (uint j = 0; j < opp2tm.size(); ++j) {
+			Vector rel_pos = mWorldState.GetOpponent(opp2tm[j]).GetPos() - mBallState.GetPos();
+			if (rel_pos.Mod() > rel_target.Mod() + 3.0) continue;
 
-            AngleDeg differ = GetAngleDegDiffer(rel_target.Dir(), rel_pos.Dir());
-            if (differ < min_differ) {
-                min_differ = differ;
-            }
-        }
+			AngleDeg differ = GetAngleDegDiffer(rel_target.Dir(), rel_pos.Dir());
+			if (differ < min_differ) {
+				min_differ = differ;
+			}
+		}
 
-        if (min_differ < 10.0) continue;
+		if (min_differ < 10.0) continue;
 
-        pass.mEvaluation = Evaluation::instance().EvaluatePosition(pass.mTarget, true);
+		pass.mEvaluation = Evaluation::instance().EvaluatePosition(pass.mTarget, true);
 
-        pass.mAngle = (pass.mTarget - mSelfState.GetPos()).Dir();
-        pass.mKickSpeed = ServerParam::instance().GetBallSpeed(5, pass.mTarget.Dist(mBallState.GetPos()));
-        pass.mKickSpeed = MinMax(2.0, pass.mKickSpeed, Kicker::instance().GetMaxSpeed(mAgent , pass.mAngle ,3 ));
-        if(oppClose){//in oppnent control, clear it
-            pass.mDetailType = BDT_Pass_Clear;
-        }
-        else pass.mDetailType = BDT_Pass_Direct;
-        mActiveBehaviorList.push_back(pass);
-    }
+		pass.mAngle = (pass.mTarget - mSelfState.GetPos()).Dir();
+		pass.mKickSpeed = ServerParam::instance().GetBallSpeed(5, pass.mTarget.Dist(mBallState.GetPos()));
+		pass.mKickSpeed = MinMax(2.0, pass.mKickSpeed, Kicker::instance().GetMaxSpeed(mAgent , pass.mAngle ,3 ));
+		if(oppClose){//in oppnent control, clear it
+			pass.mDetailType = BDT_Pass_Clear;
+		}
+		else pass.mDetailType = BDT_Pass_Direct;
+		mActiveBehaviorList.push_back(pass);
+	}
 	if (!mActiveBehaviorList.empty()) {
 		mActiveBehaviorList.sort(std::greater<ActiveBehavior>());
 		if(mActiveBehaviorList.front().mDetailType == BDT_Pass_Clear){
@@ -182,7 +181,7 @@ void BehaviorPassPlanner::Plan(std::list<ActiveBehavior> & behavior_list)
 						MinTmPos = (*a).mInterPos;
 					}
 				}
-				for(int i = 1 ; i >= 11 ; i++){
+				for(int i = 1 ; i <= 11 ; i++){
 					if(fabs((mWorldState.GetOpponent(i).GetPos() - mSelfState.GetPos()).Dir() - dir) > 45 ){
 						continue;
 					}

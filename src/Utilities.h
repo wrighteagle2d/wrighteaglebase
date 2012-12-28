@@ -1,7 +1,7 @@
 /************************************************************************************
  * WrightEagle (Soccer Simulation League 2D)                                        *
- * BASE SOURCE CODE RELEASE 2010                                                    *
- * Copyright (c) 1998-2010 WrightEagle 2D Soccer Simulation Team,                   *
+ * BASE SOURCE CODE RELEASE 2013                                                    *
+ * Copyright (c) 1998-2013 WrightEagle 2D Soccer Simulation Team,                   *
  *                         Multi-Agent Systems Lab.,                                *
  *                         School of Computer Science and Technology,               *
  *                         University of Science and Technology of China            *
@@ -42,6 +42,7 @@
 #include <iostream>
 #include <cmath>
 #include <map>
+#include <cstring>
 #include "Types.h"
 
 inline bool IsInvalid(const double & x)
@@ -532,13 +533,14 @@ inline int get_int(char *str){
 	return static_cast<int>(strtol(str, (char **) 0, 10));
 }
 
-inline void get_word(char **str_ptr){
+inline char * get_word(char **str_ptr){
 	while ( !isalpha(**str_ptr) && **str_ptr) (*str_ptr)++;
+	return *str_ptr;
 }
 
-inline void get_next_word(char **str_ptr){
+inline char * get_next_word(char **str_ptr){
 	while ( isalpha(**str_ptr) ) (*str_ptr)++;
-	get_word(str_ptr);
+	return get_word(str_ptr);
 }
 }
 

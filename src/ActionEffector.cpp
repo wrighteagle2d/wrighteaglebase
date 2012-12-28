@@ -1,7 +1,7 @@
 /************************************************************************************
  * WrightEagle (Soccer Simulation League 2D)                                        *
- * BASE SOURCE CODE RELEASE 2010                                                    *
- * Copyright (c) 1998-2010 WrightEagle 2D Soccer Simulation Team,                   *
+ * BASE SOURCE CODE RELEASE 2013                                                    *
+ * Copyright (c) 1998-2013 WrightEagle 2D Soccer Simulation Team,                   *
  *                         Multi-Agent Systems Lab.,                                *
  *                         School of Computer Science and Technology,               *
  *                         University of Science and Technology of China            *
@@ -77,7 +77,15 @@ ActionEffector::ActionEffector(Agent & agent):
 	mClang( agent ),
 	mEar( agent ),
 	mSynchSee( agent ),
-	mChangePlayerType( agent )
+	mChangePlayerType( agent ),
+	mStart( agent ),
+	mChangePlayMode( agent ),
+	mMovePlayer( agent ),
+	mMoveBall( agent ),
+	mLook( agent ),
+	mTeamNames( agent ),
+	mRecover( agent ),
+	mCheckBall( agent )
 {
 	mTurnCount          = 0;
 	mDashCount          = 0;
@@ -687,6 +695,75 @@ bool ActionEffector::SetChangePlayerTypeAction(Unum num, int player_type)
 	return true;
 }
 
+/**********************************for trainer*************************************/
+bool ActionEffector::SetChangePlayerTypeAction(std::string teamname,Unum num, int player_type)
+{
+	mChangePlayerType.Plan(teamname,num, player_type);
+	mChangePlayerType.Execute(mCommandQueue);
+	++mChangePlayerTypeCount;
+	mIsChangePlayerType = true;
+	return true;
+}
+
+//Trainer就不检测是否漏掉了，没有必要
+bool ActionEffector::SetStartAction()
+{
+	mStart.Plan();
+	mStart.Execute(mCommandQueue);
+	mIsStart = true;
+	return true;
+}
+bool ActionEffector::SetChangePlayModeAction(ServerPlayMode spm)
+{
+	mChangePlayMode.Plan(spm);
+	mChangePlayMode.Execute(mCommandQueue);
+	mIsChangePlayMode = true;
+	return true;
+}
+bool ActionEffector::SetMovePlayerAction(std::string team_name, Unum num, Vector pos, Vector vel, AngleDeg dir)
+{
+	mMovePlayer.Plan(team_name, num, pos, vel, dir);
+	mMovePlayer.Execute(mCommandQueue);
+	mIsMovePlayer = true ;
+	return true;
+}
+bool ActionEffector::SetMoveBallAction(Vector pos, Vector vel)
+{
+	mMoveBall.Plan(pos,vel);
+	mMoveBall.Execute(mCommandQueue);
+	mIsMoveBall = true;
+	return true;
+}
+
+bool ActionEffector::SetLookAction()
+{
+	mLook.Plan();
+	mLook.Execute(mCommandQueue);
+	mIsLook = true;
+	return true;
+}
+bool ActionEffector::SetTeamNamesAction()
+{
+	mTeamNames.Plan();
+	mTeamNames.Execute(mCommandQueue);
+	mIsTeamNames = true ;
+	return true;
+}
+bool ActionEffector::SetRecoverAction()
+{
+	mRecover.Plan();
+	mRecover.Execute(mCommandQueue);
+	mIsRecover = true;
+	return true;
+}
+bool ActionEffector::SetCheckBallAction()
+{
+	mCheckBall.Plan();
+	mCheckBall.Execute(mCommandQueue);
+	mIsCheckBall = true;
+	return true;
+}
+
 /**
  * 通过传入kick的参数，计算kick后球的位置和速度
  * Calculate ball position and velocity after a kick action.
@@ -893,7 +970,7 @@ void ActionEffector::CheckCommands(Observer *observer)
 		if (observer->Sense().GetKickCount() < mKickCount)
 		{
 			std::cout << observer->CurrentTime() << " " << PlayerParam::instance().teamName()
-			<< " " << observer->MyUnum() << " miss a kick" << std::endl;
+			<< " " << observer->SelfUnum() << " miss a kick" << std::endl;
 		}
 		mKickCount = observer->Sense().GetKickCount();
 	}
@@ -903,7 +980,7 @@ void ActionEffector::CheckCommands(Observer *observer)
 		if (observer->Sense().GetDashCount() < mDashCount)
 		{
 			std::cout << observer->CurrentTime() << " " << PlayerParam::instance().teamName()
-			<< " " << observer->MyUnum() << " miss a dash" << std::endl;
+			<< " " << observer->SelfUnum() << " miss a dash" << std::endl;
 		}
 		mDashCount = observer->Sense().GetDashCount();
 	}
@@ -913,7 +990,7 @@ void ActionEffector::CheckCommands(Observer *observer)
 		if (observer->Sense().GetTurnCount() < mTurnCount)
 		{
 			std::cout << observer->CurrentTime() << " " << PlayerParam::instance().teamName()
-			<< " " << observer->MyUnum() << " miss a turn" << std::endl;
+			<< " " << observer->SelfUnum() << " miss a turn" << std::endl;
 		}
 		mTurnCount = observer->Sense().GetTurnCount();
 	}
@@ -923,7 +1000,7 @@ void ActionEffector::CheckCommands(Observer *observer)
 		if (observer->Sense().GetSayCount() < mSayCount)
 		{
 			std::cout << observer->CurrentTime() << " " << PlayerParam::instance().teamName()
-			<< " " << observer->MyUnum() << " miss a say" << std::endl;
+			<< " " << observer->SelfUnum() << " miss a say" << std::endl;
 			mIsSayMissed = true;
 		}
 		mSayCount = observer->Sense().GetSayCount();
@@ -934,7 +1011,7 @@ void ActionEffector::CheckCommands(Observer *observer)
 		if (observer->Sense().GetTurnNeckCount() < mTurnNeckCount)
 		{
 			std::cout << observer->CurrentTime() << " " << PlayerParam::instance().teamName()
-			<< " " << observer->MyUnum() << " miss a turn_neck" << std::endl;
+			<< " " << observer->SelfUnum() << " miss a turn_neck" << std::endl;
 		}
 		mTurnNeckCount = observer->Sense().GetTurnNeckCount();
 	}
@@ -944,7 +1021,7 @@ void ActionEffector::CheckCommands(Observer *observer)
 		if (observer->Sense().GetCatchCount() < mCatchCount)
 		{
 			std::cout << observer->CurrentTime() << " " << PlayerParam::instance().teamName()
-			<< " " << observer->MyUnum() << " miss a catch" << std::endl;
+			<< " " << observer->SelfUnum() << " miss a catch" << std::endl;
 		}
 		mCatchCount = observer->Sense().GetCatchCount();
 	}
@@ -954,7 +1031,7 @@ void ActionEffector::CheckCommands(Observer *observer)
 		if (observer->Sense().GetMoveCount() < mMoveCount)
 		{
 			std::cout << observer->CurrentTime() << " " << PlayerParam::instance().teamName()
-			<< " " << observer->MyUnum() << " miss a move" << std::endl;
+			<< " " << observer->SelfUnum() << " miss a move" << std::endl;
 		}
 		mMoveCount = observer->Sense().GetMoveCount();
 	}
@@ -964,7 +1041,7 @@ void ActionEffector::CheckCommands(Observer *observer)
 		if (observer->Sense().GetChangeViewCount() < mChangeViewCount)
 		{
 			std::cout << observer->CurrentTime() << " " << PlayerParam::instance().teamName()
-			<< " " << observer->MyUnum() << " miss a change_view" << std::endl;
+			<< " " << observer->SelfUnum() << " miss a change_view" << std::endl;
 		}
 		mChangeViewCount = observer->Sense().GetChangeViewCount();
 	}
@@ -974,7 +1051,7 @@ void ActionEffector::CheckCommands(Observer *observer)
 		if (observer->Sense().GetArmCount() < mPointtoCount)
 		{
 			std::cout << observer->CurrentTime() << " " << PlayerParam::instance().teamName()
-			<< " " << observer->MyUnum() << " miss a pointto" << std::endl;
+			<< " " << observer->SelfUnum() << " miss a pointto" << std::endl;
 		}
 		mPointtoCount = observer->Sense().GetArmCount();
 	}
@@ -984,7 +1061,7 @@ void ActionEffector::CheckCommands(Observer *observer)
 		if (observer->Sense().GetFocusCount() < mAttentiontoCount)
 		{
 			std::cout << observer->CurrentTime() << " " << PlayerParam::instance().teamName()
-			<< " " << observer->MyUnum() << " miss a attentionto" << std::endl;
+			<< " " << observer->SelfUnum() << " miss a attentionto" << std::endl;
 		}
 		mAttentiontoCount = observer->Sense().GetFocusCount();
 	}
@@ -994,7 +1071,7 @@ void ActionEffector::CheckCommands(Observer *observer)
 		if (observer->Sense().GetTackleCount() < mTackleCount)
 		{
 			std::cout << observer->CurrentTime() << " " << PlayerParam::instance().teamName()
-			<< " " << observer->MyUnum() << " miss a tackle" << std::endl;
+			<< " " << observer->SelfUnum() << " miss a tackle" << std::endl;
 		}
 		mTackleCount = observer->Sense().GetTackleCount();
 	}
@@ -1169,7 +1246,7 @@ Vector ActionEffector::GetBallVelWithQueuedActions()
  */
 void ActionEffector::SendCommands(char *msg)
 {
-	if (PlayerParam::instance().isCoach())
+	if (PlayerParam::instance().isCoach() || PlayerParam::instance().isTrainer())
 	{
 		//Coach分条发送命令
 		ActionEffector::CMD_QUEUE_MUTEX.Lock();

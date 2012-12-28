@@ -1,7 +1,7 @@
 /************************************************************************************
  * WrightEagle (Soccer Simulation League 2D)                                        *
- * BASE SOURCE CODE RELEASE 2010                                                    *
- * Copyright (c) 1998-2010 WrightEagle 2D Soccer Simulation Team,                   *
+ * BASE SOURCE CODE RELEASE 2013                                                    *
+ * Copyright (c) 1998-2013 WrightEagle 2D Soccer Simulation Team,                   *
  *                         Multi-Agent Systems Lab.,                                *
  *                         School of Computer Science and Technology,               *
  *                         University of Science and Technology of China            *
@@ -113,7 +113,7 @@ public:
 	Unum                GetSelfUnum() const { return mSelfUnum; }
 
 	const PlayerState & GetSelf() const {
-		if (!mSelfUnum) {
+		if (!mSelfUnum || mSelfUnum == TRAINER_UNUM) {
 			static PlayerState coach; //dummy player state for coach
 			return coach;
 		}
@@ -122,7 +122,7 @@ public:
 	}
 
 	PlayerState & Self() {
-		if (!mSelfUnum) {
+		if (!mSelfUnum || mSelfUnum == TRAINER_UNUM) {
 			static PlayerState coach; //dummy player state for coach
 			return coach;
 		}
@@ -165,6 +165,16 @@ public:
 	bool EarOff(bool our_side, EarMode ear_mode = EM_All) { return GetActionEffector().SetEarOffAction(our_side, ear_mode); }
 	bool SynchSee() { return GetActionEffector().SetSynchSeeAction(); }
 	bool ChangePlayerType(Unum num, int player_type) { return GetActionEffector().SetChangePlayerTypeAction(num, player_type); }
+
+	bool ChangePlayerType(std::string teamname, Unum num, int player_type) { return GetActionEffector().SetChangePlayerTypeAction(teamname, num, player_type); }
+	bool Start() { return GetActionEffector().SetStartAction(); }
+	bool ChangePlayMode(ServerPlayMode spm) { return GetActionEffector().SetChangePlayModeAction(spm); }
+	bool MoveBall(Vector pos, Vector vel) { return GetActionEffector().SetMoveBallAction(pos,vel); }
+	bool MovePlayer(std::string teamname, Unum num, Vector pos, Vector vel, AngleDeg dir) { return GetActionEffector().SetMovePlayerAction(teamname, num, pos, vel, dir); }
+	bool Look(){ return GetActionEffector().SetLookAction(); }
+	bool TeamNames(){ return GetActionEffector().SetTeamNamesAction(); }
+	bool Recover(){ return GetActionEffector().SetRecoverAction(); }
+	bool CheckBall(){ return GetActionEffector().SetCheckBallAction(); }
 
 	/**
 	 * Get ActionEffector of this agent.

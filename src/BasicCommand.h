@@ -1,7 +1,7 @@
 /************************************************************************************
  * WrightEagle (Soccer Simulation League 2D)                                        *
- * BASE SOURCE CODE RELEASE 2010                                                    *
- * Copyright (c) 1998-2010 WrightEagle 2D Soccer Simulation Team,                   *
+ * BASE SOURCE CODE RELEASE 2013                                                    *
+ * Copyright (c) 1998-2013 WrightEagle 2D Soccer Simulation Team,                   *
  *                         Multi-Agent Systems Lab.,                                *
  *                         School of Computer Science and Technology,               *
  *                         University of Science and Technology of China            *
@@ -71,7 +71,21 @@ enum CommandType
 	CT_Clang,
 	CT_Ear,
 	CT_SynchSee,
-	CT_ChangePlayerType
+	CT_ChangePlayerType,
+
+	/////for trainer/////
+	CT_ChangePlayerTypeForTrainer,
+	CT_Start,
+	CT_ChangePlayMode,
+	CT_MovePlayer,
+	CT_MoveBall,
+	CT_Look,
+	CT_TeamNames,
+	CT_Recover,
+	CT_CheckBall,
+
+	CT_Max
+
 };
 
 class Agent;
@@ -319,7 +333,85 @@ public:
 	~ChangePlayerType() {}
 
 	void Plan(Unum num, int player_type);
+
+	void Plan(std::string teamname, Unum num, int player_type);
 };
+
+
+//以下为Trainer特殊的原子命令类，顺序与SoccerServer - Coach::parse_command相同
+
+class Start : public BasicCommand
+{
+public:
+	Start(const Agent & agent);
+	~Start() {}
+
+	void Plan();
+};
+
+class ChangePlayMode : public BasicCommand
+{
+public:
+	ChangePlayMode(const Agent & agent);
+	~ChangePlayMode() {}
+
+	void Plan(ServerPlayMode spm); //这里采用ServerPlayMode的原因是，没有Observer，我不知道自己是左还是右。
+};
+
+class MovePlayer : public BasicCommand
+{
+public:
+	MovePlayer(const Agent & agent);
+	~MovePlayer() {}
+
+	void Plan(std::string team_name, Unum num, Vector pos, Vector vel, AngleDeg dir);
+};
+
+class MoveBall : public BasicCommand
+{
+public:
+	MoveBall(const Agent & agent);
+	~MoveBall() {}
+
+	void Plan(Vector pos, Vector vel);
+};
+
+class Look : public BasicCommand
+{
+public:
+	Look(const Agent & agent);
+	~Look() {}
+
+	void Plan();
+};
+
+class TeamNames : public BasicCommand
+{
+public:
+	TeamNames(const Agent & agent);
+	~TeamNames() {}
+
+	void Plan();
+};
+
+class Recover : public BasicCommand
+{
+public:
+	Recover(const Agent & agent);
+	~Recover() {}
+
+	void Plan();
+};
+
+class CheckBall : public BasicCommand
+{
+public:
+	CheckBall(const Agent & agent);
+	~CheckBall() {}
+
+	void Plan();
+};
+
 
 #endif
 

@@ -1,7 +1,7 @@
 /************************************************************************************
  * WrightEagle (Soccer Simulation League 2D)                                        *
- * BASE SOURCE CODE RELEASE 2010                                                    *
- * Copyright (c) 1998-2010 WrightEagle 2D Soccer Simulation Team,                   *
+ * BASE SOURCE CODE RELEASE 2013                                                    *
+ * Copyright (c) 1998-2013 WrightEagle 2D Soccer Simulation Team,                   *
  *                         Multi-Agent Systems Lab.,                                *
  *                         School of Computer Science and Technology,               *
  *                         University of Science and Technology of China            *
@@ -41,6 +41,8 @@ const char PlayerParam::LOG_DIR[] = "Logfiles";
 const char PlayerParam::TEAM_NAME[] = "WrightEagleBASE";
 const char PlayerParam::OPPONENT_TEAM_NAME[] = "";
 const char PlayerParam::HETERO_TEST_MODEL[] = "./conf/hetero.conf";
+
+const char PlayerParam::TRAIN_DATA_FILE[] = "./train/train.conf";
 
 const int PlayerParam::DEFAULT_PLAYER_TYPES = 18; // [12.0.0] 7 -> 18
 const int PlayerParam::DEFAULT_SUBS_MAX = 3;
@@ -243,6 +245,9 @@ void PlayerParam::AddParams()
 
 	AddParam( "player_conf", & M_player_conf_file, std::string(CONFIG_FILE));
 	AddParam( "log_dir", & M_log_dir, std::string(LOG_DIR));
+	
+	AddParam( "trainer_data_file", &M_train_data_file, std::string(TRAIN_DATA_FILE));	
+	
 	AddParam( "team_name", & M_team_name, std::string(TEAM_NAME));
 	AddParam( "opponent_team_name", & M_opponent_team_name, std::string(OPPONENT_TEAM_NAME));
 	AddParam( "hetero_test_model", & M_hetero_test_model, std::string(HETERO_TEST_MODEL));
@@ -267,6 +272,9 @@ void PlayerParam::AddParams()
     AddParam( "our_goalie_unum", & M_our_goalie_unum, 1 );
 	AddParam( "goalie", & M_is_goalie, false );
 	AddParam( "coach", & M_is_coach, false );
+	
+	AddParam( "trainer", &M_is_trainer, false);
+	
 	AddParam( "player_version", & M_player_version, 13.1 );
 	AddParam( "coach_version", & M_coach_version, 13.1 );
 

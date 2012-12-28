@@ -1,7 +1,7 @@
 /************************************************************************************
  * WrightEagle (Soccer Simulation League 2D)                                        *
- * BASE SOURCE CODE RELEASE 2010                                                    *
- * Copyright (c) 1998-2010 WrightEagle 2D Soccer Simulation Team,                   *
+ * BASE SOURCE CODE RELEASE 2013                                                    *
+ * Copyright (c) 1998-2013 WrightEagle 2D Soccer Simulation Team,                   *
  *                         Multi-Agent Systems Lab.,                                *
  *                         School of Computer Science and Technology,               *
  *                         University of Science and Technology of China            *
@@ -536,7 +536,7 @@ public:
 	//提供给 Parser 的接口
     void SetOurInitSide(char side) { mOurInitSide = side; }
 	void SetOurSide(char side) { mOurSide = side; mOppSide = (mOurSide == 'l'? 'r': 'l'); }
-	void SetMyNumber(char unum) { mMyUnum = unum; }
+	void SetSelfUnum(char unum) { mSelfUnum = unum; }
 	void SetCurrentTime(const Time & time) { mCurrentTime = time;	}
 	void SetPlayMode(PlayMode play_mode) { mPlayMode = play_mode; }
 	void SetKickOffMode(KickOffMode kickoffmode) {mKickOffMode = kickoffmode;}
@@ -626,7 +626,7 @@ public:
 
     void HearOppGoalie(int unum) { Assert(unum >= 1 && unum <= 11); mOppGoalieUnum = unum; }
 	//提供给 WorldModel 的接口
-	const Unum & MyUnum() const { return mMyUnum; }
+	const Unum & SelfUnum() const { return mSelfUnum; }
     const char & OurInitSide() const { return mOurInitSide; }
 	const char & OurSide() const { return mOurSide; }
 	const char & OppSide() const { return mOppSide; }
@@ -678,7 +678,7 @@ private:
 	char mOurInitSide; // 记录初始side，永远不会变，而mOurSide在点球大战时有可能变
     char mOurSide;
 	char mOppSide;
-	int  mMyUnum;
+	int  mSelfUnum;
 	int  mOppGoalieUnum;
 	int  mOurScore;
 	int  mOppScore;

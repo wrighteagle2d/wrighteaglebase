@@ -1,7 +1,7 @@
 /************************************************************************************
  * WrightEagle (Soccer Simulation League 2D)                                        *
- * BASE SOURCE CODE RELEASE 2010                                                    *
- * Copyright (c) 1998-2010 WrightEagle 2D Soccer Simulation Team,                   *
+ * BASE SOURCE CODE RELEASE 2013                                                    *
+ * Copyright (c) 1998-2013 WrightEagle 2D Soccer Simulation Team,                   *
  *                         Multi-Agent Systems Lab.,                                *
  *                         School of Computer Science and Technology,               *
  *                         University of Science and Technology of China            *
@@ -59,13 +59,10 @@ Client::Client() {
     mpObserver      = new Observer;
 	mpWorldModel    = new WorldModel;
 
-	/** Parser thread and CommandSend thread */
-	mpParser        = new Parser(mpObserver);
-	mpCommandSender = new CommandSender(mpObserver);
-
     // instance放在这里创建以节省后面的运行效率，部分instance不能放在这里，需要时创建
 
     /** Assistant instance */
+
 	TimeTest::instance();
     NetworkTest::instance();
     DynamicDebug::instance();
@@ -89,10 +86,19 @@ Client::Client() {
     UDPSocket::instance();
     VisualSystem::instance();
     CommunicateSystem::instance();
+
+	/** Parser thread and CommandSend thread */
+    mpCommandSender = new CommandSender(mpObserver);
+
+	//ServerPlayModeMap::instance();
+
+
+	mpParser        = new Parser(mpObserver);
+
 }
 
 Client::~Client()
-{
+{  
 	delete mpCommandSender;
 	delete mpParser;
 
@@ -145,9 +151,10 @@ void Client::RunDynamicDebug()
 
 void Client::RunNormal()
 {
-	mpParser->Start(); //分析线程，接受server发来的信息
+
 	mpCommandSender->Start(); //发送命令线程，向server发送信息
 	Logger::instance().Start(); //log线程
+	mpParser->Start(); //分析线程，接受server发来的信息
 
 	int past_cycle = 0;
 	do
@@ -166,21 +173,34 @@ void Client::RunNormal()
 
 	MainLoop();
 
-	WaitFor(mpObserver->MyUnum() * 100);
-    if (mpObserver->MyUnum() == 0)
+	WaitFor(mpObserver->SelfUnum() * 100);
+    if (mpObserver->SelfUnum() == 0)
     {
         std::cout << PlayerParam::instance().teamName() << " Coach: Bye ..." << std::endl;
     }
     else
     {
-        std::cout << PlayerParam::instance().teamName() << " " << mpObserver->MyUnum() << ": Bye ..." << std::endl;
+        std::cout << PlayerParam::instance().teamName() << " " << mpObserver->SelfUnum() << ": Bye ..." << std::endl;
     }
 }
 
 void Client::ConstructAgent()
 {
 	Assert(mpAgent == 0);
-	mpAgent = new Agent(mpObserver->MyUnum(), mpWorldModel, false); //要知道号码才能初始化
+	if (mpObserver->SelfUnum() > 0 && mpObserver->SelfUnum() < TRAINER_UNUM) 
+	{
+		mpWorldModel->World(false).Teammate(mpObserver->SelfUnum()).SetIsAlive(true);
+		std::cout << "WrightEagle 2012: constructing agent for player " << mpObserver->SelfUnum() << "..." << std::endl;
+	}
+	else if (mpObserver->SelfUnum() == TRAINER_UNUM) 
+	{
+        	std::cout << "WrightEagle 2012: constructing agent for trainer... " <<  std::endl;
+	}
+    	else 
+	{
+        	std::cout << "WrightEagle 2012: constructing agent for coach..." << std::endl;
+   	 }
+	mpAgent = new Agent(mpObserver->SelfUnum(), mpWorldModel, false); //要知道号码才能初始化
 
 	Formation::instance.AssignWith(mpAgent);
 	mpCommandSender->RegisterAgent(mpAgent);

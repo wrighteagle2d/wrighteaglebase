@@ -1,2 +1,1 @@
-load Logfiles/WrightEagleBASE-11-msg.log
-r
+load Logfiles/WrightEagleBASE-12-msg.log

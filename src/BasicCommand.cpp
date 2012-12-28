@@ -1,7 +1,7 @@
 /************************************************************************************
  * WrightEagle (Soccer Simulation League 2D)                                        *
- * BASE SOURCE CODE RELEASE 2010                                                    *
- * Copyright (c) 1998-2010 WrightEagle 2D Soccer Simulation Team,                   *
+ * BASE SOURCE CODE RELEASE 2013                                                    *
+ * Copyright (c) 1998-2013 WrightEagle 2D Soccer Simulation Team,                   *
  *                         Multi-Agent Systems Lab.,                                *
  *                         School of Computer Science and Technology,               *
  *                         University of Science and Technology of China            *
@@ -429,3 +429,130 @@ void ChangePlayerType::Plan(Unum num, int player_type)
     cmd_str << "(change_player_type " << num << " " << player_type << ")";
     mCommandInfo.mString = cmd_str.str();
 }
+
+//////////////////////////////////for trainer////////////////////////////////////
+void ChangePlayerType::Plan(std::string teamname, Unum num, int player_type)
+{
+	mCommandInfo.mType = CT_ChangePlayerTypeForTrainer;
+    mCommandInfo.mTime = mAgent.GetWorldState().CurrentTime();
+    std::ostringstream cmd_str;
+    cmd_str << "(change_player_type "<< teamname <<" " << num << " " << player_type << ")";
+    mCommandInfo.mString = cmd_str.str();
+}
+
+Start::Start(const Agent & agent): BasicCommand(agent)
+{
+    mCommandInfo.mType = CT_Start;
+    mCommandInfo.mMutex = false;
+}
+
+void Start::Plan()
+{
+    mCommandInfo.mTime = mAgent.GetWorldState().CurrentTime();
+    std::ostringstream cmd_str;
+    cmd_str << "(start)";
+    mCommandInfo.mString = cmd_str.str();
+}
+
+ChangePlayMode::ChangePlayMode(const Agent & agent): BasicCommand(agent)
+{
+    mCommandInfo.mType = CT_ChangePlayMode;
+    mCommandInfo.mMutex = false;
+}
+
+void ChangePlayMode::Plan(ServerPlayMode spm)
+{
+    mCommandInfo.mTime = mAgent.GetWorldState().CurrentTime();
+    std::ostringstream cmd_str;
+    cmd_str << "(change_mode " << ServerPlayModeMap::instance().GetPlayModeString(spm) << ")";
+    mCommandInfo.mString = cmd_str.str();
+}
+
+MovePlayer::MovePlayer(const Agent & agent): BasicCommand(agent)
+{
+    mCommandInfo.mType = CT_MovePlayer;
+    mCommandInfo.mMutex = false;
+}
+
+void MovePlayer::Plan(std::string team_name, Unum num, Vector pos, Vector vel, AngleDeg dir)
+{
+    mCommandInfo.mTime = mAgent.GetWorldState().CurrentTime();
+    std::ostringstream cmd_str;
+    cmd_str << "(move (player " << team_name << " " << num << ") " << pos.X() << " " << pos.Y() << " " << dir << " " << vel.X() << " " << vel.Y() << ")";
+    mCommandInfo.mString = cmd_str.str();
+}
+
+MoveBall::MoveBall(const Agent & agent): BasicCommand(agent)
+{
+    mCommandInfo.mType = CT_MoveBall;
+    mCommandInfo.mMutex = false;
+}
+
+void MoveBall::Plan(Vector pos, Vector vel)
+{
+    mCommandInfo.mTime = mAgent.GetWorldState().CurrentTime();
+    std::ostringstream cmd_str;
+    cmd_str << "(move (ball) " << pos.X() << " " << pos.Y() << " " << " 0 " << vel.X() << " " << vel.Y() << ")";
+    mCommandInfo.mString = cmd_str.str();
+ }
+
+Look::Look(const Agent & agent): BasicCommand(agent)
+{
+    mCommandInfo.mType = CT_Look;
+    mCommandInfo.mMutex = false;
+}
+
+void Look::Plan()
+{
+    mCommandInfo.mTime = mAgent.GetWorldState().CurrentTime();
+    std::ostringstream cmd_str;
+    cmd_str << "(look)";
+    mCommandInfo.mString = cmd_str.str();
+}
+
+TeamNames::TeamNames(const Agent & agent): BasicCommand(agent)
+{
+    mCommandInfo.mType = CT_TeamNames;
+    mCommandInfo.mMutex = false;
+}
+
+void TeamNames::Plan()
+{
+    mCommandInfo.mTime = mAgent.GetWorldState().CurrentTime();
+    std::ostringstream cmd_str;
+    cmd_str << "(team_names)";
+    mCommandInfo.mString = cmd_str.str();
+}
+
+Recover::Recover(const Agent & agent): BasicCommand(agent)
+{
+    mCommandInfo.mType = CT_Recover;
+    mCommandInfo.mMutex = false;
+}
+
+void Recover::Plan()
+{
+    mCommandInfo.mTime = mAgent.GetWorldState().CurrentTime();
+    std::ostringstream cmd_str;
+    cmd_str << "(recover)";
+    mCommandInfo.mString = cmd_str.str();
+}
+
+CheckBall::CheckBall(const Agent & agent): BasicCommand(agent)
+{
+    mCommandInfo.mType = CT_CheckBall;
+    mCommandInfo.mMutex = false;
+}
+
+void CheckBall::Plan()
+{
+    mCommandInfo.mTime = mAgent.GetWorldState().CurrentTime();
+    std::ostringstream cmd_str;
+    cmd_str << "(check_ball)";
+    mCommandInfo.mString = cmd_str.str();
+}
+
+
+
+
+

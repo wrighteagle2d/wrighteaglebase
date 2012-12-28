@@ -1,7 +1,7 @@
 /************************************************************************************
  * WrightEagle (Soccer Simulation League 2D)                                        *
- * BASE SOURCE CODE RELEASE 2010                                                    *
- * Copyright (c) 1998-2010 WrightEagle 2D Soccer Simulation Team,                   *
+ * BASE SOURCE CODE RELEASE 2013                                                    *
+ * Copyright (c) 1998-2013 WrightEagle 2D Soccer Simulation Team,                   *
  *                         Multi-Agent Systems Lab.,                                *
  *                         School of Computer Science and Technology,               *
  *                         University of Science and Technology of China            *
@@ -404,6 +404,16 @@ public:
 	bool SetSynchSeeAction();
 	bool SetChangePlayerTypeAction(Unum num, int player_type);
 
+	bool SetChangePlayerTypeAction(std::string teamname,Unum num, int player_type);
+	bool SetStartAction();
+	bool SetChangePlayModeAction(ServerPlayMode spm);
+	bool SetMoveBallAction(Vector pos, Vector vel);
+	bool SetMovePlayerAction(std::string team_name, Unum num, Vector pos, Vector vel, AngleDeg dir);
+	bool SetLookAction();
+	bool SetTeamNamesAction();
+	bool SetRecoverAction();
+	bool SetCheckBallAction();
+
 	/**
 	 * Each of the following methods provides an interface to get the number of times a certain action
 	 * has been executed.
@@ -427,6 +437,8 @@ public:
 	int GetClangCount() const { return mClangCount; }
 	int GetEarCount() const { return mEarCount; }
 	int GetSynchSeeCount() const { return mSynchSeeCount; }
+
+	int GetChangePlayerTypeCount() const { return mChangePlayerTypeCount; }
 
 	/**
 	 * If the commands queue includes turn, dash, kick, tackle, catch or move.
@@ -456,6 +468,15 @@ public:
 	bool IsEar() const { return mIsEar; }
 	bool IsSynchSee() const { return mIsSynchSee; }
 	bool IsChangePlayerType() const { return mIsChangePlayerType; }
+
+	bool IsStart() const { return mIsStart; }
+	bool IsChangePlayMode() const { return mIsChangePlayMode; }
+	bool IsMovePlayer() const { return mIsMovePlayer; }
+	bool IsMoveBall() const { return mIsMoveBall; }
+	bool IsLook() const { return mIsLook; }
+	bool IsTeamNames() const { return mIsTeamNames; }
+	bool IsRecover() const { return mIsRecover; }
+	bool IsCheckBall() const { return mIsCheckBall; }
 
 	bool IsSayMissed() const { return mIsSayMissed; }
     CommandType GetLastCommandType() const { return mLastCommandType; }
@@ -562,6 +583,15 @@ public:
 	SynchSee    mSynchSee;
 	ChangePlayerType mChangePlayerType;
 
+	Start		mStart;
+	ChangePlayMode	mChangePlayMode;
+	MovePlayer	mMovePlayer;
+	MoveBall	mMoveBall;
+	Look		mLook;
+	TeamNames	mTeamNames;
+	Recover		mRecover;
+	CheckBall	mCheckBall;
+
 	int         mTurnCount;
 	int         mDashCount;
 	int         mTurnNeckCount;
@@ -605,6 +635,15 @@ public:
 	bool        mIsEar;
 	bool        mIsSynchSee;
 	bool        mIsChangePlayerType;
+
+	bool		mIsStart;
+	bool	 	mIsChangePlayMode;
+	bool		mIsMovePlayer;
+	bool		mIsMoveBall;
+	bool		mIsLook;
+	bool		mIsTeamNames;
+	bool		mIsRecover;
+	bool		mIsCheckBall;
 
 	bool		mIsSayMissed;
     CommandType mLastCommandType; // 上周期执行的互斥原子动作类型，暂时只考虑kick, dash, move, turn

@@ -1,7 +1,7 @@
 /************************************************************************************
  * WrightEagle (Soccer Simulation League 2D)                                        *
- * BASE SOURCE CODE RELEASE 2010                                                    *
- * Copyright (c) 1998-2010 WrightEagle 2D Soccer Simulation Team,                   *
+ * BASE SOURCE CODE RELEASE 2013                                                    *
+ * Copyright (c) 1998-2013 WrightEagle 2D Soccer Simulation Team,                   *
  *                         Multi-Agent Systems Lab.,                                *
  *                         School of Computer Science and Technology,               *
  *                         University of Science and Technology of China            *
@@ -147,6 +147,8 @@ private:
 	static const char TEAM_NAME[];
 	static const char OPPONENT_TEAM_NAME[];
 	static const char HETERO_TEST_MODEL[];
+	
+	static const char TRAIN_DATA_FILE[];
 
 	static const int DEFAULT_PLAYER_TYPES;
 	static const int DEFAULT_SUBS_MAX;
@@ -248,6 +250,9 @@ private:
 	//private
 	std::string M_player_conf_file;
 	std::string M_log_dir;
+
+	std::string M_train_data_file;
+
 	std::string M_team_name;
 	int M_team_name_len;
 	std::string M_opponent_team_name;
@@ -256,6 +261,9 @@ private:
 	int M_our_goalie_unum;
 	bool M_is_goalie;
 	bool M_is_coach;
+	
+	bool M_is_trainer;
+	
 	double M_player_version;
 	double M_coach_version;
 
@@ -517,6 +525,8 @@ public:
 	const int & teamNameLen() const { return M_team_name_len; }
 	const std::string & opponentTeamName() const { return M_opponent_team_name; }
 
+	const std::string & trainDataFile() const { return M_train_data_file; }
+
 	void setOpponentTeamName(const char *name) 
 	{ 
 		M_opponent_team_name = std::string(name);
@@ -527,6 +537,9 @@ public:
 	const int & ourGoalieUnum() const { return M_our_goalie_unum; } //这个量在决策层不应该使用，否则反算对手时会出错
 	const bool & isGoalie() const { return M_is_goalie; } //这个量在决策层不应该使用，否则反算对手时会出错
 	const bool & isCoach() const { return M_is_coach; }
+	
+	const bool & isTrainer() const { return M_is_trainer;}
+	
 	const double & playerVersion() const { return M_player_version; }
 	const double & coachVersion() const { return M_coach_version; }
 
@@ -591,6 +604,7 @@ private:
 	static const int SETPLAY_REINFORCE_PLAYERS;
 
 	bool mDynamicDebugMode; // DynamicDebug模式
+	bool mForcePenaltyMode; //利用trainer强制进入penalty模式
 	bool mSaveServerMessage; // 是否保存server的信息，用于动态调试
 	bool mSaveSightLog; // 是否保存sight_log
 	bool mSaveDecLog; // 是否保存dec_log
@@ -627,6 +641,7 @@ private:
 
 public:
 	const bool & DynamicDebugMode() const { return mDynamicDebugMode; }
+	const bool & ForcePenaltyMode() const { return mForcePenaltyMode; }
 	const bool & SaveServerMessage() const { return mSaveServerMessage; }
 	const bool & SaveSightLog() const { return mSaveSightLog; }
 	const bool & SaveDecLog() const { return mSaveDecLog; }

@@ -1,7 +1,7 @@
 /************************************************************************************
  * WrightEagle (Soccer Simulation League 2D)                                        *
- * BASE SOURCE CODE RELEASE 2010                                                    *
- * Copyright (c) 1998-2010 WrightEagle 2D Soccer Simulation Team,                   *
+ * BASE SOURCE CODE RELEASE 2013                                                    *
+ * Copyright (c) 1998-2013 WrightEagle 2D Soccer Simulation Team,                   *
  *                         Multi-Agent Systems Lab.,                                *
  *                         School of Computer Science and Technology,               *
  *                         University of Science and Technology of China            *
@@ -63,7 +63,7 @@ SightLogger::SightLogger(Observer *observer, WorldState *world_state)
 	mTeamState_dirty = true;
 
 	char file_name[256];
-	sprintf( file_name, "%s/%s-%d-sight.log", PlayerParam::instance().logDir().c_str(), PlayerParam::instance().teamName().c_str(), mpObserver->MyUnum());
+	sprintf( file_name, "%s/%s-%d-sight.log", PlayerParam::instance().logDir().c_str(), PlayerParam::instance().teamName().c_str(), mpObserver->SelfUnum());
 	os.open(file_name);
 	if (!os.good()){
 		PRINT_ERROR("open sight log file error");
@@ -331,7 +331,7 @@ TextLogger::TextLogger(Observer* observer, const char* log_name)
 	Assert(std::string(log_name) != std::string("msg"));
 	Assert(std::string(log_name) != std::string("sight"));
 
-	sprintf( file_name, "Logfiles/%s-%d-%s.log", PlayerParam::instance().teamName().c_str(), observer->MyUnum(), log_name);
+	sprintf( file_name, "Logfiles/%s-%d-%s.log", PlayerParam::instance().teamName().c_str(), observer->SelfUnum(), log_name);
 	os.open(file_name);
 	if (!os.good()){
 		PRINT_ERROR("open log file error");

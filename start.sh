@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # WrightEagle (Soccer Simulation League 2D)                                       
-# BASE SOURCE CODE RELEASE 2010                                                   
-# Copyright (c) 1998-2010 WrightEagle 2D Soccer Simulation Team,                  
+# BASE SOURCE CODE RELEASE 2013                                                   
+# Copyright (c) 1998-2013 WrightEagle 2D Soccer Simulation Team,                  
 #                         Multi-Agent Systems Lab.,                               
 #                         School of Computer Science and Technology,              
 #                         University of Science and Technology of China           

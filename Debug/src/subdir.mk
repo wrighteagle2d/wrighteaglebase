@@ -57,6 +57,7 @@ CPP_SRCS += \
 ../src/Tackler.cpp \
 ../src/Thread.cpp \
 ../src/TimeTest.cpp \
+../src/Trainer.cpp \
 ../src/Types.cpp \
 ../src/UDPSocket.cpp \
 ../src/Utilities.cpp \
@@ -119,6 +120,7 @@ OBJS += \
 ./src/Tackler.o \
 ./src/Thread.o \
 ./src/TimeTest.o \
+./src/Trainer.o \
 ./src/Types.o \
 ./src/UDPSocket.o \
 ./src/Utilities.o \
@@ -181,6 +183,7 @@ CPP_DEPS += \
 ./src/Tackler.d \
 ./src/Thread.d \
 ./src/TimeTest.d \
+./src/Trainer.d \
 ./src/Types.d \
 ./src/UDPSocket.d \
 ./src/Utilities.d \
@@ -194,7 +197,7 @@ CPP_DEPS += \
 src/%.o: ../src/%.cpp
 	@echo 'Building file: $<'
 	@echo 'Invoking: GCC C++ Compiler'
-	g++ -D_Debug -O0 -g3 -Wall -c -fmessage-length=0 -pipe -W -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
+	g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 

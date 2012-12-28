@@ -1,7 +1,7 @@
 /************************************************************************************
  * WrightEagle (Soccer Simulation League 2D)                                        *
- * BASE SOURCE CODE RELEASE 2010                                                    *
- * Copyright (c) 1998-2010 WrightEagle 2D Soccer Simulation Team,                   *
+ * BASE SOURCE CODE RELEASE 2013                                                    *
+ * Copyright (c) 1998-2013 WrightEagle 2D Soccer Simulation Team,                   *
  *                         Multi-Agent Systems Lab.,                                *
  *                         School of Computer Science and Technology,               *
  *                         University of Science and Technology of China            *
@@ -184,6 +184,9 @@ private:
 	void ParseSense(char *msg);
 	void ParseSight(char *msg);
 	void ParseSight_Coach(char *msg);
+	
+	bool ParseForTrainer(char *msg);
+	
 	void ParseSound(char *msg);
 	void ParseChangePlayerType(char *msg);
 	void ParseCard(char *msg);
@@ -263,6 +266,7 @@ private:
 	bool mClangOk;
 	bool mSynchOk;
 	bool mEyeOnOk; //only used when is coach
+	bool mEarOnOk;
 	PlayerArray<bool, true> mChangePlayerTypeOk;
 
 	static char mBuf[MAX_MESSAGE];
@@ -272,6 +276,7 @@ public:
 	bool IsClangOk() { bool ret; mOkMutex.Lock(); ret = mClangOk; mOkMutex.UnLock(); return ret; }
 	bool IsSyncOk() { bool ret; mOkMutex.Lock(); ret = mSynchOk; mOkMutex.UnLock(); return ret; }
 	bool IsEyeOnOk() { bool ret; mOkMutex.Lock(); ret = mEyeOnOk; mOkMutex.UnLock(); return ret; }
+	bool IsEarOnOk() { bool ret; mOkMutex.Lock(); ret = mEarOnOk; mOkMutex.UnLock(); return ret; }
 	bool IsChangePlayerTypeOk(Unum i) { bool ret; mOkMutex.Lock(); ret = mChangePlayerTypeOk[i]; mOkMutex.UnLock(); return ret; }
 
 	static bool IsPlayerTypesReady() { return mIsPlayerTypesReady; }

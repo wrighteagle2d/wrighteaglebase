@@ -1,7 +1,7 @@
 /************************************************************************************
  * WrightEagle (Soccer Simulation League 2D)                                        *
- * BASE SOURCE CODE RELEASE 2010                                                    *
- * Copyright (c) 1998-2010 WrightEagle 2D Soccer Simulation Team,                   *
+ * BASE SOURCE CODE RELEASE 2013                                                    *
+ * Copyright (c) 1998-2013 WrightEagle 2D Soccer Simulation Team,                   *
  *                         Multi-Agent Systems Lab.,                                *
  *                         School of Computer Science and Technology,               *
  *                         University of Science and Technology of China            *
@@ -62,6 +62,7 @@ Parser::Parser(Observer *p_observer)
 	mClangOk = false;
 	mSynchOk = false;
 	mEyeOnOk = false;
+	mEarOnOk = false;
 
 	mLastServerPlayMode = SPM_Null;
 
@@ -71,6 +72,12 @@ Parser::Parser(Observer *p_observer)
 		UDPSocket::instance().Initial(
 				ServerParam::instance().serverHost().c_str(),
 				ServerParam::instance().onlineCoachPort()
+		);
+	}
+	else if (PlayerParam::instance().isTrainer()) {
+		UDPSocket::instance().Initial(
+				ServerParam::instance().serverHost().c_str(),
+				ServerParam::instance().offlineCoachPort()
 		);
 	}
 	else {
@@ -139,6 +146,10 @@ void Parser::SendInitialLizeMsg(){
 		init_string << "(init " << PlayerParam::instance().teamName() <<
 				" (version " << PlayerParam::instance().playerVersion() << ") (goalie))";
 	}
+	else if ( PlayerParam::instance().isTrainer()) {
+		init_string << "(init " <<
+				" (version " << PlayerParam::instance().playerVersion() << "))";
+	}
 	else {
 		init_string << "(init " << PlayerParam::instance().teamName() <<
 				" (version " << PlayerParam::instance().playerVersion() << "))";
@@ -164,6 +175,17 @@ bool Parser::ParseInitializeMsg(const char *msg)
 			return false;
 		}
 	}
+	else if ( PlayerParam::instance().isTrainer()) {
+		if ( !(strcmp(msg,"(init ok)"))) { //initialize message
+			//初始信息没有我们的信息，Trainer是全局的
+		}
+		else {
+			return false;
+		}
+		my_side = 'l';			//设定trainer是我方的
+		my_unum = TRAINER_UNUM ;//设定trainer的号码为12号
+		play_mode[0] = 'b';
+	}
 	else {
 		if ( !(strncmp(msg,"(init", 4))) { //initialize message
 			sscanf(msg,"(init %c %d %[^)]",&my_side, &my_unum, play_mode);
@@ -175,7 +197,7 @@ bool Parser::ParseInitializeMsg(const char *msg)
 
 	mpObserver->SetOurInitSide(my_side);
 	mpObserver->SetOurSide(my_side);
-	mpObserver->SetMyNumber(my_unum);
+	mpObserver->SetSelfUnum(my_unum);
 	++ mHalfTime;
 	if ( play_mode[0] == 'b' || PlayerParam::instance().isCoach()){ /* Before_kick_off */
 		mpObserver->SetPlayMode(PM_Before_Kick_Off);
@@ -245,7 +267,7 @@ void Parser::Parse(char *msg)
 	case Sight_Msg: ParseTime(msg, &time_end, false); ParseSight(time_end); mpObserver->SetNewSight(); break;
 	case CoachSight_Msg: ParseTime(msg, &time_end, true); ParseSight_Coach(time_end); mpObserver->SetNewSight(); break;
 	case Sense_Msg: ParseTime(msg, &time_end, true); ParseSense(time_end); mpObserver->SetNewSense(); break;
-	case Hear_Msg: ParseTime(msg, &time_end, true); ParseSound(time_end); break;
+	case Hear_Msg: if(!ParseForTrainer(msg)){ ParseTime(msg, &time_end, true); ParseSound(time_end); }break;
 	case PlayerParam_Msg: ParsePlayerParam(msg); break;
 	case ServerParam_Msg: ParseServerParam(msg); break;
 	case Disp_Msg: /*TODO: process disp message */ break;
@@ -270,7 +292,7 @@ void Parser::ParseTime(char *msg, char **end_ptr, bool is_new_cycle)
 	RealTime real_time = GetRealTimeParser();
 
 	if (mpObserver->IsPlanned()) { // -- 决策完了，才收到信息
-		std::cerr << "# " << mpObserver->MyUnum() << " @ " << mpObserver->CurrentTime() << " got a deprecated message" << std::endl;
+		std::cerr << "# " << mpObserver->SelfUnum() << " @ " << mpObserver->CurrentTime() << " got a deprecated message" << std::endl;
 	}
 
 	if (is_new_cycle == true)
@@ -304,7 +326,7 @@ void Parser::ParseTime(char *msg, char **end_ptr, bool is_new_cycle)
 			mpObserver->SetCurrentTime(Time(time, 0));
 			mpObserver->SetLastCycleBeginRealTime(real_time - ServerParam::instance().synchOffset());
 
-			PRINT_ERROR("Player " << mpObserver->MyUnum() << " miss a sense at " << mpObserver->CurrentTime());
+			PRINT_ERROR("Player " << mpObserver->SelfUnum() << " miss a sense at " << mpObserver->CurrentTime());
 		}
 	}
 }
@@ -906,7 +928,7 @@ Parser::ObjProperty_Coach Parser::ParseObjProperty_Coach(char *msg)
 
 void Parser::ParseSense(char *msg)
 {
-	if (!PlayerParam::instance().isCoach())
+	if (!PlayerParam::instance().isCoach() || !PlayerParam::instance().isTrainer())
 	{
 		TimeTest::instance().Update(mpObserver->CurrentTime()); // player每周期都有sense
 	}
@@ -1119,7 +1141,15 @@ void Parser::ParseOkMsg(char *msg)
 		switch(msg[1])
 		{
 		case 'l': mOkMutex.Lock(); mClangOk = true; mOkMutex.UnLock(); break;
-		case 'h': mOkMutex.Lock(); mChangePlayerTypeOk[parser::get_int(msg)] = true; mOkMutex.UnLock(); break;
+		case 'h':
+			/*
+			mOkMutex.Lock(); mChangePlayerTypeOk[parser::get_int(msg)] = true; mOkMutex.UnLock(); break;
+			*/
+				  mOkMutex.Lock();
+				  if((!(mpObserver->SelfUnum() == TRAINER_UNUM)) || std::strncmp(parser::get_next_word(&msg), "WrightEagleBASE", 15) == 0) //Trainer接收到的信息包括己方和敌方，现在只处理己方
+					  mChangePlayerTypeOk[parser::get_int(msg)] = true;
+				  mOkMutex.UnLock();
+				  break;
 		default: PRINT_ERROR("unknow ok message " << msg); break;
 		}
 		break;
@@ -1131,24 +1161,37 @@ void Parser::ParseOkMsg(char *msg)
 			default: PRINT_ERROR("unknow ok message " << msg); break;
 			}
 			break;
-			case 'e': mOkMutex.Lock(); mEyeOnOk = true; mOkMutex.UnLock(); break;
-			//case 't': mOkMutex.Lock(); ParseOkTeamGraphic(msg); mOkMutex.UnLock(); return; // return directly ...
+//			case 'e': mOkMutex.Lock(); mEyeOnOk = true; mOkMutex.UnLock(); break;
+		case 'e':
+			switch(msg[1])
+			{
+			case 'y': mOkMutex.Lock(); mEyeOnOk = true; mOkMutex.UnLock(); break;
+			case 'a': mOkMutex.Lock(); mEarOnOk = true; mOkMutex.UnLock(); break;
 			default: PRINT_ERROR("unknow ok message " << msg); break;
+			}
+			break;
+		case 'm':
+		case 'r': /*std::cout << "#" << PlayerParam::instance().teamName() << " Trainer: (" << msg << std::endl;*/ break;
+		default: PRINT_ERROR("unknow ok message " << msg); break;
 	}
 
-	if (is_ok_say && PlayerParam::instance().isCoach())
+	if (is_ok_say && (PlayerParam::instance().isCoach() || PlayerParam::instance().isTrainer()))
 	{
 		mpObserver->SetCoachSayCount(mpObserver->GetCoachSayCount() + 1);
 	}
 	else
 	{
-		if (mpObserver->MyUnum() == 0)
+		if (mpObserver->SelfUnum() == 0)
 		{
 			std::cout << "#" << PlayerParam::instance().teamName() << " Coach: (" << msg << std::endl;
 		}
+		else if (mpObserver->SelfUnum() == TRAINER_UNUM )
+		{
+			/*std::cout << "#" << PlayerParam::instance().teamName() << " Trainer: (" << msg << std::endl;*/
+		}
 		else
 		{
-			std::cout << "#" << PlayerParam::instance().teamName() << " " << mpObserver->MyUnum() << ": (" << msg << std::endl;
+			std::cout << "#" << PlayerParam::instance().teamName() << " " << mpObserver->SelfUnum() << ": (" << msg << std::endl;
 		}
 	}
 }
@@ -1335,7 +1378,7 @@ void Parser::ParsePlayMode(char *msg)
 
 	if (pm == PM_Penalty_On_Our_Field)
 	{
-		if (mpObserver->MyUnum() != PlayerParam::instance().ourGoalieUnum())
+		if (mpObserver->SelfUnum() != PlayerParam::instance().ourGoalieUnum())
 		{
 			mpObserver->SetOurSide((mpObserver->OurInitSide() == 'l') ? 'r' : 'l');
 			mpObserver->Initialize();
@@ -1343,7 +1386,7 @@ void Parser::ParsePlayMode(char *msg)
 	}
 	else if (pm == PM_Penalty_On_Opp_Field)
 	{
-		if (mpObserver->MyUnum() == PlayerParam::instance().ourGoalieUnum())
+		if (mpObserver->SelfUnum() == PlayerParam::instance().ourGoalieUnum())
 		{
 			mpObserver->SetOurSide((mpObserver->OurInitSide() == 'l') ? 'r' : 'l');
 			mpObserver->Initialize();
@@ -1442,7 +1485,7 @@ void Parser::ParseCard(char *msg)
 
 void Parser::ParseSight_Coach(char *msg)
 {
-	if (PlayerParam::instance().isCoach())
+	if (PlayerParam::instance().isCoach() || PlayerParam::instance().isTrainer())
 	{
 		TimeTest::instance().Update(mpObserver->CurrentTime()); // coach每周期都有sight
 	}
@@ -1534,3 +1577,25 @@ void Parser::ParseSight_Coach(char *msg)
 	}
 }
 
+bool Parser::ParseForTrainer(char *msg)
+{
+	char *end;
+	int n;
+	static char buffer[MAX_MESSAGE];
+
+	if (msg[6] == 'r') // 跳过括号和hear，referee
+	{
+		ParseTime(msg, &msg, true);
+		parser::get_word(&msg);
+		end = msg;
+		while (*end != ')') end++;
+		n = end - msg;
+		strncpy(buffer, msg, n * sizeof(char));
+		buffer[n] = '\0';
+
+		ParseRefereeMsg(buffer);
+		return true;
+	}
+	else
+		return false;
+}
