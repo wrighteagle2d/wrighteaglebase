@@ -19,9 +19,9 @@ echo ""
 HOST="127.0.0.1"
 PORT="6000"
 VERSION="Release"
-BINARY="WrightEagleBASE"
-TEAM_NAME="WrightEagleBASE"
-OPP_DIR="/home/test/src"
+BINARY="WEBase"
+TEAM_NAME="WEBase"
+OPP_DIR="/home/test"
 SELF_DIR=`pwd`
 PLAYER_SEED=-1
 TRAIN_DIR="./train"

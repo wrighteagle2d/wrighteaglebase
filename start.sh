@@ -33,8 +33,8 @@
 HOST="localhost"
 PORT="6000"
 VERSION="Release"
-BINARY="WrightEagleBASE"
-TEAM_NAME="WrightEagleBASE"
+BINARY="WEBase"
+TEAM_NAME="WEBase"
 
 while getopts  "h:p:v:b:t:" flag; do
     case "$flag" in

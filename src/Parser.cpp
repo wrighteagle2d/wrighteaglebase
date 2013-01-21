@@ -1146,7 +1146,7 @@ void Parser::ParseOkMsg(char *msg)
 			mOkMutex.Lock(); mChangePlayerTypeOk[parser::get_int(msg)] = true; mOkMutex.UnLock(); break;
 			*/
 				  mOkMutex.Lock();
-				  if((!(mpObserver->SelfUnum() == TRAINER_UNUM)) || std::strncmp(parser::get_next_word(&msg), "WrightEagleBASE", 15) == 0) //Trainer接收到的信息包括己方和敌方，现在只处理己方
+				  if((!(mpObserver->SelfUnum() == TRAINER_UNUM)) || std::strncmp(parser::get_next_word(&msg), PlayerParam::instance().teamName().c_str(), 3) == 0) //Trainer接收到的信息包括己方和敌方，现在只处理己方
 					  mChangePlayerTypeOk[parser::get_int(msg)] = true;
 				  mOkMutex.UnLock();
 				  break;

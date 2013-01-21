@@ -24,8 +24,8 @@
 #$1: player unum, < 0 means run all player one by one
 
 DYNAMICDEBUG_TXT="dynamicdebug.txt"
-BINARY="WrightEagleBASE"
-TEAMNAME="WrightEagleBASE"
+BINARY="WEBase"
+TEAMNAME="WEBase"
 COACH_UNUM="0"
 GOALIE_UNUM="1"
 TRAINER_UNUM="12"
