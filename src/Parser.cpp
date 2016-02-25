@@ -259,6 +259,7 @@ void Parser::Parse(char *msg)
 		default: msg_type = None_Msg; break;
 		}
 		break;
+  case 't': msg_type = Think_Msg; break;            /* (t hink */
 	default: msg_type = None_Msg; break;
 	}
 
@@ -278,7 +279,8 @@ void Parser::Parse(char *msg)
 	case Score_Msg: /*TODO: process score message*/ break;
 	case Ok_Msg: ParseOkMsg(msg); break;
 	case Initialize_Msg: ParseInitializeMsg(msg); break;
-	case Error_Msg: std::cout << __LINE__ << " Cycle: " << mpObserver->CurrentTime() << "; msg : " << msg << std::endl; break;
+  case Error_Msg: std::cout << mpObserver->SelfUnum() << "@" << mpObserver->CurrentTime() << ": " << msg << std::endl; break;
+  case Think_Msg: mpObserver->SetNewThink(); break;
 	case None_Msg: PRINT_ERROR(mpObserver->CurrentTime() << msg); break;
 	}
 }
@@ -291,9 +293,9 @@ void Parser::ParseTime(char *msg, char **end_ptr, bool is_new_cycle)
 
 	RealTime real_time = GetRealTimeParser();
 
-	if (mpObserver->IsPlanned()) { // -- 决策完了，才收到信息
+	/* if (mpObserver->IsPlanned()) { // -- 决策完了，才收到信息
 		std::cerr << "# " << mpObserver->SelfUnum() << " @ " << mpObserver->CurrentTime() << " got a deprecated message" << std::endl;
-	}
+	}*/
 
 	if (is_new_cycle == true)
 	{

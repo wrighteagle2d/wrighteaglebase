@@ -722,16 +722,19 @@ public:
 	 * synch with parser thread
 	 */
 	bool WaitForNewInfo();
+
 	bool WaitForNewSense();
 	bool WaitForNewSight();
+	bool WaitForNewThink();
 	bool WaitForCommandSend();
-    bool WaitForCoachNewHear(); // coach用来等待hear信息
+	bool WaitForCoachNewHear(); // coach用来等待hear信息
 	void SetNewSense();
 	void SetNewSight();
+	void SetNewThink();
 	void SetCommandSend();
 	void Lock() { mUpdateMutex.Lock(); };
 	void UnLock() { mUpdateMutex.UnLock(); }
-	bool IsNewSight() { return mIsNewSight;}
+	bool IsNewSight() const { return mIsNewSight;}
 
 	RealTime GetLastCycleBeginRealTime() const      { return mLastCycleBeginRealTime; }
 	void SetLastCycleBeginRealTime(RealTime time)   { mLastCycleBeginRealTime = time; }
@@ -750,13 +753,16 @@ private:
     bool            mIsBeginDecision;
 	bool            mIsNewSense;
 	bool            mIsNewSight; //判断是否有视觉 add by tai （9/7/08)
+	bool            mIsNewThink;
 	bool            mIsCommandSend;
 	bool            mIsPlanned;  //本周期已经决策过了
 	bool            mIsNewHear;
 	bool            mSenseArrived; //有sense信息到来
 	bool            mSightArrived;
+	bool            mThinkArrived;
 	ThreadCondition mCondNewSense;
 	ThreadCondition mCondNewSight;
+	ThreadCondition mCondNewThink;
 	ThreadCondition mCondCommandSend;
 	ThreadCondition mCondCoachNewHear; //只有当自己是coach时才用这个量
 

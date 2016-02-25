@@ -141,7 +141,8 @@ enum ServerMsgType
     Clang_Msg,
 	PlayerType_Msg,
 	Error_Msg,
-    Disp_Msg,
+	Think_Msg,
+	Disp_Msg,
 	Ok_Msg,
 	Score_Msg,
 	Initialize_Msg

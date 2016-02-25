@@ -116,7 +116,11 @@ void Player::Run()
 	VisualSystem::instance().Decision();
 	CommunicateSystem::instance().Decision();
 
-    mpAgent->SetHistoryActiveBehaviors();
+	if (ServerParam::instance().synchMode()) {
+		mpAgent->Done();
+	}
+
+	mpAgent->SetHistoryActiveBehaviors();
 
 	Logger::instance().LogSight();
 }

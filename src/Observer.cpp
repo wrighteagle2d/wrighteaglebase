@@ -56,6 +56,7 @@ Observer::Observer()
     mIsBeginDecision = false;
 	mSenseArrived = false;
 	mSightArrived = false;
+	mThinkArrived = false;
 
 	mBallKickTime = Time(-3, 0);
 	mBallPosByKick = Vector(0.0, 0.0);
@@ -192,6 +193,7 @@ void Observer::Reset()
 	mIsNewHear = false;
 	mIsNewSense = false;
 	mIsNewSight = false;
+mIsNewThink = false;
 /*
 	mUnknownPlayerCount = 0;
 
@@ -560,18 +562,41 @@ void Observer::HearTeammateSay(AngleDeg hear_dir, Unum hear_unum, const std::str
 //==============================================================================
 bool Observer::WaitForNewInfo()
 {
+	Lock();
 	Reset();
+	UnLock();
 
 	bool flag = false;
-	if (PlayerParam::instance().isCoach() || PlayerParam::instance().isTrainer()){
-		flag = WaitForNewSight(); //see_global 信息
-		WaitForCoachNewHear();
+	if (ServerParam::instance().synchMode()) {
+		flag = WaitForNewThink();
 	}
 	else {
-		flag = WaitForNewSense(); //首先等到sense信息，然后在花40毫秒等一下hear和sight
-		WaitForNewSight();
+		if (PlayerParam::instance().isCoach() || PlayerParam::instance().isTrainer()) {
+			flag = WaitForNewSight(); //see_global 信息
+			WaitForCoachNewHear();
+		}
+		else {
+			flag = WaitForNewSense(); //首先等到sense信息，然后在花40毫秒等一下hear和sight
+			WaitForNewSight();
+		}
 	}
+
 	return flag;
+}
+
+bool Observer::WaitForNewThink()
+{
+	int max_time = PlayerParam::instance().WaitTimeOut() * 1000 * ServerParam::instance().slowDownFactor();
+
+	bool ret = true;
+	if (mThinkArrived == false) {
+		bool timeout = mCondNewThink.Wait(max_time);
+		if (timeout) {
+			ret = false;
+		}
+	}
+	mThinkArrived = false;
+	return ret;
 }
 
 
@@ -660,16 +685,25 @@ void Observer::SetNewSense()
 	mIsNewSense = true;
 	mSenseArrived = true;
 	mSightArrived = false; // sight不可能比sense更早到，在这里暂时修正一下，rcssserver-13.0出来后再改
-	ResetSight();
+    mThinkArrived = false;	
+    ResetSight();
 	mCondNewSense.Set();
 }
 
+void Observer::SetNewThink()
+{
+	mIsNewThink = true;
+	mSightArrived = true;
+	mThinkArrived = true;
+	mCondNewThink.Set();
+}
 
 //==============================================================================
 void Observer::SetNewSight()
 {
 	mIsNewSight = true;
 	mSightArrived = true;
+	mThinkArrived = false;
 	mCondNewSight.Set();
 }
 

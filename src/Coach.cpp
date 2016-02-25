@@ -195,5 +195,9 @@ void Coach::Run()
 
 	//do planning...
 
+	if (ServerParam::instance().synchMode()) {
+		mpAgent->Done();
+	}
+
 	Logger::instance().LogSight();
 }
