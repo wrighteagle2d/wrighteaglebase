@@ -258,52 +258,71 @@ void WorldStateUpdater::UpdateWorldState()
 	/**更新场上的状态*/
 	UpdateFieldInfo();
 
-	if (PlayerParam::instance().isCoach() || PlayerParam::instance().isTrainer()){
-		if (mpObserver->OurSide() == 'l'){ //server发过来的信息坐标与自己一致
-			Ball().UpdatePos(mpObserver->Ball_Coach().GetPos(), 0, 1.0);
-			Ball().UpdateVel(mpObserver->Ball_Coach().GetVel(), 0, 1.0);
+	if (PlayerParam::instance().isCoach() || PlayerParam::instance().isTrainer() || mpObserver->mReceiveFullstateMsg) {
+		if (mpObserver->mReceiveFullstateMsg) {
+			SelfState().SetIsAlive(true);
+			SelfState().UpdateIsSensed(true); // “真正”的自己
+		}
+
+		if (mpObserver->OurSide() == 'l') { //server发过来的信息坐标与自己一致
+			Ball().UpdatePos(mpObserver->Ball_Fullstate().GetPos(), 0, 1.0);
+			Ball().UpdateVel(mpObserver->Ball_Fullstate().GetVel(), 0, 1.0);
 
 			for (Unum i = 1;i <= TEAMSIZE;i++)
 			{
-				Teammate(i).SetIsAlive(mpObserver->Teammate_Coach(i).IsAlive());
+				Teammate(i).SetIsAlive(mpObserver->Teammate_Fullstate(i).IsAlive());
 				Teammate(i).UpdatePlayerType(mpObserver->GetTeammateType(i));
-				Teammate(i).UpdatePos(mpObserver->Teammate_Coach(i).GetPos(), 0, 1.0);
-				Teammate(i).UpdateVel(mpObserver->Teammate_Coach(i).GetVel(), 0, 1.0);
-				Teammate(i).UpdateBodyDir(mpObserver->Teammate_Coach(i).GetBodyDir(), 0, 1.0);
-				Teammate(i).UpdateNeckDir(mpObserver->Teammate_Coach(i).GetNeckDir(), 0, 1.0);
-				Teammate(i).UpdateCardType(mpObserver->Teammate_Coach(i).GetCardType());
+				Teammate(i).UpdatePos(mpObserver->Teammate_Fullstate(i).GetPos(), 0, 1.0);
+				Teammate(i).UpdateVel(mpObserver->Teammate_Fullstate(i).GetVel(), 0, 1.0);
+				Teammate(i).UpdateBodyDir(mpObserver->Teammate_Fullstate(i).GetBodyDir(), 0, 1.0);
+				Teammate(i).UpdateNeckDir(mpObserver->Teammate_Fullstate(i).GetNeckDir(), 0, 1.0);
+				Teammate(i).UpdateCardType(mpObserver->Teammate_Fullstate(i).GetCardType());
 				//TODO: arm, tackle lying等，暂时不用 -- TODO
 
-				Opponent(i).SetIsAlive(mpObserver->Opponent_Coach(i).IsAlive());
-				Opponent(i).UpdatePos(mpObserver->Opponent_Coach(i).GetPos(), 0, 1.0);
-				Opponent(i).UpdateVel(mpObserver->Opponent_Coach(i).GetVel(), 0, 1.0);
-				Opponent(i).UpdateBodyDir(mpObserver->Opponent_Coach(i).GetBodyDir(), 0, 1.0);
-				Opponent(i).UpdateNeckDir(mpObserver->Opponent_Coach(i).GetNeckDir(), 0, 1.0);
-				Opponent(i).UpdateCardType(mpObserver->Opponent_Coach(i).GetCardType());
+				Opponent(i).SetIsAlive(mpObserver->Opponent_Fullstate(i).IsAlive());
+				Opponent(i).UpdatePos(mpObserver->Opponent_Fullstate(i).GetPos(), 0, 1.0);
+				Opponent(i).UpdateVel(mpObserver->Opponent_Fullstate(i).GetVel(), 0, 1.0);
+				Opponent(i).UpdateBodyDir(mpObserver->Opponent_Fullstate(i).GetBodyDir(), 0, 1.0);
+				Opponent(i).UpdateNeckDir(mpObserver->Opponent_Fullstate(i).GetNeckDir(), 0, 1.0);
+				Opponent(i).UpdateCardType(mpObserver->Opponent_Fullstate(i).GetCardType());
+
+				if (mpObserver->mReceiveFullstateMsg) {
+					Teammate(i).UpdatePlayerType(mpObserver->Teammate_Fullstate(i).GetPlayerType());
+					Teammate(i).UpdateStamina(mpObserver->Teammate_Fullstate(i).GetStamina());
+					Teammate(i).UpdateEffort(mpObserver->Teammate_Fullstate(i).GetEffort());
+					Teammate(i).UpdateRecovery(mpObserver->Teammate_Fullstate(i).GetRecovery());
+					Teammate(i).UpdateCapacity(mpObserver->Teammate_Fullstate(i).GetCapacity());
+
+					Opponent(i).UpdatePlayerType(mpObserver->Opponent_Fullstate(i).GetPlayerType());
+					Opponent(i).UpdateStamina(mpObserver->Opponent_Fullstate(i).GetStamina());
+					Opponent(i).UpdateEffort(mpObserver->Opponent_Fullstate(i).GetEffort());
+					Opponent(i).UpdateRecovery(mpObserver->Opponent_Fullstate(i).GetRecovery());
+					Opponent(i).UpdateCapacity(mpObserver->Opponent_Fullstate(i).GetCapacity());
+				}
 			}
 		}
 		else {//server发过来的信息坐标与自己相反，因为代码里总是假设自己在左边
-			Ball().UpdatePos(mpObserver->Ball_Coach().GetPos() * -1.0, 0, 1.0);
-			Ball().UpdateVel(mpObserver->Ball_Coach().GetVel() * -1.0, 0, 1.0);
+			Ball().UpdatePos(mpObserver->Ball_Fullstate().GetPos() * -1.0, 0, 1.0);
+			Ball().UpdateVel(mpObserver->Ball_Fullstate().GetVel() * -1.0, 0, 1.0);
 
 			for (Unum i = 1;i <= TEAMSIZE;i++)
 			{
-				Teammate(i).SetIsAlive(mpObserver->Teammate_Coach(i).IsAlive());
+				Teammate(i).SetIsAlive(mpObserver->Teammate_Fullstate(i).IsAlive());
 				Teammate(i).UpdatePlayerType(mpObserver->GetTeammateType(i));
-				Teammate(i).UpdatePos(mpObserver->Teammate_Coach(i).GetPos() * -1.0, 0, 1.0);
-				Teammate(i).UpdateVel(mpObserver->Teammate_Coach(i).GetVel() * -1.0, 0, 1.0);
-				Teammate(i).UpdateBodyDir(GetNormalizeAngleDeg(mpObserver->Teammate_Coach(i).GetBodyDir() + 180.0), 0, 1.0);
-				Teammate(i).UpdateNeckDir(GetNormalizeAngleDeg(mpObserver->Teammate_Coach(i).GetNeckDir() + 180.0), 0, 1.0);
-				Teammate(i).UpdateCardType(mpObserver->Teammate_Coach(i).GetCardType());
+				Teammate(i).UpdatePos(mpObserver->Teammate_Fullstate(i).GetPos() * -1.0, 0, 1.0);
+				Teammate(i).UpdateVel(mpObserver->Teammate_Fullstate(i).GetVel() * -1.0, 0, 1.0);
+				Teammate(i).UpdateBodyDir(GetNormalizeAngleDeg(mpObserver->Teammate_Fullstate(i).GetBodyDir() + 180.0), 0, 1.0);
+				Teammate(i).UpdateNeckDir(GetNormalizeAngleDeg(mpObserver->Teammate_Fullstate(i).GetNeckDir() + 180.0), 0, 1.0);
+				Teammate(i).UpdateCardType(mpObserver->Teammate_Fullstate(i).GetCardType());
 				//TODO: arm, tackle 等，暂时不用
 
-				Opponent(i).SetIsAlive(mpObserver->Opponent_Coach(i).IsAlive());
+				Opponent(i).SetIsAlive(mpObserver->Opponent_Fullstate(i).IsAlive());
 
-				Opponent(i).UpdatePos(mpObserver->Opponent_Coach(i).GetPos() * -1.0, 0, 1.0);
-				Opponent(i).UpdateVel(mpObserver->Opponent_Coach(i).GetVel() * -1.0, 0, 1.0);
-				Opponent(i).UpdateBodyDir(GetNormalizeAngleDeg(mpObserver->Opponent_Coach(i).GetBodyDir() + 180.0), 0, 1.0);
-				Opponent(i).UpdateNeckDir(GetNormalizeAngleDeg(mpObserver->Opponent_Coach(i).GetNeckDir() + 180.0), 0, 1.0);
-				Opponent(i).UpdateCardType(mpObserver->Opponent_Coach(i).GetCardType());
+				Opponent(i).UpdatePos(mpObserver->Opponent_Fullstate(i).GetPos() * -1.0, 0, 1.0);
+				Opponent(i).UpdateVel(mpObserver->Opponent_Fullstate(i).GetVel() * -1.0, 0, 1.0);
+				Opponent(i).UpdateBodyDir(GetNormalizeAngleDeg(mpObserver->Opponent_Fullstate(i).GetBodyDir() + 180.0), 0, 1.0);
+				Opponent(i).UpdateNeckDir(GetNormalizeAngleDeg(mpObserver->Opponent_Fullstate(i).GetNeckDir() + 180.0), 0, 1.0);
+				Opponent(i).UpdateCardType(mpObserver->Opponent_Fullstate(i).GetCardType());
 			}
 		}
 
@@ -315,42 +334,42 @@ void WorldStateUpdater::UpdateWorldState()
 	{
 		// this procedure updates history state and there is a similar procedure in UpdateFromAudio
 		// but updates current state.
-		if (mpObserver->Ball_Coach().GetPosDelay() == 0)
+		if (mpObserver->Ball_Fullstate().GetPosDelay() == 0)
 		{
 			WorldState & history = *mpWorldState->mpHistory->GetHistory(1);
-			history.Ball().UpdatePos(mpObserver->Ball_Coach().GetPos(), 0, 1.0);
+			history.Ball().UpdatePos(mpObserver->Ball_Fullstate().GetPos(), 0, 1.0);
 			history.Ball().UpdateGuessedTimes(0);
-			history.Ball().UpdateVel(mpObserver->Ball_Coach().GetVel(), 0, 1.0);
+			history.Ball().UpdateVel(mpObserver->Ball_Fullstate().GetVel(), 0, 1.0);
 			history.Ball().UpdatePosEps(0);
 			history.Ball().UpdateVelEps(0);
 
 			for (Unum i = 1;i <= TEAMSIZE;i++)
 			{
-				history.Teammate(i).SetIsAlive(mpObserver->Teammate_Coach(i).IsAlive());
-				history.Teammate(i).UpdatePos(mpObserver->Teammate_Coach(i).GetPos(), 0, 1.0);
+				history.Teammate(i).SetIsAlive(mpObserver->Teammate_Fullstate(i).IsAlive());
+				history.Teammate(i).UpdatePos(mpObserver->Teammate_Fullstate(i).GetPos(), 0, 1.0);
 				history.Teammate(i).UpdateGuessedTimes(0);
-				history.Teammate(i).UpdateVel(mpObserver->Teammate_Coach(i).GetVel(), 0, 1.0);
+				history.Teammate(i).UpdateVel(mpObserver->Teammate_Fullstate(i).GetVel(), 0, 1.0);
 				history.Teammate(i).UpdatePosEps(0);
 				history.Teammate(i).UpdateVelEps(0);
-				history.Teammate(i).UpdateBodyDir(mpObserver->Teammate_Coach(i).GetBodyDir(), 0, 1.0);
-				history.Teammate(i).UpdateNeckDir(mpObserver->Teammate_Coach(i).GetNeckDir(), 0, 1.0);
+				history.Teammate(i).UpdateBodyDir(mpObserver->Teammate_Fullstate(i).GetBodyDir(), 0, 1.0);
+				history.Teammate(i).UpdateNeckDir(mpObserver->Teammate_Fullstate(i).GetNeckDir(), 0, 1.0);
 				if (i != mSelfUnum)
 				{
-					history.Teammate(i).UpdateStamina(mpObserver->Teammate_Coach(i).GetStamina());
-					history.Teammate(i).UpdateCapacity(mpObserver->Teammate_Coach(i).GetCapacity());
+					history.Teammate(i).UpdateStamina(mpObserver->Teammate_Fullstate(i).GetStamina());
+					history.Teammate(i).UpdateCapacity(mpObserver->Teammate_Fullstate(i).GetCapacity());
 				}
 
-				history.Opponent(i).SetIsAlive(mpObserver->Opponent_Coach(i).IsAlive());
-				history.Opponent(i).UpdatePlayerType(mpObserver->Opponent_Coach(i).GetPlayerType());
-				history.Opponent(i).UpdatePos(mpObserver->Opponent_Coach(i).GetPos(), 0, 1.0);
+				history.Opponent(i).SetIsAlive(mpObserver->Opponent_Fullstate(i).IsAlive());
+				history.Opponent(i).UpdatePlayerType(mpObserver->Opponent_Fullstate(i).GetPlayerType());
+				history.Opponent(i).UpdatePos(mpObserver->Opponent_Fullstate(i).GetPos(), 0, 1.0);
 				history.Opponent(i).UpdateGuessedTimes(0);
-				history.Opponent(i).UpdateVel(mpObserver->Opponent_Coach(i).GetVel(), 0, 1.0);
+				history.Opponent(i).UpdateVel(mpObserver->Opponent_Fullstate(i).GetVel(), 0, 1.0);
 				history.Opponent(i).UpdatePosEps(0);
 				history.Opponent(i).UpdateVelEps(0);
-				history.Opponent(i).UpdateBodyDir(mpObserver->Opponent_Coach(i).GetBodyDir());
-				history.Opponent(i).UpdateNeckDir(mpObserver->Opponent_Coach(i).GetNeckDir());
-				history.Opponent(i).UpdateStamina(mpObserver->Opponent_Coach(i).GetStamina());
-				history.Opponent(i).UpdateCapacity(mpObserver->Opponent_Coach(i).GetCapacity());
+				history.Opponent(i).UpdateBodyDir(mpObserver->Opponent_Fullstate(i).GetBodyDir());
+				history.Opponent(i).UpdateNeckDir(mpObserver->Opponent_Fullstate(i).GetNeckDir());
+				history.Opponent(i).UpdateStamina(mpObserver->Opponent_Fullstate(i).GetStamina());
+				history.Opponent(i).UpdateCapacity(mpObserver->Opponent_Fullstate(i).GetCapacity());
 			}
 		}
 
@@ -465,43 +484,43 @@ void WorldStateUpdater::UpdateFromAudio()
 
     }
 
-	if (mpObserver->Ball_Coach().GetPosDelay() == 0)
+	if (mpObserver->Ball_Fullstate().GetPosDelay() == 0)
 	{
-		mpObserver->Ball_Coach().AutoUpdate(1, PlayerParam::instance().ballConfDecay());
+		mpObserver->Ball_Fullstate().AutoUpdate(1, PlayerParam::instance().ballConfDecay());
 
-		Ball().UpdatePos(mpObserver->Ball_Coach().GetPos(), 1, PlayerParam::instance().ballConfDecay());
+		Ball().UpdatePos(mpObserver->Ball_Fullstate().GetPos(), 1, PlayerParam::instance().ballConfDecay());
 		Ball().UpdateGuessedTimes(0);
-		Ball().UpdateVel(mpObserver->Ball_Coach().GetVel(), 1, PlayerParam::instance().ballConfDecay());
+		Ball().UpdateVel(mpObserver->Ball_Fullstate().GetVel(), 1, PlayerParam::instance().ballConfDecay());
 		Ball().UpdatePosEps(0);
 		Ball().UpdateVelEps(0);
 
 		for (Unum i = 1;i <= TEAMSIZE;i++)
 		{
-			Teammate(i).SetIsAlive(mpObserver->Teammate_Coach(i).IsAlive());
-			Teammate(i).UpdatePos(mpObserver->Teammate_Coach(i).GetPos(), 1, PlayerParam::instance().playerConfDecay());
+			Teammate(i).SetIsAlive(mpObserver->Teammate_Fullstate(i).IsAlive());
+			Teammate(i).UpdatePos(mpObserver->Teammate_Fullstate(i).GetPos(), 1, PlayerParam::instance().playerConfDecay());
 			Teammate(i).UpdateGuessedTimes(0);
-			Teammate(i).UpdateVel(mpObserver->Teammate_Coach(i).GetVel(), 1, PlayerParam::instance().playerConfDecay());
+			Teammate(i).UpdateVel(mpObserver->Teammate_Fullstate(i).GetVel(), 1, PlayerParam::instance().playerConfDecay());
 			Teammate(i).UpdatePosEps(0);
 			Teammate(i).UpdateVelEps(0);
-			Teammate(i).UpdateBodyDir(mpObserver->Teammate_Coach(i).GetBodyDir(), 1, PlayerParam::instance().playerConfDecay());
-			Teammate(i).UpdateNeckDir(mpObserver->Teammate_Coach(i).GetNeckDir(), 1, PlayerParam::instance().playerConfDecay());
+			Teammate(i).UpdateBodyDir(mpObserver->Teammate_Fullstate(i).GetBodyDir(), 1, PlayerParam::instance().playerConfDecay());
+			Teammate(i).UpdateNeckDir(mpObserver->Teammate_Fullstate(i).GetNeckDir(), 1, PlayerParam::instance().playerConfDecay());
 			if (i != mSelfUnum)
 			{
-				Teammate(i).UpdateStamina(mpObserver->Teammate_Coach(i).GetStamina());
-				Teammate(i).UpdateCapacity(mpObserver->Teammate_Coach(i).GetCapacity());
+				Teammate(i).UpdateStamina(mpObserver->Teammate_Fullstate(i).GetStamina());
+				Teammate(i).UpdateCapacity(mpObserver->Teammate_Fullstate(i).GetCapacity());
 			}
 
-			Opponent(i).SetIsAlive(mpObserver->Opponent_Coach(i).IsAlive());
-			Opponent(i).UpdatePlayerType(mpObserver->Opponent_Coach(i).GetPlayerType());
-			Opponent(i).UpdatePos(mpObserver->Opponent_Coach(i).GetPos(), 1, PlayerParam::instance().playerConfDecay());
+			Opponent(i).SetIsAlive(mpObserver->Opponent_Fullstate(i).IsAlive());
+			Opponent(i).UpdatePlayerType(mpObserver->Opponent_Fullstate(i).GetPlayerType());
+			Opponent(i).UpdatePos(mpObserver->Opponent_Fullstate(i).GetPos(), 1, PlayerParam::instance().playerConfDecay());
 			Opponent(i).UpdateGuessedTimes(0);
-			Opponent(i).UpdateVel(mpObserver->Opponent_Coach(i).GetVel(), 1, PlayerParam::instance().playerConfDecay());
+			Opponent(i).UpdateVel(mpObserver->Opponent_Fullstate(i).GetVel(), 1, PlayerParam::instance().playerConfDecay());
 			Opponent(i).UpdatePosEps(0);
 			Opponent(i).UpdateVelEps(0);
-			Opponent(i).UpdateBodyDir(mpObserver->Opponent_Coach(i).GetBodyDir());
-			Opponent(i).UpdateNeckDir(mpObserver->Opponent_Coach(i).GetNeckDir());
-			Opponent(i).UpdateStamina(mpObserver->Opponent_Coach(i).GetStamina());
-			Opponent(i).UpdateCapacity(mpObserver->Opponent_Coach(i).GetCapacity());
+			Opponent(i).UpdateBodyDir(mpObserver->Opponent_Fullstate(i).GetBodyDir());
+			Opponent(i).UpdateNeckDir(mpObserver->Opponent_Fullstate(i).GetNeckDir());
+			Opponent(i).UpdateStamina(mpObserver->Opponent_Fullstate(i).GetStamina());
+			Opponent(i).UpdateCapacity(mpObserver->Opponent_Fullstate(i).GetCapacity());
 		}
 	}
 	else if (mpObserver->Audio().IsTeammateSayValid())

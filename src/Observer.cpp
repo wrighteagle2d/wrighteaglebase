@@ -206,6 +206,8 @@ mIsNewThink = false;
 
 	mIsBallDropped = false;
 	mIsPlanned = false;
+
+ mReceiveFullstateMsg = false; 
 }
 
 void Observer::ResetSight()
@@ -540,6 +542,47 @@ void Observer::SetSenseBody(
 	mSenseObserver.SetCardType(card_type);
 }
 
+
+void Observer::SetSensePartialBody(
+		ViewWidth view_width,
+
+		int kicks,
+		int dashes,
+		int turns,
+		int says,
+		int turn_necks,
+		int catchs,
+		int moves,
+		int change_views,
+
+		int arm_movable_ban,
+		int arm_expires,
+		double arm_target_dist,
+		AngleDeg arm_target_dir,
+		int arm_count,
+
+		Time sense_time
+)
+{
+	mSenseObserver.SetViewWidth(view_width);
+
+	mSenseObserver.SetKickCount(kicks);
+	mSenseObserver.SetDashCount(dashes);
+	mSenseObserver.SetTurnCount(turns);
+	mSenseObserver.SetSayCount(says);
+	mSenseObserver.SetTurnNeckCount(turn_necks);
+	mSenseObserver.SetCatchCount(catchs);
+	mSenseObserver.SetMoveCount(moves);
+	mSenseObserver.SetChangeViewCount(change_views);
+
+	mSenseObserver.SetArmMovableBan(arm_movable_ban);
+	mSenseObserver.SetArmExpires(arm_expires);
+	mSenseObserver.SetArmTargetDist(arm_target_dist);
+	mSenseObserver.SetArmTargetDir(arm_target_dir);
+	mSenseObserver.SetArmCount(arm_count);
+
+	mSenseObserver.SetSenseTime(sense_time);
+}
 
 void Observer::HearOurCoachSay(const std::string & hear_content)
 {

@@ -586,6 +586,27 @@ public:
 			Time sense_time
 	);
 
+	void SetSensePartialBody(
+			ViewWidth view_width,
+
+			int kicks,
+			int dashes,
+			int turns,
+			int says,
+			int turn_necks,
+			int catchs,
+			int moves,
+			int change_views,
+
+			int arm_movable_ban,
+			int arm_expires,
+			double arm_target_dist,
+			AngleDeg arm_target_dir,
+			int arm_count,
+
+			Time sense_time
+	);
+
     // coach没有sense信息，设置只能通过ok信息
     const int & GetCoachSayCount() const { return mSenseObserver.GetSayCount(); }
     void SetCoachSayCount(const int count) { mSenseObserver.SetSayCount(count); }
@@ -667,6 +688,8 @@ public:
 	void DropBall() { mIsBallDropped = true; }
 	bool IsNewOppType() {return mIsNewOppType;}
 	void SetNewOppType(bool NewOppType) {mIsNewOppType = NewOppType; }
+
+    bool mReceiveFullstateMsg; //标记是否接受到了 fullstate 信息
 
 private:
 	Time mCurrentTime;							//当前时间
@@ -769,17 +792,21 @@ private:
 	ThreadMutex     mUpdateMutex; //更新时与parser互斥
 
 private:
-	//从coach的视觉信息更新得到的或coach发过来的worldstate
-	BallState mBall_Coach;
-	PlayerArray<PlayerState> mTeammate_Coach;
-	PlayerArray<PlayerState> mOpponent_Coach;
+	//从coach的视觉信息更新得到的 或 coach发过来的worldstate 或 fullstate信息
+	BallState mBall_Fullstate;
+	PlayerArray<PlayerState> mTeammate_Fullstate;
+	PlayerArray<PlayerState> mOpponent_Fullstate;
 
 public:
-	BallState & Ball_Coach() { return mBall_Coach; }
-	PlayerState & Teammate_Coach(Unum num) { return mTeammate_Coach[num]; }
-	PlayerState & Opponent_Coach(Unum num) { return mOpponent_Coach[num]; }
+//	const BallState & Ball_Fullstate() const { return mBall_Fullstate; }
+//	const PlayerState & Teammate_Fullstate(Unum num) const { return mTeammate_Fullstate[num]; }
+//	const PlayerState & Opponent_Fullstate(Unum num) const { return mOpponent_Fullstate[num]; }
 
-	//==============================================================================
+	BallState & Ball_Fullstate() { return mBall_Fullstate; }
+	PlayerState & Teammate_Fullstate(Unum num) { return mTeammate_Fullstate[num]; }
+	PlayerState & Opponent_Fullstate(Unum num) { return mOpponent_Fullstate[num]; }
+
+
 public:
 	Time GetBallKickTime() const { return mBallKickTime; }
 	const Vector & GetBallPosByKick() const { return mBallPosByKick; }

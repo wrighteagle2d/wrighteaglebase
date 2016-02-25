@@ -272,7 +272,7 @@ void Parser::Parse(char *msg)
 	case PlayerParam_Msg: ParsePlayerParam(msg); break;
 	case ServerParam_Msg: ParseServerParam(msg); break;
 	case Disp_Msg: /*TODO: process disp message */ break;
-	case Fullstate_Msg: /*TODO: disable null processing */ break;
+	case Fullstate_Msg: ParseFullstateMsg(msg); break;
 	case ChangePlayerType_Msg: ParseChangePlayerType(msg); break;
 	case Clang_Msg: /*TODO: process clang message*/ break;
 	case PlayerType_Msg: ParsePlayerType(msg); break;
@@ -283,6 +283,189 @@ void Parser::Parse(char *msg)
   case Think_Msg: mpObserver->SetNewThink(); break;
 	case None_Msg: PRINT_ERROR(mpObserver->CurrentTime() << msg); break;
 	}
+}
+
+void Parser::ParseFullstateMsg(char *msg)
+{
+	//(fullstate 336 (pmode goal_l) (vmode high narrow) (count 0 0 313 0 1 290 8 743) (arm (movable 0) (expires 0) (target 0 0) (count 0)) (score 1 0)
+	//((b) 52.6578 -4.41664 0 0)
+	//((p l 1 g 8) -47.5 0 0 0 -66.8915 -80 (stamina 8000 0.829636 1 130600))
+	//((p l 2 4) -25 -13 7.7863e-25 4.77769e-24 151.664 34 (stamina 8000 0.974746 1 123249))
+	//((p l 3 12) -5.00073 -8.01793 -1.54512e-19 -8.12881e-18 -25.8413 -66 (stamina 7621.08 0.985774 1 111028))
+	//...
+	//((p r 11 14) 0.385 -7.01275e-12 -1.15337e-23 -8.33192e-24 46.129 0 (stamina 8000 0.933173 1 124249)))
+
+	int time = parser::get_int( &msg );
+
+	if (time != mpObserver->CurrentTime().T()) {
+		mpObserver->SetCurrentTime(Time(time, mpObserver->CurrentTime().S()));
+	}
+
+	parser::get_word( &msg );
+	parser::get_next_word( &msg ); //skip 'pmode'
+
+	parser::get_word( &msg );
+
+	{
+		static char buffer[MAX_MESSAGE];
+		char *end = msg;
+
+		while (*end != ')') end++;
+		int n = end - msg;
+		strncpy(buffer, msg, n * sizeof(char));
+		buffer[n] = '\0';
+
+		ParsePlayMode(buffer);
+
+		msg = end;
+	}
+
+	parser::get_next_word(&msg); //skip 'vmode'
+	parser::get_next_word(&msg); //skip not used view quality
+
+	ViewWidth view_width = VW_None;
+	switch ( msg[1] ) {
+	case 'o': view_width = VW_Normal; break;  /* normal */
+	case 'a': view_width = VW_Narrow; break;  /* narrow */
+	case 'i': view_width = VW_Wide;   break;  /* wide   */
+	default:  PARSE_ERROR("Unknown view quality"); break;
+	}
+
+	int kicks  =   parser::get_int(&msg);
+	int dashes =   parser::get_int(&msg);
+	int turns  =   parser::get_int(&msg);
+	int catchs = parser::get_int(&msg);
+	int moves  = parser::get_int(&msg);
+	int turn_necks   =   parser::get_int(&msg);
+	int change_views = parser::get_int(&msg);
+	int says   =   parser::get_int(&msg);
+
+	int arm_movable_ban = parser::get_int(&msg); // 直到下次手臂能动的剩余周期数
+	int arm_expires = parser::get_int(&msg); // 直到手臂动作失效剩余的周期数
+	double arm_target_dist = parser::get_double(&msg); // 指向的目标的距离
+	AngleDeg arm_target_dir = parser::get_double(&msg); // 指向的目标的方向
+	int arm_count = parser::get_int(&msg); // point count
+
+	mpObserver->SetSensePartialBody(
+			view_width,
+
+			kicks,
+			dashes,
+			turns,
+			says,
+			turn_necks,
+			catchs,
+			moves,
+			change_views,
+
+			arm_movable_ban,
+			arm_expires,
+			arm_target_dist,
+			arm_target_dir,
+			arm_count,
+
+			mpObserver->CurrentTime()
+	);
+
+	for (int i = 1; i <= TEAMSIZE; ++i) {
+		mpObserver->Teammate_Fullstate(i).SetIsAlive(false);
+		mpObserver->Opponent_Fullstate(i).SetIsAlive(false);
+	}
+
+	msg = strstr(msg,"((");
+
+	while ( msg != 0 ) { // 直到没有object为止
+		msg += 2; // 跳过 ((
+		ObjType obj = ParseObjType_Fullstate(msg); // 获得object的类型
+		msg = strchr(msg,')');
+		ObjProperty_Fullstate prop = ParseObjProperty_Fullstate(msg + 1);  // 获得object的属性
+
+		switch ( obj.type ) {
+		case OBJ_Ball:
+			mpObserver->Ball_Fullstate().UpdatePos(Vector(prop.x, prop.y), 0, 1.0);
+			mpObserver->Ball_Fullstate().UpdateVel(Vector(prop.vx, prop.vy), 0, 1.0);
+			break;
+		case OBJ_Player:
+			if (obj.side == mpObserver->OurSide()) {
+				mpObserver->Teammate_Fullstate(obj.num).UpdatePlayerType(obj.player_type);
+				mpObserver->Teammate_Fullstate(obj.num).SetIsAlive(true);
+				mpObserver->Teammate_Fullstate(obj.num).UpdatePos(Vector(prop.x, prop.y), 0, 1.0);
+				mpObserver->Teammate_Fullstate(obj.num).UpdateVel(Vector(prop.vx, prop.vy), 0, 1.0);
+				mpObserver->Teammate_Fullstate(obj.num).UpdateBodyDir(prop.body_dir, 0, 1.0);
+				mpObserver->Teammate_Fullstate(obj.num).UpdateNeckDir(prop.head_dir, 0, 1.0);
+				mpObserver->Teammate_Fullstate(obj.num).UpdateStamina(prop.stamina);
+				mpObserver->Teammate_Fullstate(obj.num).UpdateEffort(prop.effort);
+				mpObserver->Teammate_Fullstate(obj.num).UpdateRecovery(prop.recovery);
+				mpObserver->Teammate_Fullstate(obj.num).UpdateCapacity(prop.capacity);
+				mpObserver->Teammate_Fullstate(obj.num).UpdateCardType(prop.card_type);
+
+				if (prop.pointing) {
+					mpObserver->Teammate_Fullstate(obj.num).UpdateArmPoint(prop.point_dir, 0, 1.0, 0.0, 0, 0);
+					//TODO: 这个接口不好，因为是看不到dist，ban等信息的，这些要自己算然后维护
+				}
+				if (prop.tackling) {
+					if (mpObserver->Teammate_Fullstate(obj.num).GetTackleBan() == 0) {
+						mpObserver->Teammate_Fullstate(obj.num).UpdateTackleBan(ServerParam::instance().tackleCycles() - 1);
+					}
+				}
+				else
+				{
+					mpObserver->Teammate_Fullstate(obj.num).UpdateTackleBan(0);
+				}
+				if (prop.lying) {
+					if (mpObserver->Teammate_Fullstate(obj.num).GetFoulChargedCycle() == 0) {
+						mpObserver->Teammate_Fullstate(obj.num).UpdateFoulChargedCycle(ServerParam::instance().foulCycles() - 1);
+					}
+				}
+				else
+				{
+					mpObserver->Teammate_Fullstate(obj.num).UpdateFoulChargedCycle(0);
+				}
+			}
+			else {
+				mpObserver->Opponent_Fullstate(obj.num).UpdatePlayerType(obj.player_type);
+				mpObserver->Opponent_Fullstate(obj.num).SetIsAlive(true);
+				mpObserver->Opponent_Fullstate(obj.num).UpdatePos(Vector(prop.x, prop.y), 0, 1.0);
+				mpObserver->Opponent_Fullstate(obj.num).UpdateVel(Vector(prop.vx, prop.vy), 0, 1.0);
+				mpObserver->Opponent_Fullstate(obj.num).UpdateBodyDir(prop.body_dir, 0, 1.0);
+				mpObserver->Opponent_Fullstate(obj.num).UpdateNeckDir(prop.head_dir, 0, 1.0);
+				mpObserver->Opponent_Fullstate(obj.num).UpdateStamina(prop.stamina);
+				mpObserver->Opponent_Fullstate(obj.num).UpdateEffort(prop.effort);
+				mpObserver->Opponent_Fullstate(obj.num).UpdateRecovery(prop.recovery);
+				mpObserver->Opponent_Fullstate(obj.num).UpdateCapacity(prop.capacity);
+				mpObserver->Opponent_Fullstate(obj.num).UpdateCardType(prop.card_type);
+
+				if (prop.pointing) {
+					mpObserver->Opponent_Fullstate(obj.num).UpdateArmPoint(prop.point_dir, 0, 1.0, 0.0, 0, 0);
+					//TODO: 这个接口不好，因为是看不到dist，ban等信息的，这些要自己算然后维护
+				}
+				if (prop.tackling) {
+					if (mpObserver->Opponent_Fullstate(obj.num).GetTackleBan() == 0) {
+						mpObserver->Opponent_Fullstate(obj.num).UpdateTackleBan(ServerParam::instance().tackleCycles() - 1);
+					}
+				}
+				else
+				{
+					mpObserver->Opponent_Fullstate(obj.num).UpdateTackleBan(0);
+				}
+				if (prop.lying) {
+					if (mpObserver->Opponent_Fullstate(obj.num).GetFoulChargedCycle() == 0) {
+						mpObserver->Opponent_Fullstate(obj.num).UpdateFoulChargedCycle(ServerParam::instance().foulCycles() - 1);
+					}
+				}
+				else
+				{
+					mpObserver->Opponent_Fullstate(obj.num).UpdateFoulChargedCycle(0);
+				}
+			}
+			break;
+		default:
+			break;
+		}
+		msg = strstr(msg,"(("); // 下一个object
+	}
+
+	mpObserver->mReceiveFullstateMsg = true;
 }
 
 void Parser::ParseTime(char *msg, char **end_ptr, bool is_new_cycle)
@@ -454,6 +637,24 @@ void Parser::ParseSight(char *msg)
 		}
 		msg = strstr(msg,"(("); // 下一个object
 	}
+}
+
+Parser::ObjType Parser::ParseObjType_Fullstate(char *msg)
+{
+	switch( *msg ) {
+	case 'p':
+	case 'P':
+		return ParsePlayer_Fullstate(msg);
+	case 'b':
+	case 'B':
+		return ParseBall(msg);
+	default:
+		PARSE_ERROR("unknown object"); break;
+	}
+
+	ObjType result;
+	result.type = OBJ_None;
+	return result;
 }
 
 Parser::ObjType Parser::ParseObjType(char *msg)
@@ -661,6 +862,30 @@ Parser::ObjType Parser::ParseLine(char *msg)
 			if ( *msg == 't' ) { result.line = SL_Top;    } else
 				if ( *msg == 'b' ) { result.line = SL_Bottom; }
 				else { PARSE_ERROR("line ?"); }
+	return result;
+}
+
+Parser::ObjType Parser::ParsePlayer_Fullstate(char *msg)
+{
+	//((p l 1 g 8) -47.5 0 0 0 -66.8915 -80 (stamina 8000 0.829636 1 130600))
+	//((p r 11 14) 0.385 -7.01275e-12 -1.15337e-23 -8.33192e-24 46.129 0 (stamina 8000 0.933173 1 124249)))
+
+	ObjType result;
+
+	result.type = OBJ_Player;
+	msg += 2;     // 'p '
+	result.side = *msg;
+	result.num = parser::get_int(&msg);
+	msg += 1;
+
+	if (*msg == 'g') {
+		if (result.side != mpObserver->OurInitSide()) {
+			mpObserver->SeeOppGoalie(result.num);
+		}
+	}
+
+	result.player_type = parser::get_int(&msg);
+
 	return result;
 }
 
@@ -921,6 +1146,107 @@ Parser::ObjProperty_Coach Parser::ParseObjProperty_Coach(char *msg)
 					{
 						PARSE_ERROR("why come to this place");
 					}*/
+				}
+			}
+		}
+	}
+	return result;
+}
+
+Parser::ObjProperty_Fullstate Parser::ParseObjProperty_Fullstate(char *msg)
+{
+	//((p r 11 14) 0.385 -7.01275e-12 -1.15337e-23 -8.33192e-24 46.129 0 (stamina 8000 0.933173 1 124249)))
+    //((p {l|r} <unum> [g] <player_type_id>)
+    //  <pos.x> <pos.y> <vel.x> <vel.y> <body_angle> <neck_angle>
+    //  [ <point_dist> <point_dir>]
+    //  (<stamina> <effort> <recovery> <capacity>)
+    // [t|k|f] [y|r])
+
+	ObjProperty_Fullstate result;
+
+	//ball or player
+	result.x = parser::get_double(&msg);
+	result.y = parser::get_double(&msg);
+
+	result.vx = parser::get_double(&msg);
+	result.vy = parser::get_double(&msg);
+
+	if (*msg != ')') { //player
+		result.body_dir = parser::get_double(&msg);
+		result.head_dir = parser::get_double(&msg);
+
+		while (*msg == ' ') ++msg;
+
+		if (*msg != '(') { //pointing
+			result.pointing = true;
+			result.point_dist = parser::get_double(&msg);
+			result.point_dir = parser::get_double(&msg);
+		}
+
+		result.stamina = parser::get_double(&msg);
+		result.effort = parser::get_double(&msg);
+		result.recovery = parser::get_double(&msg);
+		result.capacity = parser::get_double(&msg);
+
+		msg++;
+
+		if (*msg != ')') {
+			while (*msg == ' ') ++msg;
+
+			switch( *msg )
+			{
+			case 't':
+				result.tackling = true;
+				++msg;
+				break;
+			case 'f':
+				result.lying = true;
+				++msg;
+				break;
+			case 'y':
+				result.card_type = CR_Yellow;
+				++msg;
+				break;
+			case 'r':
+				result.card_type = CR_Red;
+				++msg;
+				break;
+			case 'k':
+				//kicking
+				++msg;
+				break;
+			default:
+				Assert(0);
+				break;
+			}
+
+			while ( *msg == ' ' ) ++msg;
+
+			if (*msg != ')') {
+				if (*msg == 't') {
+					result.tackling = true;
+				}
+				else if (*msg == 'f') {
+					result.lying = true;
+				}
+				else if (*msg == 'k') {
+				}
+				else if (*msg == 'y') {
+					result.card_type = CR_Yellow;
+				}
+				else if (*msg == 'r') {
+					result.card_type = CR_Red;
+				}
+
+				while ( *msg == ' ' ) ++msg;
+				if ( *msg != ')' ) {
+					++msg;
+					if ( *msg == 'y' ) {
+						result.card_type = CR_Yellow;
+					}
+					else if ( *msg == 'r' ) {
+						result.card_type = CR_Red;
+					}
 				}
 			}
 		}
@@ -1487,19 +1813,18 @@ void Parser::ParseCard(char *msg)
 
 void Parser::ParseSight_Coach(char *msg)
 {
-	if (PlayerParam::instance().isCoach() || PlayerParam::instance().isTrainer())
-	{
+	if (PlayerParam::instance().isCoach() || PlayerParam::instance().isTrainer()) {
 		TimeTest::instance().Update(mpObserver->CurrentTime()); // coach每周期都有sight
 	}
 
-	for (int i = 1; i <= TEAMSIZE; ++i){
-		mpObserver->Teammate_Coach(i).SetIsAlive(false);
-		mpObserver->Opponent_Coach(i).SetIsAlive(false);
+	for (int i = 1; i <= TEAMSIZE; ++i) {
+		mpObserver->Teammate_Fullstate(i).SetIsAlive(false);
+		mpObserver->Opponent_Fullstate(i).SetIsAlive(false);
 	}
 
 	msg = strstr(msg,"((");
 
-	while ( msg != 0 ){ // 直到没有object为止
+	while ( msg != 0 ) { // 直到没有object为止
 		msg += 2; // 跳过 ((
 		ObjType obj = ParseObjType(msg); // 获得object的类型
 		msg = strchr(msg,')');
@@ -1507,68 +1832,68 @@ void Parser::ParseSight_Coach(char *msg)
 
 		switch ( obj.type ) {
 		case OBJ_Ball:
-			mpObserver->Ball_Coach().UpdatePos(Vector(prop.x, prop.y), 0, 1.0);
-			mpObserver->Ball_Coach().UpdateVel(Vector(prop.vx, prop.vy), 0, 1.0);
+			mpObserver->Ball_Fullstate().UpdatePos(Vector(prop.x, prop.y), 0, 1.0);
+			mpObserver->Ball_Fullstate().UpdateVel(Vector(prop.vx, prop.vy), 0, 1.0);
 			break;
 		case OBJ_Player:
-			if (obj.side == mpObserver->OurSide()){
-				mpObserver->Teammate_Coach(obj.num).SetIsAlive(true);
-				mpObserver->Teammate_Coach(obj.num).UpdatePos(Vector(prop.x, prop.y), 0, 1.0);
-				mpObserver->Teammate_Coach(obj.num).UpdateVel(Vector(prop.vx, prop.vy), 0, 1.0);
-				mpObserver->Teammate_Coach(obj.num).UpdateBodyDir(prop.body_dir, 0, 1.0);
-				mpObserver->Teammate_Coach(obj.num).UpdateNeckDir(prop.head_dir, 0, 1.0);
-				mpObserver->Teammate_Coach(obj.num).UpdateCardType(prop.card_type);
-				if (prop.pointing){
-					mpObserver->Teammate_Coach(obj.num).UpdateArmPoint(prop.point_dir, 0, 1.0, 0.0, 0, 0);
+			if (obj.side == mpObserver->OurSide()) {
+				mpObserver->Teammate_Fullstate(obj.num).SetIsAlive(true);
+				mpObserver->Teammate_Fullstate(obj.num).UpdatePos(Vector(prop.x, prop.y), 0, 1.0);
+				mpObserver->Teammate_Fullstate(obj.num).UpdateVel(Vector(prop.vx, prop.vy), 0, 1.0);
+				mpObserver->Teammate_Fullstate(obj.num).UpdateBodyDir(prop.body_dir, 0, 1.0);
+				mpObserver->Teammate_Fullstate(obj.num).UpdateNeckDir(prop.head_dir, 0, 1.0);
+				mpObserver->Teammate_Fullstate(obj.num).UpdateCardType(prop.card_type);
+				if (prop.pointing) {
+					mpObserver->Teammate_Fullstate(obj.num).UpdateArmPoint(prop.point_dir, 0, 1.0, 0.0, 0, 0);
 					//TODO: 这个接口不好，因为是看不到dist，ban等信息的，这些要自己算然后维护
 				}
-				if (prop.tackling){
-					if (mpObserver->Teammate_Coach(obj.num).GetTackleBan() == 0) {
-						mpObserver->Teammate_Coach(obj.num).UpdateTackleBan(ServerParam::instance().tackleCycles() - 1);
+				if (prop.tackling) {
+					if (mpObserver->Teammate_Fullstate(obj.num).GetTackleBan() == 0) {
+						mpObserver->Teammate_Fullstate(obj.num).UpdateTackleBan(ServerParam::instance().tackleCycles() - 1);
 					}
 				}
 				else
 				{
-					mpObserver->Teammate_Coach(obj.num).UpdateTackleBan(0);
+					mpObserver->Teammate_Fullstate(obj.num).UpdateTackleBan(0);
 				}
-				if (prop.lying){
-					if (mpObserver->Teammate_Coach(obj.num).GetFoulChargedCycle() == 0) {
-						mpObserver->Teammate_Coach(obj.num).UpdateFoulChargedCycle(ServerParam::instance().foulCycles() - 1);
+				if (prop.lying) {
+					if (mpObserver->Teammate_Fullstate(obj.num).GetFoulChargedCycle() == 0) {
+						mpObserver->Teammate_Fullstate(obj.num).UpdateFoulChargedCycle(ServerParam::instance().foulCycles() - 1);
 					}
 				}
 				else
 				{
-					mpObserver->Teammate_Coach(obj.num).UpdateFoulChargedCycle(0);
+					mpObserver->Teammate_Fullstate(obj.num).UpdateFoulChargedCycle(0);
 				}
 			}
 			else {
-				mpObserver->Opponent_Coach(obj.num).SetIsAlive(true);
-				mpObserver->Opponent_Coach(obj.num).UpdatePos(Vector(prop.x, prop.y), 0, 1.0);
-				mpObserver->Opponent_Coach(obj.num).UpdateVel(Vector(prop.vx, prop.vy), 0, 1.0);
-				mpObserver->Opponent_Coach(obj.num).UpdateBodyDir(prop.body_dir, 0, 1.0);
-				mpObserver->Opponent_Coach(obj.num).UpdateNeckDir(prop.head_dir, 0, 1.0);
-				mpObserver->Opponent_Coach(obj.num).UpdateCardType(prop.card_type);
-				if (prop.pointing){
-					mpObserver->Opponent_Coach(obj.num).UpdateArmPoint(prop.point_dir, 0, 1.0, 0.0, 0, 0);
+				mpObserver->Opponent_Fullstate(obj.num).SetIsAlive(true);
+				mpObserver->Opponent_Fullstate(obj.num).UpdatePos(Vector(prop.x, prop.y), 0, 1.0);
+				mpObserver->Opponent_Fullstate(obj.num).UpdateVel(Vector(prop.vx, prop.vy), 0, 1.0);
+				mpObserver->Opponent_Fullstate(obj.num).UpdateBodyDir(prop.body_dir, 0, 1.0);
+				mpObserver->Opponent_Fullstate(obj.num).UpdateNeckDir(prop.head_dir, 0, 1.0);
+				mpObserver->Opponent_Fullstate(obj.num).UpdateCardType(prop.card_type);
+				if (prop.pointing) {
+					mpObserver->Opponent_Fullstate(obj.num).UpdateArmPoint(prop.point_dir, 0, 1.0, 0.0, 0, 0);
 					//TODO: 这个接口不好，因为是看不到dist，ban等信息的，这些要自己算然后维护
 				}
-				if (prop.tackling){
-					if (mpObserver->Opponent_Coach(obj.num).GetTackleBan() == 0) {
-						mpObserver->Opponent_Coach(obj.num).UpdateTackleBan(ServerParam::instance().tackleCycles() - 1);
+				if (prop.tackling) {
+					if (mpObserver->Opponent_Fullstate(obj.num).GetTackleBan() == 0) {
+						mpObserver->Opponent_Fullstate(obj.num).UpdateTackleBan(ServerParam::instance().tackleCycles() - 1);
 					}
 				}
 				else
 				{
-					mpObserver->Opponent_Coach(obj.num).UpdateTackleBan(0);
+					mpObserver->Opponent_Fullstate(obj.num).UpdateTackleBan(0);
 				}
-				if (prop.lying){
-					if (mpObserver->Opponent_Coach(obj.num).GetFoulChargedCycle() == 0) {
-						mpObserver->Opponent_Coach(obj.num).UpdateFoulChargedCycle(ServerParam::instance().foulCycles() - 1);
+				if (prop.lying) {
+					if (mpObserver->Opponent_Fullstate(obj.num).GetFoulChargedCycle() == 0) {
+						mpObserver->Opponent_Fullstate(obj.num).UpdateFoulChargedCycle(ServerParam::instance().foulCycles() - 1);
 					}
 				}
 				else
 				{
-					mpObserver->Opponent_Coach(obj.num).UpdateFoulChargedCycle(0);
+					mpObserver->Opponent_Fullstate(obj.num).UpdateFoulChargedCycle(0);
 				}
 			}
 			break;

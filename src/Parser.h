@@ -193,10 +193,12 @@ private:
 	void ParseCard(char *msg);
 	void ParseOkMsg(char *msg);
 
+  void ParseFullstateMsg(char *msg);
+
 	ServerPlayMode mLastServerPlayMode;
 
 	struct ObjType {
-		ObjType(): type(OBJ_None), marker(FLAG_NONE), line(SL_NONE), side('?'), num(0)
+		ObjType(): type(OBJ_None), marker(FLAG_NONE), line(SL_NONE), side('?'), num(0), player_type(0)
 		{
 
 		}
@@ -206,6 +208,7 @@ private:
 		SideLineType line;
 		char side;
 		Unum num;
+		int player_type;
 	};
 
 	struct ObjProperty {
@@ -251,15 +254,45 @@ private:
 		CardType card_type;
 	};
 
+  struct ObjProperty_Fullstate {
+      ObjProperty_Fullstate(): x(INVALID_VALUE), y(INVALID_VALUE), vx(INVALID_VALUE), vy(INVALID_VALUE),
+          body_dir(INVALID_VALUE), head_dir(INVALID_VALUE), pointing(false), point_dist(INVALID_VALUE), point_dir(INVALID_VALUE),
+          stamina(INVALID_VALUE), effort(INVALID_VALUE), recovery(INVALID_VALUE), capacity(INVALID_VALUE),
+          tackling(false), lying(false), card_type(CR_None)
+      {
+      
+          }
+  
+      double x;
+      double y;
+      double vx;
+      double vy;
+      AngleDeg body_dir;
+      AngleDeg head_dir;
+      bool pointing;
+      double point_dist;
+      AngleDeg point_dir;
+      double stamina;
+      double effort;
+      double recovery;
+      double capacity;
+      bool tackling;
+      bool lying;
+      CardType card_type;
+    };
+
 	ObjType ParseObjType(char *msg);
 	ObjType ParseGoal(char *msg);
 	ObjType ParseMarker(char *msg);
 	ObjType ParseLine(char *msg);
 	ObjType ParsePlayer(char *msg);
 	ObjType ParseBall(char *msg);
+  ObjType ParseObjType_Fullstate(char *msg);
+  ObjType ParsePlayer_Fullstate(char *msg);
 
 	ObjProperty ParseObjProperty(char* msg);
 	ObjProperty_Coach ParseObjProperty_Coach(char* msg);
+  ObjProperty_Fullstate ParseObjProperty_Fullstate(char* msg);
 
 	ThreadMutex mOkMutex; //更新ok信息是要与决策线程互斥
 	int mHalfTime; // 记录是第几个half

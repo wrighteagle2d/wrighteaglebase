@@ -71,7 +71,7 @@ void Coach::SendOptionToServer()
 	sort(a.begin(),a.end(),PlayerCompare());
 	for (int i = 1; i <= TEAMSIZE; ++i)
     {
-        if (i != PlayerParam::instance().ourGoalieUnum() && mpObserver->Teammate_Coach(i).IsAlive())
+        if (i != PlayerParam::instance().ourGoalieUnum() && mpObserver->Teammate_Fullstate(i).IsAlive())
         {
         	mpAgent->CheckCommands(mpObserver);
         	if(mpAgent->GetFormation().GetTeammateRoleType(i).mLineType==LT_Forward){
@@ -84,7 +84,7 @@ void Coach::SendOptionToServer()
 	}
 	for (int i = 1; i <= TEAMSIZE; ++i)
     {
-        if (i != PlayerParam::instance().ourGoalieUnum() && mpObserver->Teammate_Coach(i).IsAlive())
+        if (i != PlayerParam::instance().ourGoalieUnum() && mpObserver->Teammate_Fullstate(i).IsAlive())
         {
         	mpAgent->CheckCommands(mpObserver);
         	if(mpAgent->GetFormation().GetTeammateRoleType(i).mLineType==LT_Defender){
@@ -95,7 +95,7 @@ void Coach::SendOptionToServer()
             WaitFor(5);
         }
 	}
-	if(mpObserver->Teammate_Coach(PlayerParam::instance().ourGoalieUnum()).IsAlive()){
+	if(mpObserver->Teammate_Fullstate(PlayerParam::instance().ourGoalieUnum()).IsAlive()){
 	double maxAcceleration = 0 ;
 	vector<pair<int , double> > ::iterator goalie;
 	for (vector<pair<int , double> > ::iterator it = a.begin(); it != a.end(); it++){
@@ -112,7 +112,7 @@ void Coach::SendOptionToServer()
     mpObserver->SetCommandSend();
 	for (int i = 1; i <= TEAMSIZE; ++i)
     {
-        if (i != PlayerParam::instance().ourGoalieUnum() && mpObserver->Teammate_Coach(i).IsAlive())
+        if (i != PlayerParam::instance().ourGoalieUnum() && mpObserver->Teammate_Fullstate(i).IsAlive())
         {
             mpAgent->CheckCommands(mpObserver);
         	if(mpAgent->GetFormation().GetPlayerRoleType(i).mLineType==LT_Midfielder){
@@ -128,7 +128,7 @@ void Coach::SendOptionToServer()
 	WaitFor(200);
 /*	for (int i = 1; i <= TEAMSIZE; ++i)
     {
-        if (i != PlayerParam::instance().ourGoalieUnum() && mpObserver->Teammate_Coach(i).IsAlive())
+        if (i != PlayerParam::instance().ourGoalieUnum() && mpObserver->Teammate_Fullstate(i).IsAlive())
         {
             while (!mpParser->IsChangePlayerTypeOk(i) && mpObserver->CurrentTime().T() < 1)
             {
@@ -146,7 +146,7 @@ void Coach::SendOptionToServer()
 	}
 	for (int i = 1; i <= TEAMSIZE; ++i)
     {
-        if (i != PlayerParam::instance().ourGoalieUnum() && mpObserver->Teammate_Coach(i).IsAlive())
+        if (i != PlayerParam::instance().ourGoalieUnum() && mpObserver->Teammate_Fullstate(i).IsAlive())
         {
         	mpAgent->CheckCommands(mpObserver);
         	if(mpAgent->GetFormation().GetPlayerRoleType(i).mLineType==LT_Forward)
@@ -157,7 +157,7 @@ void Coach::SendOptionToServer()
 	}
 	for (int i = 1; i <= TEAMSIZE; ++i)
     {
-        if (i != PlayerParam::instance().ourGoalieUnum() && mpObserver->Teammate_Coach(i).IsAlive())
+        if (i != PlayerParam::instance().ourGoalieUnum() && mpObserver->Teammate_Fullstate(i).IsAlive())
         {
         	mpAgent->CheckCommands(mpObserver);
         	if(mpAgent->GetFormation().GetPlayerRoleType(i).mLineType==LT_Defender)
@@ -168,7 +168,7 @@ void Coach::SendOptionToServer()
 	}
 	for (int i = 1; i <= TEAMSIZE; ++i)
     {
-        if (i != PlayerParam::instance().ourGoalieUnum() && mpObserver->Teammate_Coach(i).IsAlive())
+        if (i != PlayerParam::instance().ourGoalieUnum() && mpObserver->Teammate_Fullstate(i).IsAlive())
         {
         	mpAgent->CheckCommands(mpObserver);
         	if(mpAgent->GetFormation().GetPlayerRoleType(i).mLineType==LT_Midfielder)
