@@ -25,14 +25,14 @@ Researchers are encouraged to cite the following selected papers when using Wrig
 All publications of the WrightEagle team (WrightEagle 2D, WrightEagle@Home, WrightEagle SPL and WrightEagle 3D) can be found at: [http://www.wrighteagle.org/en/publication/index.php](http://www.wrighteagle.org/en/publication/index.php)
 
 # Videos:
-- [Final of RoboCup 2015 (HELIOS2015\_0-vs-WrightEagle\_3)](https://www.youtube.com/watch?v=Ptzv9NF9opM)
-- [Final of RoboCup 2014 (WrightEagle\_3-vs-Gliders2014\_2)](https://www.youtube.com/watch?v=kRIygFjlD_Q)
-- [Final of RoboCup 2013 (WrightEagle\_2-vs-HELIOS2013\_0)](https://www.youtube.com/watch?v=BoWoIc4IrtI)
-- [Final of RoboCup 2012 (HELIOS2012\_4-vs-WrightEagle\_1)](https://www.youtube.com/watch?v=cDhSjSYPvdE)
-- [Final of RoboCup 2011 (WrightEagle\_3-vs-HELIOS2011\_2)](https://www.youtube.com/watch?v=leNDA5tzUfk)
-- [Final of RoboCup 2010 (HELIOS2010\_2-vs-WrightEagle\_1)](https://www.youtube.com/watch?v=BVWkndHk3AE)
-- [Final of RoboCup 2009 (HELIOS2009\_1-vs-WrightEagle\_2)](https://www.youtube.com/watch?v=Q18Wxs3Da-8&index=7&list=PL4BB027D8BB6A5EB3)
-- [Final of RoboCup 2008 (Brainstormers08\_0\_4-vs-WE2008\_0\_3)](https://www.youtube.com/watch?v=w1c_8TWX8dY)
+- [Final of RoboCup 2015](https://www.youtube.com/watch?v=Ptzv9NF9opM) (HELIOS2015\_0-vs-WrightEagle\_3)
+- [Final of RoboCup 2014](https://www.youtube.com/watch?v=kRIygFjlD_Q) (WrightEagle\_3-vs-Gliders2014\_2)
+- [Final of RoboCup 2013](https://www.youtube.com/watch?v=BoWoIc4IrtI) (WrightEagle\_2-vs-HELIOS2013\_0)
+- [Final of RoboCup 2012](https://www.youtube.com/watch?v=cDhSjSYPvdE) (HELIOS2012\_4-vs-WrightEagle\_1)
+- [Final of RoboCup 2011](https://www.youtube.com/watch?v=leNDA5tzUfk) (WrightEagle\_3-vs-HELIOS2011\_2)
+- [Final of RoboCup 2010](https://www.youtube.com/watch?v=BVWkndHk3AE) (HELIOS2010\_2-vs-WrightEagle\_1)
+- [Final of RoboCup 2009](https://www.youtube.com/watch?v=Q18Wxs3Da-8&index=7&list=PL4BB027D8BB6A5EB3) (HELIOS2009\_1-vs-WrightEagle\_2)
+- [Final of RoboCup 2008](https://www.youtube.com/watch?v=w1c_8TWX8dY) (Brainstormers08\_0\_4-vs-WE2008\_0\_3)
 
 
 # Compilation
