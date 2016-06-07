@@ -17,6 +17,15 @@ After installation,
 
 After both teams connected, send a `KickOff` command to the server by hitting `Ctrl+K` in the monitor to start the game!
 
+# Hacks
+- `void Player::Run` in `src/Player.cpp` is the main loop of the agent consisting of sensing, decision-making and executing
+- `ActiveBehavior DecisionTree::Search` in `src/DecisionTree.cpp` is the main decision-making loop
+- `void Behavior*::Plan` in `src/Behavior*.cpp` implement planning part of behaviours following a MAXQ task structure
+- `void Behavior*::Execute` in `src/Behavior*.cpp` implement executing part of behaviours following a MAXQ task structure
+
+A good start to hack the team is digging into `void Behavior*::Plan` functions. The [MAXQ-OP](http://aijunbai.github.io/publications/BWCtist15.pdf) task structure of the agent:  
+![alt tag](data/wrighteagle.png "MAXQ Task Graph")
+
 # Binaries
 For latest WrightEagle binaries used in [RoboCup Soccer Simulation 2D](https://en.wikipedia.org/wiki/RoboCup_2D_Soccer_Simulation_League) competitions, please refer to: [http://aijunbai.github.io/wrighteagle2d/](http://aijunbai.github.io/wrighteagle2d/)
 
