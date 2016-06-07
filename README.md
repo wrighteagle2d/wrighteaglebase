@@ -1,21 +1,12 @@
 # wrighteaglebase
-This is the release of WrightEagleBASE code, written in C++.
+This is the code release of WrightEagleBASE, which serves as the basic framework of [WrightEagle](http://aijunbai.github.io/wrighteagle2d/).
 
-# Historical Results
+# Highlights
 
-WrightEagle has been in the finals of annual RoboCup Soccer Simulation 2D competitions, and has won 6 _world champions_ and 5 runners-up since 2005. Historical results of WrightEagle in RoboCup annual competitions from 2005 to 2013:  
+- WrightEagle/WrightEagleBASE is developed following the [MAXQ-OP](https://github.com/aijunbai/maxq-op) online planning algorithm for [Markov Decision Processes](https://en.wikipedia.org/wiki/Markov_decision_process)
+- WrightEagle has won 6 _world champions_ and 5 runners-up in annual RoboCup Soccer Simulation 2D competitions since 2005. Detailed historical results from 2005 to 2013 can be found as follows
 
 ![alt tag](data/results.png "Historical Results")
-
-More videos:
-- [Final of RoboCup 2015 (HELIOS2015\_0-vs-WrightEagle\_3)](https://www.youtube.com/watch?v=Ptzv9NF9opM)
-- [Final of RoboCup 2014 (WrightEagle\_3-vs-Gliders2014\_2)](https://www.youtube.com/watch?v=kRIygFjlD_Q)
-- [Final of RoboCup 2013 (WrightEagle\_2-vs-HELIOS2013\_0)](https://www.youtube.com/watch?v=BoWoIc4IrtI)
-- [Final of RoboCup 2012 (HELIOS2012\_4-vs-WrightEagle\_1)](https://www.youtube.com/watch?v=cDhSjSYPvdE)
-- [Final of RoboCup 2011 (WrightEagle\_3-vs-HELIOS2011\_2)](https://www.youtube.com/watch?v=leNDA5tzUfk)
-- [Final of RoboCup 2010 (HELIOS2010\_2-vs-WrightEagle\_1)](https://www.youtube.com/watch?v=BVWkndHk3AE)
-- [Final of RoboCup 2009 (HELIOS2009\_1-vs-WrightEagle\_2)](https://www.youtube.com/watch?v=Q18Wxs3Da-8&index=7&list=PL4BB027D8BB6A5EB3)
-- [Final of RoboCup 2008 (Brainstormers08\_0\_4-vs-WE2008\_0\_3)](https://www.youtube.com/watch?v=w1c_8TWX8dY)
 
 # Binaries
 For latest WrightEagle binaries used in [RoboCup Soccer Simulation 2D](https://en.wikipedia.org/wiki/RoboCup_2D_Soccer_Simulation_League) competitions, please refer to: [http://aijunbai.github.io/wrighteagle2d/](http://aijunbai.github.io/wrighteagle2d/)
@@ -29,6 +20,17 @@ Researchers are encouraged to cite following selected papers when using WrightEa
 - [WrightEagle and UT Austin Villa: RoboCup 2011 Simulation League Champions](http://aijunbai.github.io/publications/LNAI11-Bai.pdf), Aijun Bai, Xiaoping      Chen, Patrick MacAlpine, Daniel Urieli, Samuel Barrett, and Peter Stone, RoboCup-2011: Robot Soccer World Cup XV, Lecture Notes in Artificial Intelligence,    Vol. 7416, Springer Verlag, Berlin, 2012.
 - [Bounded Incremental Real-Time Dynamic Programming](http://ieeexplore.ieee.org/xpl/login.jsp?tp=&arnumber=4524180&url=http%3A%2F%2Fieeexplore.ieee.org%2Fxpls%2Fabs_all.jsp%3Farnumber%3D4524180), Changjie Fan, and Xiaoping Chen, IEEE Proceedings of FBIT 2007, Jeju Island, Korea, 2007.
 - [Solving Large-Scale and Sparse-Reward DEC-POMDPs with Correlation-MDPs](http://link.springer.com/chapter/10.1007%2F978-3-540-68847-1_18), Feng Wu, and Xiaoping Chen, Proceedings of RoboCup Symposium 2007. Atlanta, America, July 2007.
+
+# Videos:
+- [Final of RoboCup 2015 (HELIOS2015\_0-vs-WrightEagle\_3)](https://www.youtube.com/watch?v=Ptzv9NF9opM)
+- [Final of RoboCup 2014 (WrightEagle\_3-vs-Gliders2014\_2)](https://www.youtube.com/watch?v=kRIygFjlD_Q)
+- [Final of RoboCup 2013 (WrightEagle\_2-vs-HELIOS2013\_0)](https://www.youtube.com/watch?v=BoWoIc4IrtI)
+- [Final of RoboCup 2012 (HELIOS2012\_4-vs-WrightEagle\_1)](https://www.youtube.com/watch?v=cDhSjSYPvdE)
+- [Final of RoboCup 2011 (WrightEagle\_3-vs-HELIOS2011\_2)](https://www.youtube.com/watch?v=leNDA5tzUfk)
+- [Final of RoboCup 2010 (HELIOS2010\_2-vs-WrightEagle\_1)](https://www.youtube.com/watch?v=BVWkndHk3AE)
+- [Final of RoboCup 2009 (HELIOS2009\_1-vs-WrightEagle\_2)](https://www.youtube.com/watch?v=Q18Wxs3Da-8&index=7&list=PL4BB027D8BB6A5EB3)
+- [Final of RoboCup 2008 (Brainstormers08\_0\_4-vs-WE2008\_0\_3)](https://www.youtube.com/watch?v=w1c_8TWX8dY)
+
 
 # Compilation
 - `$make [debug]` for a debug version with debugging information and assertions.
