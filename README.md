@@ -3,7 +3,7 @@ This is the release of WrightEagleBASE code, written in C++.
 
 # Historical Results
 
-WrightEagle has been in the finals of annual RoboCup Soccer Simulation 2D competitions, and has won 6 champions and 5 runners-up since 2005. Historical results of WrightEagle in RoboCup annual competitions from 2005 to 2013:  
+WrightEagle has been in the finals of annual RoboCup Soccer Simulation 2D competitions, and has won 6 _world champions_ and 5 runners-up since 2005. Historical results of WrightEagle in RoboCup annual competitions from 2005 to 2013:  
 
 ![alt tag](data/results.png "Historical Results")
 
