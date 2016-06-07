@@ -1,6 +1,22 @@
 # wrighteaglebase
 This is the release of WrightEagleBASE code, written in C++.
 
+# Historical Results
+
+WrightEagle has been in the finals of annual RoboCup Soccer Simulation 2D competitions, and has won 6 champions and 5 runners-up since 2005. Historical results of WrightEagle in RoboCup annual competitions from 2005 to 2013:  
+
+![alt tag](data/results.png "Historical Results")
+
+More videos:
+- [Final of RoboCup 2015 (HELIOS2015\_0-vs-WrightEagle\_3)](https://www.youtube.com/watch?v=Ptzv9NF9opM)
+- [Final of RoboCup 2014 (WrightEagle\_3-vs-Gliders2014\_2)](https://www.youtube.com/watch?v=kRIygFjlD_Q)
+- [Final of RoboCup 2013 (WrightEagle\_2-vs-HELIOS2013\_0)](https://www.youtube.com/watch?v=BoWoIc4IrtI)
+- [Final of RoboCup 2012 (HELIOS2012\_4-vs-WrightEagle\_1)](https://www.youtube.com/watch?v=cDhSjSYPvdE)
+- [Final of RoboCup 2011 (WrightEagle\_3-vs-HELIOS2011\_2)](https://www.youtube.com/watch?v=leNDA5tzUfk)
+- [Final of RoboCup 2010 (HELIOS2010\_2-vs-WrightEagle\_1)](https://www.youtube.com/watch?v=BVWkndHk3AE)
+- [Final of RoboCup 2009 (HELIOS2009\_1-vs-WrightEagle\_2)](https://www.youtube.com/watch?v=Q18Wxs3Da-8&index=7&list=PL4BB027D8BB6A5EB3)
+- [Final of RoboCup 2008 (Brainstormers08\_0\_4-vs-WE2008\_0\_3)](https://www.youtube.com/watch?v=w1c_8TWX8dY)
+
 # Binaries
 For latest WrightEagle binaries used in [RoboCup Soccer Simulation 2D](https://en.wikipedia.org/wiki/RoboCup_2D_Soccer_Simulation_League) competitions, please refer to: [http://aijunbai.github.io/wrighteagle2d/](http://aijunbai.github.io/wrighteagle2d/)
 
