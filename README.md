@@ -6,12 +6,12 @@ This is the release of WrightEagleBASE code, written in C++.
 - `$make release` for a release version
 
 # Usages
-A [RoboCup Soccer 2D Simulator](https://sourceforge.net/projects/sserver/files/) (as well as a minitor and a logplayer) is needed to run WrightEagleBASE. Please refer to [https://wavepackage.wordpress.com/2013/06/07/how-to-install-the-robocup-soccer-server-2d/](https://wavepackage.wordpress.com/2013/06/07/how-to-install-the-robocup-soccer-server-2d/) and [https://wavepackage.wordpress.com/2015/07/22/how-to-install-robocup-2d-simulation-server-on-ubuntu-14-04/](https://wavepackage.wordpress.com/2015/07/22/how-to-install-robocup-2d-simulation-server-on-ubuntu-14-04/) for installation instructions.  
+A [RoboCup Soccer 2D Simulator](https://sourceforge.net/projects/sserver/files/) (as well as a monitor and a logplayer) is needed to run WrightEagleBASE. Please refer to [https://wavepackage.wordpress.com/2013/06/07/how-to-install-the-robocup-soccer-server-2d/](https://wavepackage.wordpress.com/2013/06/07/how-to-install-the-robocup-soccer-server-2d/) and [https://wavepackage.wordpress.com/2015/07/22/how-to-install-robocup-2d-simulation-server-on-ubuntu-14-04/](https://wavepackage.wordpress.com/2015/07/22/how-to-install-robocup-2d-simulation-server-on-ubuntu-14-04/) for installation instructions.  
 
 After installation,  
 
 - Run `$rcssserver` to start a soccer server which simulates the game
-- Run `$rcssminitor` to start a soccer monitor which is used to display the game
+- Run `$rcssmonitor` to start a soccer monitor which is used to display the game
 - Run `$./start.sh` to start a team on the left side with default teamname *WEBase*
 - Run `$./start.sh -t [TEAMNAME]` to start a team on the right side with teamname *[TEAMNAME]*
 
