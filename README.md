@@ -3,7 +3,10 @@ This is the code release of WrightEagleBASE, which serves as the basic framework
 
 # Highlights
 
-- WrightEagle/WrightEagleBASE is developed following the [MAXQ-OP](https://github.com/aijunbai/maxq-op) online planning algorithm for [Markov Decision Processes](https://en.wikipedia.org/wiki/Markov_decision_process)
+- WrightEagle/WrightEagleBASE is developed following the [MAXQ-OP](https://github.com/aijunbai/maxq-op) online planning algorithm for [Markov Decision Processes](https://en.wikipedia.org/wiki/Markov_decision_process). The [MAXQ-OP](https://github.com/aijunbai/maxq-op) task structure of the agent:  
+
+![alt tag](data/wrighteagle.png "MAXQ Task Graph")
+
 - WrightEagle has won 6 _world champions_ and 5 runners-up in annual RoboCup Soccer Simulation 2D competitions since 2005. Detailed historical results from 2005 to 2013 can be found as follows
 
 ![alt tag](data/results.png "Historical Results")
@@ -12,7 +15,7 @@ This is the code release of WrightEagleBASE, which serves as the basic framework
 For latest WrightEagle binaries used in [RoboCup Soccer Simulation 2D](https://en.wikipedia.org/wiki/RoboCup_2D_Soccer_Simulation_League) competitions, please refer to: [http://aijunbai.github.io/wrighteagle2d/](http://aijunbai.github.io/wrighteagle2d/)
 
 # References
-Researchers are encouraged to cite following selected papers when using WrightEagleBASE/WrightEagle codes/binaries in research:
+Researchers are encouraged to cite the following selected papers when using WrightEagleBASE/WrightEagle codes/binaries in research:
 
 - [Online planning for large Markov decision processes with hierarchical decomposition](http://aijunbai.github.io/publications/BWCtist15.pdf), Aijun Bai, Feng Wu, and Xiaoping Chen, ACM Transactions on Intelligent Systems and Technology (ACM TIST),6(4):45:1–45:28, July 2015.
 - [Online Planning for Large MDPs with MAXQ Decomposition (Extended Abstract)](http://aijunbai.github.io/publications/AAMAS12-Bai.pdf), Aijun Bai, Feng Wu,    and Xiaoping Chen, Proceedings of the 11th International Conference on Autonomous Agents and Multiagent Systems (AAMAS), Valencia, Spain, June 2012.
@@ -20,6 +23,8 @@ Researchers are encouraged to cite following selected papers when using WrightEa
 - [WrightEagle and UT Austin Villa: RoboCup 2011 Simulation League Champions](http://aijunbai.github.io/publications/LNAI11-Bai.pdf), Aijun Bai, Xiaoping      Chen, Patrick MacAlpine, Daniel Urieli, Samuel Barrett, and Peter Stone, RoboCup-2011: Robot Soccer World Cup XV, Lecture Notes in Artificial Intelligence,    Vol. 7416, Springer Verlag, Berlin, 2012.
 - [Bounded Incremental Real-Time Dynamic Programming](http://ieeexplore.ieee.org/xpl/login.jsp?tp=&arnumber=4524180&url=http%3A%2F%2Fieeexplore.ieee.org%2Fxpls%2Fabs_all.jsp%3Farnumber%3D4524180), Changjie Fan, and Xiaoping Chen, IEEE Proceedings of FBIT 2007, Jeju Island, Korea, 2007.
 - [Solving Large-Scale and Sparse-Reward DEC-POMDPs with Correlation-MDPs](http://link.springer.com/chapter/10.1007%2F978-3-540-68847-1_18), Feng Wu, and Xiaoping Chen, Proceedings of RoboCup Symposium 2007. Atlanta, America, July 2007.
+
+All publications of the WrightEagle team (WrightEagle 2D, WrightEagle@Home, WrightEagle SPL and WrightEagle 3D) can be found at: [http://www.wrighteagle.org/en/publication/index.php](http://www.wrighteagle.org/en/publication/index.php)
 
 # Videos:
 - [Final of RoboCup 2015 (HELIOS2015\_0-vs-WrightEagle\_3)](https://www.youtube.com/watch?v=Ptzv9NF9opM)
@@ -54,9 +59,7 @@ After both teams connected, send a `KickOff` command to the server by hitting `C
 - `void Behavior*::Plan` in `src/Behavior*.cpp` implement planning part of behaviours following a MAXQ task structure
 - `void Behavior*::Execute` in `src/Behavior*.cpp` implement executing part of behaviours following a MAXQ task structure
 
-A good start to hack the team is digging into `void Behavior*::Plan` functions. The [MAXQ-OP](https://github.com/aijunbai/maxq-op) task structure of the agent:  
-
-![alt tag](data/wrighteagle.png "MAXQ Task Graph")
+A good start to hack the team is digging into `void Behavior*::Plan` functions.
 
 # Screenshot
 A game screenshot between *WEBase* and *TestTeam*:  
