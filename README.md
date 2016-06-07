@@ -4,11 +4,9 @@ This is the code release of WrightEagleBASE, which serves as the basic framework
 # Highlights
 
 - WrightEagle/WrightEagleBASE is developed following the [MAXQ-OP](https://github.com/aijunbai/maxq-op) online planning algorithm for [Markov Decision Processes](https://en.wikipedia.org/wiki/Markov_decision_process). The [MAXQ-OP](https://github.com/aijunbai/maxq-op) task structure of the agent:  
-
 ![alt tag](data/wrighteagle.png "MAXQ Task Graph")
 
-- WrightEagle has won 6 _world champions_ and 5 runners-up in annual RoboCup Soccer Simulation 2D competitions since 2005. Detailed historical results from 2005 to 2013 can be found as follows
-
+- WrightEagle has won 6 _world champions_ and 5 runners-up in annual RoboCup Soccer Simulation 2D competitions since 2005. Detailed historical results from 2005 to 2013 can be found as follows:
 ![alt tag](data/results.png "Historical Results")
 
 # Binaries
