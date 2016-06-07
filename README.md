@@ -36,7 +36,7 @@ After both teams connected, send a `KickOff` command to the server by hitting `C
 - `void Behavior*::Plan` in `src/Behavior*.cpp` implement planning part of behaviours following a MAXQ task structure
 - `void Behavior*::Execute` in `src/Behavior*.cpp` implement executing part of behaviours following a MAXQ task structure
 
-A good start to hack the team is digging into `void Behavior*::Plan` functions. The [MAXQ-OP](http://aijunbai.github.io/publications/BWCtist15.pdf) task structure of the agent:  
+A good start to hack the team is digging into `void Behavior*::Plan` functions. The [MAXQ-OP](https://github.com/aijunbai/maxq-op) task structure of the agent:  
 
 ![alt tag](data/wrighteagle.png "MAXQ Task Graph")
 
