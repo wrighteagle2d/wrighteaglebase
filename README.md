@@ -1,7 +1,7 @@
 # wrighteaglebase
 This is the release of WrightEagleBASE code, written in C++.
 
-# Compiling
+# Compilation
 - `$make [debug]` for a debug version with debugging information and assertions.
 - `$make release` for a release version
 
@@ -21,7 +21,7 @@ After both teams connected, send a `KickOff` command to the server by hitting `C
 For latest WrightEagle binaries used in [RoboCup Soccer Simulation 2D](https://en.wikipedia.org/wiki/RoboCup_2D_Soccer_Simulation_League) competitions, please refer to: [http://aijunbai.github.io/wrighteagle2d/](http://aijunbai.github.io/wrighteagle2d/)
 
 # References
-Researchers are encouraged to cite these papers when usring WrightEagleBASE/WrightEagle codes/binaries in research:
+Researchers are encouraged to cite these papers when using WrightEagleBASE/WrightEagle codes/binaries in research:
 
 - [Online planning for large Markov decision processes with hierarchical decomposition](http://aijunbai.github.io/publications/BWCtist15.pdf), Aijun Bai, Feng Wu, and Xiaoping Chen, ACM Transactions on Intelligent Systems and Technology (ACM TIST),6(4):45:1–45:28, July 2015.
 - [Online Planning for Large MDPs with MAXQ Decomposition (Extended Abstract)](http://aijunbai.github.io/publications/AAMAS12-Bai.pdf), Aijun Bai, Feng Wu,    and Xiaoping Chen, Proceedings of the 11th International Conference on Autonomous Agents and Multiagent Systems (AAMAS), Valencia, Spain, June 2012.
