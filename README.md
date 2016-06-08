@@ -4,10 +4,10 @@ This is the code release of WrightEagleBASE, which serves as the basic framework
 # Highlights
 
 - WrightEagle has won 6 _world champions_ and 5 runners-up in annual RoboCup Soccer Simulation 2D competitions since 2005. Detailed historical results from 2005 to 2013 can be found as follows:
-![alt tag](data/results.png "Historical Results")
+![data/results.png](data/results.png "Historical Results")
 
 - WrightEagle/WrightEagleBASE is developed following the [MAXQ-OP](https://github.com/aijunbai/maxq-op) online planning algorithm for [Markov Decision Processes](https://en.wikipedia.org/wiki/Markov_decision_process). The [MAXQ-OP](https://github.com/aijunbai/maxq-op) task structure of the agent:  
-![alt tag](data/wrighteagle.png "MAXQ Task Graph")
+![data/wrighteagle.png](data/wrighteagle.png "MAXQ Task Graph")
 
 # Binaries
 For latest WrightEagle binaries used in [RoboCup Soccer Simulation 2D](https://en.wikipedia.org/wiki/RoboCup_2D_Soccer_Simulation_League) competitions, please refer to: [http://aijunbai.github.io/wrighteagle2d/](http://aijunbai.github.io/wrighteagle2d/)
@@ -61,5 +61,5 @@ A good start to hack the team is digging into `void Behavior*::Plan` functions.
 
 # Screenshot
 A game screenshot between *WEBase* and *TestTeam*:  
-![alt tag](data/game.png "Game Screenshot")
+![data/game.png](data/game.png "Game Screenshot")
 
