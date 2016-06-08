@@ -1,5 +1,5 @@
 # wrighteaglebase
-This is the code release of WrightEagleBASE, which serves as the basic framework of [WrightEagle](http://aijunbai.github.io/wrighteagle2d/).
+This is the code release of WrightEagleBASE, which serves as the basic framework of [WrightEagle](http://www.wrighteagle.org/2d/).
 
 
 # Highlights
@@ -12,7 +12,7 @@ This is the code release of WrightEagleBASE, which serves as the basic framework
 
 
 # Binaries
-For latest WrightEagle binaries used in [RoboCup Soccer Simulation 2D](https://en.wikipedia.org/wiki/RoboCup_2D_Soccer_Simulation_League) competitions, please refer to: [http://aijunbai.github.io/wrighteagle2d/](http://aijunbai.github.io/wrighteagle2d/)
+For latest WrightEagle binaries used in [RoboCup Soccer Simulation 2D](https://en.wikipedia.org/wiki/RoboCup_2D_Soccer_Simulation_League) competitions, please refer to: [http://www.wrighteagle.org/2d/](http://www.wrighteagle.org/2d/)
 
 
 # References
