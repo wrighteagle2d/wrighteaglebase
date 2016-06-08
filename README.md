@@ -1,6 +1,7 @@
 # wrighteaglebase
 This is the code release of WrightEagleBASE, which serves as the basic framework of [WrightEagle](http://aijunbai.github.io/wrighteagle2d/).
 
+
 # Highlights
 
 - WrightEagle has won 6 _world champions_ and 5 runners-up in annual RoboCup Soccer Simulation 2D competitions since 2005. Detailed historical results from 2005 to 2013 can be found as follows:
@@ -9,8 +10,10 @@ This is the code release of WrightEagleBASE, which serves as the basic framework
 - WrightEagle/WrightEagleBASE is developed following the [MAXQ-OP](https://github.com/aijunbai/maxq-op) online planning algorithm for [Markov Decision Processes](https://en.wikipedia.org/wiki/Markov_decision_process). The [MAXQ-OP](https://github.com/aijunbai/maxq-op) task structure of the agent:  
 ![data/wrighteagle.png](data/wrighteagle.png "MAXQ Task Graph")
 
+
 # Binaries
 For latest WrightEagle binaries used in [RoboCup Soccer Simulation 2D](https://en.wikipedia.org/wiki/RoboCup_2D_Soccer_Simulation_League) competitions, please refer to: [http://aijunbai.github.io/wrighteagle2d/](http://aijunbai.github.io/wrighteagle2d/)
+
 
 # References
 Researchers are encouraged to cite the following selected papers when using WrightEagleBASE/WrightEagle codes/binaries/materials in research:
@@ -24,6 +27,7 @@ Researchers are encouraged to cite the following selected papers when using Wrig
 
 All publications of the WrightEagle team (WrightEagle 2D, WrightEagle@Home, WrightEagle SPL and WrightEagle 3D) can be found at: [http://www.wrighteagle.org/en/publication/index.php](http://www.wrighteagle.org/en/publication/index.php)
 
+
 # Videos:
 - [Final of RoboCup 2015](https://www.youtube.com/watch?v=Ptzv9NF9opM) (HELIOS2015\_0-vs-WrightEagle\_3)
 - [Final of RoboCup 2014](https://www.youtube.com/watch?v=kRIygFjlD_Q) (WrightEagle\_3-vs-Gliders2014\_2)
@@ -33,6 +37,8 @@ All publications of the WrightEagle team (WrightEagle 2D, WrightEagle@Home, Wrig
 - [Final of RoboCup 2010](https://www.youtube.com/watch?v=BVWkndHk3AE) (HELIOS2010\_2-vs-WrightEagle\_1)
 - [Final of RoboCup 2009](https://www.youtube.com/watch?v=Q18Wxs3Da-8&index=7&list=PL4BB027D8BB6A5EB3) (HELIOS2009\_1-vs-WrightEagle\_2)
 - [Final of RoboCup 2008](https://www.youtube.com/watch?v=w1c_8TWX8dY) (Brainstormers08\_0\_4-vs-WE2008\_0\_3)
+- [Final of RoboCup 2007](https://www.youtube.com/watch?v=ceDDg_l6_J0) (Brainstormers07\_3-vs-WE2007\_0)
+- [Final of RoboCup 2005](https://www.youtube.com/watch?v=FiFj0HQXaGw) (Brainstormers05\_3-vs-WE2005\_0)
 
 
 # Compilation
@@ -51,6 +57,7 @@ After installation,
 
 After both teams connected, send a `KickOff` command to the server by hitting `Ctrl+K` in the monitor to start the game!
 
+
 # Hacks
 - `void Player::Run` in `src/Player.cpp` is the main loop consisting of sensing, decision-making and executing
 - `ActiveBehavior DecisionTree::Search` in `src/DecisionTree.cpp` is the main decision-making loop
@@ -58,6 +65,7 @@ After both teams connected, send a `KickOff` command to the server by hitting `C
 - `void Behavior*::Execute` in `src/Behavior*.cpp` implement executing part of behaviours
 
 A good start to hack the team is digging into `void Behavior*::Plan` functions.
+
 
 # Screenshot
 A game screenshot between *WEBase* and *TestTeam*:  
