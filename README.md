@@ -52,7 +52,7 @@ After installation,
 After both teams connected, send a `KickOff` command to the server by hitting `Ctrl+K` in the monitor to start the game!
 
 # Hacks
-- `void Player::Run` in `src/Player.cpp` is the main loop of the agent consisting of sensing, decision-making and executing
+- `void Player::Run` in `src/Player.cpp` is the main loop consisting of sensing, decision-making and executing
 - `ActiveBehavior DecisionTree::Search` in `src/DecisionTree.cpp` is the main decision-making loop
 - `void Behavior*::Plan` in `src/Behavior*.cpp` implement planning part of behaviours
 - `void Behavior*::Execute` in `src/Behavior*.cpp` implement executing part of behaviours
