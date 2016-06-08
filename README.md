@@ -54,8 +54,8 @@ After both teams connected, send a `KickOff` command to the server by hitting `C
 # Hacks
 - `void Player::Run` in `src/Player.cpp` is the main loop of the agent consisting of sensing, decision-making and executing
 - `ActiveBehavior DecisionTree::Search` in `src/DecisionTree.cpp` is the main decision-making loop
-- `void Behavior*::Plan` in `src/Behavior*.cpp` implement planning part of behaviours following a MAXQ task structure
-- `void Behavior*::Execute` in `src/Behavior*.cpp` implement executing part of behaviours following a MAXQ task structure
+- `void Behavior*::Plan` in `src/Behavior*.cpp` implement planning part of behaviours
+- `void Behavior*::Execute` in `src/Behavior*.cpp` implement executing part of behaviours
 
 A good start to hack the team is digging into `void Behavior*::Plan` functions.
 
