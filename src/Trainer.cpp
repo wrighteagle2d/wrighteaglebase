@@ -1,6 +1,6 @@
 /************************************************************************************
  * WrightEagle (Soccer Simulation League 2D)                                        *
- * BASE SOURCE CODE RELEASE 2013                                                    *
+ * BASE SOURCE CODE RELEASE 2016                                                    *
  * Copyright (c) 1998-2012 WrightEagle 2D Soccer Simulation Team,                   *
  *                         Multi-Agent Systems Lab.,                                *
  *                         School of Computer Science and Technology,               *
