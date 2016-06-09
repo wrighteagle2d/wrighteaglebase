@@ -4,7 +4,7 @@ This is the code release of WrightEagleBASE, which serves as the basic framework
 
 # Highlights
 
-- WrightEagle has won 6 _world champions_ and 5 runners-up in annual RoboCup Soccer Simulation 2D competitions since 2005. Detailed historical results from 2005 to 2013 can be found as follows:
+- WrightEagle has won 6 **world champions** and 5 runners-up in annual RoboCup Soccer Simulation 2D competitions since 2005. Detailed historical results from 2005 to 2013 can be found as follows:
 ![data/results.png](data/results.png "Historical Results")
 
 - WrightEagle/WrightEagleBASE is developed following the [MAXQ-OP](https://github.com/aijunbai/maxq-op) online planning algorithm for [Markov Decision Processes](https://en.wikipedia.org/wiki/Markov_decision_process). The [MAXQ-OP](https://github.com/aijunbai/maxq-op) task structure of the agent:  
@@ -41,21 +41,29 @@ All publications of the WrightEagle team (WrightEagle 2D, WrightEagle@Home, Wrig
 - [Final of RoboCup 2005](https://www.youtube.com/watch?v=FiFj0HQXaGw) (Brainstormers05\_3-vs-WE2005\_0)
 
 
-# Compilation
-- `$make [debug]` for a debug version with debugging information and assertions.
-- `$make release` for a release version
+# Compiling
+- Run `make [debug]` for a debug version with debugging information and assertions
+- Run `make release` for a release version
 
 # Usages
 A [RoboCup Soccer 2D Simulator](https://sourceforge.net/projects/sserver/files/) (as well as a monitor and a logplayer) is needed to run WrightEagleBASE. Please refer to [https://wavepackage.wordpress.com/2013/06/07/how-to-install-the-robocup-soccer-server-2d/](https://wavepackage.wordpress.com/2013/06/07/how-to-install-the-robocup-soccer-server-2d/) and [https://wavepackage.wordpress.com/2015/07/22/how-to-install-robocup-2d-simulation-server-on-ubuntu-14-04/](https://wavepackage.wordpress.com/2015/07/22/how-to-install-robocup-2d-simulation-server-on-ubuntu-14-04/) for installation instructions.  
 
 After installation,  
 
-- Run `$rcssserver` to start a soccer server which simulates the game
-- Run `$rcssmonitor` to start a soccer monitor which is used to display the game
-- Run `$./start.sh` to start a team on the left side with default teamname *WEBase*
-- Run `$./start.sh -t [TEAMNAME]` to start a team on the right side with teamname *[TEAMNAME]*
+- Run `rcssserver` to start a soccer server which simulates the game
+- Run `rcssmonitor` to start a soccer monitor which is used to display the game
+- Run `./start.sh` to start a team on the left side with default teamname *WEBase*
+- Run `./start.sh -t [TEAMNAME]` to start a team on the right side with teamname *[TEAMNAME]*
 
-After both teams connected, send a `KickOff` command to the server by hitting `Ctrl+K` in the monitor to start the game!
+After both teams are connected, send a `KickOff` command to the server by hitting `Ctrl+K` in the monitor to start the game!
+
+
+# Tutorials
+- [Introduction to WrightEagleBASE 4.0](http://wrighteagle2d.github.io/materials/14/Introduction-to-WrightEagle-Base.pdf), Rongya Chen, USTC, 2014
+- [Introduction to WrightEagleBASE 3.0](http://wrighteagle2d.github.io/materials/12/Introduction-to-WrightEagle-Base.pdf), Jiang Miao, USTC, 2012
+- [Brief Introduction to WrightEagleBASE 2.0 (in Chinese)](http://wrighteagle2d.github.io/materials/11/Brief-Introduction-to-WrightEagleBASE.pdf), Aijun Bai, USTC, 2011
+- [Introduction to WrightEagleBASE 2.0 (in Chinese)](http://wrighteagle2d.github.io/materials/10/Introduction-to-WrightEagleBASE.pdf), Aijun Bai, USTC, 2010
+- [Introduction to WrightEagleBASE 1.0 (in Chinese)](http://wrighteagle2d.github.io/materials/09/WE2009_Base.ppt), Yuhang Wang, USTC, 2009
 
 
 # Hacks
