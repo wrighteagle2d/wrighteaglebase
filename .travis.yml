@@ -6,9 +6,6 @@ dist:
     - xenial
 os: ubuntu
 compiler: gcc
-before_script:
-    - sudo apt-get update -qq
-    - sudo apt-get install libboost-all-dev
 script: make debug; make release
 notifications:
     email:

@@ -38,7 +38,6 @@
 #include <vector>
 #include <utility>
 #include <deque>
-#include <boost/tuple/tuple.hpp>
 
 class WorldState;
 
