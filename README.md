@@ -2,9 +2,9 @@
 
 [![Build Status](https://travis-ci.org/wrighteagle2d/wrighteaglebase.svg?branch=master)](https://travis-ci.org/wrighteagle2d/wrighteaglebase)  
 
-![data/game.png](data/game.png "Game Screenshot")
-
 This is the code release of WrightEagleBASE, which serves as the basic framework of [WrightEagle](http://www.wrighteagle.org/2d/).
+
+![data/game.png](data/game.png "Game Screenshot")
 
 # Highlights
 
