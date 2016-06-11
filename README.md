@@ -2,8 +2,9 @@
 
 [![Build Status](https://travis-ci.org/wrighteagle2d/wrighteaglebase.svg?branch=master)](https://travis-ci.org/wrighteagle2d/wrighteaglebase)  
 
-This is the code release of WrightEagleBASE, which serves as the basic framework of [WrightEagle](http://www.wrighteagle.org/2d/).
+![data/game.png](data/game.png "Game Screenshot")
 
+This is the code release of WrightEagleBASE, which serves as the basic framework of [WrightEagle](http://www.wrighteagle.org/2d/).
 
 # Highlights
 
@@ -48,6 +49,7 @@ All publications of the WrightEagle team (WrightEagle 2D, WrightEagle@Home, Wrig
 - Run `make [debug]` for a debug version with debugging information and assertions
 - Run `make release` for a release version
 
+
 # Usages
 A [RoboCup Soccer 2D Simulator](https://sourceforge.net/projects/sserver/files/) (as well as a monitor and a logplayer) is needed to run WrightEagleBASE. Please refer to [https://wavepackage.wordpress.com/2013/06/07/how-to-install-the-robocup-soccer-server-2d/](https://wavepackage.wordpress.com/2013/06/07/how-to-install-the-robocup-soccer-server-2d/) and [https://wavepackage.wordpress.com/2015/07/22/how-to-install-robocup-2d-simulation-server-on-ubuntu-14-04/](https://wavepackage.wordpress.com/2015/07/22/how-to-install-robocup-2d-simulation-server-on-ubuntu-14-04/) for installation instructions.  
 
@@ -76,9 +78,4 @@ After both teams are connected, send a `KickOff` command to the server by hittin
 - `void Behavior*::Execute` in `src/Behavior*.cpp` implement executing part of behaviours
 
 A good start to hack the team is digging into `void Behavior*::Plan` functions.
-
-
-# Screenshot
-A game screenshot between *WEBase* and *TestTeam*:  
-![data/game.png](data/game.png "Game Screenshot")
 
