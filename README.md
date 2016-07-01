@@ -4,7 +4,7 @@
 
 This is the code release of WrightEagleBASE, which serves as the basic framework of [WrightEagle](http://www.wrighteagle.org/2d/).
 
-[![RoboCup 2015 Final Video](data/robocup2015final.png)](http://www.youtube.com/watch?v=Ptzv9NF9opM "RoboCup2015 Soccer Simulation 2D Final")
+[![RoboCup 2015 Final Video](data/robocup2015final.gif)](http://www.youtube.com/watch?v=Ptzv9NF9opM "RoboCup2015 Soccer Simulation 2D Final")
 
 
 # Highlights
