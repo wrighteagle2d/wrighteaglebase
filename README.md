@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/wrighteagle2d/wrighteaglebase.svg?branch=master)](https://travis-ci.org/wrighteagle2d/wrighteaglebase)  
 
-This is the code release of WrightEagleBASE, which serves as the basic framework of [WrightEagle](http://www.wrighteagle.org/2d/).
+This is the code release of WrightEagleBASE, which serves as the basic framework of [WrightEagle](https://wrighteagle2d.github.io/).
 A video from RoboCup 2015 final -- HELIOS2015 v.s. WrightEagle2015 -- is as follows.
 
 [![RoboCup 2015 Final Video](data/robocup2015final.gif)](http://www.youtube.com/watch?v=Ptzv9NF9opM "RoboCup2015 Soccer Simulation 2D Final")
@@ -18,7 +18,7 @@ A video from RoboCup 2015 final -- HELIOS2015 v.s. WrightEagle2015 -- is as foll
 
 
 # Binaries
-For latest WrightEagle binaries used in [RoboCup Soccer Simulation 2D](https://en.wikipedia.org/wiki/RoboCup_2D_Soccer_Simulation_League) competitions, please refer to: [http://www.wrighteagle.org/2d/](http://www.wrighteagle.org/2d/)
+For latest WrightEagle binaries used in [RoboCup Soccer Simulation 2D](https://en.wikipedia.org/wiki/RoboCup_2D_Soccer_Simulation_League) competitions, please refer to: [https://wrighteagle2d.github.io/](https://wrighteagle2d.github.io/)
 
 
 # References
