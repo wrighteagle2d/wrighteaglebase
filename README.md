@@ -13,7 +13,7 @@ A video from RoboCup 2015 final -- HELIOS2015 v.s. WrightEagle2015 -- is as foll
 - WrightEagle has won 6 **world champions** and 5 runners-up in annual RoboCup Soccer Simulation 2D competitions since 2005. Detailed historical results from 2005 to 2013 can be found as follows:
 ![data/results.png](data/results.png "Historical Results")
 
-- WrightEagle/WrightEagleBASE is developed following the [MAXQ-OP](https://github.com/aijunbai/maxq-op) online planning algorithm for [Markov Decision Processes](https://en.wikipedia.org/wiki/Markov_decision_process). The [MAXQ-OP](https://github.com/aijunbai/maxq-op) task structure of the agent:  
+- WrightEagle/WrightEagleBASE is developed following the [MAXQ-OP](https://github.com/aijunbai/taxi) online planning algorithm for [Markov Decision Processes](https://en.wikipedia.org/wiki/Markov_decision_process). The [MAXQ-OP](https://github.com/aijunbai/taxi) task structure of the agent:  
 ![data/wrighteagle.png](data/wrighteagle.png "MAXQ Task Graph")
 
 
@@ -107,5 +107,5 @@ After both teams are connected, send a `KickOff` command to the server by hittin
 - `void Behavior*::Plan` in `src/Behavior*.cpp` implement planning part of behaviours
 - `void Behavior*::Execute` in `src/Behavior*.cpp` implement executing part of behaviours
 
-A good start to hack the team is digging into `void Behavior*::Plan` functions.
+A good starting point to hack the team is digging into `void Behavior*::Plan` functions.
 
