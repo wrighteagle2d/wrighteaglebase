@@ -62,7 +62,7 @@ research.
     \[[pdf](http://link.springer.com/chapter/10.1007%2F978-3-540-68847-1_18)\]
 
 
-# Videos:
+# Videos
 - [Final of RoboCup 2015](https://www.youtube.com/watch?v=Ptzv9NF9opM) (HELIOS2015\_0-vs-WrightEagle\_3)
 - [Final of RoboCup 2014](https://www.youtube.com/watch?v=kRIygFjlD_Q) (WrightEagle\_3-vs-Gliders2014\_2)
 - [Final of RoboCup 2013](https://www.youtube.com/watch?v=BoWoIc4IrtI) (WrightEagle\_2-vs-HELIOS2013\_0)
@@ -108,4 +108,9 @@ After both teams are connected, send a `KickOff` command to the server by hittin
 - `void Behavior*::Execute` in `src/Behavior*.cpp` implement executing part of behaviours
 
 A good starting point to hack the team is digging into `void Behavior*::Plan` functions.
+
+
+# Related Project
+- MAXQ-OP on standard Taxi domain: [https://github.com/aijunbai/taxi](https://github.com/aijunbai/taxi)
+
 
