@@ -75,7 +75,15 @@ research.
 - [Final of RoboCup 2005](https://www.youtube.com/watch?v=FiFj0HQXaGw) (Brainstormers05\_3-vs-WE2005\_0)
 
 
+# Install
+- ```sudo add-apt-repository ppa:gnurubuntu/rubuntu```
+- ```sudo apt update```
+- ```sudo apt install rcssserver rcssmonitor rcsslogplayer```
+- ```git clone https://github.com/wrighteagle2d/wrighteaglebase```
+
+
 # Compiling
+- ```cd wrighteaglebase```
 - Run `make [debug]` for a debug version with debugging information and assertions
 - Run `make release` for a release version
 
