@@ -5,8 +5,7 @@ dist: trusty
 compiler: gcc
 script: make debug; make release
 notifications:
-    email:
-        recipients: aijunbai@gmail.com
-        on_success: change
-        on_failure: always
-
+  email:
+    recipients: aijunbai@gmail.com
+    on_success: change
+    on_failure: always

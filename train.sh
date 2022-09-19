@@ -22,32 +22,30 @@ VERSION="Release"
 BINARY="WEBase"
 TEAM_NAME="WEBase"
 OPP_DIR="/home/test"
-SELF_DIR=`pwd`
+SELF_DIR=$(pwd)
 PLAYER_SEED=-1
 TRAIN_DIR="./train"
 
-while getopts  "h:p:v:b:t:s:" flag; do
-    case "$flag" in
-        p) PORT=$OPTARG;;
-        v) VERSION=$OPTARG;;
-        b) BINARY=$OPTARG;;
-        t) TEAM_NAME=$OPTARG;;
-	s) PLAYER_SEED=$OPTARG
-    esac
+while getopts "h:p:v:b:t:s:" flag; do
+	case "$flag" in
+	p) PORT=$OPTARG ;;
+	v) VERSION=$OPTARG ;;
+	b) BINARY=$OPTARG ;;
+	t) TEAM_NAME=$OPTARG ;;
+	s) PLAYER_SEED=$OPTARG ;;
+	esac
 done
 
-COACH_PORT=`expr $PORT + 1`
-OLCOACH_PORT=`expr $PORT + 2`
+COACH_PORT=$(expr $PORT + 1)
+OLCOACH_PORT=$(expr $PORT + 2)
 
 flag="false"
-while read myline  
-do  
+while read myline; do
 	OLD_IFS="$IFS"
 	IFS=")("
 	arr=($myline)
 	IFS="$OLD_IFS"
-	for s in ${arr[@]}
-	do
+	for s in ${arr[@]}; do
 		if [ $flag = "true" ]; then
 			PLAYER_SEED=$s
 			echo "Random seed is $PLAYER_SEED"
@@ -61,7 +59,7 @@ do
 	if [ $flag = "true" ]; then
 		break
 	fi
-done < $TRAIN_DIR/demo.rcg
+done <$TRAIN_DIR/demo.rcg
 
 cd $TRAIN_DIR
 
@@ -79,10 +77,10 @@ sleep 1
 rcssmonitor --server-host $HOST --server-port $PORT &
 
 if [ $VERSION = "Debug" ]; then
-    ulimit -c unlimited
-    make debug
+	ulimit -c unlimited
+	make debug
 else
-    make release
+	make release
 fi
 
 CLIENT="./$VERSION/$BINARY"
@@ -104,7 +102,7 @@ while [ $i -le 11 ]; do
 	echo ">>>>>>>>>>>>>>>>>>>>>> $TEAM_NAME Player: $i"
 	$CLIENT $N_PARAM &
 	sleep $SLEEP_TIME
-	i=`expr $i + 1`
+	i=$(expr $i + 1)
 done
 
 sleep 1
@@ -112,7 +110,6 @@ cd $OPP_DIR
 ./start.sh >/dev/null &
 sleep 1
 cd $SELF_DIR
-
 
 echo ">>>>>>>>>>>>>>>>>>>>>> $TEAM_NAME Coach"
 $CLIENT $C_PARAM &
