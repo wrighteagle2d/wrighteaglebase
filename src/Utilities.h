@@ -46,7 +46,7 @@
 
 inline bool IsInvalid(const double &x) {
 #ifndef WIN32
-  return isnan(x) || isinf(x);
+  return std::isnan(x) || std::isinf(x);
 #else
   return _isnan(x) || _isinf(x);
 #endif
