@@ -27,10 +27,10 @@ first: debug
 all: debug release
 
 debug:
-	cd ${DEBUG}; make -j3 all
+	cd ${DEBUG}; make -j all
 
 release:
-	cd ${RELEASE}; make -j3 all
+	cd ${RELEASE}; make -j all
 
 clean:
 	cd ${DEBUG}; make clean
