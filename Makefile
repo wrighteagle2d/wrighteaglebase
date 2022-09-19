@@ -27,12 +27,12 @@ first: debug
 all: debug release
 
 debug:
-cd ${DEBUG}; make -j3 all
+	cd ${DEBUG}; make -j3 all
 
 release:
-cd ${RELEASE}; make -j3 all
+	cd ${RELEASE}; make -j3 all
 
 clean:
-cd ${DEBUG}; make clean
-cd ${RELEASE}; make clean
-rm -f core*
+	cd ${DEBUG}; make clean
+	cd ${RELEASE}; make clean
+	rm -f core*
